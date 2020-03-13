@@ -1,0 +1,11 @@
+<note>
+  <to>Tove</to>
+  <from>Jani</from>
+  <heading>Reminder</heading>
+  <body>Don't forget me this weekend!</body>
+  <conceptocobro id="1" Nombre="Agua" DiaCobro="25" QDiasVencimiento="10" EsImpuesto="No" EsRecurrente="Si" EsFijo="No"  TipoCC="CC Consumo" Monto="" ValorM3="500" ValorPorcentaje="" > 
+  </conceptocobro>
+</note>
+
+
+

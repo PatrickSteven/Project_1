@@ -1,0 +1,174 @@
+CURSO DE BASES_01 CON FRANCO:
+
+
+TOTAL DE HORAS : 
+
+<!-- FECHA 2/03/2020 -->
+
++ INFORMACION DE BASE DE DATOS: (Alejandro) -> 2h
+----------------------------------------------	
+>Azure SQL Server 
+>Resource group
+>Bases-Datos-F02
+>Server name: servidor-bd-tec.database.windows.net
+>Admin login: bases
+>Password: FrancoTheBeast01
+-------------------------------------------------
+
++Agregar un db_owner ( Username: Patrick // Password: FrancoTheBeast02 // BD : Bases-Datos-01) (Patrick/Alejandro)
++Se hizo un github para el proyecto de bases de datos (Patrick)
+
+
+<!-- FECHA 4/03/2020 -->
+
++ Hacer UML de BD_01 -> NO FUNCIONO 2h (Alejandro)
++ Se le mando un correo al profe llamado : Diagrama BD_01 (Alejandro)
++ Se hizo un script con las tablas y un user db_owner -> 2h (Alejandro)
++ Se hacen las FK del modelo visto en clases -> (Patrick/Alejandro)
++ Se sube los scripts y documentacion al repositorio de GitHub -> 30min (Patrick/Alejandro)
+
+----------------------------------------------	
+>Github
+>BD-Proyecto-1
+>Privado
+-------------------------------------------------
+
+<!-- FECHA 5/03/2020 -->
+
++ Se recibe la respuesta del correo al profe llamado : Diagrama BD_01 (Alejandro)
+
+<!-- FECHA 7/03/2020 -->
+
++ Se edita el script de SQLQuery_Tablas01 para insertar herencias -> 1h 30min (Patrick)
++ Reunion: 2 horas
+	- Quitar identities [x]
+	- Generar tablas de nuevo [x]
+	- Preguntarle al profe sobre LINQ (Pregunta Prof) [x]
+	+ Duracion 40min -> (Alejandro)
+
+<!-- FECHA 8/03/2020 -->
+
++ Visual Studio con Github integrado -> 30min (Alejandro)
++ Reunion: -> 5 horas total
+
+	- Crear las conexiones con modelo normal (SMSS sin LINQ) [x] -> 3h (Patrick/Alejandro)
+		--Solucion: Crear una conection string generado por la base e implementarlo como lo muestra
+		--https://www.youtube.com/watch?v=1FB_X3adKpQ&t=336s
+		--https://www.youtube.com/watch?v=lCoGnlECHOM&t=531s
+
+	- Discutir el uso de Entity Framework -> 1h 30min (Patrick/Alejandro)
+
+
+
+<!-- FECHA 9/03/2020 -->
+
+Reunion: -> 6 horas total
+-------------------------------------------------------------
+	CRUD FUNCIONALIDADES:
+	
+	>create or add new entries;
+	>read, retrieve, search, or view existing entries;
+	>update or edit existing entries;
+	>delete, deactivate, or remove existing entries.
+-------------------------------------------------------------	
+	TABLAS CON CRUD:
+	
+	+ Propiedad
+	+ CC_Fijo
+	+ CC_Consumo
+	+ CC_Porcentaje
+	+ Int_Moratorios
+	+ CC_en_Propiedad
+	+ Recibos
+	+ Comprobante Pago
+	+ Propiedad_del_Propietario
+	+ Usuario_de_Propiedad
+	+ Usuario	
+	+ Propietarios
+	+ Propietario Juridico	
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -	
+	TABLAS SIN CRUD:
+	
+	+ Concepto_de_Cobro
+	+ Tipo_DocId
+-------------------------------------------------------------	
+	
+	-[URGEMTE] Nos quedamos sin plata en azure
+		Solucion alternativa : github -> toques locos (5 horas)  (Patrick/Alejandro)
+	
+	
+
+
+	ORDEN  DE TAREAS:
+
+	1. Crear el script load de Concepto_de_Cobro [x] -> (Alejandro) [2 horas]
+
+	2. Crear el script load de Tipo_DocId [x] -> (Alejandro) [mismas 2 horas del punto 1]
+
+	3. Crear CRUD de Propiedad [] -> (Alejandro)
+
+	4. Crear CRUD de CC_en_Propiedad [] -> (Alejandro)
+
+	5. Crear CRUD de Recibos [] -> (Alejandro)
+
+	6. Crear CRUD de Comprobante Pago [] -> (Alejandro)
+
+	7. Crear CRUD de CC_Fijo [] -> (Patrick)
+
+	8. Crear CRUD de CC_Consumo [] -> (Patrick)
+
+	9. Crear CRUD de CC_Porcentaje [] -> (Patrick)
+
+	10.Crear CRUD de Int_Moratorios [] -> (Patrick)
+
+	------- PRIMERA PARTE DE PRUEBAS ---------------
+
+	11.Crear CRUD de Propietarios [] -> (...)
+
+	12.Crear CRUD de Propiedad_del_Propietario [] -> (...)
+
+	13.Crear CRUD de Propietario Juridico [] -> (...)
+
+	------- SEGUNDA PARTE DE PRUEBAS ---------------
+
+	14.Crear CRUD de Usuario [] -> (...)
+
+	15.Crear CRUD de Usuario_de_Propiedad [] -> (...)
+
+	------- TERCERA PARTE DE PRUEBAS ---------------
+
+	Connection Stirng Ale : Data Source=DESKTOP-V8DCS5F\SQLEXPRESS;Initial Catalog=D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+	Connection String Patrick : Data Source=localhost\SQLEXPRESS01;Initial Catalog=D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
+
+
+<!-- FECHA 10/03/2020 -->
+
++ Se mando un correo a el encargado del XML para revisar el material
++ Contesta el encargado con un modelo (no el final)
+
+<!-- FECHA 12/03/2020 -->
+
++ Se recibe el enunciado actualizado y se analiza las diferencias del proyecto original con la nueva version
+
+<!-- FECHA 12/03/2020 -->
+
++ Se envia correo al profesor para aclarar el formato del XML (Alejandro)
++ Se crea el script load de Concepto_de_Cobro (Alejandro) [2 horas]
++ Se crea el script load de Tipo_DocId (Alejandro) [mismas 2 horas del punto anterior]
+	Videos de referencia:
+	- https://www.youtube.com/watch?v=vy2Nv26UzAU [HANDLE XML]
+	- https://stackoverflow.com/questions/25969/insert-into-values-select-from -> Claude Haulse answer [syntax del INTO]
+	- https://www.w3schools.com/sql/sql_select.asp [SYNTAX SELECT]
++ Problema : todavia no se pueden cargar los definitivos por carencia al documento
+
+
+
+	- Que vistas creariamos para ver datos? []
+	- Como autogenerar el CRUD? []
+	- Empezar a definir funcionalidades del modelo []
+	- Hacer el "diagrama" de clases .NET / Pruebas de clases que llaman a la BD []
+
+
+	
+	 
+
