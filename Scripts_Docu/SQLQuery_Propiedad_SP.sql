@@ -40,6 +40,17 @@ UPDATE Propiedad
 END
 GO
 
+-- SELECT 
+CREATE PROCEDURE [dbo].[SPS_Propiedad]
+AS 
+BEGIN
+	SELECT numeroFinca 'Numero de Finca'
+	,valor 'Valor'
+	,direccion 'Direccion'
+	FROM Propiedad
+
+END
+
 
 --- PRUEBAS DE LOS STATE PROCEDURES
 SELECT * FROM Propiedad
@@ -50,5 +61,8 @@ EXEC SPD_Propiedad '000'
 
 SELECT * FROM Propiedad
 EXEC SPU_Propiedad '000' ,'500','Upala'
+
+SELECT * FROM Propiedad
+EXEC SPS_Propiedad
 
 
