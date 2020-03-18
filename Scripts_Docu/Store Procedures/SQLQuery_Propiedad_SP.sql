@@ -8,9 +8,15 @@ CREATE PROCEDURE SPI_Propiedad
 @direccion VARCHAR(50)
 AS 
 BEGIN
-	INSERT INTO Propiedad (numeroFinca, valor, direccion )
+	IF NOT EXISTS (SELECT * FROM dbo.Propiedad WHERE numeroFinca = @numeroFinca)
+		INSERT INTO Propiedad (numeroFinca, valor, direccion )
 				VALUES (@numeroFinca,@valor,@direccion);
+	ELSE
+		RAISERROR('Numero de finca ya registrado', 10, 1)
 END
+
+
+
 
 SET ANSI_NULLS ON
 GO
@@ -54,7 +60,7 @@ END
 
 --- PRUEBAS DE LOS STATE PROCEDURES
 SELECT * FROM Propiedad
-EXEC SPI_Propiedad '000','000','Upala'
+EXEC SPI_Propiedad '252','000','Upala'
 
 SELECT * FROM Propiedad
 EXEC SPD_Propiedad '000'
