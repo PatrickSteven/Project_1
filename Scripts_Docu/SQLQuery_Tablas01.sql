@@ -13,11 +13,13 @@ EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
 CREATE TABLE Concepto_Cobro (
     id int primary key not null,
 	nombre nvarchar(50) not null,
-	tasaInteresesMoratorios int not null,
-	qDiasVencidos int
+	tasaInteresesMoratorios int,
+	DiaDeCobro int,
+	qDiasVencidos int,
+	EsImpuesto varchar(10),
+	EsRecurrente varchar(10),
+	EsFijo varchar(10)
 );
-
-
 
 CREATE TABLE Propiedad (
 	id int primary key not null identity(1,1),
