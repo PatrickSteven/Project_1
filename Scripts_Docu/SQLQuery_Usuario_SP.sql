@@ -34,6 +34,7 @@ CREATE PROCEDURE [dbo].[SPD_Usuario]
 @nombre NVARCHAR(50) 
 AS
 BEGIN
+	EXECUTE dbo.SPD_Usuario_De_Propiedad @nombre
 	DELETE FROM dbo.Usuario WHERE nombre = @nombre
 END
 
@@ -69,3 +70,4 @@ EXECUTE SPD_Usuario "Pepe"
 EXECUTE SPU_Usuario "Pepe", "hola"
 SELECT * FROM dbo.Usuario
 EXECUTE SPS_Usuario
+DROP PROCEDURE SPD_Usuario

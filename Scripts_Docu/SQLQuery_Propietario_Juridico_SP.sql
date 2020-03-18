@@ -19,10 +19,14 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[SPD_Propietario_Juridico]
-@valorDocId BIGINT 
+@valorDocId int = null,
+@idPropietario int = null
 AS
 BEGIN
-	DELETE FROM dbo.Propietario_Juridico WHERE valorDocId = @valorDocId
+	IF @idPropietario is null
+		DELETE FROM dbo.Propietario_Juridico WHERE valorDocId = @valorDocId
+	ELSE 
+		DELETE FROM dbo.Propietario_Juridico WHERE idPropietario = @idPropietario
 END
 
 --Update
@@ -57,6 +61,7 @@ END
 --Prueba
 EXECUTE SPI_Propietario_Juridico "Diego", 1919, 1, 2020
 SELECT * from Propietario_Juridico
-EXECUTE SPD_Propietario_Juridico 1919
+EXECUTE SPD_Propietario_Juridico null, 1
 EXECUTE SPU_Propietario_Juridico "Manuel", 1919
 EXECUTE SPS_Propietario_Juridico
+DROP PROCEDURE SPD_Propietario_Juridico

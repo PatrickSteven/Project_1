@@ -31,6 +31,10 @@ CREATE PROCEDURE [dbo].[SPD_Propietario]
 @valorDocId BIGINT 
 AS
 BEGIN
+	DECLARE @idPropietario int;
+	SELECT @idPropietario = id from dbo.Propietario WHERE valorDocId = @valorDocId
+	EXECUTE dbo.SPD_Propiedad_Del_Propietario null, @valorDocId
+	EXECUTE dbo.SPD_Propietario_Juridico null, @idPropietario
 	DELETE FROM Propietario WHERE valorDocId = @valorDocId
 END
 
@@ -64,6 +68,7 @@ EXECUTE SPI_Propietario "Carlos", 2021, 1
 Select * from dbo.Propietario
 EXECUTE SPU_Propietario "Ramón", 2020
 EXECUTE SPS_Propietario
-
+EXECUTE SPD_Propietario 2021
+DROP PROCEDURE SPD_Propietario
 
 
