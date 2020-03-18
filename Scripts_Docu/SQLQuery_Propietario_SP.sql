@@ -6,10 +6,21 @@ CREATE PROCEDURE SPI_Propietario
 @valorDocId int,
 @idDocId int
 AS 
-BEGIN
-	INSERT INTO Propietario(nombre, valorDocId, idDocId)
-				VALUES (@nombre,@valorDocId,@idDocId);
-END
+BEGIN TRY
+	IF NOT EXISTS (SELECT * FROM dbo.Propietario WHERE valorDocId = @valorDocId)
+		INSERT INTO Propietario(nombre, valorDocId, idDocId) VALUES (@nombre,@valorDocId,@idDocId)
+
+	ELSE 
+		RAISERROR('Propietario ya registrado en la base de datos', 10, 1)
+END TRY
+BEGIN CATCH
+	DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+        @Severity int = ERROR_SEVERITY(),
+        @State smallint = ERROR_STATE()
+ 
+   RAISERROR( @Message, @Severity, @State) 
+END CATCH
 
 --Delete
 SET ANSI_NULLS ON
@@ -49,8 +60,10 @@ BEGIN
 END
 
 --Pruebas--
-EXECUTE SPI_Propietario "Carlos", 2020, 1
+EXECUTE SPI_Propietario "Carlos", 2021, 1
 Select * from dbo.Propietario
 EXECUTE SPU_Propietario "Ramón", 2020
 EXECUTE SPS_Propietario
+
+
 
