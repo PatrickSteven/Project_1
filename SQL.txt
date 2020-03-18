@@ -36,6 +36,12 @@ TOTAL DE HORAS :
 <!-- FECHA 5/03/2020 -->
 
 + Se recibe la respuesta del correo al profe llamado : Diagrama BD_01 (Alejandro)
++ Se estudia los fundamentos de ASP.NET MVC Seccion 1 (Patrick) [2 horas]
+
+<!-- FECHA 6/03/2020 -->
+
++ Se estudia los fundamentos de ASP.NET MVC Seccion 2 (Patrick) [1.5 horas]
++ Se estudia la manera de trabajar con Entity Framework Seccion 3 (Patrick) [1.5 horas]
 
 <!-- FECHA 7/03/2020 -->
 
@@ -169,6 +175,20 @@ Reunion: -> 6 horas total
 	- Hacer el "diagrama" de clases .NET / Pruebas de clases que llaman a la BD []
 
 
+<!-- FECHA 17/03/2020 -->
+
++ Se crearon los Store Procedures para el CRUD de las tablas: (Patrick) [2.5 horas]
+	- propietario, propiedad_de_propietarios, propietario_juridico,
+	- usuario y usuario_de_Propiedadad.
++ Para implementar manejos de errores en los Store Procedures se revisó los siguientes sitios web:
+	- https://www.sqlshack.com/es/como-poder-implementar-el-manejo-de-errores-en-sql-server/
+	- https://support.microsoft.com/es-cr/help/321903/how-to-return-errors-and-warnings-from-a-sql-server-stored-procedure-i
+
+<!-- FECHA 18/03/2020 -->	
++ Se crearon los Store Procedures para el CRUD de las tablas: (Patrick) [2.5 horas]
+	- Concepto_de_Cobro_En_Propiedad
+	- Comprobante_Pago
+	- Recibos
 	
 	 
 
