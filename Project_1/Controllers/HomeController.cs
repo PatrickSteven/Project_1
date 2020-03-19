@@ -25,7 +25,7 @@ namespace Project_1.Controllers
                 cmd.Connection = connection;
                 
                 String message;
-                
+                // comentRario tonto
                 try
                 {
                     connection.Open();
