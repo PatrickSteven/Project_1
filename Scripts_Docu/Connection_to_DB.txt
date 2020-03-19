@@ -1,0 +1,33 @@
+using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPI_Propiedad";
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = 5254;
+                cmd.Parameters.Add("@valor", SqlDbType.Int).Value = 10000;
+                cmd.Parameters.Add("@Direccion", SqlDbType.VarChar).Value = "La Berga";
+                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+                cmd.Connection = connection;
+                
+                Prueba prueba = new Prueba();
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    int retval = (int) cmd.Parameters["@retValue"].Value;
+                    if (retval == 1) prueba.message = "Dato Insertado" + retval.ToString();
+                    else if (retval == -1) prueba.message = "Dato no Insertado" + retval.ToString();
+
+                }
+                catch (Exception ex)
+                {
+                    prueba.message = ex.Message;
+                    Console.WriteLine(ex);
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                    
+                }

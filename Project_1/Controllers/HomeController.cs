@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using Project_1.Models;
 
 namespace Project_1.Controllers
 {
@@ -14,39 +15,8 @@ namespace Project_1.Controllers
     {
         public ActionResult Index()
         {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPI_Propiedad";
-                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = 5254;
-                cmd.Parameters.Add("@valor", SqlDbType.Int).Value = 10000;
-                cmd.Parameters.Add("@Direccion", SqlDbType.VarChar).Value = "La Berga";
-                cmd.Connection = connection;
-                
-                String message;
-                // comentRario tonto
-                try
-                {
-                    connection.Open();
-                    object result = cmd.ExecuteScalar();
-                    message = "Dato Insertado" + result.ToString();
 
-                }
-                catch (Exception ex)
-                {
-                    message = ex.Message;
-                    Console.WriteLine(ex);
-                    throw;
-
-                }
-                finally
-                {
-                    connection.Close();
-                    
-                }
-                return Content(message);
-            }
+            return View();
         }
 
         public ActionResult About()

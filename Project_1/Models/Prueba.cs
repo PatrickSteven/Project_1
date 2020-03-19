@@ -7,5 +7,6 @@ namespace Project_1.Models
 {
     public class Prueba
     {
+        public String message { get; set; }
     }
 }
