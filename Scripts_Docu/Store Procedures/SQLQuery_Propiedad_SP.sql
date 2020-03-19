@@ -28,6 +28,13 @@ CREATE PROCEDURE SPD_Propiedad
 @numeroFinca BIGINT 
 AS
 BEGIN
+	DECLARE @idPropiedad int
+	SELECT @idPropiedad = id FROM dbo.Propiedad WHERE numeroFinca = @numeroFinca
+	EXECUTE dbo.SPD_Propiedad_Del_Propietario @numeroFinca
+	EXECUTE dbo.SPD_Recibos @idPropiedad
+	EXECUTE dbo.SPD_Comprobante_Pago @idPropiedad
+	EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
+	EXECUTE dbo.SPD_Usuario_De_Propiedad @idPropiedad
 	DELETE FROM Propiedad WHERE numeroFinca = @numeroFinca
 END
 GO
@@ -63,7 +70,7 @@ SELECT * FROM Propiedad
 EXEC SPI_Propiedad '252','000','Upala'
 
 SELECT * FROM Propiedad
-EXEC SPD_Propiedad '000'
+EXEC SPD_Propiedad '252'
 
 SELECT * FROM Propiedad
 EXEC SPU_Propiedad '000' ,'500','Upala'

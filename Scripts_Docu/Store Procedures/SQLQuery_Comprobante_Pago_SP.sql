@@ -18,6 +18,13 @@ BEGIN
 		END
 END
 
+--Delete
+CREATE PROCEDURE SPD_Comprobante_Pago
+@idPropiedad int
+AS
+BEGIN
+	DELETE FROM dbo.Comprobante_Pago WHERE idPropiedad = @idPropiedad
+END
 
 --Prueba
 DECLARE @id int
