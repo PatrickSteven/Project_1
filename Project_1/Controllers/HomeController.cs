@@ -13,9 +13,11 @@ namespace Project_1.Controllers
 {
     public class HomeController : Controller
     {
+        Propiedad propiedad = new Propiedad();
         public ActionResult Index()
         {
 
+            propiedad.Insert(150, 540, "Moravia");
             return View();
         }
 

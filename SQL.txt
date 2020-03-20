@@ -101,47 +101,6 @@ Reunion: -> 6 horas total
 	
 	-[URGEMTE] Nos quedamos sin plata en azure
 		Solucion alternativa : github -> toques locos (5 horas)  (Patrick/Alejandro)
-	
-	
-
-
-	ORDEN  DE TAREAS:
-
-	1. Crear el script load de Concepto_de_Cobro [x] -> (Alejandro) [2 horas]
-
-	2. Crear el script load de Tipo_DocId [x] -> (Alejandro) [mismas 2 horas del punto 1]
-
-	3. Crear CRUD de Propiedad [] -> (Alejandro)
-
-	4. Crear CRUD de CC_en_Propiedad [] -> (Alejandro)
-
-	5. Crear CRUD de Recibos [] -> (Alejandro)
-
-	6. Crear CRUD de Comprobante Pago [] -> (Alejandro)
-
-	7. Crear CRUD de CC_Fijo [] -> (Patrick)
-
-	8. Crear CRUD de CC_Consumo [] -> (Patrick)
-
-	9. Crear CRUD de CC_Porcentaje [] -> (Patrick)
-
-	10.Crear CRUD de Int_Moratorios [] -> (Patrick)
-
-	------- PRIMERA PARTE DE PRUEBAS ---------------
-
-	11.Crear CRUD de Propietarios [] -> (...)
-
-	12.Crear CRUD de Propiedad_del_Propietario [] -> (...)
-
-	13.Crear CRUD de Propietario Juridico [] -> (...)
-
-	------- SEGUNDA PARTE DE PRUEBAS ---------------
-
-	14.Crear CRUD de Usuario [] -> (...)
-
-	15.Crear CRUD de Usuario_de_Propiedad [] -> (...)
-
-	------- TERCERA PARTE DE PRUEBAS ---------------
 
 	Connection Stirng Ale : Data Source=DESKTOP-V8DCS5F\SQLEXPRESS;Initial Catalog=D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
 	Connection String Patrick : Data Source=localhost\SQLEXPRESS01;Initial Catalog=D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
@@ -167,15 +126,8 @@ Reunion: -> 6 horas total
 	- https://www.w3schools.com/sql/sql_select.asp [SYNTAX SELECT]
 + Problema : todavia no se pueden cargar los definitivos por carencia al documento
 
-
-
-	- Que vistas creariamos para ver datos? []
-	- Como autogenerar el CRUD? []
-	- Empezar a definir funcionalidades del modelo []
-	- Hacer el "diagrama" de clases .NET / Pruebas de clases que llaman a la BD []
-
-
 <!-- FECHA 17/03/2020 -->
++ Se retoco los scripts de load para cumplir con el formato y la herencia (Alejandro) [1.5 horas]
 
 + Se crearon los Store Procedures para el CRUD de las tablas: (Patrick) [2.5 horas]
 	- propietario, propiedad_de_propietarios, propietario_juridico,
@@ -185,10 +137,20 @@ Reunion: -> 6 horas total
 	- https://support.microsoft.com/es-cr/help/321903/how-to-return-errors-and-warnings-from-a-sql-server-stored-procedure-i
 
 <!-- FECHA 18/03/2020 -->	
-+ Se crearon los Store Procedures para el CRUD de las tablas: (Patrick) [2.5 horas]
+Reunion:
++ Se crearon los Store Procedures para el CRUD de las tablas y se implementaron deletes finales: (Patrick/Alejandro) [2.5 horas]
 	- Concepto_de_Cobro_En_Propiedad
 	- Comprobante_Pago
 	- Recibos
+	- Propiedad
+	- Usuario
+	- usuario_de_Propiedadad
+	- Propietario
+	- Propiedad_del_Propietario
+
+<!-- FECHA 19/03/2020 -->
+
++ Poner en los scripts on "return statement" y definir valores de error (Alejandro) []
 	
 	 
 
