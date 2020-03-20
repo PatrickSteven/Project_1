@@ -1,4 +1,0 @@
-codigo -1  : 'Error de conexion con la base de datos'
-codigo -11 : 'Propietario ya registrado en la base de datos'
-codigo -12 : 'Propietario no registrado en la base de datos'
-codigo -13 : 'Propiedad ya registrada en la base de datos'
