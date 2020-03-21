@@ -1,0 +1,48 @@
+﻿@model Project_1.Models.Propiedad
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Agregar Propiedad</h2>
+
+@using (Html.BeginForm("Insert", "Propiedad"))
+{
+    @Html.ValidationSummary(true, "Ups...");
+    <div class="form-group">
+        
+        @Html.LabelFor(m => m.numeroFinca)
+        @Html.TextBoxFor(m => m.numeroFinca, new {@class = "form-control"})
+        @Html.ValidationMessageFor(m => m.numeroFinca)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.valor)
+        @Html.TextBoxFor(m => m.valor, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.valor)
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.direccion)
+        @Html.TextBoxFor(m => m.direccion, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.direccion)
+
+    </div>
+    <div class="return-info"></div>
+    <button type="submit" class="btn btn-primary">Agregar</button>
+    //Call the action target [HttpPost]
+
+}
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            var success = @((TempData["ReturnMessage"] != null).ToString().ToLower());
+            if (success == true) {
+                var returnInfo = $("div.return-info");
+                returnInfo.text("@TempData["ReturnMessage"]");
+            }
+        });
+
+    </script>
+}
+
+

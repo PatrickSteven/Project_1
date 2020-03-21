@@ -1,0 +1,47 @@
+﻿@model Project_1.ViewModels.PropiedadIndexViewModel
+@{
+    ViewBag.Title = "Propiedades";
+}
+
+<h2>Propiedades</h2>
+<table id="propiedad-table" class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Numero de Finca</th>
+        <th scope="col">Valor</th>
+        <th scope="col">Direccion</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    @foreach (var propiedad in Model.propiedades)
+    {
+        <tr>
+            <th>@propiedad.numeroFinca</th>
+            <td>@propiedad.valor</td>
+            <td>@propiedad.direccion</td>
+            <td><button propiedad-data = "@propiedad" class="js-update btn btn btn-primary glyphicon glyphicon-floppy-open "></button></td>
+            <td><button propiedad-data = "@propiedad.numeroFinca" class="js-delete btn btn-danger glyphicon glyphicon-trash"></button></td>
+        </tr>
+    }
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            $("#propiedad-table .js-delete").on("click",
+                function() {
+                    var deleteButton = $(this);
+                    if (confirm("¿Estás seguro de eliminar esta propiedad?")) {
+                        $.ajax({
+                            url: "/Propiedad/Delete/" + deleteButton.attr("propiedad-data"),
+                            success: function() {
+                                console.log("esta picha debe funcionar"),
+                                    deleteButton.parents("tr").remove();
+                            }
+                        });
+                    }
+                });
+        });
+    </script>
+}
