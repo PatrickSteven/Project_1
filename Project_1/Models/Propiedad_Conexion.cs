@@ -52,7 +52,7 @@ namespace Project_1.Models
         }
 
 
-        public static int Delete(Propiedad propiedad)
+        public static int Delete(int numeroFinca)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -61,7 +61,7 @@ namespace Project_1.Models
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPD_Propiedad";
-                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = propiedad.numeroFinca;
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 
@@ -121,6 +121,44 @@ namespace Project_1.Models
                 }
 
                 return retval; // execute not accomplish
+            }
+        }
+
+        public static List<Propiedad> Select()
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propiedad";
+                cmd.Connection = connection;
+                var list = new List<Propiedad>();
+                try
+                {   
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        
+                        while (reader.Read())
+                            list.Add(new Propiedad()
+                            {
+                                numeroFinca = reader.GetInt32(0),
+                                valor = reader.GetInt32(1),
+                                direccion = reader.GetString(2)
+                            });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return list; // execute not accomplish
             }
         }
     }

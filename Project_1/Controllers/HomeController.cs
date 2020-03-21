@@ -16,7 +16,6 @@ namespace Project_1.Controllers
         public ActionResult Index()
         {
 
-            Propiedad_Conexion.Insert(150, 540, "Moravia");
             return View();
         }
 
