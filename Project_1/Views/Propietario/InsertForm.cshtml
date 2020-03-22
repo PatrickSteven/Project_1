@@ -1,0 +1,94 @@
+﻿@model Project_1.ViewModels.PropietarioTipoDocIdViewModel
+@using System.Diagnostics
+@using Project_1.Models
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Agregar Propietario</h2>
+
+@using (Html.BeginForm("Insert", "Propietario"))
+{
+    //WarningMessage
+    <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    //Sucessful Message
+    <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Nuevo</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    //ENTRIES
+    @Html.LabelFor(m => m.propietario.nombre)
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">-</span>
+        </div>
+        @Html.TextBoxFor(m => m.propietario.nombre, new { @class = "form-control", placeholder = @Model.propietario.nombre, aria_describedby = "basic-addon1" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario.nombre)</button>
+
+    </div>
+
+
+    @Html.LabelFor(m => m.propietario.valorDocId)
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">#</span>
+        </div>
+        @Html.TextBoxFor(m => m.propietario.valorDocId, new { @class = "form-control", placeholder = @Model.propietario.valorDocId, aria_describedby = "basic-addon1" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario.valorDocId)</button>
+    </div>
+
+    @Html.LabelFor(m => m.propietario.nombreDocId)
+    <div class="input-group mb-3">
+        @Html.DropDownListFor(m => m.propietario.idDocId, new SelectList(Model.tipoDocIdList, "id", "nombre"), "Seleccione Tipo Documento", new { @class = "form-control" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario.idDocId)</button>
+    </div>
+    
+    //Submit
+    <button type="submit" class="btn btn-primary">Agregar</button>
+    //Call the action target [HttpPost]
+
+}
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            var warning = @((TempData["WarningMessage"] != null).ToString().ToLower());
+            var success = @((TempData["SuccessfulMessage"] != null).ToString().ToLower());
+            var warningDiv = $("div.warning-message");
+            var successfulDiv = $("div.successful-message");
+            if (warning == true) {
+                successfulDiv.hide();
+                warningDiv.show();
+                warningDiv.append("@TempData["WarningMessage"]");
+
+
+            }
+            else if (success == true) {
+                warningDiv.hide();
+                successfulDiv.show();
+                successfulDiv.append("@TempData["SuccessfulMessage"]");
+
+            } else {
+                warningDiv.hide();
+                successfulDiv.hide();
+            }
+        });
+
+    </script>
+}
+
+

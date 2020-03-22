@@ -155,6 +155,9 @@ Reunion:
 + Se creó la validación de atributos para los formularios de entidades
 + Discutir con una lluvia de ideas el diseño preliminar de la pagina web y el flujo de la misma (Patrick y Alejandro) [2 horas]
 + Se conectó los store procedures de propiedad con la arquitectura de ASP.NET MVC para implementar el CRUD de la entidad. (Patrick) [Perdí la cuenta]
-	
-	 
+
+<!-- FECHA 21/03/2020 -->
+
++Se trabajo con Bootstrap para el diseño web (Patrick)[2 horas]
++Se trabajo con JQuery para una mejor interfaz de usuario (Patrick)[2 horas]
 
