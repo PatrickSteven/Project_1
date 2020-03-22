@@ -1,17 +1,32 @@
-﻿@model Project_1.ViewModels.PropiedadIndexViewModel
+﻿@using Project_1.Models
+@model Project_1.ViewModels.PropiedadIndexViewModel
 @{
     ViewBag.Title = "Propiedades";
 }
-
-<h2>Propiedades</h2>
-<table id="propiedad-table" class="table table-hover">
+    <div class="jumbotron">
+        <h3 class="display-4">Propiedades</h3>
+        <p class="lead"></p>
+        <hr class="my-4">
+        <p class="lead">
+            <button class="btn btn-primary btn-lg" role="button">
+                @Html.ActionLink("Agregar", "InsertForm", "Propiedad")
+                <ion-icon name="add-outline"></ion-icon>
+            </button>
+            
+            <button class="btn btn-primary btn-lg" role="button">
+                @Html.ActionLink("Actualizar", "UpdateForm", "Propiedad")
+                <ion-icon name="arrow-up-outline"></ion-icon>
+            </button>
+        </p>
+    </div>
+<table id="propiedad-table" class="table table-hover" style=" table-layout: fixed">
     <thead class="thead-dark">
     <tr>
         <th scope="col">Numero de Finca</th>
         <th scope="col">Valor</th>
         <th scope="col">Direccion</th>
-        <th scope="col">Update</th>
-        <th scope="col">Delete</th>
+        <th>Update</th>
+        <th>Delete</th>
     </tr>
     </thead>
     @foreach (var propiedad in Model.propiedades)
@@ -20,28 +35,65 @@
             <th>@propiedad.numeroFinca</th>
             <td>@propiedad.valor</td>
             <td>@propiedad.direccion</td>
-            <td><button propiedad-data = "@propiedad" class="js-update btn btn btn-primary glyphicon glyphicon-floppy-open "></button></td>
-            <td><button propiedad-data = "@propiedad.numeroFinca" class="js-delete btn btn-danger glyphicon glyphicon-trash"></button></td>
+            <td><ion-icon name="arrow-up-circle-outline" propiedad-data-numeroFinca="@propiedad.numeroFinca" propiedad-data-valor="@propiedad.valor" propiedad-data-direccion="@propiedad.direccion" class="js-update btn btn-outline-success"></ion-icon></td>
+            <td><ion-icon name="trash-outline" propiedad-data = "@propiedad.numeroFinca" class="js-delete btn btn-outline-danger"></ion-icon></td>
         </tr>
     }
 </table>
 
 @section scripts{
     <script>
-        $(document).ready(function() {
-            $("#propiedad-table .js-delete").on("click",
+        
+        $(document).ready(function () {
+            $("#propiedad-table").DataTable();
+
+            $("#propiedad-table").on("click", ".js-delete",
                 function() {
                     var deleteButton = $(this);
-                    if (confirm("¿Estás seguro de eliminar esta propiedad?")) {
-                        $.ajax({
-                            url: "/Propiedad/Delete/" + deleteButton.attr("propiedad-data"),
-                            success: function() {
-                                console.log("esta picha debe funcionar"),
-                                    deleteButton.parents("tr").remove();
+
+                    bootbox.confirm({
+                        message: "¿Desea eliminar la propiedad #" +deleteButton.attr("propiedad-data") + " de la base de datos ?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
                             }
-                        });
-                    }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/Propiedad/Delete/" + deleteButton.attr("propiedad-data"),
+                                    success: function() {
+                                        deleteButton.parents("tr").remove();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
                 });
+
+            $("#propiedad-table").on("click", ".js-update",
+                function() {
+                    updateButton = $(this);
+                    var url = '@Url.Action("Update", "Propiedad", new
+                               {
+                                   numeroFinca = "_numeroFinca",
+                                   valor = "_valor",
+                                   direccion = "_direccion"
+                               })';
+
+
+                    url = url.replace("_numeroFinca", updateButton.attr("propiedad-data-numeroFinca"));
+                    url = url.replace("_valor", updateButton.attr("propiedad-data-valor"));
+                    url = url.replace("_direccion", updateButton.attr("propiedad-data-direccion"));
+                    window.location.href = url;
+                });
+
         });
     </script>
 }

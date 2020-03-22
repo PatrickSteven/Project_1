@@ -41,20 +41,33 @@ namespace Project_1.Controllers
             var retval = Propiedad_Conexion.Insert(propiedad);
             if (ErrorCodes.errorCodes.ContainsKey(retval))
             {
-                TempData["ReturnMessage"] = ErrorCodes.errorCodes[retval];
+                TempData["WarningMessage"] = ErrorCodes.errorCodes[retval];
                 return View("InsertForm", propiedad);
             }
 
-            TempData["ReturnMessage"] = "Propiedad Agregada";
-            return View("InsertForm", propiedad);
+            TempData["SuccessfulMessage"] = "propiedad agregada";
+            return View("InsertForm", new Propiedad());
         }
 
 
         //Update Propiedad
-       
-        public ActionResult UpdateForm(Propiedad propiedad)
+        [Route("Propiedad/Update/{numeroFinca}/{valor}/{direccion}")]
+        public ActionResult UpdateRedirect(int numeroFinca, int valor, string direccion)
+        {
+            var propiedad = new Propiedad()
+            {
+                numeroFinca = numeroFinca,
+                valor = valor,
+                direccion = direccion
+            };
+
+            return View("UpdateForm", propiedad);
+        }
+
+        [Route("Propiedad/UpdateForm/")]
+        public ActionResult UpdateForm()
         {   
-            return View(propiedad);
+            return View(new Propiedad());
         }
 
         public ActionResult Update(Propiedad propiedad)
@@ -67,11 +80,11 @@ namespace Project_1.Controllers
             var retval = Propiedad_Conexion.Update(propiedad);
             if (ErrorCodes.errorCodes.ContainsKey(retval))
             {
-                TempData["ReturnMessage"] = ErrorCodes.errorCodes[retval];
+                TempData["WarningMessage"] = ErrorCodes.errorCodes[retval];
                 return View("UpdateForm", propiedad);
             }
 
-            TempData["ReturnMessage"] = "Propiedad Actualizada";
+            TempData["SuccessfulMessage"] = "correctamente";
             return View("UpdateForm", propiedad);
 
         }
