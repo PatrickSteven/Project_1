@@ -123,6 +123,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Usuario_de_Propiedad_Conexion.cs" />
+    <Compile Include="Models\Usuario_de_Propiedad.cs" />
+    <Compile Include="Models\Usuario_Conexion.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Propiedad_del_Propietario_Conexion.cs" />
+    <Compile Include="Models\Propiedad_Del_Propietario.cs" />
+    <Compile Include="Models\Comprobante_de_Pago_Conexion.cs" />
+    <Compile Include="Models\Comprobante_de_Pago.cs" />
     <Compile Include="Models\ErrorCodes.cs" />
     <Compile Include="Models\Propietario.cs" />
     <Compile Include="Models\Propiedad.cs" />

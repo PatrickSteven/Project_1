@@ -8,13 +8,18 @@ namespace Project_1.Models
 {
     public class Comprobante_de_Pago
     {
+
+        [Display(Name = "Fecha")]
         [DataType(DataType.DateTime)]
+        [Required]
         public int fecha { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Total must be numeric")]
+        [Display(Name = "Total")]
+        [Required]
         public int total { get; set; }
 
-        [RegularExpression("^[0-9]*$", ErrorMessage = "idPropiedad must be numeric")]
+        [Display(Name = "Id Propiedad")]
+        [Required]
         public int idPropiedad { get; set; }
     }           
 }

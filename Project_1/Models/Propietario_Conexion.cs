@@ -15,7 +15,7 @@ namespace Project_1.Models
 {
     public class Propietario_Conexion
     {
-        public int Insert(Propietario porpietario)
+        public static int Insert(Propietario porpietario)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -52,7 +52,7 @@ namespace Project_1.Models
             }
         }
 
-        public int Delete(Propietario porpietario)
+        public static int Delete(Propietario porpietario)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -87,7 +87,7 @@ namespace Project_1.Models
             }
         }
 
-        public int Update(Propietario porpietario)
+        public static int Update(Propietario porpietario)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {

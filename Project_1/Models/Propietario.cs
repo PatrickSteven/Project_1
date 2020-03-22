@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,16 +8,19 @@ namespace Project_1.Models
 {
     public class Propietario
     {
-        public String nombre { get; set; }
-        public int valorDocId { get; set; }
+
+
+        [Display(Name = "Id Doc Id")]
+        [Required]
         public int idDocId { get; set; }
 
-        Propietario(String nombre, int valorDocId, int idDocId)
-        {
-            this.nombre = nombre;
-            this.valorDocId = valorDocId;
-            this.idDocId = idDocId;
-        }
+        [Display(Name = "Valor Doc Id")]
+        [Required]
+        public int valorDocId { get; set; }
+
+        [Display(Name = "Nombre")]
+        [Required]
+        public String nombre { get; set; }
 
     }
 }
