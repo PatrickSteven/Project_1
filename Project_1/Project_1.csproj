@@ -122,9 +122,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PropiedadController.cs" />
+    <Compile Include="Controllers\PropietarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ErrorCodes\ErrorCodes.cs" />
+    <Compile Include="Models\Propietario\Propietario.cs" />
+    <Compile Include="Models\Propiedad\Propiedad.cs" />
+    <Compile Include="Models\Propiedad\Propiedad_Conexion.cs" />
+    <Compile Include="Models\Propietario\Propietario_Conexion.cs" />
+    <Compile Include="Models\TipoDocId\TipoDocId.cs" />
+    <Compile Include="Models\TipoDocId\TipoDocId_Conexion.cs" />
     <Compile Include="Models\Usuario_de_Propiedad_Conexion.cs" />
     <Compile Include="Models\Usuario_de_Propiedad.cs" />
     <Compile Include="Models\Usuario_Conexion.cs" />
@@ -133,13 +141,10 @@
     <Compile Include="Models\Propiedad_Del_Propietario.cs" />
     <Compile Include="Models\Comprobante_de_Pago_Conexion.cs" />
     <Compile Include="Models\Comprobante_de_Pago.cs" />
-    <Compile Include="Models\ErrorCodes.cs" />
-    <Compile Include="Models\Propietario.cs" />
-    <Compile Include="Models\Propiedad.cs" />
-    <Compile Include="Models\Propiedad_Conexion.cs" />
-    <Compile Include="Models\Propietario_Conexion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PropiedadIndexViewModel.cs" />
+    <Compile Include="ViewModels\PropietarioIndexViewModel.cs" />
+    <Compile Include="ViewModels\PropietarioTipoDocIdViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
@@ -525,6 +530,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Propietario\Index.cshtml" />
+    <Content Include="Views\Propietario\InsertForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -537,6 +544,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

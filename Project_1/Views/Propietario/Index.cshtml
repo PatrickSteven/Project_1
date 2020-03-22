@@ -1,0 +1,105 @@
+﻿@using Project_1.Models
+@model Project_1.ViewModels.PropietarioIndexViewModel
+@{
+    ViewBag.Title = "Propietarios";
+}
+<div class="jumbotron">
+    <h3 class="display-4">Propietarios</h3>
+    <p class="lead"></p>
+    <hr class="my-4">
+    <p class="lead">
+        <button class="btn btn-primary btn-lg" role="button">
+            @Html.ActionLink("Agregar", "InsertForm", "Propietario")
+            <ion-icon name="add-outline"></ion-icon>
+        </button>
+
+        <button class="btn btn-primary btn-lg" role="button">
+            @Html.ActionLink("Actualizar", "UpdateForm", "Propietario")
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </button>
+    </p>
+</div>
+
+
+<table id="propietario-table" class="table table-hover" style=" table-layout: fixed">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Documento</th>
+            <th scope="col">Tipo de Documento</th>
+            <th>Ver</th>
+            <th>Actualizar</th>
+            <th>Borrar</th>
+        </tr>
+    </thead>
+    @foreach (var propietario in Model.propietarios)
+    {
+<tr>
+    <th>@propietario.nombre</th>
+    <td>@propietario.valorDocId</td>
+    <td>@propietario.nombreDocId</td>
+    <td><ion-icon name="arrow-up-circle-outline" propietario-data-nombre="@propietario.nombre" class="js-detail btn btn-outline-success"></ion-icon></td>
+    <td><ion-icon name="arrow-up-circle-outline" propietario-data-nombre="@propietario.nombre" propietario-data-valorDocId="@propietario.valorDocId" propietario-data-nombreDocId="@propietario.nombreDocId" class="js-update btn btn-outline-success"></ion-icon></td>
+    <td><ion-icon name="trash-outline" propietario-data-valorDocId="@propietario.valorDocId" class="js-delete btn btn-outline-danger"></ion-icon></td>
+</tr>
+    }
+</table>
+
+
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $("#propietario-table").DataTable();
+
+            $("#propietario-table").on("click", ".js-delete",
+                function() {
+                    var deleteButton = $(this);
+
+                    bootbox.confirm({
+                        message: "¿Desea eliminar al propietario #" + deleteButton.attr("propietario-data-valorDocId") + " de la base de datos ?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/Propietario/Delete/" + deleteButton.attr("propietario-data-valorDocId"),
+                                    success: function() {
+                                        deleteButton.parents("tr").remove();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+            $("#propietario-table").on("click", ".js-update",
+                function() {
+                    updateButton = $(this);
+                    var url = '@Url.Action("UpdateRedirect", "Propietario", new
+                               {
+                                   nombre = "_nombre",
+                                   valorDocId = "_valorDocId",
+                                   nombreDocId = "_nombreDocId"
+                               })';
+
+
+                    url = url.replace("_nombre", updateButton.attr("propietario-data-nombre"));
+                    url = url.replace("_valorDocId", updateButton.attr("propietario-data-valorDocId"));
+                    url = url.replace("_nombreDocId", updateButton.attr("propietario-data-nombreDocId"));
+                    window.location.href = url;
+                });
+
+        });
+    </script>
+}

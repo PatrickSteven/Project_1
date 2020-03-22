@@ -123,6 +123,44 @@ namespace Project_1.Models
             }
         }
 
+        public static List<Propietario> Select()
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propietario";
+                cmd.Connection = connection;
+                var list = new List<Propietario>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                            list.Add(new Propietario()
+                            {
+                                nombre = reader.GetString(0),
+                                valorDocId = reader.GetInt32(1),
+                                nombreDocId = reader.GetString(2)
+                            });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return list; // execute not accomplish
+            }
+        }
+
 
         //public int Select()
         //{
