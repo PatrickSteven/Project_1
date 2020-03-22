@@ -151,6 +151,10 @@ Reunion:
 <!-- FECHA 19/03/2020 -->
 
 + Poner en los scripts on "return statement" y definir valores de error (Alejandro) []
++ Se creó la base de los formularios de inserción y actualización de entidades (Patrick) [1.5 horas]
++ Se creó la validación de atributos para los formularios de entidades
++ Discutir con una lluvia de ideas el diseño preliminar de la pagina web y el flujo de la misma (Patrick y Alejandro) [2 horas]
++ Se conectó los store procedures de propiedad con la arquitectura de ASP.NET MVC para implementar el CRUD de la entidad. (Patrick) [Perdí la cuenta]
 	
 	 
 

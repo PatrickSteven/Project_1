@@ -1,46 +1,85 @@
 ﻿@model Project_1.Models.Propiedad
+
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Modificar Propiedad</h2>
+<h2>Actualizar Propiedad</h2>
 
 @using (Html.BeginForm("Update", "Propiedad"))
 {
-    @Html.ValidationSummary(true, "Ups...");
-    <div class="form-group">
-        @Html.LabelFor(m => m.numeroFinca)
-        @Html.TextBoxFor(m => m.numeroFinca, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.numeroFinca)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.valor)
-        @Html.TextBoxFor(m => m.valor, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.valor)
+    <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.direccion)
-        @Html.TextBoxFor(m => m.direccion, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.direccion)
-
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
-    <div class="return-info"></div>
+    <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Actualizado!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    @Html.LabelFor(m => m.numeroFinca)
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">#</span>
+        </div>
+        @Html.TextBoxFor(m => m.numeroFinca, new { @class = "form-control", placeholder = @Model.numeroFinca, aria_describedby = "basic-addon1" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.numeroFinca)</button>
+
+    </div>
+
+
+    @Html.LabelFor(m => m.valor)
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">$</span>
+        </div>
+        @Html.TextBoxFor(m => m.valor, new { @class = "form-control", placeholder = @Model.valor, aria_describedby = "basic-addon1" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.valor)</button>
+    </div>
+
+    @Html.LabelFor(m => m.direccion)
+    <div class="input-group mb-3">
+        @Html.TextBoxFor(m => m.direccion, new { @class = "form-control", placeholder = @Model.direccion, aria_describedby = "basic-addon1" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.direccion)</button>
+    </div>
+
     <button type="submit" class="btn btn-primary">Actualizar</button>
     //Call the action target [HttpPost]
 
 }
-
 @section scripts{
     <script>
         $(document).ready(function(){
-            var success = @((TempData["ReturnMessage"] != null).ToString().ToLower());
-            if (success == true) {
-                var returnInfo = $("div.return-info");
-                returnInfo.text("@TempData["ReturnMessage"]");
+            var warning = @((TempData["WarningMessage"] != null).ToString().ToLower());
+            var success = @((TempData["SuccessfulMessage"] != null).ToString().ToLower());
+            var warningDiv = $("div.warning-message");
+            var successfulDiv = $("div.successful-message");
+            if (warning == true) {
+                successfulDiv.hide();
+                warningDiv.show();
+                warningDiv.append("@TempData["WarningMessage"]");
+
+
+            }
+            else if (success == true) {
+                warningDiv.hide();
+                successfulDiv.show();
+                successfulDiv.append("@TempData["SuccessfulMessage"]");
+
+            } else {
+                warningDiv.hide();
+                successfulDiv.hide();
             }
         });
 
     </script>
 }
+
+
