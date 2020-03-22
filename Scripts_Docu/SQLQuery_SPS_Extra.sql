@@ -1,3 +1,4 @@
+DROP PROCEDURE dbo.SPS_Propietario
 CREATE PROCEDURE dbo.SPS_Propietario
 AS
 BEGIN
@@ -5,6 +6,7 @@ select dbo.Propietario.nombre, dbo.Propietario.valorDocId, dbo.Tipo_DocId.nombre
 join dbo.Tipo_DocId on dbo.Propietario.idDocId = dbo.Tipo_DocId.id;
 END
 
+DROP PROCEDURE dbo.SPS_Tipo_DocId
 CREATE PROCEDURE dbo.SPS_Tipo_DocId
 AS
 BEGIN
