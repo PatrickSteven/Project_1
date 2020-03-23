@@ -1,4 +1,5 @@
-﻿@using Project_1.Models.TipoDocId
+﻿@using Project_1.Models
+@using Project_1.Models.TipoDocId
 @model Project_1.ViewModels.Propiedad.PropiedadDetailViewModel
 @{
     ViewBag.Title = "Detail";
@@ -47,14 +48,14 @@
     <h3 class="my-4">Propietarios</h3>
     <table id="propietario-table" class="table table-hover" style=" table-layout: fixed">
         <thead class="thead-dark">
-        <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Documento</th>
-            <th scope="col">Tipo de Documento</th>
-            <th>Ver</th>
-            <th>Actualizar</th>
-            <th>Despropiar</th>
-        </tr>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Documento</th>
+                <th scope="col">Tipo de Documento</th>
+                <th>Ver</th>
+                <th>Actualizar</th>
+                <th>Despropiar</th>
+            </tr>
         </thead>
         @foreach (var propietario in Model.propietarios)
         {
@@ -64,8 +65,54 @@
                 <td>@propietario.nombreDocId</td>
                 <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
                 <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
-                <td><ion-icon propietario-data=@propietario.valorDocId name="trash-outline" class="js-delete btn btn-outline-danger"></ion-icon></td>
+                <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete btn btn-outline-danger"></ion-icon></td>
             </tr>
         }
     </table>
 </div>
+
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+
+            //Delete Button
+            $("#propietario-table").on("click", ".js-delete",
+                function() {
+                    var deleteButton = $(this);
+
+                    bootbox.confirm({   
+                        message: "¿Desea despropiar a #" +deleteButton.attr("propietario-data") + " de esta propiedad?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: '@Url.Content("~/PropiedadDelPropietario/Despropiar/")'+ @Model.propiedad.numeroFinca +"/"+ deleteButton.attr("propietario-data"),
+                                    success: function (retval) {
+                                        console.log(retval);
+                                        if (retval.ToString().ToLower() == true) //Retorna True
+                                            deleteButton.parents("tr").remove();
+                                        else
+                                            console.log("Error al despropiar");
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+        });
+    </script>
+}

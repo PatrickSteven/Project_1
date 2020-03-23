@@ -5,7 +5,7 @@
 }
 
 <!--INFO-->
-<div class="jumbotron">
+<div class="propietario-info jumbotron">
     <h3 class="display-4">@Model.propietario.nombre</h3>
     <h4>@Model.propietario.nombreDocId <span class="badge badge-info">#@Model.propietario.valorDocId</span></h4>
 
@@ -20,14 +20,11 @@
 
     <hr class="my-4">
     <p class="lead">
-        <button class="btn btn-sm btn-dark" role="button">
-            @Html.ActionLink(
-                "Agregar Propiedad",
-                "UpdateRedirect",
-                "Propietario",
-                new { @Model.propietario.valorDocId },
-                new { @class = "text-white" })
-            <ion-icon name="arrow-up-outline"></ion-icon>
+        <button class="apropiar-propiedad btn btn-sm btn-dark" role="button">
+            <a href="#apropiar-propiedad-form" class="text-white">
+                Agregar Propiedad
+                <ion-icon name="arrow-up-outline"></ion-icon>
+            </a>
         </button>
         <button class="btn btn-sm btn-dark" role="button">
             @Html.ActionLink(
@@ -52,7 +49,46 @@
 </div>
 
 <!--PROPIEDADES-->
-<div>
+<div class="propiedades-del-propietario">
+
+    <div class="apropiar-propiedad-form my-5" style="display: none">
+
+        <h3 class="my-4">Agregar propiedad</h3>
+
+        <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Cuidado!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Realizado,</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <div class="input-group mb-3" readonly>
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">@Html.LabelFor(m => m.PropiedadDelPropietario.valorDocId)</span>
+            </div>
+            @Html.TextBoxFor(m => m.PropiedadDelPropietario.valorDocId, new { @Value = @Model.propietario.valorDocId, @class = "form-control", aria_describedby = "basic-addon1"})
+            @Html.ValidationMessageFor(m => m.PropiedadDelPropietario.valorDocId)
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"> @Html.LabelFor(m => m.PropiedadDelPropietario.numeroFinca)</span>
+            </div>
+            @Html.TextBoxFor(m => m.PropiedadDelPropietario.numeroFinca, new { @class = "form-control", placeholder = "Numero de Finca", aria_describedby = "basic-addon1" })
+            @Html.ValidationMessageFor(m => m.PropiedadDelPropietario.numeroFinca)
+        </div>
+        <button type="submit" class="btn-apropiar btn btn-primary" id="button-addon2">Apropiar</button>
+    </div>
 
     <h3 class="my-4">Propiedades</h3>
 
@@ -74,10 +110,109 @@
                 <td>@propiedad.valor</td>
                 <td>@propiedad.direccion</td>
                 <td><a href="~/Propiedad/Detail/@propiedad.numeroFinca"><ion-icon name="home-outline" class="js-update btn btn-outline-info"></ion-icon></a></td>
-                <td><a href="Propiedad/UpdateForm/@propiedad.numeroFinca"><ion-icon name="caret-up-circle-outline" class="js-delete btn btn-outline-success"></ion-icon></a></td>
-                <td><ion-icon name="thumbs-down-outline" class="js-detail btn btn-outline-danger"></ion-icon></td>
+                <td><a href="~/Propiedad/UpdateRedirect/@propiedad.numeroFinca"><ion-icon name="caret-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                <td><ion-icon name="thumbs-down-outline" propiedad-data=@propiedad.numeroFinca class="js-delete btn btn-outline-danger"></ion-icon></td>
             </tr>
         }
     </table>
 </div>
 
+
+
+@section scripts{
+    <script>
+
+        $(document).ready(function() {
+            var warningDiv = $("div.warning-message");
+            var successfulDiv = $("div.successful-message");
+
+            $(".propietario-info").on("click", ".apropiar-propiedad",
+                function() {
+                    $("div.apropiar-propiedad-form").show();
+                    warningDiv.hide();
+                    successfulDiv.hide();
+                });
+
+            $(".apropiar-propiedad-form").on("click", ".btn-apropiar",
+                function () {
+                    
+
+                    if ($("#PropiedadDelPropietario_numeroFinca").val() &&
+                        $("#PropiedadDelPropietario_valorDocId").val()) {
+
+
+                        $.ajax({
+                            method: "POST",
+                            url: '@Url.Content("~/PropiedadDelPropietario/Apropiar/")' +
+                                $("#PropiedadDelPropietario_numeroFinca").val() +
+                                "/" +
+                                $("#PropiedadDelPropietario_valorDocId").val(),
+                            success: function (retval) {
+                                if (retval == "Propiedad agregada!") {
+                                    warningDiv.hide();
+                                    successfulDiv.show();
+                                    successfulDiv.append(retval);
+                                } else {
+                                    successfulDiv.hide();
+                                    warningDiv.show();
+                                    warningDiv.append(retval);
+                                }
+
+                            }
+                        });
+
+
+                    } else {
+
+                        successfulDiv.hide();
+                        warningDiv.show();
+                        warningDiv.append("Todos los campos son obligatiorios!");
+                        
+                    }
+
+                });
+
+
+            //Delete Button
+            $("#propiedad-table").on("click",
+                ".js-delete",
+                function() {
+                    var deleteButton = $(this);
+
+                    bootbox.confirm({
+                        message: "¿Desea despropiar a @Model.propietario.nombre de esta propiedad?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: '@Url.Content("~/PropiedadDelPropietario/Despropiar/")' +
+                                        deleteButton.attr("propiedad-data") +
+                                        "/" +
+                                        @Model.propietario.valorDocId,
+                                    success: function(retval) {
+                                        console.log(retval);
+                                        if (retval.ToString().ToLower() == true) //Retorna True
+                                            deleteButton.parents("tr").remove();
+                                        else
+                                            console.log("Error al despropiar");
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+        });
+    </script>
+}

@@ -10,5 +10,7 @@ namespace Project_1.ViewModels.Propiedad
     {
         public Models.Propiedad propiedad { get; set; }
         public List<Models.Propietario> propietarios{ get; set; }
+
+        public Propiedad_Del_Propietario PropiedadDelPropietario { get; set; }
     }
 }

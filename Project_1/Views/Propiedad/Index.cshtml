@@ -71,6 +71,7 @@
                         callback: function(result) {
                             if (result) {
                                 $.ajax({
+                                    method: "POST",
                                     url: "/Propiedad/Delete/" + deleteButton.attr("propiedad-data"),
                                     success: function() {
                                         deleteButton.parents("tr").remove();

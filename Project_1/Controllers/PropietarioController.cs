@@ -130,6 +130,7 @@ namespace Project_1.Controllers
 
         //DELETE
         [Route("Propietario/Delete/{valorDocId}")]
+        [HttpPost]
         public void Delete(int valorDocId)
         {
             Propietario_Conexion.Delete(new Propietario() {valorDocId = valorDocId});
@@ -155,5 +156,6 @@ namespace Project_1.Controllers
         }
 
 
+        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Project_1.Models;
@@ -12,5 +13,6 @@ namespace Project_1.ViewModels.Propietario
         public Models.Propietario propietario { get; set; }
         public Propietario_Juridico propietarioJuridico { get; set; }
         public List<Models.Propiedad> propiedades { get; set; }
+        public Propiedad_Del_Propietario PropiedadDelPropietario { get; set; }
     }
 }

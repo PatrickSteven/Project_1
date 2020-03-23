@@ -15,7 +15,9 @@ namespace Project_1.Models
             { -12 , "Propietario no registrado en la base de datos"},
             { -13 , "Propiedad ya registrada en la base de datos"},
             { -14 , "Resoponsable Juridico ya registrado en la base de datos"},
-            { -15 , "Responsable Juridico no encontrado" }
+            { -15 , "Responsable Juridico no encontrado" },
+            { -16 , "El propietario ya posee esta propiedad"},
+            { -17, "Propiedad no encontrada en la base de datos" }
 
         };
 
