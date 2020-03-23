@@ -8,36 +8,38 @@
         <p class="lead"></p>
         <hr class="my-4">
         <p class="lead">
-            <button class="btn btn-primary btn-lg" role="button">
+            <button class="action-button btn btn-outline-dark" role="button">
                 @Html.ActionLink("Agregar", "InsertForm", "Propiedad")
-                <ion-icon name="add-outline"></ion-icon>
+                <ion-icon name="add-circle-outline"></ion-icon>
             </button>
             
-            <button class="btn btn-primary btn-lg" role="button">
+            <button class="btn btn btn-outline-dark" role="button">
                 @Html.ActionLink("Actualizar", "UpdateForm", "Propiedad")
                 <ion-icon name="arrow-up-outline"></ion-icon>
-            </button>
+            </button>   
         </p>
     </div>
 <table id="propiedad-table" class="table table-hover" style=" table-layout: fixed">
     <thead class="thead-dark">
-    <tr>
-        <th scope="col">Numero de Finca</th>
-        <th scope="col">Valor</th>
-        <th scope="col">Direccion</th>
-        <th>Update</th>
-        <th>Delete</th>
-    </tr>
+        <tr>
+            <th scope="col">Numero de Finca</th>
+            <th scope="col">Valor</th>
+            <th scope="col">Direccion</th>
+            <th>Ver</th>
+            <th>Actualizar</th>
+            <th>Borrar</th>
+        </tr>
     </thead>
     @foreach (var propiedad in Model.propiedades)
     {
-        <tr>
-            <th>@propiedad.numeroFinca</th>
-            <td>@propiedad.valor</td>
-            <td>@propiedad.direccion</td>
-            <td><ion-icon name="arrow-up-circle-outline" propiedad-data-numeroFinca="@propiedad.numeroFinca" propiedad-data-valor="@propiedad.valor" propiedad-data-direccion="@propiedad.direccion" class="js-update btn btn-outline-success"></ion-icon></td>
-            <td><ion-icon name="trash-outline" propiedad-data = "@propiedad.numeroFinca" class="js-delete btn btn-outline-danger"></ion-icon></td>
-        </tr>
+<tr>
+    <th>@propiedad.numeroFinca</th>
+    <td>@propiedad.valor</td>
+    <td>@propiedad.direccion</td>
+    <td><ion-icon name="arrow-up-circle-outline" propiedad-data-numeroFinca="@propiedad.numeroFinca" class="js-update btn btn-outline-success"></ion-icon></td>
+    <td><ion-icon name="trash-outline" propiedad-data="@propiedad.numeroFinca" class="js-delete btn btn-outline-danger"></ion-icon></td>
+    <td><ion-icon name="trash-outline" propiedad-data="@propiedad.numeroFinca" class="js-detail btn btn-outline-info"></ion-icon></td>
+</tr>
     }
 </table>
 
@@ -47,6 +49,8 @@
         $(document).ready(function () {
             $("#propiedad-table").DataTable();
 
+
+            //Delete Button
             $("#propiedad-table").on("click", ".js-delete",
                 function() {
                     var deleteButton = $(this);
@@ -77,21 +81,32 @@
 
                 });
 
+            //UpdateButton
             $("#propiedad-table").on("click", ".js-update",
                 function() {
                     updateButton = $(this);
-                    var url = '@Url.Action("Update", "Propiedad", new
+                    var url = '@Url.Action("UpdateRedirect", "Propiedad", new
                                {
                                    numeroFinca = "_numeroFinca",
-                                   valor = "_valor",
-                                   direccion = "_direccion"
                                })';
 
 
-                    url = url.replace("_numeroFinca", updateButton.attr("propiedad-data-numeroFinca"));
-                    url = url.replace("_valor", updateButton.attr("propiedad-data-valor"));
-                    url = url.replace("_direccion", updateButton.attr("propiedad-data-direccion"));
-                    window.location.href = url;
+                    window.location.href = url.replace("_numeroFinca", updateButton.attr("propiedad-data-numeroFinca"));
+                    
+                });
+
+            //DetailButton
+            $("#propiedad-table").on("click", ".js-detail",
+                function() {
+                    updateButton = $(this);
+                    var url = '@Url.Action("Detail", "Propiedad", new
+                               {
+                                   numeroFinca = "_numeroFinca",
+                               })';
+
+
+                    window.location.href = url.replace("_numeroFinca", updateButton.attr("propiedad-data-numeroFinca"));
+                    
                 });
 
         });

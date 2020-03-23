@@ -64,6 +64,17 @@ BEGIN
 
 END
 
+CREATE PROCEDURE [dbo].[SPS_Propiedad_Detail]
+@numeroFinca int
+AS
+BEGIN
+	SELECT numeroFinca
+	,valor
+	,direccion
+	FROM Propiedad 
+	WHERE numeroFinca = @numeroFinca;
+END
+
 
 --- PRUEBAS DE LOS STATE PROCEDURES
 SELECT * FROM Propiedad
@@ -78,4 +89,5 @@ EXEC SPU_Propiedad '000' ,'500','Upala'
 SELECT * FROM Propiedad
 EXEC SPS_Propiedad
 
+EXEC SPS_Propiedad_Detail 456
 

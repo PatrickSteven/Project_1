@@ -85,5 +85,89 @@ namespace Project_1.Models
                 return retval; // execute not accomplish
             }
         }
+
+        public static List<Propietario> SelectPropiedadDetail(int numeroFinca)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propiedad_Del_Propietario_Detail";
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
+                cmd.Connection = connection;
+                List<Propietario> propietarios = new List<Propietario>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while(reader.Read())
+                        {
+                            propietarios.Add(new Propietario()
+                            {
+                                nombre = reader.GetString(0),
+                                valorDocId = reader.GetInt32(1),
+                                nombreDocId = reader.GetString(2)
+
+                            });
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return propietarios; // execute not accomplish
+            }
+        }
+
+        public static List<Propiedad> SelectPropietarioDetail(int valorDocId)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propiedad_Del_Propietario_Detail";
+                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = valorDocId;
+                cmd.Connection = connection;
+                List<Propiedad> propiedades = new List<Propiedad>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            propiedades.Add(new Propiedad()
+                            {
+                                numeroFinca = reader.GetInt32(0),
+                                valor = reader.GetInt32(1),
+                                direccion = reader.GetString(2)
+
+                            });
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return propiedades; // execute not accomplish
+            }
+        }
     }
 }

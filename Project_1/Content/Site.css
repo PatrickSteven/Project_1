@@ -34,15 +34,19 @@ textarea {
 }
 
 .field-validation-error {
-    color: #ffc107;
+    color: #1a1a1a;
 }
 
 .input-validation-error {
-    border: 2px solid #ffc107;
+    border: 2px solid #1a1a1a;
 }
 
 .warning-message, .successful-message {
     width: 50%;
     height: 50px;
     
+}
+
+.propietario-juridico-form {
+    display: none;
 }

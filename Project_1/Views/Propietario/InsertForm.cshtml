@@ -1,4 +1,4 @@
-﻿@model Project_1.ViewModels.PropietarioTipoDocIdViewModel
+﻿@model Project_1.ViewModels.PropietarioInsertViewModel
 @using System.Diagnostics
 @using Project_1.Models
 
@@ -23,7 +23,6 @@
     <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
         <strong>Nuevo</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -51,8 +50,40 @@
 
     @Html.LabelFor(m => m.propietario.nombreDocId)
     <div class="input-group mb-3">
-        @Html.DropDownListFor(m => m.propietario.idDocId, new SelectList(Model.tipoDocIdList, "id", "nombre"), "Seleccione Tipo Documento", new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.propietario.idDocId, new SelectList(Model.tipoDocIdList, "id", "nombre"), "Seleccione Tipo Documento", new { @class = "tipoDocId-select form-control" })
         <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario.idDocId)</button>
+    </div>
+
+
+        //Form de Propietario Juridico
+    <div class="propietario-juridico-form">
+        <div class="form-group">
+            <h5>@Html.LabelFor(m => m.propietario_Juridico)</h5>
+
+            @Html.LabelFor(m => m.propietario_Juridico.responsable)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">+</span>
+                </div>
+                @Html.TextBoxFor(m => m.propietario_Juridico.responsable, new { @class = "form-control", placeholder = @Model.propietario_Juridico.responsable, aria_describedby = "basic-addon1" })
+                <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario_Juridico.responsable)</button>
+            </div>
+
+            @Html.LabelFor(m => m.propietario_Juridico.valorDocId)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">+</span>
+                </div>
+                @Html.TextBoxFor(m => m.propietario_Juridico.valorDocId, new { @class = "form-control", placeholder = @Model.propietario_Juridico.valorDocId, aria_describedby = "basic-addon1" })
+                <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario_Juridico.valorDocId)</button>
+            </div>
+
+            @Html.LabelFor(m => m.propietario_Juridico.jIdDocId)
+            <div class="input-group mb-3">
+                @Html.DropDownListFor(m => m.propietario_Juridico.jIdDocId, new SelectList(Model.tipoDocIdList, "id", "nombre", 1), new { @class = "tipoDocId-select form-control" })
+                <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m =>m.propietario_Juridico.jIdDocId)</button>
+            </div>
+        </div>
     </div>
     
     //Submit
@@ -86,6 +117,20 @@
                 warningDiv.hide();
                 successfulDiv.hide();
             }
+
+
+            $("select.tipoDocId-select").change(function() {
+                var selectedIdDocId = $(this).children("option:selected").val();
+                console.log(selectedIdDocId);
+                var form = $("div.propietario-juridico-form");
+                if (selectedIdDocId == @Model.cedulaJuridica){
+                    form.show().slideDown("slow");
+                } else {
+                    form.hide();
+                }
+                
+            });
+
         });
 
     </script>

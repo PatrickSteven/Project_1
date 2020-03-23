@@ -57,11 +57,27 @@ BEGIN
 	JOIN dbo.Propietario ON dbo.Propietario_Juridico.idPropietario = dbo.Propietario.id
 END
 
+--SELECT Propietario
+CREATE PROCEDURE [dbo].[SPS_Propietario_Juridico_Detail]
+@valorDocId int
+AS 
+BEGIN
+	DECLARE @idPropietario int
+	SELECT @idPropietario = id from Propietario WHERE valorDocId = @valorDocId
+	IF @idPropietario is not null
+		BEGIN
+			SELECT responsable, dbo.Propietario_Juridico.valorDocId, dbo.Propietario_Juridico.idDocId
+			FROM dbo.Propietario_Juridico 
+			WHERE idPropietario = @idPropietario
+		END
+END
+
 
 --Prueba
 EXECUTE SPI_Propietario_Juridico "Diego", 1919, 1, 2020
 SELECT * from Propietario_Juridico
+SELECT * from Propietario
 EXECUTE SPD_Propietario_Juridico null, 1
 EXECUTE SPU_Propietario_Juridico "Manuel", 1919
-EXECUTE SPS_Propietario_Juridico
+EXECUTE SPS_Propietario_Juridico_Detail 124135
 DROP PROCEDURE SPD_Propietario_Juridico

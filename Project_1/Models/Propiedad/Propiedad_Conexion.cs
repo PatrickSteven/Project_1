@@ -161,5 +161,41 @@ namespace Project_1.Models
                 return list; // execute not accomplish
             }
         }
+
+        public static Propiedad SelectPropiedad(int numeroFinca)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propiedad_Detail";
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
+                cmd.Connection = connection;
+                var propiedad = new Propiedad();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        reader.Read();
+                        propiedad.numeroFinca = reader.GetInt32(0);
+                        propiedad.valor = reader.GetInt32(1);
+                        propiedad.direccion = reader.GetString(2);
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return propiedad; // execute not accomplish
+            }
+        }
     }
 }

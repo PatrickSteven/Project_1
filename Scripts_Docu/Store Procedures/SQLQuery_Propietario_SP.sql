@@ -63,12 +63,22 @@ BEGIN
 	FROM dbo.Propietario
 END
 
+--Select Propietario
+CREATE PROCEDURE [dbo].[SPS_Propietario_Detail]
+@valorDocId int
+AS
+BEGIN
+	SELECT Propietario.idDocId, Propietario.nombre, Propietario.ValorDocId, Tipo_DocId.nombre
+	FROM dbo.Propietario
+	JOIN dbo.Tipo_DocId ON dbo.Propietario.idDocId = dbo.Tipo_DocId.id
+	WHERE Propietario.valorDocId = @valorDocId
+END
+
 --Pruebas--
 EXECUTE SPI_Propietario "Carlos", 2021, 1
 Select * from dbo.Propietario
 EXECUTE SPU_Propietario "Ramón", 2020
 EXECUTE SPS_Propietario
 EXECUTE SPD_Propietario 2021
-DROP PROCEDURE SPD_Propietario
-
+EXECUTE SPS_Propietario_Detail 124135
 

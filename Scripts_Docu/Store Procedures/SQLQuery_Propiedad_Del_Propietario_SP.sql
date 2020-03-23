@@ -56,12 +56,38 @@ BEGIN
 		
 END
 
+CREATE PROCEDURE [dbo].[SPS_Propiedad_Del_Propietario_Detail]
+@valorDocId int = null,
+@numeroFinca int = null
+
+AS
+BEGIN
+	IF (@valorDocId is not null AND @numeroFinca is null)
+	BEGIN
+		SELECT dbo.Propiedad.numeroFinca, dbo.Propiedad.valor, dbo.Propiedad.direccion
+		FROM dbo.Propiedad_del_Propietario
+		JOIN dbo.Propiedad ON dbo.Propiedad_del_Propietario.idPropiedad = dbo.Propiedad.id
+		JOIN dbo.Propietario ON dbo.Propiedad_del_Propietario.idPropietario = dbo.Propietario.id
+		WHERE dbo.Propietario.valorDocId = @valorDocId;
+	END
+	ELSE IF (@valorDocId is null AND @numeroFinca is not null)
+	BEGIN
+		SELECT dbo.Propietario.nombre, dbo.Propietario.valorDocId, dbo.Tipo_DocId.nombre
+		FROM dbo.Propiedad_del_Propietario
+		JOIN dbo.Propiedad ON dbo.Propiedad_del_Propietario.idPropiedad = dbo.Propiedad.id
+		JOIN dbo.Propietario ON dbo.Propiedad_del_Propietario.idPropietario = dbo.Propietario.id
+		JOIN dbo.Tipo_DocId ON dbo.Propietario.idDocId = dbo.Tipo_DocId.id
+		WHERE dbo.Propiedad.numeroFinca = @numeroFinca;
+	END
+END
+
 
 
 --Pruebas
 select * from propiedad
 select * from dbo.Propietario
 select * from dbo.Propiedad_del_Propietario
-EXECUTE SPI_Propiedad_Del_Propietario 0, 2020
+EXECUTE SPI_Propiedad_Del_Propietario 456, 61653
 DROP PROCEDURE SPD_Propiedad_Del_Propietario
 EXECUTE SPD_Propiedad_Del_Propietario null, 2020
+EXECUTE SPS_Propiedad_Del_Propietario_Detail 61653
