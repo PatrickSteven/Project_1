@@ -36,9 +36,10 @@
     <th>@propiedad.numeroFinca</th>
     <td>@propiedad.valor</td>
     <td>@propiedad.direccion</td>
-    <td><ion-icon name="arrow-up-circle-outline" propiedad-data-numeroFinca="@propiedad.numeroFinca" class="js-update btn btn-outline-success"></ion-icon></td>
+    <td><a href="~/Propiedad/Detail/@propiedad.numeroFinca"><ion-icon name="home-outline" class="btn btn-outline-info"></ion-icon></a></td>
+    <td><a href="~/Propiedad/UpdateRedirect/@propiedad.numeroFinca"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
     <td><ion-icon name="trash-outline" propiedad-data="@propiedad.numeroFinca" class="js-delete btn btn-outline-danger"></ion-icon></td>
-    <td><ion-icon name="trash-outline" propiedad-data="@propiedad.numeroFinca" class="js-detail btn btn-outline-info"></ion-icon></td>
+
 </tr>
     }
 </table>
@@ -79,34 +80,6 @@
                         }
                     });
 
-                });
-
-            //UpdateButton
-            $("#propiedad-table").on("click", ".js-update",
-                function() {
-                    updateButton = $(this);
-                    var url = '@Url.Action("UpdateRedirect", "Propiedad", new
-                               {
-                                   numeroFinca = "_numeroFinca",
-                               })';
-
-
-                    window.location.href = url.replace("_numeroFinca", updateButton.attr("propiedad-data-numeroFinca"));
-                    
-                });
-
-            //DetailButton
-            $("#propiedad-table").on("click", ".js-detail",
-                function() {
-                    updateButton = $(this);
-                    var url = '@Url.Action("Detail", "Propiedad", new
-                               {
-                                   numeroFinca = "_numeroFinca",
-                               })';
-
-
-                    window.location.href = url.replace("_numeroFinca", updateButton.attr("propiedad-data-numeroFinca"));
-                    
                 });
 
         });

@@ -145,9 +145,11 @@
     <Compile Include="Models\Comprobante_de_Pago\Comprobante_de_Pago_Conexion.cs" />
     <Compile Include="Models\Comprobante_de_Pago\Comprobante_de_Pago.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\PropiedadIndexViewModel.cs" />
-    <Compile Include="ViewModels\PropietarioIndexViewModel.cs" />
-    <Compile Include="ViewModels\PropietarioInsertViewModel.cs" />
+    <Compile Include="ViewModels\Propiedad\PropiedadDetailViewModel.cs" />
+    <Compile Include="ViewModels\Propiedad\PropiedadIndexViewModel.cs" />
+    <Compile Include="ViewModels\Propietario\PropietarioDetailViewModel.cs" />
+    <Compile Include="ViewModels\Propietario\PropietarioIndexViewModel.cs" />
+    <Compile Include="ViewModels\Propietario\PropietarioInsertViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
@@ -536,6 +538,8 @@
     <Content Include="Views\Propietario\Index.cshtml" />
     <Content Include="Views\Propietario\InsertForm.cshtml" />
     <Content Include="Views\Propietario\UpdateForm.cshtml" />
+    <Content Include="Views\Propietario\Detail.cshtml" />
+    <Content Include="Views\Propiedad\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

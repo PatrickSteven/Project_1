@@ -38,9 +38,9 @@
         <th>@propietario.nombre</th>
         <td>@propietario.valorDocId</td>
         <td>@propietario.nombreDocId</td>
-        <td><ion-icon name="arrow-up-circle-outline" propietario-data-nombre="@propietario.nombre" class="js-detail btn btn-outline-success"></ion-icon></td>
-        <td><ion-icon name="arrow-up-circle-outline" propietario-data-nombre="@propietario.nombre" propietario-data-valorDocId="@propietario.valorDocId" propietario-data-nombreDocId="@propietario.nombreDocId" class="js-update btn btn-outline-success"></ion-icon></td>
-        <td><ion-icon name="trash-outline" propietario-data-valorDocId="@propietario.valorDocId" class="js-delete btn btn-outline-danger"></ion-icon></td>
+        <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+        <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
+        <td><ion-icon propietario-data=@propietario.valorDocId name="trash-outline" class="js-delete btn btn-outline-danger"></ion-icon></td>
         </tr>
     }
 </table>
@@ -58,7 +58,7 @@
                     var deleteButton = $(this);
 
                     bootbox.confirm({
-                        message: "¿Desea eliminar al propietario #" + deleteButton.attr("propietario-data-valorDocId") + " de la base de datos ?",
+                        message: "¿Desea eliminar al propietario #" + deleteButton.attr("propietario-data") + " de la base de datos ?",
                         buttons: {
                             confirm: {
                                 label: 'Sí',
@@ -72,7 +72,7 @@
                         callback: function(result) {
                             if (result) {
                                 $.ajax({
-                                    url: "/Propietario/Delete/" + deleteButton.attr("propietario-data-valorDocId"),
+                                    url: "/Propietario/Delete/" + deleteButton.attr("propietario-data"),
                                     success: function() {
                                         deleteButton.parents("tr").remove();
                                     }
@@ -81,17 +81,6 @@
                         }
                     });
 
-                });
-
-            $("#propietario-table").on("click", ".js-update",
-                function() {
-                    updateButton = $(this);
-                    var url = '@Url.Action("UpdateRedirect", "Propietario", new
-                               {
-                                   valorDocId = "_valorDocId"
-                               })';
-
-                    window.location.href = url.replace("_valorDocId", updateButton.attr("propietario-data-valorDocId"));
                 });
 
         });

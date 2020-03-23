@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Project_1.Models;
 using Project_1.ViewModels;
+using Project_1.ViewModels.Propiedad;
 
 namespace Project_1.Controllers
 {
@@ -97,10 +98,15 @@ namespace Project_1.Controllers
         {
             Propiedad propiedad = Propiedad_Conexion.SelectPropiedad(numeroFinca);
             List<Propietario> propietarios = Propiedad_del_Propietario_Conexion.SelectPropiedadDetail(numeroFinca);
+            PropiedadDetailViewModel propiedadDetail = new PropiedadDetailViewModel()
+            {
+                propiedad = propiedad,
+                propietarios = propietarios
+            };
 
-            return View();
+            return View(propiedadDetail);
         }
-
+        
 
     }
 }

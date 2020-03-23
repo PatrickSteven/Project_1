@@ -7,6 +7,7 @@ using Project_1.Models;
 using Project_1.Models.Propietario_Juridico;
 using Project_1.Models.TipoDocId;
 using Project_1.ViewModels;
+using Project_1.ViewModels.Propietario;
 
 namespace Project_1.Controllers
 {
@@ -127,10 +128,30 @@ namespace Project_1.Controllers
             return View("UpdateForm", PreparePropietarioInsertViewModel());
         }
 
+        //DELETE
         [Route("Propietario/Delete/{valorDocId}")]
         public void Delete(int valorDocId)
         {
             Propietario_Conexion.Delete(new Propietario() {valorDocId = valorDocId});
+        }
+
+
+        //DETAIL
+        [Route("Propietario/Detail/{valorDocId}")]
+        public ActionResult Detail(int valorDocId)
+        {
+            Propietario propietario = Propietario_Conexion.SelectPropietario(valorDocId);
+            List<Propiedad> propiedades = Propiedad_del_Propietario_Conexion.SelectPropietarioDetail(valorDocId);
+            PropietarioDetailViewModel propietarioDetail = new PropietarioDetailViewModel()
+            {
+                propiedades = propiedades,
+                propietario = propietario
+            };
+
+            if (propietario.idDocId == TipoDocId.cedulaJuridica)
+                propietarioDetail.propietarioJuridico = Propietario_Juridico_Conexion.SelectPropietario(valorDocId);
+
+            return View(propietarioDetail);
         }
 
 
