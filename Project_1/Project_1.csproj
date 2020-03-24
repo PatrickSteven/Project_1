@@ -135,6 +135,8 @@
     <Compile Include="Models\Propietario\Propietario_Conexion.cs" />
     <Compile Include="Models\Propietario_Juridico\Propietario_Juridico.cs" />
     <Compile Include="Models\Propietario_Juridico\Propietario_Juridico_Conexion.cs" />
+    <Compile Include="Models\Recibos\Recibos_Conexion.cs" />
+    <Compile Include="Models\Recibos\Recibos.cs" />
     <Compile Include="Models\TipoDocId\TipoDocId.cs" />
     <Compile Include="Models\TipoDocId\TipoDocId_Conexion.cs" />
     <Compile Include="Models\Usuario_De_Propiedad\Usuario_de_Propiedad_Conexion.cs" />
