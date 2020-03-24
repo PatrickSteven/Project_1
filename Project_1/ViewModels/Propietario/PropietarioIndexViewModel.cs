@@ -8,7 +8,7 @@ namespace Project_1.ViewModels
 {
     public class PropietarioIndexViewModel
     {
-        public List<Propietario> propietarios { get; set; }
-        public Propietario propietario { get; set; }
+        public List<Models.Propietario> propietarios { get; set; }
+        public Models.Propietario propietario { get; set; }
     }
 }

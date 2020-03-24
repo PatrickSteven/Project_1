@@ -161,6 +161,44 @@ namespace Project_1.Models
             }
         }
 
+        public static Propietario SelectPropietario(int valorDocId)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propietario_Detail";
+                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = valorDocId;
+                cmd.Connection = connection;
+                var propietario = new Propietario();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+
+                        reader.Read();
+                        propietario.idDocId = reader.GetInt32(0);
+                        propietario.nombre = reader.GetString(1);
+                        propietario.valorDocId = reader.GetInt32(2);
+                        propietario.nombreDocId = reader.GetString(3);
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return propietario; // execute not accomplish
+            }
+        }
+
 
         //public int Select()
         //{

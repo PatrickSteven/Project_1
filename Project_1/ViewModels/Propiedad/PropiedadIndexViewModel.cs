@@ -8,7 +8,7 @@ namespace Project_1.ViewModels
 {
     public class PropiedadIndexViewModel
     {
-        public List<Propiedad> propiedades;
-        public Propiedad propiedad;
+        public List<Models.Propiedad> propiedades;
+        public Models.Propiedad propiedad;
     }
 }

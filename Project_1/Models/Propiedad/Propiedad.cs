@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 // imports
-using System.ComponentModel.DataAnnotations;
 
 
 namespace Project_1.Models

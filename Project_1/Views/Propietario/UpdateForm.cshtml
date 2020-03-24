@@ -6,9 +6,9 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Agregar Propietario</h2>
+<h2>Actualizar Propietario</h2>
 
-@using (Html.BeginForm("Insert", "Propietario"))
+@using (Html.BeginForm("Update", "Propietario"))
 {
     //WarningMessage
     <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
@@ -21,8 +21,9 @@
 
     //Sucessful Message
     <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Nuevo</strong>
+        <strong>Actualizado!</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -50,12 +51,11 @@
 
     @Html.LabelFor(m => m.propietario.nombreDocId)
     <div class="input-group mb-3">
-        @Html.DropDownListFor(m => m.propietario.idDocId, new SelectList(Model.tipoDocIdList, "id", "nombre"), "Seleccione Tipo Documento", new { @class = "tipoDocId-select form-control" })
+        @Html.DropDownListFor(m => m.propietario.idDocId, new SelectList(Model.tipoDocIdList, "id", "nombre"), "Seleccione Tipo Documento", new { @class = "form-control" })
         <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario.idDocId)</button>
     </div>
 
-
-        //Form de Propietario Juridico
+    //Form de Propietario Juridico
     <div class="propietario-juridico-form">
         <div class="form-group">
             <h5>@Html.LabelFor(m => m.propietario_Juridico)</h5>
@@ -80,14 +80,14 @@
 
             @Html.LabelFor(m => m.propietario_Juridico.jIdDocId)
             <div class="input-group mb-3">
-                @Html.DropDownListFor(m => m.propietario_Juridico.jIdDocId, new SelectList(Model.tipoDocIdList, "id", "nombre", 1), new { @class = "tipoDocId-select form-control" })
-                <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m =>m.propietario_Juridico.jIdDocId)</button>
+                @Html.DropDownListFor(m => m.propietario_Juridico.jIdDocId, new SelectList(Model.tipoDocIdList, "id", "nombre"), new { @class = "tipoDocId-select form-control" })
+                <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.propietario_Juridico.jIdDocId)</button>
             </div>
         </div>
     </div>
-    
+
     //Submit
-    <button type="submit" class="btn btn-primary">Agregar</button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
     //Call the action target [HttpPost]
 
 }
@@ -130,7 +130,6 @@
                 }
                 
             });
-
         });
 
     </script>

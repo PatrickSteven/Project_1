@@ -12,9 +12,9 @@ using System.Runtime.Remoting.Messaging;
 
 namespace Project_1.Models
 {
-    public class Propiedad_Conexion
+    public class Propiedad_del_Propietario_Conexion
     {
-        public static int Insert(Propiedad propiedad)
+        public static int Insert(Propiedad_Del_Propietario conexion)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -22,10 +22,9 @@ namespace Project_1.Models
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPI_Propiedad";
-                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = propiedad.numeroFinca;
-                cmd.Parameters.Add("@valor", SqlDbType.Int).Value = propiedad.valor;
-                cmd.Parameters.Add("@direccion", SqlDbType.VarChar).Value = propiedad.direccion;
+                cmd.CommandText = "dbo.SPI_Propiedad_Del_Propietario";
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = conexion.numeroFinca;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = conexion.valorDocId;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 
@@ -33,7 +32,7 @@ namespace Project_1.Models
                 {
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    retval = (int)cmd.Parameters["@retValue"].Value;   
+                    retval = (int)cmd.Parameters["@retValue"].Value;
 
                 }
                 catch (Exception ex)
@@ -51,8 +50,7 @@ namespace Project_1.Models
             }
         }
 
-
-        public static int Delete(int numeroFinca)
+        public static int Delete (Propiedad_Del_Propietario conexion)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -60,92 +58,102 @@ namespace Project_1.Models
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPD_Propiedad";
+                cmd.CommandText = "dbo.SPD_Propiedad_Del_Propietario";
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = conexion.numeroFinca;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = conexion.valorDocId;
+                cmd.Connection = connection;
+                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    retval = (int)cmd.Parameters["@retValue"].Value;
+
+                }
+                catch (Exception ex)
+                {
+                    retval = -1;
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return retval; // execute not accomplish
+            }
+        }
+
+        public static List<Propietario> SelectPropiedadDetail(int numeroFinca)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propiedad_Del_Propietario_Detail";
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
                 cmd.Connection = connection;
-                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
-
+                List<Propietario> propietarios = new List<Propietario>();
                 try
                 {
-                    connection.Open();
-                    cmd.ExecuteNonQuery();
-                    retval = (int)cmd.Parameters["@retValue"].Value;
-
-                }
-                catch (Exception ex)
-                {
-                    retval = -1;
-                    throw;
-
-                }
-                finally
-                {
-                    connection.Close();
-                }
-
-                return retval; // execute not accomplish
-            }
-        }
-
-        public static int Update(Propiedad propiedad)
-        {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
-            {
-                int retval;
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPU_Propiedad";
-                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = propiedad.numeroFinca;
-                cmd.Parameters.Add("@valor", SqlDbType.Int).Value = propiedad.valor;
-                cmd.Parameters.Add("@direccion", SqlDbType.VarChar).Value = propiedad.direccion;
-                cmd.Connection = connection;
-                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
-
-                try
-                {
-                    connection.Open();
-                    cmd.ExecuteNonQuery();
-                    retval = (int)cmd.Parameters["@retValue"].Value;
-
-                }
-                catch (Exception ex)
-                {
-                    retval = -1;
-                    throw;
-
-                }
-                finally
-                {
-                    connection.Close();
-                }
-
-                return retval; // execute not accomplish
-            }
-        }
-
-        public static List<Propiedad> Select()
-        {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPS_Propiedad";
-                cmd.Connection = connection;
-                var list = new List<Propiedad>();
-                try
-                {   
                     connection.Open();
                     using (var reader = cmd.ExecuteReader())
                     {
-                        
+                        while(reader.Read())
+                        {
+                            propietarios.Add(new Propietario()
+                            {
+                                nombre = reader.GetString(0),
+                                valorDocId = reader.GetInt32(1),
+                                nombreDocId = reader.GetString(2)
+
+                            });
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return propietarios; // execute not accomplish
+            }
+        }
+
+        public static List<Propiedad> SelectPropietarioDetail(int valorDocId)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Propiedad_Del_Propietario_Detail";
+                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = valorDocId;
+                cmd.Connection = connection;
+                List<Propiedad> propiedades = new List<Propiedad>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
                         while (reader.Read())
-                            list.Add(new Propiedad()
+                        {
+                            propiedades.Add(new Propiedad()
                             {
                                 numeroFinca = reader.GetInt32(0),
                                 valor = reader.GetInt32(1),
                                 direccion = reader.GetString(2)
+
                             });
+
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -158,43 +166,7 @@ namespace Project_1.Models
                     connection.Close();
                 }
 
-                return list; // execute not accomplish
-            }
-        }
-
-        public static Propiedad SelectPropiedad(int numeroFinca)
-        {
-            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPS_Propiedad_Detail";
-                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
-                cmd.Connection = connection;
-                var propiedad = new Propiedad();
-                try
-                {
-                    connection.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        propiedad.numeroFinca = reader.GetInt32(0);
-                        propiedad.valor = reader.GetInt32(1);
-                        propiedad.direccion = reader.GetString(2);
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw;
-
-                }
-                finally
-                {
-                    connection.Close();
-                }
-
-                return propiedad; // execute not accomplish
+                return propiedades; // execute not accomplish
             }
         }
     }

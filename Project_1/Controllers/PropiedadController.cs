@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using Project_1.Models;
 using Project_1.ViewModels;
+using Project_1.ViewModels.Propiedad;
 
 namespace Project_1.Controllers
 {
@@ -51,16 +53,10 @@ namespace Project_1.Controllers
 
 
         //Update Propiedad
-        [Route("Propiedad/Update/{numeroFinca}/{valor}/{direccion}")]
-        public ActionResult UpdateRedirect(int numeroFinca, int valor, string direccion)
+        [Route("Propiedad/UpdateRedirect/{numeroFinca}")]
+        public ActionResult UpdateRedirect(int numeroFinca)
         {
-            var propiedad = new Propiedad()
-            {
-                numeroFinca = numeroFinca,
-                valor = valor,
-                direccion = direccion
-            };
-
+            var propiedad = new Propiedad();
             return View("UpdateForm", propiedad);
         }
 
@@ -86,17 +82,32 @@ namespace Project_1.Controllers
 
             TempData["SuccessfulMessage"] = "correctamente";
             return View("UpdateForm", propiedad);
-
         }
 
 
         //Delete Propiedad
         [Route("Propiedad/Delete/{numeroFinca}")]
+        [HttpPost]
         public void Delete(int numeroFinca)
         {
             var code = Propiedad_Conexion.Delete(numeroFinca);
         }
 
+
+        [Route("Propiedad/Detail/{numeroFinca}")]
+        public ActionResult Detail(int numeroFinca)
+        {
+            Propiedad propiedad = Propiedad_Conexion.SelectPropiedad(numeroFinca);
+            List<Propietario> propietarios = Propiedad_del_Propietario_Conexion.SelectPropiedadDetail(numeroFinca);
+            PropiedadDetailViewModel propiedadDetail = new PropiedadDetailViewModel()
+            {
+                propiedad = propiedad,
+                propietarios = propietarios
+            };
+
+            return View(propiedadDetail);
+        }
+        
 
     }
 }

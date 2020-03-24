@@ -78,7 +78,6 @@ BEGIN
 		UPDATE dbo.Concepto_Cobro_en_Propiedad SET fechaFin = @fechaFin WHERE idPropiedad = @idPropiedad AND idConeceptoCobro = @idConceptoCobro
 END
 
-
 --Pruebas
 select * from Propiedad
 select * from Concepto_Cobro
