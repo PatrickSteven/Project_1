@@ -11,7 +11,7 @@ using Project_1.Models;
 
 namespace Project_1.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AppController
     {
         public ActionResult Index()
         {

@@ -1,0 +1,51 @@
+﻿@using Microsoft.Ajax.Utilities
+@model Project_1.Models.UsuarioLogIn
+@{
+    ViewBag.Title = "LogIn";
+}
+
+
+    <div class="d-flex justify-content-center">
+        @using (Html.BeginForm("LogIn", "Auth"))
+        {
+
+            <h1 class="my-4">Iniciar Sesión</h1>
+
+            if (!Html.ViewData.ModelState.IsValid)
+            {
+                //Warning Message
+                <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>@Html.ValidationSummary()</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+            //Nombre de usuario
+            @Html.LabelFor(m => m.nombre)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                </div>
+                @Html.TextBoxFor(m => m.nombre, new { @class = "form-control", placeholder = "Usuario", aria_describedby = "basic-addon1" })
+
+            </div>
+
+            //Password
+            @Html.LabelFor(m => m.password)
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"></span>
+                </div>
+                @Html.TextBoxFor(m => m.password, new { @class = "form-control", placeholder = "Contraseña", aria_describedby = "basic-addon1" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+           
+            //Call the action target [HttpPost]
+
+        }
+
+    </div>

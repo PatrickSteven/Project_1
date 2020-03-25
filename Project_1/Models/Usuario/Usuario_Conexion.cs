@@ -85,5 +85,77 @@ namespace Project_1.Models
                 return retval; // execute not accomplish
             }
         }
+
+        public static int Validate(Usuario usuario)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                int retval;
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPI_Usuario_Validate";
+                cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = usuario.nombre;
+                cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = usuario.password;
+                cmd.Connection = connection;
+                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    retval = (int)cmd.Parameters["@retValue"].Value; 
+
+                }
+                catch (Exception ex)
+                {
+                    retval = -1;
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return retval; // execute not accomplish
+            }
+        }
+
+        public static int Detail(Usuario usuario)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                int retval;
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPI_Usuario_Validate";
+                cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = usuario.nombre;
+                cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = usuario.password;
+                cmd.Connection = connection;
+                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    retval = (int)cmd.Parameters["@retValue"].Value;
+
+                }
+                catch (Exception ex)
+                {
+                    retval = -1;
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return retval; // execute not accomplish
+            }
+        }
     }
 }

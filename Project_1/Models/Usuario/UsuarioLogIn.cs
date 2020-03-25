@@ -7,14 +7,10 @@ using System.Web.Mvc;
 
 namespace Project_1.Models
 {
-    public class Usuario
+    public class UsuarioLogIn
     {
-        [Display(Name = "Tipo de Usuario")]
-        [DataType(DataType.Text)]
-        [Required]
-        public String tipoUsuario { get; set; }
 
-        [Display(Name = "Contrasena")]
+        [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         [Required]
         public String password { get; set; }
@@ -23,5 +19,8 @@ namespace Project_1.Models
         [DataType(DataType.Text)]
         [Required]
         public String nombre { get; set; }
+
+        [HiddenInput]
+        public string ReturnUrl { get; set; }
     }
 }
