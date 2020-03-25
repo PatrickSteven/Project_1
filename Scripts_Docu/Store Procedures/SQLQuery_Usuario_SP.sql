@@ -106,11 +106,11 @@ BEGIN
 END
 
 --Prueba
-EXECUTE SPI_Usuario "Pepe", "123", "Usuario"
-EXECUTE SPD_Usuario "Pepe"
+EXECUTE SPI_Usuario "admin", "password", "Administrador"
+EXECUTE SPD_Usuario "admin"
 EXECUTE SPU_Usuario "Pepe", "hola"
 SELECT * FROM dbo.Usuario
 EXECUTE SPS_Usuario
-DROP PROCEDURE SPI_Usuario
+DROP PROCEDURE SPD_Usuario
 DECLARE @ret int
 EXECUTE SPS_Usuario_Validate "Pepe", "12"

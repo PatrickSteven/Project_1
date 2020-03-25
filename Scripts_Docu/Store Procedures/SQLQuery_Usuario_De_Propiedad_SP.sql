@@ -60,7 +60,25 @@ BEGIN
 		END	 
 END
 
---Select 
+--Select Propiedades de un usuario
+CREATE PROCEDURE [dbo].[SPS_Usuario_De_Propiedad_Detai_Usuario]
+@nombre NVARCHAR(50)
+AS
+BEGIN
+	SELECT idPropiedad FROM dbo.Usuario_de_Propiedad
+	JOIN dbo.Usuario ON dbo.Usuario_de_Propiedad.idUsuario = dbo.Usuario.id
+	WHERE dbo.Usuario.nombre = @nombre
+END
+
+--Select Usuarios de una propiedad
+CREATE PROCEDURE [dbo].[SPS_Usuario_De_Propiedad_Detai_Propiedad]
+@numeroFinca NVARCHAR(50)
+AS
+BEGIN
+	SELECT idUsuario FROM dbo.Usuario_de_Propiedad
+	JOIN dbo.Propiedad ON dbo.Usuario_de_Propiedad.idPropiedad = dbo.Propiedad.id
+	WHERE dbo.Propiedad.numeroFinca = @numeroFinca
+END
 
 --Prueba
 SELECT * FROM Propiedad

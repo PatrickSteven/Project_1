@@ -86,7 +86,7 @@ namespace Project_1.Models
             }
         }
 
-        public static int Validate(Usuario usuario)
+        public static int Validate(UsuarioLogIn usuario)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -94,11 +94,11 @@ namespace Project_1.Models
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPI_Usuario_Validate";
+                cmd.CommandText = "dbo.SPS_Usuario_Validate";
                 cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = usuario.nombre;
                 cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = usuario.password;
-                cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+                cmd.Connection = connection;
 
                 try
                 {
@@ -122,7 +122,7 @@ namespace Project_1.Models
             }
         }
 
-        public static int Detail(Usuario usuario)
+        public static Usuario Detail(UsuarioLogIn usuario)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -130,18 +130,26 @@ namespace Project_1.Models
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SPI_Usuario_Validate";
+                cmd.CommandText = "dbo.SPS_Usuario_Detail";
                 cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = usuario.nombre;
                 cmd.Parameters.Add("@password", SqlDbType.VarChar).Value = usuario.password;
                 cmd.Connection = connection;
-                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
-
+                Usuario newUsuario;
                 try
                 {
                     connection.Open();
-                    cmd.ExecuteNonQuery();
-                    retval = (int)cmd.Parameters["@retValue"].Value;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                            reader.Read();
+                            newUsuario = new  Usuario()
+                            {
+                                nombre = reader.GetString(0),
+                                password = reader.GetString(1),
+                                tipoUsuario = reader.GetString(2)
 
+                            };
+
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -154,7 +162,7 @@ namespace Project_1.Models
                     connection.Close();
                 }
 
-                return retval; // execute not accomplish
+                return newUsuario; // execute not accomplish
             }
         }
     }

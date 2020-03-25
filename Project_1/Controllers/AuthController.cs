@@ -23,7 +23,7 @@ namespace Project_1.Controllers
         }
 
         [HttpPost]
-        public ActionResult LogIn(UsuarioLogIn model)
+        public ActionResult LogIn(UsuarioLogIn usuarioLogin)
         {
             if (!ModelState.IsValid) //Validate user model
             {
@@ -31,12 +31,15 @@ namespace Project_1.Controllers
             }
 
             //Validate user authentication
-            if (model.nombre == "admin" && model.password == "password") 
-            {
+            //Si el valor retornado por la validacion del usuario no esta contenida en el diccionario de errores
+            int retval = Usuario_Conexion.Validate(usuarioLogin);
+            if (!ErrorCodes.errorCodes.ContainsKey(retval)) 
+            {   
+                //Ahora buscamos en la base de datos al usuario correspondiente 
+                Usuario usuario = Usuario_Conexion.Detail(usuarioLogin);
                 var identity = new ClaimsIdentity(new[] {
-                        new Claim(ClaimTypes.Name, model.nombre),
-                        new Claim(ClaimTypes.Email, "a@b.com"),
-                        new Claim(ClaimTypes.Country, "England")
+                        new Claim(ClaimTypes.Name, usuario.nombre),
+                        new Claim(ClaimTypes.Role, usuario.tipoUsuario),
                     },
                     "ApplicationCookie");
 
@@ -45,12 +48,12 @@ namespace Project_1.Controllers
                 var authManager = ctx.Authentication;
                 authManager.SignIn(identity);
 
-                return Redirect(GetRedirectUrl(model.ReturnUrl));
+                return Redirect(GetRedirectUrl(usuarioLogin.ReturnUrl));
             }
 
             
             // user auth failed
-            ModelState.AddModelError("", "Invalid email or password");
+            ModelState.AddModelError("", ErrorCodes.errorCodes[retval]); //Return Error String
             return View();
         }
         
