@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Configuration;
 // imports
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
-using System.Drawing.Printing;
-using System.Net.Http.Headers;
-using System.Runtime.Remoting.Messaging;
 
 namespace Project_1.Models
 {
@@ -33,7 +28,7 @@ namespace Project_1.Models
                 {
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    retval = (int)cmd.Parameters["@retValue"].Value;   
+                    retval = (int)cmd.Parameters["@retValue"].Value;
 
                 }
                 catch (Exception ex)
@@ -63,13 +58,13 @@ namespace Project_1.Models
                 cmd.CommandText = "dbo.SPD_Propiedad";
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
                 cmd.Connection = connection;
-                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+                cmd.Parameters.Add("@retValue1", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 
                 try
                 {
                     connection.Open();
                     cmd.ExecuteNonQuery();
-                    retval = (int)cmd.Parameters["@retValue"].Value;
+                    retval = (int)cmd.Parameters["@retValue1"].Value;
 
                 }
                 catch (Exception ex)
@@ -134,11 +129,11 @@ namespace Project_1.Models
                 cmd.Connection = connection;
                 var list = new List<Propiedad>();
                 try
-                {   
+                {
                     connection.Open();
                     using (var reader = cmd.ExecuteReader())
                     {
-                        
+
                         while (reader.Read())
                             list.Add(new Propiedad()
                             {

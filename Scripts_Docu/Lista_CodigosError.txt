@@ -9,4 +9,8 @@ codigo -16 : 'Usuario no registrado'
 codigo -17 : 'Usuario no registrado y Propiedad no registrado en la base de datos'
 codigo -18 : 'Propiedad o Concepto de Cobro no encontrado'
 codigo -19 : 'Recibo de Cobro no encontrado'
+codigo -20 : 'Propiedad o Concepto de Cobro no encontrado'
+codigo -21 : 'Concepto de Cobro en Propiedad ya registrado'
+codigo -22 : 'Propiedad no registrada' 
+codigo -23 : 'Concepto de Cobro en Propiedad no registrado'
 
