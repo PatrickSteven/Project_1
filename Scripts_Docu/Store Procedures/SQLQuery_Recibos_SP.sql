@@ -51,6 +51,9 @@ BEGIN
 	DELETE FROM dbo.Recibos WHERE idPropiedad = @idPropiedad
 END
 
+--Select
+
+
 --PRueba
 
 EXECUTE SPI_Recibos '2020-05-19', '2020-06-19', 10000, 1, 'Electricidad', 0 

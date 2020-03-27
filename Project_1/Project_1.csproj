@@ -160,6 +160,8 @@
     </Compile>
     <Compile Include="Models\Authentication\AppUser.cs" />
     <Compile Include="Models\Authentication\Roles.cs" />
+    <Compile Include="Models\Concepto_De_Cobro_En_Propiedad\Concepto_De_Cobro_En_Propiedad_Conexion.cs" />
+    <Compile Include="Models\Concepto_De_Cobro_En_Propiedad\Concepto_De_Cobro_En_Propiedad.cs" />
     <Compile Include="Models\CustomValidations\PropietarioJuridicoValidation.cs" />
     <Compile Include="Models\ErrorCodes\ErrorCodes.cs" />
     <Compile Include="Models\Propietario\Propietario.cs" />

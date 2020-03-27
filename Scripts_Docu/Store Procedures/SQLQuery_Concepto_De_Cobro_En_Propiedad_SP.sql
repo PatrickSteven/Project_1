@@ -78,11 +78,83 @@ BEGIN
 		UPDATE dbo.Concepto_Cobro_en_Propiedad SET fechaFin = @fechaFin WHERE idPropiedad = @idPropiedad AND idConeceptoCobro = @idConceptoCobro
 END
 
+--Select
+CREATE PROCEDURE [dbo].[SPS_Concepto_De_Cobro_En_Propiedad]
+@numeroFinca int,
+@TipoCC varchar(100)
+AS
+BEGIN
+	DECLARE @idPropiedad int, @retValue int;
+	SELECT @idPropiedad = id from dbo.Propiedad WHERE numeroFinca = @numeroFinca
+	IF @idPropiedad is null
+		BEGIN
+			RAISERROR('Propiedad no encontrada',10,1)
+			SET @retValue = -10;
+		END
+	ELSE
+	BEGIN
+		BEGIN
+			IF(@TipoCC = 'CC_Fijo')
+				BEGIN
+					select 
+					p.fechaInicio,
+					p.fechaFin,
+					c2.nombre,
+					c2.tasaInteresesMoratorios,
+					c2.DiaCobro,
+					c2.qDiasVencidos,
+					c2.EsFijo,
+					c2.EsRecurrente,
+					c.monto
+					from dbo.Concepto_Cobro_en_Propiedad p
+					inner join dbo.Concepto_Cobro c2 on p.idConeceptoCobro = c2.id
+					inner join dbo.CC_Fijo c on p.idConeceptoCobro = c.id
+					WHERE p.idPropiedad = @idPropiedad;
+				END
+			ELSE IF (@TipoCC = 'CC_Consumo')
+				BEGIN
+					select 
+					p.fechaInicio,
+					p.fechaFin,
+					c2.nombre,
+					c2.tasaInteresesMoratorios,
+					c2.DiaCobro,
+					c2.qDiasVencidos,
+					c2.EsFijo,
+					c2.EsRecurrente,
+					c.id
+					from dbo.Concepto_Cobro_en_Propiedad p
+					inner join dbo.Concepto_Cobro c2 on p.idConeceptoCobro = c2.id
+					inner join dbo.CC_Consumo c on p.idConeceptoCobro = c.id				
+					WHERE p.idPropiedad = @idPropiedad;
+				END
+			ELSE -- Intereses Moratorios
+				BEGIN 
+					select 
+					p.fechaInicio,
+					p.fechaFin,
+					c2.nombre,
+					c2.tasaInteresesMoratorios,
+					c2.DiaCobro,
+					c2.qDiasVencidos,
+					c2.EsFijo,
+					c2.EsRecurrente
+					from dbo.Concepto_Cobro_en_Propiedad p
+					inner join dbo.Concepto_Cobro c2 on p.idConeceptoCobro = c2.id
+					inner join dbo.CC_Intereses_Moratorios c on p.idConeceptoCobro = c.id					
+					WHERE p.idPropiedad = @idPropiedad;
+				END
+		END
+	END
+END
+
 --Pruebas
 select * from Propiedad
 select * from Concepto_Cobro
+select * from CC_Fijo
 select * from Concepto_Cobro_en_Propiedad
-EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad '2019-03-12', '2020-05-15', 'Electricidad', '0'
+EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '9009','CC_Fijo'
+EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad '2019-03-12', '2020-05-15', 'Electricidad', '9009'
 EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad 0, 'Electricidad'
 EXECUTE dbo.SPU_Concepto_De_Cobro_En_Propiedad 'Electricidad', '1', '2021-08-15'
 DROP PROCEDURE SPD_Concepto_De_Cobro_En_Propiedad
