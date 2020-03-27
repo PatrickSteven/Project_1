@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Roles = Project_1.Models.Authentication.Roles
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,30 +21,57 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Propiedad
-                        </a>
-                        <div class="dropdown-menu navbar-dark " aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Propiedad/Index">Seleccionar</a>
-                            <a class="dropdown-item" href="/Propiedad/InsertForm">Agregar</a>
-                            <a class="dropdown-item" href="/Propiedad/UpdateForm">Actualizar</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Propietarios
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/Propietario/Index/">Seleccionar</a>
-                            <a class="dropdown-item" href="/Propietario/InsertForm/">Agregar</a>
-                            <a class="dropdown-item" href="/Propietario/UpdateForm/">Actualizar</a>
+                    <!--Administrador-->
+                    @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Propiedad
+                            </a>
+                            <div class="dropdown-menu navbar-dark " aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/Propiedad/Index">Seleccionar</a>
+                                <a class="dropdown-item" href="/Propiedad/InsertForm">Agregar</a>
+                                <a class="dropdown-item" href="/Propiedad/UpdateForm">Actualizar</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Propietarios
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/Propietario/Index/">Seleccionar</a>
+                                <a class="dropdown-item" href="/Propietario/InsertForm/">Agregar</a>
+                                <a class="dropdown-item" href="/Propietario/UpdateForm/">Actualizar</a>
 
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("LogOut", "Auth")">Log Out</a>
-                    </li>
+                            </div>
+                        </li>
+                    }
+
+                    <!--Usuario Regular-->
+                    @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.usuario)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Mis Propiedades
+                            </a>
+                            <div class="dropdown-menu navbar-dark " aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Seleccionar</a>
+                                <a class="dropdown-item" href="#">Pagar</a>
+                                <a class="dropdown-item" href="#">Recibos</a>
+                            </div>
+                        </li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("LogOut", "Auth")">Log Out</a>
+                        </li>
+                        <span class="navbar-text">
+                            @CurrentUser.Name
+                        </span>
+                    }
+
                 </ul>
             </div>
         </nav>

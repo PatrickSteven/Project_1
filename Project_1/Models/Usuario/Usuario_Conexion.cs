@@ -127,7 +127,6 @@ namespace Project_1.Models
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
                 int retval;
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPS_Usuario_Detail";

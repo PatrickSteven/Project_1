@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Project_1.Models;
+using Project_1.Models.Authentication;
 using Project_1.Models.Propietario_Juridico;
 using Project_1.Models.TipoDocId;
 using Project_1.ViewModels;
@@ -11,6 +12,7 @@ using Project_1.ViewModels.Propietario;
 
 namespace Project_1.Controllers
 {
+    [Authorize(Roles = Roles.administrador)]
     public class PropietarioController : Controller
     {
         // GET: Propietario

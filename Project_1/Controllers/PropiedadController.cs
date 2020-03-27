@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Project_1.Models;
+using Project_1.Models.Authentication;
 using Project_1.ViewModels;
 using Project_1.ViewModels.Propiedad;
 
 namespace Project_1.Controllers
 {
-    public class PropiedadController : Controller
+    [Authorize(Roles = Roles.administrador)]
+    public class PropiedadController : AppController
     {
         // GET: Propiedad
         //Select Propiedad
+
         public ActionResult Index()
         {
+
             List<Propiedad> listPropiedades = Propiedad_Conexion.Select();
             PropiedadIndexViewModel propiedadIndex = new PropiedadIndexViewModel()
             {
                 propiedades = listPropiedades
             };
-            
+
             return View(propiedadIndex);
+        
         }
 
         //Insertar Propiedad 
@@ -92,7 +98,6 @@ namespace Project_1.Controllers
         {
             var code = Propiedad_Conexion.Delete(numeroFinca);
         }
-
 
         [Route("Propiedad/Detail/{numeroFinca}")]
         public ActionResult Detail(int numeroFinca)

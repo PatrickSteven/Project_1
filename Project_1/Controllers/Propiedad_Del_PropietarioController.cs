@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime;
 using Project_1.Models;
+using Project_1.Models.Authentication;
 
 namespace Project_1.Controllers
 {
+    [Authorize(Roles = Roles.administrador)]
     public class Propiedad_Del_PropietarioController : Controller
     {   
         [Route("PropiedadDelPropietario/Despropiar/{numeroFinca}/{valorDocId}")]

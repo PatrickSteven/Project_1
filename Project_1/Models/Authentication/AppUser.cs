@@ -21,11 +21,11 @@ namespace Project_1.Models
             }
         }
 
-        public string Country
+        public string Role
         {
             get
             {
-                return this.FindFirst(ClaimTypes.Country).Value;
+                return this.FindFirst(ClaimTypes.Role).Value;
             }
         }
     }
