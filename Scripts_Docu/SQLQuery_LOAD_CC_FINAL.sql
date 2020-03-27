@@ -37,7 +37,7 @@ INSERT INTO dbo.CC_Consumo ( id,valor)
 SELECT id,ValorM3
 FROM OPENXML (@hdoc, '/note/conceptocobro', 1)
 WITH(	id int,
-		ValorM3 int,
+		ValorM3 Int32,
 		TipoCC varchar(50))
 WHERE TipoCC = 'CC Consumo';
 

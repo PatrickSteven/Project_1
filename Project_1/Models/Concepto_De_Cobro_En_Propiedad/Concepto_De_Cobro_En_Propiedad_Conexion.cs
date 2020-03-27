@@ -114,7 +114,7 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
                                 diaVencido = reader.GetInt32(4),
                                 esFijo = reader.GetString(5),
                                 esRecurrete = reader.GetString(6),
-                                monto = reader.GetFloat(7),
+                                monto = reader.GetInt32(7),
                         });
                         }
                         
