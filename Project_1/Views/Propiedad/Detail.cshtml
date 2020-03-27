@@ -44,10 +44,12 @@
 </div>
 
 <!--PROPIETARIOS-->
-<div>
-    <h3 class="my-4">Propietarios</h3>
-    <table id="propietario-table" class="table table-hover" style=" table-layout: fixed">
-        <thead class="thead-dark">
+@if (Model.propietarios.Any() == true)
+{
+    <div>
+        <h3 class="my-4">Propietarios</h3>
+        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
             <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Documento</th>
@@ -56,59 +58,148 @@
                 <th>Actualizar</th>
                 <th>Despropiar</th>
             </tr>
-        </thead>
-        @foreach (var propietario in Model.propietarios)
-        {
-            <tr>
-                <th>@propietario.nombre</th>
-                <td>@propietario.valorDocId</td>
-                <td>@propietario.nombreDocId</td>
-                <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
-                <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
-                <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete btn btn-outline-danger"></ion-icon></td>
-            </tr>
-        }
-    </table>
-</div>
+            </thead>
+            @foreach (var propietario in Model.propietarios)
+            {
+                <tr>
+                    <th>@propietario.nombre</th>
+                    <td>@propietario.valorDocId</td>
+                    <td>@propietario.nombreDocId</td>
+                    <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete btn btn-outline-danger"></ion-icon></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
 
 
 <!--CC_FIjo-->
-<div>
-    <h3 class="my-4">Conceptos de Cobro Fijo</h3>
-    <table id="propietario-table" class="table table-hover" style=" table-layout: fixed">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">Fecha Incio</th>
-                <th scope="col">Fecha Fin</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Día cobro</th>
-                <th scope="col">Día vencimiento</th>
-                <th scope="col">Es fijo</th>
-                <th scope="col">Es recurrente</th>
-                <th scope="col">Monto</th>
-                <th>Ver</th>
-                <th>Modificar</th>
-                <th>Cancelar</th>
-            </tr>
-        </thead>
-        @foreach (var concepto in Model.CC_Fijo)
-        {
-    <tr>
-        <td>@concepto.fechaInicio</td>
-        <td>@concepto.fechaFin</td>
-        <td>@concepto.nombreCC</td>
-        <td>@concepto.diaCobro</td>
-        <td>@concepto.diaVencido</td>
-        <td>@concepto.esFijo</td>
-        <td>@concepto.esRecurrete</td>
-        <td>@concepto.monto</td>
-        <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-        <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-        <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-    </tr>
-        }
-    </table>
-</div>
+
+@if (Model.CC_Fijo.Any() == true)
+{
+    <div>
+        <h3 class="my-4">Conceptos de Cobro Fijo</h3>
+        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha Incio</th>
+                    <th scope="col">Fecha Fin</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Día cobro</th>
+                    <th scope="col">Día vencimiento</th>
+                    <th scope="col">Es fijo</th>
+                    <th scope="col">Es recurrente</th>
+                    <th scope="col">Monto</th>
+                    <th>Ver</th>
+                    <th>Modificar</th>
+                    <th>Cancelar</th>
+                </tr>
+            </thead>
+            @foreach (var concepto in Model.CC_Fijo)
+            {
+                <tr>
+                    <td>@concepto.fechaInicio</td>
+                    <td>@concepto.fechaFin</td>
+                    <td>@concepto.nombreCC</td>
+                    <td>@concepto.diaCobro</td>
+                    <td>@concepto.diaVencido</td>
+                    <td>@concepto.esFijo</td>
+                    <td>@concepto.esRecurrete</td>
+                    <td>@concepto.monto</td>
+                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+<!--CC_Consumo-->
+
+@if (Model.CC_Consumo.Any() == true)
+{
+    <div>
+        <h3 class="my-4">Conceptos de Cobro Consumo</h3>
+        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha Incio</th>
+                    <th scope="col">Fecha Fin</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Día cobro</th>
+                    <th scope="col">Día vencimiento</th>
+                    <th scope="col">Es fijo</th>
+                    <th scope="col">Es recurrente</th>
+                    <th scope="col">Valor</th>
+                    <th>Ver</th>
+                    <th>Modificar</th>
+                    <th>Cancelar</th>
+                </tr>
+            </thead>
+            @foreach (var concepto in Model.CC_Consumo)
+            {
+                <tr>
+                    <td>@concepto.fechaInicio</td>
+                    <td>@concepto.fechaFin</td>
+                    <td>@concepto.nombreCC</td>
+                    <td>@concepto.diaCobro</td>
+                    <td>@concepto.diaVencido</td>
+                    <td>@concepto.esFijo</td>
+                    <td>@concepto.esRecurrete</td>
+                    <td>@concepto.valor</td>
+                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+
+<!--CC_Intereses_Moratorios-->
+
+@if (Model.CC_Intereses_Moratiorios.Any() == true)
+{
+    <div>
+        <h3 class="my-4">Conceptos de Cobro Intereses_Moratorios</h3>
+        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha Incio</th>
+                    <th scope="col">Fecha Fin</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Día cobro</th>
+                    <th scope="col">Día vencimiento</th>
+                    <th scope="col">Es fijo</th>
+                    <th scope="col">Es recurrente</th>
+                    <th>Ver</th>
+                    <th>Modificar</th>
+                    <th>Cancelar</th>
+                </tr>
+            </thead>
+            @foreach (var concepto in Model.CC_Intereses_Moratiorios)
+            {
+                <tr>
+                    <td>@concepto.fechaInicio</td>
+                    <td>@concepto.fechaFin</td>
+                    <td>@concepto.nombreCC</td>
+                    <td>@concepto.diaCobro</td>
+                    <td>@concepto.diaVencido</td>
+                    <td>@concepto.esFijo</td>
+                    <td>@concepto.esRecurrete</td>
+                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
 
 
 @section scripts{

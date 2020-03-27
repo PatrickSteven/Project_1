@@ -7,6 +7,7 @@ using System.Configuration;
 // imports
 using System.Data;
 using System.Data.SqlClient;
+using Project_1.Models.Coneptos_De_Cobro;
 
 namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 {
@@ -103,21 +104,57 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
                     connection.Open();
                     using (var reader = cmd.ExecuteReader())
                     {
-
-                        while (reader.Read())
+                        if (tipoCC == Tipo_CC.Fijo)
                         {
-                            listaConceptoDeCobro.Add( new Concepto_De_Cobro_En_Propiedad(){
-                                fechaInicio = reader.GetDateTime(0),
-                                fechaFin = reader.GetDateTime(1), 
-                                nombreCC = reader.GetString(2),
-                                diaCobro = reader.GetInt32(3),
-                                diaVencido = reader.GetInt32(4),
-                                esFijo = reader.GetString(5),
-                                esRecurrete = reader.GetString(6),
-                                monto = reader.GetInt32(7),
-                        });
+                            while (reader.Read())
+                            {
+                                listaConceptoDeCobro.Add(new Concepto_De_Cobro_En_Propiedad()
+                                {
+                                    fechaInicio = reader.GetDateTime(0),
+                                    fechaFin = reader.GetDateTime(1),
+                                    nombreCC = reader.GetString(2),
+                                    diaCobro = reader.GetInt32(3),
+                                    diaVencido = reader.GetInt32(4),
+                                    esFijo = reader.GetString(5),
+                                    esRecurrete = reader.GetString(6),
+                                    monto = reader.GetInt32(7),
+                                });
+                            }
                         }
-                        
+                        else if (tipoCC == Tipo_CC.Consumo)
+                        {
+                            while (reader.Read())
+                            {
+                                listaConceptoDeCobro.Add(new Concepto_De_Cobro_En_Propiedad()
+                                {
+                                    fechaInicio = reader.GetDateTime(0),
+                                    fechaFin = reader.GetDateTime(1),
+                                    nombreCC = reader.GetString(2),
+                                    diaCobro = reader.GetInt32(3),
+                                    diaVencido = reader.GetInt32(4),
+                                    esFijo = reader.GetString(5),
+                                    esRecurrete = reader.GetString(6),
+                                    valor = reader.GetInt32(7),
+                                });
+                            }
+                        }
+                        else
+                        {
+                            while (reader.Read())
+                            {
+                                listaConceptoDeCobro.Add(new Concepto_De_Cobro_En_Propiedad()
+                                {
+                                    fechaInicio = reader.GetDateTime(0),
+                                    fechaFin = reader.GetDateTime(1),
+                                    nombreCC = reader.GetString(2),
+                                    diaCobro = reader.GetInt32(3),
+                                    diaVencido = reader.GetInt32(4),
+                                    esFijo = reader.GetString(5),
+                                    esRecurrete = reader.GetString(6),
+                                });
+                            }
+                        }
+
                     }
                 }
                 catch (Exception ex)
