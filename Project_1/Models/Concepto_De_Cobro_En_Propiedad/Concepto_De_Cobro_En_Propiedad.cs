@@ -9,9 +9,14 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 {
     public class Concepto_De_Cobro_En_Propiedad
     {
-        
+
 
         // Concepto de Cobro
+
+
+        [Display(Name = "Numero de Finca")]
+        [Required]
+        public int numeroFinca { get; set; }
 
         [Display(Name = "Fecha Inicio")]
         [Required]
@@ -39,20 +44,20 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 
         [Display(Name = "Es Fijo")]
         [Required]
-        public bool esFijo { get; set; }
+        public string esFijo { get; set; }
 
         [Display(Name = "Es Recurrente")]
         [Required]
-        public bool esRecurrete { get; set; }
+        public string esRecurrete { get; set; }
 
 
         // CC_Fijo
         [Display(Name = "Monto")]
-        public SqlMoney monto { get; set; }
+        public float monto { get; set; }
 
         //CC_Consumo
         [Display(Name = "Valor")]
-        public SqlMoney valor { get; set; }
+        public float valor { get; set; }
 
         
         

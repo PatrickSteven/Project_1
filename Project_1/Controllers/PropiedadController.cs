@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Project_1.Models;
 using Project_1.Models.Authentication;
+using Project_1.Models.Concepto_De_Cobro_En_Propiedad;
+using Project_1.Models.Coneptos_De_Cobro;
 using Project_1.ViewModels;
 using Project_1.ViewModels.Propiedad;
 
@@ -104,10 +106,18 @@ namespace Project_1.Controllers
         {
             Propiedad propiedad = Propiedad_Conexion.SelectPropiedad(numeroFinca);
             List<Propietario> propietarios = Propiedad_del_Propietario_Conexion.SelectPropiedadDetail(numeroFinca);
+            List<Concepto_De_Cobro_En_Propiedad> CC_Fijo = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Fijo);
+            List<Concepto_De_Cobro_En_Propiedad> CC_Consumo = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Consumo);
+            List<Concepto_De_Cobro_En_Propiedad> CC_Intereses_Moratiorios = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Intereses_Moratorios);
+
+
             PropiedadDetailViewModel propiedadDetail = new PropiedadDetailViewModel()
             {
                 propiedad = propiedad,
-                propietarios = propietarios
+                propietarios = propietarios,
+                CC_Fijo = CC_Fijo,
+                CC_Consumo =  CC_Consumo,
+                CC_Intereses_Moratiorios = CC_Intereses_Moratiorios
             };
 
             return View(propiedadDetail);

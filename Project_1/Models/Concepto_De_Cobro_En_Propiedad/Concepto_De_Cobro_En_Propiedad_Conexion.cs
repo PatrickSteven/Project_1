@@ -87,7 +87,7 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
             }
         }
 
-        public static Propietario Select(int numeroFinca, String tipoCC)
+        public static List<Concepto_De_Cobro_En_Propiedad> Select(int numeroFinca, String tipoCC)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -97,24 +97,27 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
                 cmd.Parameters.Add("@TipoCC", SqlDbType.VarChar).Value = tipoCC;
                 cmd.Connection = connection;
-                var conceptoDeCobro = new Concepto_De_Cobro_En_Propiedad();
+                var listaConceptoDeCobro = new List<Concepto_De_Cobro_En_Propiedad>();
                 try
                 {
                     connection.Open();
                     using (var reader = cmd.ExecuteReader())
                     {
 
-                        reader.Read();
-                        conceptoDeCobro.fechaInicio = reader.GetDateTime(0);
-                        conceptoDeCobro.fechaFin = reader.GetDateTime(1);
-                        conceptoDeCobro.nombreCC = reader.GetString(2);
-                        conceptoDeCobro.interesesMoratorios = reader.GetInt32(3);
-                        conceptoDeCobro.diaCobro = reader.GetInt32(4);
-                        conceptoDeCobro.diaVencido = reader.GetInt32(5);
-                        conceptoDeCobro.esFijo = reader.GetBoolean(6);
-                        conceptoDeCobro.esRecurrete = reader.GetBoolean(7);
-                        conceptoDeCobro.monto = reader.GetSqlMoney(8);
-
+                        while (reader.Read())
+                        {
+                            listaConceptoDeCobro.Add( new Concepto_De_Cobro_En_Propiedad(){
+                                fechaInicio = reader.GetDateTime(0),
+                                fechaFin = reader.GetDateTime(1), 
+                                nombreCC = reader.GetString(2),
+                                diaCobro = reader.GetInt32(3),
+                                diaVencido = reader.GetInt32(4),
+                                esFijo = reader.GetString(5),
+                                esRecurrete = reader.GetString(6),
+                                monto = reader.GetFloat(7),
+                        });
+                        }
+                        
                     }
                 }
                 catch (Exception ex)
@@ -127,7 +130,7 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
                     connection.Close();
                 }
 
-                return propietario; // execute not accomplish
+                return listaConceptoDeCobro; // execute not accomplish
             }
         }
     }
