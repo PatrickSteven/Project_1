@@ -191,6 +191,8 @@
     <Compile Include="ViewModels\Propietario\PropietarioDetailViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioIndexViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioInsertViewModel.cs" />
+    <Compile Include="ViewModels\Usuario\UsuarioDetailViewModel.cs" />
+    <Compile Include="ViewModels\Usuario\UsuarioIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database1.mdf" />
@@ -582,6 +584,9 @@
     <Content Include="Views\Propietario\Detail.cshtml" />
     <Content Include="Views\Propiedad\Detail.cshtml" />
     <Content Include="Views\Auth\LogIn.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\InsertForm.cshtml" />
+    <Content Include="Views\Usuario\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -597,7 +602,6 @@
   <ItemGroup>
     <Folder Include="Views\App\" />
     <Folder Include="Views\Propiedad_Del_Propietario\" />
-    <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

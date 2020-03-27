@@ -1,0 +1,83 @@
+﻿@model Project_1.ViewModels.UsuarioIndexViewModel
+@{
+    ViewBag.Title = "Usuarios";
+}
+
+<div class="jumbotron">
+    <h3 class="display-4">Usuarios</h3>
+    <p class="lead"></p>
+    <hr class="my-4">
+    <p class="lead">
+        <button class="btn btn-outline-dark" role="button">
+            @Html.ActionLink("Agregar", "InsertForm", "Usuario")
+            <ion-icon name="add-outline"></ion-icon>
+        </button>
+    </p>
+</div>
+
+
+<table id="usuario-table" class="table table-hover" style=" table-layout: fixed">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nombre de usuario</th>
+            <th scope="col">Contraseña</th>
+            <th scope="col">Tipo de usuario</th>
+            <th>Propiedades suscritas</th>
+            <th>Eliminar usuario</th>
+        </tr>
+    </thead>
+    @foreach (var usuario in Model.usuarios)
+    {
+        <tr>
+            <th>@usuario.nombre</th>
+            <td>@usuario.password</td>
+            <td>@usuario.tipoUsuario</td>
+            <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person-circle-sharp" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+            <td><ion-icon usuario-nombre = "@usuario.nombre" name="trash-outline" class="js-delete btn btn-outline-danger"></ion-icon></td>
+        </tr>
+    }
+</table>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $("#usuario-table").DataTable();
+
+            $("#usuario-table").on("click", ".js-delete",
+                function() {
+                    var deleteButton = $(this);
+
+                    bootbox.confirm({
+                        message: "¿Desea eliminar este usuario de la base de datos ?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: "/Usuario/Delete/" + deleteButton.attr("usuario-nombre"),
+                                    success: function () {
+                                        
+                                        deleteButton.parents("tr").remove();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+        });
+    </script>
+}
+
+
