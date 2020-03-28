@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Project_1.Models;
 using Project_1.Models.Authentication;
 using Project_1.ViewModels;
+using Project_1.ViewModels.Usuario;
 
 namespace Project_1.Controllers
 {
@@ -53,9 +54,16 @@ namespace Project_1.Controllers
             Usuario_Conexion.Delete(nombre);
         }
 
+        [Route("Usuario/Detail/{nombre}")]
         public ActionResult Detail(string nombre)
         {
-            return View();
+            UsuarioDetailViewModel usuarioDetail = new UsuarioDetailViewModel()
+            {
+                propiedades = Usuario_de_Propiedad_Conexion.SelectUsuarioDetail(nombre),
+                nombre = nombre
+            };
+
+            return View(usuarioDetail);
         }
     }
 }

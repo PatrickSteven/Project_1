@@ -1,7 +1,197 @@
-﻿
+﻿@model Project_1.ViewModels.Usuario.UsuarioDetailViewModel
 @{
     ViewBag.Title = "Detail";
 }
 
-<h2>Detail</h2>
+<!--INFO-->
+<div class="usuario-info jumbotron">
+    <h3 class="display-4">@Model.nombre</h3>
+    <hr class="my-4">
+    <p class="lead">
+        <button class="suscribir-propiedad btn btn-sm btn-dark" role="button">
+            <a class="apropiar-propiedad-form" class="text-white">
+                Suscribir propiedad
+                <ion-icon name="arrow-up-outline"></ion-icon>
+            </a>
+        </button>
+        <button class="btn btn-sm btn-dark" role="button">
+            @Html.ActionLink(
+                "Borrar Usuario",
+                "Delete",
+                "Usuario",
+                new { @Model.nombre },
+                new { @class = "text-danger" })
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </button>
+    </p>
+</div>
 
+<!--PROPIEDADES-->
+<div class="propiedades-del-usuario">
+    
+
+    <div class="suscribir-propiedad-form my-5" style="display: none">
+
+        <h3 class="my-4">Suscribir propiedad</h3>
+
+        <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Cuidado!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Realizado,</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <div class="input-group mb-3" readonly>
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">@Html.LabelFor(m => m.nombre)</span>
+            </div>
+            @Html.TextBoxFor(m => m.usuario_de_propiedad.nombre, new { @Value = @Model.nombre, @class = "form-control", aria_describedby = "basic-addon1" })
+            @Html.ValidationMessageFor(m => m.usuario_de_propiedad.nombre)
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"> @Html.LabelFor(m => m.usuario_de_propiedad.numeroFinca)</span>
+            </div>
+            @Html.TextBoxFor(m => m.usuario_de_propiedad.numeroFinca, new { @class = "form-control", placeholder = "Numero de Finca", aria_describedby = "basic-addon1" })
+            @Html.ValidationMessageFor(m => m.usuario_de_propiedad.numeroFinca)
+        </div>
+        <button type="submit" class="btn-suscribir btn btn-primary" id="button-addon2">Suscribir</button>
+    </div>
+    
+    
+    <!--Propiedades del usuario-->
+    <h3 class="my-4">Propiedades suscritas</h3>
+
+    <table id="propiedad-table" class="table table-hover" style="table-layout: fixed">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Numero de Finca</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Direccion</th>
+                <th>Ver</th>
+                <th>Actualizar</th>
+                <th>Despropiar</th>
+            </tr>
+        </thead>
+
+        @foreach (var propiedad in Model.propiedades)
+        {
+            <tr>
+                <th>@propiedad.numeroFinca</th>
+                <td>@propiedad.valor</td>
+                <td>@propiedad.direccion</td>
+                <td><a href="~/Propiedad/Detail/@propiedad.numeroFinca"><ion-icon name="home-outline" class="js-update btn btn-outline-info"></ion-icon></a></td>
+                <td><a href="~/Propiedad/UpdateRedirect/@propiedad.numeroFinca"><ion-icon name="caret-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                <td><ion-icon name="thumbs-down-outline" propiedad-data= "@propiedad.numeroFinca" class="js-delete btn btn-outline-danger"></ion-icon></td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+
+@section scripts{
+    <script>
+
+        $(document).ready(function() {
+            var warningDiv = $("div.warning-message");
+            var successfulDiv = $("div.successful-message");
+
+            $(".usuario-info").on("click", ".suscribir-propiedad",
+                function() {
+                    $("div.suscribir-propiedad-form").show();
+                    warningDiv.hide();
+                    successfulDiv.hide();
+                });
+
+            $(".suscribir-propiedad-form").on("click", ".btn-suscribir",
+                function () {
+
+
+                    if ($("#usuario_de_propiedad_nombre").val() &&
+                        $("#usuario_de_propiedad_numeroFinca").val()) {
+
+
+                        $.ajax({
+                            method: "POST",
+                            url: '@Url.Content("~/UsuarioDePropiedad/SuscribirPropiedad/")' +
+                                $("#usuario_de_propiedad_nombre").val() +
+                                "/" +
+                                $("#usuario_de_propiedad_numeroFinca").val(),
+                            success: function (retval) {
+                                if (retval == "Propiedad suscrita!") {
+                                    warningDiv.hide();
+                                    successfulDiv.show();
+                                    successfulDiv.append(retval);
+                                } else {
+                                    successfulDiv.hide();
+                                    warningDiv.show();
+                                    warningDiv.append(retval);
+                                }
+
+                            }
+                        });
+
+
+                    } else {
+
+                        successfulDiv.hide();
+                        warningDiv.show();
+                        warningDiv.append("Todos los campos son obligatiorios!");
+
+                    }
+
+                });
+
+
+            //Delete Button
+            $("#propiedad-table").on("click",
+                ".js-delete",
+                function() {
+                    var deleteButton = $(this);
+
+                    bootbox.confirm({
+                        message: "¿Desea desuscribir a @Model.nombre de esta propiedad?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: '@Url.Content("~/UsuarioDePropiedad/DesuscribirPropiedad/")' + "@Model.nombre" + "/" + deleteButton.attr("propiedad-data"),
+                                    success: function(retval) {
+                                        console.log(retval);
+                                        if (retval == "True") //Retorna True
+                                            deleteButton.parents("tr").remove();
+                                        else
+                                            console.log("Error al desuscribir");
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+        });
+    </script>
+}

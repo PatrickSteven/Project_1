@@ -34,7 +34,7 @@ BEGIN
 	EXECUTE dbo.SPD_Recibos @idPropiedad
 	EXECUTE dbo.SPD_Comprobante_Pago @idPropiedad
 	EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
-	EXECUTE dbo.SPD_Usuario_De_Propiedad @idPropiedad
+	EXECUTE dbo.SPD_Usuario_De_Propiedad null, @numeroFinca
 	DELETE FROM Propiedad WHERE numeroFinca = @numeroFinca
 END
 GO

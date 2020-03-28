@@ -20,7 +20,7 @@ namespace Project_1.Models
 
         [Display(Name = "Direccion")]
         [Required]
-        public String direccion { get; set; }
+        public string direccion { get; set; }
 
     }
 }

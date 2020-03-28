@@ -155,6 +155,7 @@
     <Compile Include="Controllers\Propiedad_Del_PropietarioController.cs" />
     <Compile Include="Controllers\PropietarioController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\Usuario_De_PropiedadController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -602,6 +603,7 @@
   <ItemGroup>
     <Folder Include="Views\App\" />
     <Folder Include="Views\Propiedad_Del_Propietario\" />
+    <Folder Include="Views\Usuario_De_Propiedad\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

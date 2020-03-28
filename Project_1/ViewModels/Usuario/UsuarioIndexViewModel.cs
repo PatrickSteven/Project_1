@@ -8,6 +8,6 @@ namespace Project_1.ViewModels
 {
     public class UsuarioIndexViewModel
     {
-        public List<Usuario> usuarios { get; set; } 
+        public List<Models.Usuario> usuarios { get; set; } 
     }
 }
