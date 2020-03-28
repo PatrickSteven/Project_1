@@ -95,8 +95,7 @@ namespace Project_1.Models
 
         public static List<Propiedad> SelectUsuarioDetail(string nombre)
         {
-            using (SqlConnection connection =
-                new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;

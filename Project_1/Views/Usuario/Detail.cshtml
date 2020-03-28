@@ -8,20 +8,11 @@
     <h3 class="display-4">@Model.nombre</h3>
     <hr class="my-4">
     <p class="lead">
-        <button class="suscribir-propiedad btn btn-sm btn-dark" role="button">
+        <button class="suscribir-propiedad btn btn-lg btn-dark" role="button">
             <a class="apropiar-propiedad-form" class="text-white">
                 Suscribir propiedad
                 <ion-icon name="arrow-up-outline"></ion-icon>
             </a>
-        </button>
-        <button class="btn btn-sm btn-dark" role="button">
-            @Html.ActionLink(
-                "Borrar Usuario",
-                "Delete",
-                "Usuario",
-                new { @Model.nombre },
-                new { @class = "text-danger" })
-            <ion-icon name="arrow-up-outline"></ion-icon>
         </button>
     </p>
 </div>

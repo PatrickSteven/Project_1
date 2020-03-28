@@ -62,14 +62,21 @@
                         },
                         callback: function(result) {
                             if (result) {
-                                $.ajax({
-                                    method: "POST",
-                                    url: "/Usuario/Delete/" + deleteButton.attr("usuario-nombre"),
-                                    success: function () {
-                                        
-                                        deleteButton.parents("tr").remove();
-                                    }
-                                });
+                                var nombre = deleteButton.attr("usuario-nombre");
+                                if (nombre != "admin" && nombre != "@CurrentUser.Name") {
+                                    $.ajax({
+                                        method: "POST",
+                                        url: "/Usuario/Delete/" + nombre,
+                                        success: function() {
+
+                                            deleteButton.parents("tr").remove();
+
+                                        }
+                                    });
+                                } else {
+                                    bootbox.alert("No puede eliminar este usuario!");
+                                }
+
                             }
                         }
                     });

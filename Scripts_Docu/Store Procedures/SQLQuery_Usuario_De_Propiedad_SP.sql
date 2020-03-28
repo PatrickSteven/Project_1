@@ -71,10 +71,12 @@ CREATE PROCEDURE [dbo].[SPS_Usuario_De_Propiedad_Detail_Propiedad]
 @numeroFinca int
 AS
 BEGIN
-	SELECT nombre, tipoUsuario FROM dbo.Usuario_de_Propiedad
+	DECLARE @idPropiedad int
+	SELECT @idPropiedad = id from dbo.Propiedad WHERE dbo.Propiedad.numeroFinca = @numeroFinca
+	
+	SELECT nombre, tipoUsuario from dbo.Usuario_de_Propiedad
 	JOIN dbo.Usuario ON dbo.Usuario_de_Propiedad.idUsuario = dbo.Usuario.id
-	JOIN dbo.Propiedad ON dbo.Usuario_de_Propiedad.idPropiedad = dbo.Propiedad.id
-	WHERE dbo.Propiedad.numeroFinca = @numeroFinca
+	WHERE dbo.Usuario_de_Propiedad.idPropiedad = @idPropiedad
 END
 
 
@@ -83,17 +85,18 @@ CREATE PROCEDURE [dbo].[SPS_Usuario_De_Propiedad_Detail_Usuario]
 @nombre NVARCHAR(50)
 AS
 BEGIN
+	DECLARE @idUsuario int
+	SELECT @idUsuario = id from dbo.Usuario WHERE dbo.Usuario.nombre = @nombre
 	SELECT numeroFinca, valor, direccion FROM dbo.Usuario_de_Propiedad
-	JOIN dbo.Usuario ON dbo.Usuario_de_Propiedad.idUsuario = dbo.Usuario.id
 	JOIN dbo.Propiedad ON dbo.Usuario_de_Propiedad.idPropiedad = dbo.Propiedad.id
-	WHERE dbo.Usuario.nombre = nombre
+	WHERE dbo.Usuario_de_Propiedad.idUsuario = @idUsuario
 END
 
 --Prueba
 DROP PROCEDURE SPD_Usuario_De_Propiedad
 SELECT * FROM Propiedad
-EXECUTE SPI_Usuario_De_Propiedad "usuario", 9009
+EXECUTE SPI_Usuario_De_Propiedad "admin", 9009
 SELECT * FROM Usuario
 select * from Usuario_de_Propiedad
-EXECUTE SPD_Usuario_De_Propiedad "admin", 9009
+EXECUTE SPD_Usuario_De_Propiedad "usuario", 9009
 EXECUTE SPS_Usuario_De_Propiedad_Detail_Usuario "admin"
