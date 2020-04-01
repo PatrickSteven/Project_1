@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Project_1.Models;
 using Project_1.Models.Authentication;
+using Project_1.ViewModels;
+using Project_1.ViewModels.Usuario;
 
 namespace Project_1.Controllers
 {
@@ -12,8 +15,55 @@ namespace Project_1.Controllers
     {
         // GET: Usuario
         public ActionResult Index()
-        {   
-            return View();
+        {
+            var usuarios = new UsuarioIndexViewModel()
+            {
+                usuarios = Usuario_Conexion.@select()
+            };
+
+            return View(usuarios);
+        }
+
+        public ActionResult InsertForm()
+        {
+            return View(new Usuario());
+        }
+
+        [HttpPost]
+        public ActionResult Insert(Usuario usuario)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("InsertForm", usuario);
+            }
+
+            int retval = Usuario_Conexion.Insert(usuario);
+            if (ErrorCodes.errorCodes.ContainsKey(retval))
+            {
+                TempData["WarningMessage"] = ErrorCodes.errorCodes[retval];
+                return View("InsertForm", usuario);
+            }
+
+            TempData["SuccessfulMessage"] = "Usuario agregado";
+            return View("InsertForm", new Usuario());
+        }
+
+        [Route("Usuario/Delete/{nombre}")]
+        public void Delete(string nombre)
+        {
+            Usuario_Conexion.Delete(nombre);
+        }
+
+        [Route("Usuario/Detail/{nombre}")]
+        public ActionResult Detail(string nombre)
+        {
+            UsuarioDetailViewModel usuarioDetail = new UsuarioDetailViewModel()
+            {
+                propiedades = Usuario_de_Propiedad_Conexion.SelectUsuarioDetail(nombre),
+                nombre = nombre
+            };
+
+            return View(usuarioDetail);
         }
     }
 }

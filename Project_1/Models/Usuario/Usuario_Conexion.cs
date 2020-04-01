@@ -51,7 +51,7 @@ namespace Project_1.Models
             }
         }
 
-        public static int Delete(Usuario usuario)
+        public static int Delete(string nombre)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -60,7 +60,7 @@ namespace Project_1.Models
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPD_Usuario";
-                cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = usuario.nombre;
+                cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = nombre;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 
@@ -85,6 +85,49 @@ namespace Project_1.Models
                 return retval; // execute not accomplish
             }
         }
+
+        public static List<Usuario> select()
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                int retval;
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_Usuario";
+                cmd.Connection = connection;
+                List<Usuario> usuarios = new List<Usuario>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                            usuarios.Add(new Usuario()
+                            {
+                                nombre = reader.GetString(0),
+                                password = reader.GetString(1),
+                                tipoUsuario = reader.GetString(2)
+                            });
+                    }
+
+                }
+                catch (Exception)
+                {
+                    retval = -1;
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return usuarios; // execute not accomplish
+            }
+        }
+
 
         public static int Validate(UsuarioLogIn usuario)
         {

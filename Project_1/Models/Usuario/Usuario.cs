@@ -23,7 +23,5 @@ namespace Project_1.Models
         [DataType(DataType.Text)]
         [Required]
         public String nombre { get; set; }
-
-        public List<int> propiedades { get; set; }
     }
 }

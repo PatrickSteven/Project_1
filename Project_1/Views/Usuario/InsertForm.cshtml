@@ -1,0 +1,90 @@
+﻿@using Roles = Project_1.Models.Authentication.Roles
+@model Project_1.Models.Usuario
+@{
+    ViewBag.Title = "InsertForm";
+}
+
+<h2>Agregar Usuario</h2>
+
+@using (Html.BeginForm("Insert", "Usuario"))
+{
+    <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Error!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Nueva</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    @Html.LabelFor(m => m.nombre)
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"></span>
+        </div>
+        @Html.TextBoxFor(m => m.nombre, new { @class = "form-control", placeholder = "Nombre de Usuario", aria_describedby = "basic-addon1" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.nombre)</button>
+    </div>
+
+
+    @Html.LabelFor(m => m.password)
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"></span>
+        </div>
+        @Html.TextBoxFor(m => m.password, new { @class = "form-control", placeholder = "Contraseña", aria_describedby = "basic-addon1" })
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.password)</button>
+    </div>
+
+   
+    <div class="input-group mb-3">
+        @Html.LabelFor(m => m.tipoUsuario)
+        <button type="button" class="btn btn-outline-light" disabled>@Html.ValidationMessageFor(m => m.tipoUsuario)</button>
+    </div>
+    
+    <div class="input-group mb-3">
+        <span>@Html.RadioButtonFor(m => m.tipoUsuario, Roles.administrador) Administrador</span>
+    </div>
+    <div class="input-group mb-3">
+        <span>@Html.RadioButtonFor(m => m.tipoUsuario, Roles.usuario) Usuario regular</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar</button>
+    //Call the action target [HttpPost]
+
+}
+@section scripts{
+    <script>
+        $(document).ready(function(){
+            var warning = @((TempData["WarningMessage"] != null).ToString().ToLower());
+            var success = @((TempData["SuccessfulMessage"] != null).ToString().ToLower());
+            var warningDiv = $("div.warning-message");
+            var successfulDiv = $("div.successful-message");
+            if (warning == true) {
+                successfulDiv.hide();
+                warningDiv.show();
+                warningDiv.append("@TempData["WarningMessage"]");
+
+
+            }
+            else if (success == true) {
+                warningDiv.hide();
+                successfulDiv.show();
+                successfulDiv.append("@TempData["SuccessfulMessage"]");
+
+            } else {
+                warningDiv.hide();
+                successfulDiv.hide();
+            }
+        });
+
+    </script>
+}
+
