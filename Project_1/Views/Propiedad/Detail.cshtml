@@ -50,14 +50,14 @@
         <h3 class="my-4">Propietarios</h3>
         <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
             <thead class="thead-dark">
-            <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Documento</th>
-                <th scope="col">Tipo de Documento</th>
-                <th>Ver</th>
-                <th>Actualizar</th>
-                <th>Despropiar</th>
-            </tr>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Tipo de Documento</th>
+                    <th>Ver</th>
+                    <th>Actualizar</th>
+                    <th>Despropiar</th>
+                </tr>
             </thead>
             @foreach (var propietario in Model.propietarios)
             {
@@ -67,17 +67,21 @@
                     <td>@propietario.nombreDocId</td>
                     <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
                     <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
-                    <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete btn btn-outline-danger"></ion-icon></td>
+                    <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete-propietario btn btn-outline-danger"></ion-icon></td>
                 </tr>
             }
         </table>
     </div>
 }
+else
+{
+    <h3 class="my-4">No hay propietarios</h3>
+}
 
 
 <!--CC_FIjo-->
 
-@if (Model.CC_Fijo.Any() == true)
+@if (Model.CC_Fijo.Any())
 {
     <div>
         <h3 class="my-4">Conceptos de Cobro Fijo</h3>
@@ -119,7 +123,7 @@
 
 <!--CC_Consumo-->
 
-@if (Model.CC_Consumo.Any() == true)
+@if (Model.CC_Consumo.Any())
 {
     <div>
         <h3 class="my-4">Conceptos de Cobro Consumo</h3>
@@ -162,7 +166,7 @@
 
 <!--CC_Intereses_Moratorios-->
 
-@if (Model.CC_Intereses_Moratiorios.Any() == true)
+@if (Model.CC_Intereses_Moratiorios.Any())
 {
     <div>
         <h3 class="my-4">Conceptos de Cobro Intereses_Moratorios</h3>
@@ -200,6 +204,38 @@
     </div>
 }
 
+<!--Usuarios Suscritos-->
+
+@if (@Model.usuarios.Any())
+{
+    <div>
+        <h3 class="my-4">Usuarios Suscritos</h3>
+        <table id="usuario-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo de usuario</th>
+                    <th>Ver</th>
+                    <th>Desuscribir</th>
+                </tr>
+            </thead>
+            @foreach (var usuario in Model.usuarios)
+            {
+                <tr>
+                    <th>@usuario.nombre</th>
+                    <td>@usuario.tipoUsuario</td>
+                    <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon usuario-data=@usuario.nombre name="thumbs-down-outline" class="js-delete-usuario btn btn-outline-danger"></ion-icon></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <h3 class="my-4">No hay usuarios suscritos</h3>
+}
+
 
 
 @section scripts{
@@ -207,8 +243,8 @@
 
         $(document).ready(function () {
 
-            //Delete Button
-            $("#propietario-table").on("click", ".js-delete",
+            //Delete propietario Button
+            $("#propietario-table").on("click", ".js-delete-propietario",
                 function() {
                     var deleteButton = $(this);
 
@@ -235,6 +271,44 @@
                                             deleteButton.parents("tr").remove();
                                         else
                                             console.log("Error al despropiar");
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                });
+
+
+            //Delete usuario suscrito
+            $("#usuario-table").on("click", ".js-delete-usuario",
+                function() {
+                    var deleteButton = $(this);
+                    var usuarioNombre = deleteButton.attr("usuario-data");
+
+                    bootbox.confirm({
+                        message: "¿Desea desuscribir a " + usuarioNombre + " de esta propiedad?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: '@Url.Content("~/UsuarioDePropiedad/DesuscribirPropiedad/")' + usuarioNombre  + "/" + "@Model.propiedad.numeroFinca",
+                                    success: function(retval) {
+                                        console.log(retval);
+                                        if (retval == "True") //Retorna True
+                                            deleteButton.parents("tr").remove();
+                                        else
+                                            console.log("Error al desuscribir");
                                     }
                                 });
                             }
