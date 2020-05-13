@@ -13,4 +13,5 @@ codigo -20 : 'Propiedad o Concepto de Cobro no encontrado'
 codigo -21 : 'Concepto de Cobro en Propiedad ya registrado'
 codigo -22 : 'Propiedad no registrada' 
 codigo -23 : 'Concepto de Cobro en Propiedad no registrado'
+codigo -24 : 'ValorDocId no encontrado en Propietario Juridico'
 

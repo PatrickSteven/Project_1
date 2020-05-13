@@ -1,6 +1,11 @@
 USE [D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF]
 GO
---Insert
+
+--Entrada: Fecha de Inicio, Fecha de Fin, Nombre de Concepto de Cobro, Numero de Finca
+--Salida exitosa: Id del ultimo elemento insertado 
+--Salida fallida: Codigo -20 || Codigo -21
+--Descripcion: Selecciona el Id de [Propiedad,Concepto_de_Cobro] y si existen los relaciona
+--como tiene dos FK entonces una se refiere a [0] y la otra [1]
 CREATE PROCEDURE SPI_Concepto_Cobro_En_Propiedad
 @fechaInicio date,
 @fechaFin date,
@@ -8,21 +13,42 @@ CREATE PROCEDURE SPI_Concepto_Cobro_En_Propiedad
 @numeroFinca int
 
 AS 
-BEGIN
-	DECLARE @idConceptoCobro int, @idPropiedad int;
+BEGIN TRY
+	DECLARE @idConceptoCobro int, @idPropiedad int, @retValue int;
 	SELECT @idConceptoCobro = id from dbo.Concepto_Cobro WHERE nombre = @nombreCC
 	SELECT @idPropiedad = id from dbo.Propiedad WHERE numeroFinca = @numeroFinca
 
 	IF @idConceptoCobro is null OR @idPropiedad is null
-		RAISERROR('Propiedad o Concepto de Cobro no encontrado',10,1)
+		BEGIN
+			RAISERROR('Propiedad o Concepto de Cobro no encontrado',10,1)
+			SET @retValue = -20;
+		END
 	ELSE IF EXISTS (SELECT * from dbo.Concepto_Cobro_en_Propiedad WHERE idPropiedad = @idPropiedad AND idConeceptoCobro = @idConceptoCobro)
-		RAISERROR('Concepto de Cobro en Propiedad ya registrado', 10, 1)
+		BEGIN
+			RAISERROR('Concepto de Cobro en Propiedad ya registrado', 10, 1)
+			SET @retValue = -21;
+		END
 	ELSE 
-		INSERT INTO dbo.Concepto_Cobro_en_Propiedad(fechaInicio, fechaFin, idConeceptoCobro, idPropiedad)
-			VALUES(@fechaInicio, @fechaFin, @idConceptoCobro, @idPropiedad)
-END
+		BEGIN
+			INSERT INTO dbo.Concepto_Cobro_en_Propiedad(fechaInicio, fechaFin, idConeceptoCobro, idPropiedad) VALUES(@fechaInicio, @fechaFin, @idConceptoCobro, @idPropiedad)
+			SET @retValue = SCOPE_IDENTITY();
+		END
+	RETURN @retValue;
+END TRY
+BEGIN CATCH
+	DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+ 
+	RAISERROR( @Message, @Severity, @State) 
+END CATCH
 
---Delete
+--
+--Entrada: Numero de Finca, Nombre de Concepto de Cobro
+--Salida exitosa: No tiene retorno
+--Salida fallida: No tiene retorno
+--Descripcion: Borra la relacion entre una propiedad y un concepto de cobro
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -59,7 +85,10 @@ BEGIN
 
 END
 
---Update FechaFin
+--Entrada: Nombre de Concepto de Cobro, Numero de Finca, Fecha final
+--Salida exitosa: No tiene retorno
+--Salida fallida: No tiene retorno
+--Descripcion: Este update se SOLAMENTE para cambiar la fecha final del CC
 CREATE PROCEDURE [dbo].[SPU_Concepto_De_Cobro_En_Propiedad]
 @nombreCC NVARCHAR(50),
 @numeroFinca int,
@@ -78,7 +107,12 @@ BEGIN
 		UPDATE dbo.Concepto_Cobro_en_Propiedad SET fechaFin = @fechaFin WHERE idPropiedad = @idPropiedad AND idConeceptoCobro = @idConceptoCobro
 END
 
---Select
+--Entrada: Numero de Finca, Tipo de Concepto de Cobro
+--Salida Exitosa: No hay retorno
+--Salida Fallida: No hay retorno
+--Descripcion: Dependiendo del tipo de Concepto de Cobro
+--el SPU selecciona la tabla de una propiedad con el tipo
+--de Concepto de Cobro [CC_Fijo, CC_Consumo, Intereses Moratorios]
 CREATE PROCEDURE [dbo].[SPS_Concepto_De_Cobro_En_Propiedad]
 @numeroFinca int,
 @TipoCC varchar(100)

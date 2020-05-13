@@ -1,3 +1,4 @@
+
 USE [D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF]
 
 DECLARE @x xml;
@@ -9,7 +10,13 @@ DECLARE @hdoc int;
 
 EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
 
-
+-- Concepto cobro es una tabla catalogo y es usada por referencia en:
+-- CC_en_Propiedad (Referencia normal): Asocia una propiedad con VARIOS concepto de cobros
+-- CC_Fijo (Herencia): Agrega un Monto
+-- CC_Consumo (Herencia): Agrega un ValorM3
+-- CC_Porcentaje (Herencia): Agrega un ValorPorcentual
+-- CC_IntMonetario (Herencia): No agrega nada solo se usa para especificar el tipo
+-- Nota: Los datos de concepto de cobro se cargan desde un XML
 CREATE TABLE Concepto_Cobro (
     id int primary key not null,
 	nombre nvarchar(50) not null,
@@ -21,6 +28,12 @@ CREATE TABLE Concepto_Cobro (
 	EsFijo varchar(10)
 );
 
+-- La tabla propiedad tiene tablas que usan una propiedad
+-- CC_en_Propiedad: Asocia una propiedad con VARIOS concepto de cobros
+-- Comprobante_de_Pago: Tiene UNA referencia a una propiedad
+-- Recibos: Tienen UNA referencia a una propiedad
+-- Propietario: Tienen una referencia a VARIAS propiedades
+-- Propiedad_del_Propietario : Asocia un propietario con VARIAS propiedades
 CREATE TABLE Propiedad (
 	id int primary key not null identity(1,1),
 	numeroFinca int not null,
@@ -28,6 +41,8 @@ CREATE TABLE Propiedad (
 	direccion nvarchar(50) not null
 );
 
+-- Asocia mediante FK las tablas [Propiedad,Concepto_Cobro]
+-- Las FK se asocian SOLAMENTE A LLAVES PRIMARIAS(id)
 CREATE TABLE Concepto_Cobro_en_Propiedad (
 	id int primary key not null identity(1,1),
 	fechaInicio date not null,
@@ -38,6 +53,8 @@ CREATE TABLE Concepto_Cobro_en_Propiedad (
 	CONSTRAINT FK_idPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id)
 );
 
+-- Tinene una FK  a solamente una porpiedad
+-- Nota: Para la primera entrega no se necesita implementar
 CREATE TABLE Comprobante_Pago (
 	id int primary key not null identity(1,1),
 	fecha date not null,
@@ -46,6 +63,11 @@ CREATE TABLE Comprobante_Pago (
 	CONSTRAINT FK_idPropiedad_02 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id)
 );
 
+-- Un recibo tiene 3 FK
+-- #1: Referencia a un Concepto de Cobro
+-- #2: Referencia a una Propiedad
+-- #3: Referencia a un Comprobante de Pago no emitido
+-- Nota: Para la primera entrega no se necesita implementar
 CREATE TABLE Recibos (
 	id int primary key not null identity(1,1),
 	fecha date not null,
@@ -61,12 +83,18 @@ CREATE TABLE Recibos (
 	CONSTRAINT FK_idComprobantePago FOREIGN KEY (id) REFERENCES Comprobante_Pago(id)
 );
 
-
+-- Tipo_DocId es una tabla catalogo y es usada por referencia en:
+-- Propietario: Asocia a un propietario con un Id UNICO
+-- Propietario_Juridico: Asocia a un propietario juridico con un Id UNICO 
 CREATE TABLE Tipo_DocId (
 	id int primary key not null,
 	nombre nvarchar(50) not null
 );
 
+-- Propietario es una tabla usada por referencia en:
+-- Propiedad_del_Propietario : Asocia un propietario con VARIAS propiedades
+-- Propietario tiene una referencia unica a un DocId
+-- #1: Tiene una referencia unica a un DocId UNICO
 CREATE TABLE Propietario (
 	id int primary key not null identity(1,1),
 	nombre nvarchar(50) not null,
@@ -75,16 +103,24 @@ CREATE TABLE Propietario (
 	CONSTRAINT FK_tipoDocId FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
 );
 
+-- Propietario_Juridico tiene una referencia a:
+-- #1: Tiene una referencia unica a un DocId UNICO
+-- #2: Tiene una referencia unica a un Propietario
 CREATE TABLE Propietario_Juridico (
 	id int primary key not null identity(1,1),
 	responsable nvarchar(50) not null,
 	valorDocId int not null,
 	idDocId int not null,
 	CONSTRAINT FK_tipoDocId_02 FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
+	--Este id propietario es el id de Propietario juridico
 	idPropietario int not null,
 	CONSTRAINT FK_idPropietario_02  FOREIGN KEY (idPropietario) REFERENCES Propietario (id)
 );
 
+-- Asocia mediante FK las tablas [Propiedad,Propietario]
+-- Las FK se asocian SOLAMENTE A LLAVES PRIMARIAS(id)
+-- Nota: un propietario puede tene varias propiedades
+-- una propiedad solo tiene un propietario
 CREATE TABLE Propiedad_del_Propietario (
 	id int primary key not null identity(1,1),
 	idPropiedad int not null,
@@ -100,6 +136,7 @@ CREATE TABLE Usuario (
 	password nvarchar(50) not null, -- palabra reservada?
 	tipoUsuario nvarchar(50) not null -- Administrador / Propietario
 );
+
 
 CREATE TABLE Usuario_de_Propiedad (
 	id int primary key not null identity(1,1),
