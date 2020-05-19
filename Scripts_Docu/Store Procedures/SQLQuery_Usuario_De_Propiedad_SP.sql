@@ -3,15 +3,47 @@ CREATE PROCEDURE SPI_Usuario_De_Propiedad
 @nombre NVARCHAR(50),
 @numeroFinca int
 AS 
-BEGIN
-	DECLARE @idPropiedad int;
+BEGIN TRY
+	DECLARE @idPropiedad int, @activo int = 1,@retValue int;
 	DECLARE @idUsuario int;
 	SELECT @idPropiedad = id from dbo.Propiedad WHERE numeroFinca = @numeroFinca;
 	SELECT @idUsuario = id from dbo.Usuario WHERE nombre = @nombre;
 
-	INSERT INTO dbo.Usuario_de_Propiedad(idPropiedad, idUsuario)
-		VALUES (@idPropiedad, @idUsuario);
-END
+	IF NOT EXISTS (SELECT * FROM dbo.Usuario WHERE nombre = @nombre)
+		BEGIN
+			RAISERROR('Propietario no registrado en la base de datos', 10, 1)
+			SET @retValue = -16;
+		END
+	IF NOT EXISTS (SELECT * FROM dbo.Propiedad WHERE @numeroFinca = numeroFinca)
+		BEGIN
+			RAISERROR('Propietario no registrado en la base de datos', 10, 1)
+			SET @retValue = -12;
+		END
+	ELSE IF EXISTS( SELECT * FROM dbo.Usuario_de_Propiedad WHERE @idPropiedad = idPropiedad  AND dbo.Usuario_de_Propiedad.activo = 1 )
+		BEGIN
+			RAISERROR('Usuario ya registrado', 10, 1)
+			SET @retValue = -15;
+		END
+	ELSE IF EXISTS( SELECT * FROM dbo.Usuario_de_Propiedad WHERE @idPropiedad = idPropiedad  AND dbo.Usuario_de_Propiedad.activo = 0 )
+		BEGIN
+			UPDATE dbo.Usuario_De_Propiedad SET activo = 1 WHERE @idPropiedad = idPropiedad;
+		END
+	ELSE
+		BEGIN
+			INSERT INTO dbo.Usuario_de_Propiedad(idPropiedad, idUsuario, activo) VALUES (@idPropiedad, @idUsuario, @activo);
+			SET @retValue = SCOPE_IDENTITY();
+		END
+	RETURN  @retValue;
+END TRY
+
+BEGIN CATCH
+	DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+ 
+	RAISERROR( @Message, @Severity, @State) 
+END CATCH
 
 --Delete 
 SET ANSI_NULLS ON
@@ -95,7 +127,7 @@ END
 --Prueba
 DROP PROCEDURE SPD_Usuario_De_Propiedad
 SELECT * FROM Propiedad
-EXECUTE SPI_Usuario_De_Propiedad "admin", 9009
+EXECUTE SPI_Usuario_De_Propiedad "admin", 456
 SELECT * FROM Usuario
 select * from Usuario_de_Propiedad
 EXECUTE SPD_Usuario_De_Propiedad "usuario", 9009

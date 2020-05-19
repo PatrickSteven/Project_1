@@ -23,6 +23,9 @@ namespace Project_1.Models
         [Display(Name = "Tipo de Documento")]
         public string nombreDocId { get; set; }
 
+        [Required]
+        public int activo { get; set; }
+
 
     }
 }

@@ -132,6 +132,7 @@ namespace Project_1.Models
                 cmd.CommandText = "dbo.SPS_Propietario";
                 cmd.Connection = connection;
                 var list = new List<Propietario>();
+                System.Diagnostics.Debug.WriteLine("Entre AAA");
                 try
                 {
                     connection.Open();
@@ -139,12 +140,15 @@ namespace Project_1.Models
                     {
 
                         while (reader.Read())
+                        {
+                            //PREGUNTARLE A PATRICK
                             list.Add(new Propietario()
                             {
                                 nombre = reader.GetString(0),
                                 valorDocId = reader.GetInt32(1),
-                                nombreDocId = reader.GetString(2)
                             });
+                        }
+                            
                     }
                 }
                 catch (Exception ex)

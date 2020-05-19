@@ -17,6 +17,8 @@ EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
 -- CC_Porcentaje (Herencia): Agrega un ValorPorcentual
 -- CC_IntMonetario (Herencia): No agrega nada solo se usa para especificar el tipo
 -- Nota: Los datos de concepto de cobro se cargan desde un XML
+
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Concepto_Cobro (
     id int primary key not null,
 	nombre nvarchar(50) not null,
@@ -34,15 +36,20 @@ CREATE TABLE Concepto_Cobro (
 -- Recibos: Tienen UNA referencia a una propiedad
 -- Propietario: Tienen una referencia a VARIAS propiedades
 -- Propiedad_del_Propietario : Asocia un propietario con VARIAS propiedades
+
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Propiedad (
 	id int primary key not null identity(1,1),
 	numeroFinca int not null,
 	valor int not null,
-	direccion nvarchar(50) not null
+	direccion nvarchar(50) not null,
+	activo int not null
 );
 
 -- Asocia mediante FK las tablas [Propiedad,Concepto_Cobro]
 -- Las FK se asocian SOLAMENTE A LLAVES PRIMARIAS(id)
+
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Concepto_Cobro_en_Propiedad (
 	id int primary key not null identity(1,1),
 	fechaInicio date not null,
@@ -50,17 +57,21 @@ CREATE TABLE Concepto_Cobro_en_Propiedad (
 	idConeceptoCobro int not null,
 	CONSTRAINT FK_idConeceptoCobro FOREIGN KEY (idConeceptoCobro) REFERENCES Concepto_Cobro(id),
 	idPropiedad int not null,
-	CONSTRAINT FK_idPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id)
+	CONSTRAINT FK_idPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	activo int not null
 );
 
 -- Tinene una FK  a solamente una porpiedad
 -- Nota: Para la primera entrega no se necesita implementar
+
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Comprobante_Pago (
 	id int primary key not null identity(1,1),
 	fecha date not null,
 	total int,
 	idPropiedad int not null,
-	CONSTRAINT FK_idPropiedad_02 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id)
+	CONSTRAINT FK_idPropiedad_02 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	activo int not null
 );
 
 -- Un recibo tiene 3 FK
@@ -86,6 +97,8 @@ CREATE TABLE Recibos (
 -- Tipo_DocId es una tabla catalogo y es usada por referencia en:
 -- Propietario: Asocia a un propietario con un Id UNICO
 -- Propietario_Juridico: Asocia a un propietario juridico con un Id UNICO 
+
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Tipo_DocId (
 	id int primary key not null,
 	nombre nvarchar(50) not null
@@ -95,17 +108,22 @@ CREATE TABLE Tipo_DocId (
 -- Propiedad_del_Propietario : Asocia un propietario con VARIAS propiedades
 -- Propietario tiene una referencia unica a un DocId
 -- #1: Tiene una referencia unica a un DocId UNICO
+
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Propietario (
 	id int primary key not null identity(1,1),
 	nombre nvarchar(50) not null,
 	valorDocId int not null,
 	idDocId int not null,
+	activo int not null,
 	CONSTRAINT FK_tipoDocId FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
 );
 
 -- Propietario_Juridico tiene una referencia a:
 -- #1: Tiene una referencia unica a un DocId UNICO
 -- #2: Tiene una referencia unica a un Propietario
+
+
 CREATE TABLE Propietario_Juridico (
 	id int primary key not null identity(1,1),
 	responsable nvarchar(50) not null,
@@ -114,27 +132,32 @@ CREATE TABLE Propietario_Juridico (
 	CONSTRAINT FK_tipoDocId_02 FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
 	--Este id propietario es el id de Propietario juridico
 	idPropietario int not null,
-	CONSTRAINT FK_idPropietario_02  FOREIGN KEY (idPropietario) REFERENCES Propietario (id)
+	CONSTRAINT FK_idPropietario_02  FOREIGN KEY (idPropietario) REFERENCES Propietario (id),
+	activo int not null
 );
 
 -- Asocia mediante FK las tablas [Propiedad,Propietario]
 -- Las FK se asocian SOLAMENTE A LLAVES PRIMARIAS(id)
 -- Nota: un propietario puede tene varias propiedades
 -- una propiedad solo tiene un propietario
+
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Propiedad_del_Propietario (
 	id int primary key not null identity(1,1),
 	idPropiedad int not null,
 	CONSTRAINT FK_idPropiedad_04 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	idPropietario int not null,
-	CONSTRAINT FK_idPropietario  FOREIGN KEY (idPropietario) REFERENCES Propietario (id)
+	CONSTRAINT FK_idPropietario  FOREIGN KEY (idPropietario) REFERENCES Propietario (id),
+	activo int not null
 );
 
-
+--ACTUALIZADO VERSION FINAL
 CREATE TABLE Usuario (
 	id int primary key not null identity(1,1),
 	nombre nvarchar(50) not null,
 	password nvarchar(50) not null, -- palabra reservada?
-	tipoUsuario nvarchar(50) not null -- Administrador / Propietario
+	tipoUsuario nvarchar(50) not null, -- Administrador / Propietario
+	activo int not null
 );
 
 
@@ -143,7 +166,8 @@ CREATE TABLE Usuario_de_Propiedad (
 	idPropiedad int not null,
 	CONSTRAINT FK_idPropiedad_05 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	idUsuario int not null,
-	CONSTRAINT FK_idUsuario  FOREIGN KEY (idUsuario) REFERENCES Usuario (id)
+	CONSTRAINT FK_idUsuario  FOREIGN KEY (idUsuario) REFERENCES Usuario (id),
+	activo int not null
 );
 
 
@@ -158,7 +182,7 @@ CREATE TABLE CC_Fijo(
 
 CREATE TABLE CC_Consumo(
 	id int not null primary key, --no puede ser identity porque tambien va a ser Foreign Key relacionada con Conepto_Cobro
-	valor money not null,
+	valor int not null,
 	CONSTRAINT FK_id_CC_Consumo FOREIGN KEY (id) REFERENCES Concepto_Cobro (id) 
 )
 

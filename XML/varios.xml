@@ -1,0 +1,383 @@
+<Operaciones_por_Dia>
+	
+	<OperacionDia> 
+		<Dia fecha="10/04/2020"/>
+		<Propiedad NumFinca="1176180" Valor="12348471" Direccion="Condominio Mar del Plata, Filial 186"/>
+		<Propiedad NumFinca="1394522" Valor="14704765" Direccion="Mata Plátano, Urbanización La Estefanía (465 m. oeste del Templo y 100 m. sur)"/>
+		<Propiedad NumFinca="1750401" Valor="12971280" Direccion="Condominio Terrazas del Este, de la Iglesia de San Rafael 360 m. Este. "/>
+		<Propiedad NumFinca="4121713" Valor="26921725" Direccion="Los Angeles, de la glesia de Montecito, 40 m este y 700 m sur."/>
+		<Propiedad NumFinca="1420570" Valor="12834860" Direccion="Zapote, 125 m. al Oeste de Casa Presidencial, frente a la Soda El Shrek Tico."/>
+		<Propiedad NumFinca="1605224" Valor="24124150" Direccion="Urbanización Montemayor, casa A-3, 900 m. del cruce a los Sitios al Noroeste"/>
+		<Propiedad NumFinca="4162559" Valor="26372010" Direccion="Manantiales de Belén, de la esquina Noroeste de la Plaza de Deportes de la Asunción, 150 m. oeste"/>
+		<Propiedad NumFinca="1423800" Valor="61034265" Direccion="El Ruano, Urbanización El Fortín"/>
+		<Propiedad NumFinca="1568495" Valor="26046200" Direccion="Las Delicias, de la Guardia Rural, aproximadamente 375 m. Sur"/>
+		<Propiedad NumFinca="2291223" Valor="26035640" Direccion="Cantarrana, Santa Fé de Aguas Zargas, del Acueducto 100 m. Por el Súper Camacho."/>
+		<Propietario Nombre="ERICK ALONSO ALFARO HERNANDEZ" TipoDocIdentidad="1" identificacion="304110067" />
+		<Propietario Nombre="LOLA PEREZ ROJAS" TipoDocIdentidad="1" identificacion="110201818" />
+		<Propietario Nombre="CRISTOPHER DANIEL ALVARADO RAMIREZ" TipoDocIdentidad="1" identificacion="112450868" />
+		<PropiedadVersusPropietario NumFinca="1176180" identificacion="304110067"/>
+		<PropiedadVersusPropietario NumFinca="1394522" identificacion="304110067"/>
+		<PropiedadVersusPropietario NumFinca="1750401" identificacion="304110067"/>
+		<PropiedadVersusPropietario NumFinca="4121713" identificacion="304110067"/>
+		<PropiedadVersusPropietario NumFinca="1420570" identificacion="112450868"/>
+		<PropiedadVersusPropietario NumFinca="1605224" identificacion="112450868"/>
+		<PropiedadVersusPropietario NumFinca="4162559" identificacion="112450868"/>
+		<PropiedadVersusPropietario NumFinca="1423800" identificacion="110201818"/>
+		<PropiedadVersusPropietario NumFinca="1568495" identificacion="110201818"/>
+		<Propietario Nombre="FUNDECA" TipoDocIdentidad="4" identificacion="3102456541" />
+		<PersonaJuridica docidPersonaJuridica="3102456541" DocidRepresentante="110201818" Nombre="LOLA PEREZ ROJAS" TipDocIdRepresentante="1" />
+		<PropiedadVersusPropietario NumFinca="2291223" identificacion="3102456541"/>
+		<Usuario Nombre="CPenalla"  password="tXfIF" />
+		<Usuario Nombre="EMadrigal"  password="bgNH1" />
+		<UsuarioVersusPropiedad NumFinca="1423800" nombreUsuario="CPenalla"/>
+		<UsuarioVersusPropiedad NumFinca="1568495" nombreUsuario="CPenalla"/>
+		<UsuarioVersusPropiedad NumFinca="2291223" nombreUsuario="CPenalla"/>
+		<UsuarioVersusPropiedad NumFinca="1176180" nombreUsuario="EMadrigal"/>
+		<UsuarioVersusPropiedad NumFinca="4121713" nombreUsuario="EMadrigal"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1176180"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1176180"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="1176180"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="1176180"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1394522"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="1394522"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="1394522"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="1394522"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1394522"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1394522"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1750401"/>
+		<ConceptoCobroVersusPropiedad idcobro="9" NumFinca="1750401"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1750401"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1750401"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="4121713"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="4121713"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="4121713"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="4121713"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="4121713"/>
+		<ConceptoCobroVersusPropiedad idcobro="8" NumFinca="1420570"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="1420570"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1420570"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1605224"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="4162559"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1423800"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1423800"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="1423800"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="1423800"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="1423800"/>
+		<ConceptoCobroVersusPropiedad idcobro="7" NumFinca="1423800"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1568495"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2291223"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="2291223"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="2291223"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="2291223"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="2291223"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="12/04/2020"/>
+		<Propiedad NumFinca="1858970" Valor="71305290" Direccion="San Antonio, del costado sur de la Iglesia Católica de San Antonio, 300 m este y 50 m sur"/>
+		<Propiedad NumFinca="4182442" Valor="19735205" Direccion="Barrio Cristo Rey, costado sur del salón comunal, casa color verde limón"/>
+		<Propiedad NumFinca="1236736" Valor="23378250" Direccion="Urbanización Santa Catalina, 140 m este, 200 sur"/>
+		<Propiedad NumFinca="1476188" Valor="40031009" Direccion="Calle Valverde, Urbanización, Veracruz, primera casa"/>
+		<Propiedad NumFinca="2101885" Valor="59884644" Direccion="Condominio Terrazas del Oeste, San Rafael, Finca Filial "/>
+		<Propiedad NumFinca="4182870" Valor="79598837" Direccion="Colonia Victoria, del salón comunal 825 m al Norte y 133 m al Oeste "/>
+		<Propietario Nombre="PRISCILLA ALVAREZ GRIJALBA" TipoDocIdentidad="1" identificacion="110060884" />
+		<Propietario Nombre="ANGELICA MARIA ANGELICA MARIA" TipoDocIdentidad="1" identificacion="116540323" />
+		<PropiedadVersusPropietario NumFinca="1858970" identificacion="110060884"/>
+		<PropiedadVersusPropietario NumFinca="4182442" identificacion="110060884"/>
+		<PropiedadVersusPropietario NumFinca="1236736" identificacion="116540323"/>
+		<PropiedadVersusPropietario NumFinca="1476188" identificacion="116540323"/>
+		<PropiedadVersusPropietario NumFinca="2101885" identificacion="116540323"/>
+		<PropiedadVersusPropietario NumFinca="4182870" identificacion="116540323"/>
+		<Usuario Nombre="LDiaz"  password="2o8Gd" tipo="normal" />
+		<Usuario Nombre="EHernandez"  password="v65XB" tipo="normal" />
+		<Usuario Nombre="KPerez"  password="j3VS2" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="1236736" nombreUsuario="LDiaz"/>
+		<UsuarioVersusPropiedad NumFinca="1476188" nombreUsuario="LDiaz"/>
+		<UsuarioVersusPropiedad NumFinca="2101885" nombreUsuario="LDiaz"/>
+		<UsuarioVersusPropiedad NumFinca="4182870" nombreUsuario="LDiaz"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1858970"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="4182442"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="1236736"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="1476188"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2101885"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="4182870"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="16/04/2020"/>
+		<Propiedad NumFinca="1201330" Valor="11440644" Direccion="Urbanización La Pacífica, lote 40-Z"/>
+		<Propiedad NumFinca="1368271" Valor="13499518" Direccion="75 m al oeste del puente sobre el Río Camarón, en ruta San Pablo - San Pedro"/>
+		<Propiedad NumFinca="2287722" Valor="16187168" Direccion="El Tanque, 500 m al noreste y 175 m al este de la plaza de deportes del Tanque"/>
+		<Propiedad NumFinca="4184252" Valor="11389230" Direccion="Calle potrerillos, de la entrada de Rumba 25 m Oeste y 50 m Norte "/>
+		<Propiedad NumFinca="1393022" Valor="56515500" Direccion="Granja, 200 m sur de la Estación de Servicio El Higuerón"/>
+		<Propiedad NumFinca="4193112" Valor="21543802" Direccion="Urbanización Quizarco, 5ta Etapa, Lote 40-Y De la nueva Estación de Bomberos 100 metros Norte y 25 metros Este"/>
+		<Propiedad NumFinca="1610884" Valor="13091323" Direccion="Del Restaurante Bacchus, 200 m al este y 500 m al norte Condominio Nuvo"/>
+		<Propietario Nombre="JUAN CARLOS BARRANTES PEREZ" TipoDocIdentidad="1" identificacion="304650444" />
+		<Propietario Nombre="JOSE PABLO BENAVIDES UMAÑA" TipoDocIdentidad="1" identificacion="116250038" />
+		<PropiedadVersusPropietario NumFinca="1201330" identificacion="304650444"/>
+		<PropiedadVersusPropietario NumFinca="1368271" identificacion="304650444"/>
+		<PropiedadVersusPropietario NumFinca="2287722" identificacion="304650444"/>
+		<PropiedadVersusPropietario NumFinca="4184252" identificacion="304650444"/>
+		<PropiedadVersusPropietario NumFinca="1393022" identificacion="116250038"/>
+		<PropiedadVersusPropietario NumFinca="4193112" identificacion="116250038"/>
+		<Propietario Nombre="Master Lex" TipoDocIdentidad="4" identificacion="3101213575" />
+		<PropiedadVersusPropietario NumFinca="1610884" identificacion="3101213575"/>
+		<PersonaJuridica docidPersonaJuridica="3101213575" DocidRepresentante="304650444" Nombre="JUAN CARLOS BARRANTES PEREZ" TipDocIdRepresentante="1" />
+		<UsuarioVersusPropiedad NumFinca="1610884" nombreUsuario="EHernandez"/>
+		<UsuarioVersusPropiedad NumFinca="1201330" nombreUsuario="EHernandez"/>
+		<UsuarioVersusPropiedad NumFinca="1368271" nombreUsuario="EHernandez"/>
+		<UsuarioVersusPropiedad NumFinca="4193112" nombreUsuario="KPerez"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1201330"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1368271"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2287722"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="4184252"/>
+		<ConceptoCobroVersusPropiedad idcobro="7" NumFinca="1393022"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="4193112"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="16/04/2020"/>
+		<Propiedad NumFinca="1480840" Valor="14558220" Direccion="San Rafael, de la Escuela Abel Umaña 100 m Sur y 30 m Oeste, a mano derecha, acceso por servidumbre"/>
+		<Propiedad NumFinca="2103983" Valor="57762600" Direccion="De la esquina Noreste de la plaza de Calle San José, 500 m al Norte y 142 m al Oeste"/>
+		<Propiedad NumFinca="4203725" Valor="77982989" Direccion="Horquetas, de la entrada principal de Horquetas 10 m al Noroeste"/>
+		<Propiedad NumFinca="1514282" Valor="56534500" Direccion="Granja, 200 m Sur de la Estación de Servicio El Higuerón"/>
+		<Propiedad NumFinca="7605510" Valor="36933812" Direccion="Calle Los Colegios, del Colegio Nocturno 250 m este y 60 m sur casa de concreto mano derecha"/>
+		<Propietario Nombre="KENNETH ANDREY BLANCO SANCHO" TipoDocIdentidad="1" identificacion="303580304" />
+		<Propietario Nombre="TRISTAN ELIDO BODRA JIMENEZ" TipoDocIdentidad="1" identificacion="113360365" />
+		<PropiedadVersusPropietario NumFinca="1480840" identificacion="303580304"/>
+		<PropiedadVersusPropietario NumFinca="2103983" identificacion="303580304"/>
+		<PropiedadVersusPropietario NumFinca="4203725" identificacion="303580304"/>
+		<PropiedadVersusPropietario NumFinca="1514282" identificacion="113360365"/>
+		<PropiedadVersusPropietario NumFinca="7605510" identificacion="113360365"/>
+		<Usuario Nombre="DCornero"  password="MLo4Z" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="4203725" nombreUsuario="DCornero"/>
+		<UsuarioVersusPropiedad NumFinca="1480840" nombreUsuario="DCornero"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1480840"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="2103983"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="4203725"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1514282"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7605510"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="20/04/2020"/>
+		<Propiedad NumFinca="1514445" Valor="3699328" Direccion="María Auxiliadora, 1,10 Km al Este de la iglesia de Aserrí, o 200 m al Oeste del Plantel de COPRESA y 14,32 m al Sur"/>
+		<Propiedad NumFinca="2108129" Valor="1162805" Direccion="Orotina, Residencias Pacific Sun, Costado este del Campo Ferial, finca nº 19"/>
+		<Propiedad NumFinca="7632960" Valor="12596298" Direccion="Florida, carretera a La Alegría, de la localidad de El Cruce, 1,1 km Este en dirección a La Florida y 600 m Norte sobre calle de lastre"/>
+		<Propiedad NumFinca="1527660" Valor="6457492" Direccion="San Felipe, Urbanización Boulevard de la Guardia"/>
+		<Propiedad NumFinca="7738110" Valor="11991612" Direccion="Las Cascadas, del Hogar Bethel, 75 m Norte"/>
+		<Propiedad NumFinca="4108772" Valor="98640877" Direccion="Finca Cinco, de la esquina de la escuela de Finca Cinco 45 m Norte y 194 m Este, lote cabecero mano derecha con casa"/>
+		<Propiedad NumFinca="2465209" Valor="21446192" Direccion="350 m al noroeste, 90 m al este y 40 m al norte del cementerio de Santa Rosa"/>
+		<Propietario Nombre="MILENE BUSTAMANTE ROJAS" TipoDocIdentidad="1" identificacion="110850057" />
+		<Propietario Nombre="SOFIA MATA SOLANO" TipoDocIdentidad="1" identificacion="111450435" />
+		<PropiedadVersusPropietario NumFinca="1514445" identificacion="110850057"/>
+		<PropiedadVersusPropietario NumFinca="2108129" identificacion="110850057"/>
+		<PropiedadVersusPropietario NumFinca="7632960" identificacion="110850057"/>
+		<PropiedadVersusPropietario NumFinca="1527660" identificacion="111450435"/>
+		<PropiedadVersusPropietario NumFinca="7738110" identificacion="111450435"/>
+		<Propietario Nombre="HBL Solutions" TipoDocIdentidad="4" identificacion="3102597410" />
+		<PropiedadVersusPropietario NumFinca="2465209" identificacion="3102597410"/>
+		<PropiedadVersusPropietario NumFinca="4108772" identificacion="3102597410"/>
+		<PersonaJuridica docidPersonaJuridica="3102597410" DocidRepresentante="113360365" Nombre="TRISTAN ELIDO BODRA JIMENEZ" TipDocIdRepresentante="1" />
+		<Usuario Nombre="RSalas"  password="e9mFa" tipo="normal" />
+		<Usuario Nombre="PVindas"  password="3ktBp" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="1527660" nombreUsuario="RSalas"/>
+		<UsuarioVersusPropiedad NumFinca="7738110" nombreUsuario="RSalas"/>
+		<UsuarioVersusPropiedad NumFinca="2465209" nombreUsuario="PVindas"/>
+		<UsuarioVersusPropiedad NumFinca="4108772" nombreUsuario="PVindas"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1514445"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="2108129"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7632960"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1527660"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7738110"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="21/04/2020"/>
+		<Propiedad NumFinca="1538868" Valor="86410401" Direccion="Barrio Pilar Contiguo a Bar Mi Taberna"/>
+		<Propiedad NumFinca="7762610" Valor="567200 " Direccion="Bri-Bri Centro, de la Municipalidad de Bri Bri, 60 m Suroeste y 150 m al Noroeste M/Izquierda (Esquinera)"/>
+		<Propiedad NumFinca="1528789" Valor="19438366" Direccion="La Sabana, del Minisuper Las Flores, 50 m Sur, 75 m Este y 75 m Sur, mano derecha"/>
+		<Propiedad NumFinca="2134489" Valor="19228178" Direccion="Cuestillas, 600 m Noreste de la escuela de Cuestillas"/>
+		<Propiedad NumFinca="2415723" Valor="735941" Direccion="Canoas, Urbanización Altos de Montenegro"/>
+		<Propiedad NumFinca="7787120" Valor="62302020" Direccion="La Francia, de la entrada principal de Cairo 201,12 m norte, lote en margen izquierda"/>
+		<Propiedad NumFinca="2405935" Valor="85441617" Direccion="San Luis, de la esquina noroeste del cementerio de Florencia, San Carlos, 340 m norte, 55 m oeste y 25 m sur"/>
+		<Propiedad NumFinca="2416612" Valor="2377324" Direccion="Urbanización La Cataluña, 1º etapa"/>
+		<Propiedad NumFinca="4204033" Valor="77982989" Direccion="Heredia, San Rafael, de la esquina Oeste de la plaza de fútbol 250 m al sur"/>
+		<Propiedad NumFinca="7799701" Valor="14764383" Direccion="De Nava Café, 75 m Este y 30 m Norte, mano derecha "/>
+		<Propietario Nombre="IGNACIO BOGARIN MARIN" TipoDocIdentidad="1" identificacion="206130789" />
+		<Propietario Nombre="MARIELA DE LOS ANGEL BOGARIN MARIN" TipoDocIdentidad="1" identificacion="206480034" />
+		<Propietario Nombre="FABIO JOSUE CALDERON TORRES" TipoDocIdentidad="1" identificacion="304310762" />
+		<PropiedadVersusPropietario NumFinca="1538868" identificacion="206130789"/>
+		<PropiedadVersusPropietario NumFinca="7762610" identificacion="206130789"/>
+		<PropiedadVersusPropietario NumFinca="2415723" identificacion="206480034"/>
+		<PropiedadVersusPropietario NumFinca="1528789" identificacion="206480034"/>
+		<PropiedadVersusPropietario NumFinca="2134489" identificacion="206480034"/>
+		<PropiedadVersusPropietario NumFinca="7787120" identificacion="206480034"/>
+		<PropiedadVersusPropietario NumFinca="2405935" identificacion="304310762"/>
+		<PropiedadVersusPropietario NumFinca="7799701" identificacion="304310762"/>
+		<Propietario Nombre="Fe De Calle" TipoDocIdentidad="4" identificacion="3101375604" />
+		<PropiedadVersusPropietario NumFinca="4204033" identificacion="3101375604"/>
+		<PersonaJuridica docidPersonaJuridica="3101375604" DocidRepresentante="111450435" Nombre="SOFIA MATA SOLANO" TipDocIdRepresentante="1" />
+		<Usuario Nombre="FChaves"  password="5YwM2" tipo="normal" />
+		<Usuario Nombre="AAlfaro"  password="fwZwI" tipo="normal" />
+		<Usuario Nombre="TJimenez"  password="pmGht" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="2415723" nombreUsuario="FChaves"/>
+		<UsuarioVersusPropiedad NumFinca="1528789" nombreUsuario="FChaves"/>
+		<UsuarioVersusPropiedad NumFinca="2405935" nombreUsuario="TJimenez"/>
+		<UsuarioVersusPropiedad NumFinca="7799701" nombreUsuario="TJimenez"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="1538868"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="7762610"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="1528789"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="2134489"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2415723"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7787120"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2405935"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2416612"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="7799701"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="24/04/2020"/>
+		<Propiedad NumFinca="7825963" Valor="26637201" Direccion="Astua Pirie, del antiguo Bar Montiel, 355 m Este, mano derecha Costado Este del taller de ebanistería"/>
+		<Propiedad NumFinca="1298862" Valor="2880375" Direccion="De la Escuela Mont View, 100 m norte, 250 m este, Condominio Vistas del Rio, casa N° 2"/>
+		<Propiedad NumFinca="2407485" Valor="15541677" Direccion="Urbanización Prados del San Juan 100 al Sur y 13 m al Este de la entrada"/>
+		<Propiedad NumFinca="2425954" Valor="3820557" Direccion="Barrio de San José, De la escuela pública del Barrio de San José 50 m al Sur"/>
+		<Propiedad NumFinca="7816509" Valor="4116212" Direccion="El Jardín, de la escuela, 100 m Sur Mano izquierda "/>
+		<Propiedad NumFinca="1230183" Valor="65334854" Direccion="Residencial Santa Catalina, frente al Colegio Británico"/>
+		<Propiedad NumFinca="1340644" Valor="28803750" Direccion="Del Centro Comercial Los Laureles 475 m al norte y 250 m al este"/>
+		<Propiedad NumFinca="3130126" Valor="10236458" Direccion="Cartago, Cartago, San Nicolás, Loyola, Del COVAO, 200 mts al oeste, y 200 mts mts norte, al final de la calle pública "/>
+		<Propiedad NumFinca="5109920" Valor="10380650" Direccion="Del Cruce de San Gerardo y Santa Elena 420m norte hacia San Pedro, Hotel Vista Verde Lodge "/>
+		<Propietario Nombre="ANTHONY RICHARD CALLOW MONGE" TipoDocIdentidad="1" identificacion="206350949" />
+		<Propietario Nombre="FABRICIO CECILIANO NAVARRO" TipoDocIdentidad="1" identificacion="112230878" />
+		<Propietario Nombre="EMMANUEL GERARDO CERDAS VALVERDE" TipoDocIdentidad="1" identificacion="401880400" />
+		<Propietario Nombre="MARIE PAZ CHAPMAN LACHNER" TipoDocIdentidad="1" identificacion="110590391" />
+		<PropiedadVersusPropietario NumFinca="7825963" identificacion="206350949"/>
+		<PropiedadVersusPropietario NumFinca="2425954" identificacion="112230878"/>
+		<PropiedadVersusPropietario NumFinca="1298862" identificacion="112230878"/>
+		<PropiedadVersusPropietario NumFinca="2407485" identificacion="112230878"/>
+		<PropiedadVersusPropietario NumFinca="7816509" identificacion="112230878"/>
+		<PropiedadVersusPropietario NumFinca="1230183" identificacion="401880400"/>
+		<PropiedadVersusPropietario NumFinca="3130126" identificacion="401880400"/>
+		<PropiedadVersusPropietario NumFinca="5109920" identificacion="110590391"/>
+		<Propietario Nombre="CTPA" TipoDocIdentidad="4" identificacion="3101359071" />
+		<PropiedadVersusPropietario NumFinca="1340644" identificacion="3101359071"/>		
+		<PersonaJuridica docidPersonaJuridica="3101359071" DocidRepresentante="206130789" Nombre="IGNACIO BOGARIN MARIN" TipDocIdRepresentante="1" />
+		<Usuario Nombre="JFallas"  password="19Nph" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="7825963" nombreUsuario="AAlfaro"/>
+		<UsuarioVersusPropiedad NumFinca="1230183" nombreUsuario="JFallas"/>
+		<UsuarioVersusPropiedad NumFinca="3130126" nombreUsuario="JFallas"/>
+		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="7825963"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1298862"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="2407485"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2425954"/>
+		<ConceptoCobroVersusPropiedad idcobro="8" NumFinca="2425954"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="7816509"/>
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1230183"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="3130126"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="27/04/2020"/>
+		<Propiedad NumFinca="1579482" Valor="62872320,50" Direccion="Corazón de Jesús, calle Manuel Solano Jiménez, local de oficina 2 niveles color crema con cortina metálica y bodega a mano izquierda, penúltima construcción "/>
+		<Propiedad NumFinca="1339574" Valor="56515500" Direccion="San Rafael Arriba de Desamparados Barrio La Guaría, del Super la Guaría, 100 Oeste y 135 Norte"/>
+		<Propiedad NumFinca="2360478" Valor="3982670" Direccion="San Juan, del Bar Los Pilones, 1 km al Norte, camino lastre y asfalto, camino secundario a San Juanillo"/>
+		<Propiedad NumFinca="2400057" Valor="19735205 " Direccion="250m Sur y 700 Oeste de entrada a San José de la Tigra"/>
+		<Propiedad NumFinca="1247220" Valor="92458275" Direccion="Urbanización Los Árboles, del costado Sureste del Colegio Madre del Divino Pastor, 100 m Noreste y 100 Sureste"/>
+		<Propiedad NumFinca="2239600" Valor="1348500" Direccion="San Jorge, 150 m al sur de la plaza de deportes de San Jorge"/>
+		<Propiedad NumFinca="2281645" Valor="2234664 " Direccion="La Giralda, Residencial La Giralda, bloque F, lote # 28"/>
+		<Propiedad NumFinca="1130552" Valor="694195" Direccion="localidad de Barrio Cristo Rey, del costado Este del Liceo del Sur, 30 metros al Este de la intersección entre Avenida No22 y Calle No 16, Terreno medianero con edificación de dos niveles"/>
+		<Propietario Nombre="CARLOS ADRIAN GOMEZ SEGURA" TipoDocIdentidad="1" identificacion="401740457" />
+		<Propietario Nombre="GEINER JOSUE GRANADOS BRENES" TipoDocIdentidad="1" identificacion="602990385" />
+		<Propietario Nombre="MARTIN ALBERTO HERNANDEZ CARRASQUILLA" TipoDocIdentidad="1" identificacion="402220519" />
+		<PropiedadVersusPropietario NumFinca="1130552" identificacion="402220519"/>
+		<PropiedadVersusPropietario NumFinca="1247220" identificacion="402220519"/>
+		<PropiedadVersusPropietario NumFinca="2239600" identificacion="402220519"/>
+		<PropiedadVersusPropietario NumFinca="2281645" identificacion="402220519"/>
+		<PropiedadVersusPropietario NumFinca="1339574" identificacion="602990385"/>
+		<PropiedadVersusPropietario NumFinca="2360478" identificacion="602990385"/>
+		<PropiedadVersusPropietario NumFinca="2400057" identificacion="602990385"/>
+		<PropiedadVersusPropietario NumFinca="1579482" identificacion="401740457"/>
+		<Propiedad NumFinca="3169432" Valor="10410783 " Direccion="Urbanización Los Mirlos, Parte Oriental de Cartago"/>
+		<Propietario Nombre="Fuegos Artificiales S.A" TipoDocIdentidad="4" identificacion="3101250683" />
+		<PropiedadVersusPropietario NumFinca="3169432" identificacion="3101250683"/>
+		<PersonaJuridica docidPersonaJuridica="3101250683" DocidRepresentante="304310762" Nombre="FABIO JOSUE CALDERON TORRES" TipDocIdRepresentante="1" />
+		<Propiedad NumFinca="1597586" Valor="68990760 " Direccion="Guadalupe, del cruce Moravia Guadalupe (estación Gasolina) 120 m sur y 50 m este"/>
+		<Propietario Nombre="Cocacola" TipoDocIdentidad="4" identificacion="3101574107" />
+		<PropiedadVersusPropietario NumFinca="1597586" identificacion="3101574107"/>
+		<PersonaJuridica docidPersonaJuridica="3101574107" DocidRepresentante="110590391" Nombre="MARIE PAZ CHAPMAN LACHNER" TipDocIdRepresentante="1" />
+		<Usuario Nombre="MBarquero"  password="qTtZx" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="1579482" nombreUsuario="MBarquero"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="5109920"/>
+		<ConceptoCobroVersusPropiedad idcobro="7" NumFinca="1579482"/>
+		<ConceptoCobroVersusPropiedad idcobro="8" NumFinca="1339574"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="2360478"/>
+		<ConceptoCobroVersusPropiedad idcobro="9" NumFinca="2400057"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1247220"/>
+		<ConceptoCobroVersusPropiedad idcobro="7" NumFinca="2239600"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="2281645"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1130552"/>
+	</OperacionDia>
+
+
+	<OperacionDia> 
+		<Dia fecha="30/04/2020"/>
+
+		<Propiedad NumFinca="1118180" Valor="30565427" Direccion="Hacienda Vieja, Condominio la Estancia, Finca Filial No 3-12, edificio No 3, primer nivel"/>
+		<Propiedad NumFinca="7148454" Valor="21306425" Direccion="San Gerardo, 192 metros oeste de la escuela de Ticabán"/>
+		<Propiedad NumFinca="1596904" Valor="21609482" Direccion="Repunta, del Cen, 500 m al Este, 35 m Norte y 59 m Oeste"/>
+		<Propiedad NumFinca="7804860" Valor="14764383" Direccion="Astua Pirie, del antiguo Bar Montiel, 355 m Este, mano derecha Costado Este del taller de ebanistería"/>
+		<Propiedad NumFinca="1545327" Valor="1305375" Direccion="Santa Ana, Pozos, Residencial bosques de Santa Ana, de las bodegas de Wallmart, 50 m al Oeste, 100 m al Sur y 25 m al Este"/>
+		<Propiedad NumFinca="7810652" Valor="26637201" Direccion="El Jardín, de la escuela, 100 m Sur Mano izquierda"/>
+		<Propietario Nombre="MARCO HIDALGO MACRE" TipoDocIdentidad="1" identificacion="105940276" />
+		<Propietario Nombre="JOSE DE JESUS ISLAS OLALDE" TipoDocIdentidad="1" identificacion="115350695" />
+		<Propietario Nombre="MICHELLE JIMENEZ RAMIREZ" TipoDocIdentidad="1" identificacion="113390105" />
+		<PropiedadVersusPropietario NumFinca="1118180" identificacion="110590391"/>
+		<PropiedadVersusPropietario NumFinca="7148454" identificacion="110590391"/>
+		<PropiedadVersusPropietario NumFinca="1596904" identificacion="110590391"/>
+		<PropiedadVersusPropietario NumFinca="7804860" identificacion="115350695"/>
+		<PropiedadVersusPropietario NumFinca="1545327" identificacion="113390105"/>
+		<PropiedadVersusPropietario NumFinca="7810652" identificacion="113390105"/>
+		<Propiedad NumFinca="2512174" Valor="47913097 " Direccion="Barrio Los Ángeles, 625 m Norte y 140 m Oeste del templo Católico"/>
+		<Propietario Nombre="Intelec" TipoDocIdentidad="4" identificacion="3102640105" />
+		<PropiedadVersusPropietario NumFinca="2512174" identificacion="3102640105"/>
+		<PersonaJuridica docidPersonaJuridica="3102640105" DocidRepresentante="206350949" Nombre="ANTHONY RICHARD CALLOW MONGE" TipDocIdRepresentante="1" />
+		<Propiedad NumFinca="1136447" Valor="72041378,55" Direccion="Dulce Nombre de Jesús, de la Lechería Nevada 300 m Este y 200 m Norte"/>
+		<PersonaJuridica docidPersonaJuridica="3102854321" DocidRepresentante="105940276" Nombre="MARCO HIDALGO MACRE" TipDocIdRepresentante="1" />
+		<Propietario Nombre="Dos Pinos" TipoDocIdentidad="4" identificacion="3102854321" />
+		<PropiedadVersusPropietario NumFinca="1136447" identificacion="3102854321"/>
+		<Usuario Nombre="IBogarin"  password="FL8bA5" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="7804860" nombreUsuario="IBogarin"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1118180"/>
+		<ConceptoCobroVersusPropiedad idcobro="8" NumFinca="7148454"/>	
+		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="7804860"/>
+		<ConceptoCobroVersusPropiedad idcobro="7" NumFinca="1545327"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7810652"/>
+		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1596904"/>
+	</OperacionDia>
+
+	<OperacionDia> 
+		<Dia fecha="1/05/2020"/>
+		<Propiedad NumFinca="4515090" Valor="52548750" Direccion="450m Oeste y 45 m Sur del Cementerio de Aguas Zarcas, o 45 m Sur de cabinas Adonay, lote al fondo de servidumbre de paso"/>
+		<Propiedad NumFinca="7864479" Valor="41059924" Direccion="Urbanización Walter Céspedes, de la esquina Noroeste de parque infantil, 30 m Este, casa sobre pilotes"/>
+		<Propiedad NumFinca="2463803" Valor="9500917" Direccion="María Auxiliadora, Condominio Vertical Residencial Comercial Campo Alto, Edificio # 3, Finca Filial # 20 Ubicado en quinto piso"/>
+		<Propiedad NumFinca="3623306" Valor="34340007" Direccion="Las Virtudes De la plaza de deportes, aproximadamente 800 m al noreste"/>
+		<Propiedad NumFinca="7965590" Valor="21543802" Direccion="Barrio Nazareth, Urbanización La Sole, etapa dos"/>
+		<Propietario Nombre="ANA KENNEDY RUSSELL" TipoDocIdentidad="1" identificacion="115240973" />
+		<Propietario Nombre="JOSE DAVID MADRIGAL CHAVES" TipoDocIdentidad="1" identificacion="114990434" />
+		<PropiedadVersusPropietario NumFinca="4515090" identificacion="115240973"/>
+		<PropiedadVersusPropietario NumFinca="7864479" identificacion="115240973"/>
+		<PropiedadVersusPropietario NumFinca="2463803" identificacion="114990434"/>
+		<PropiedadVersusPropietario NumFinca="3623306" identificacion="114990434"/>
+		<PropiedadVersusPropietario NumFinca="7965590" identificacion="114990434"/>
+		<Usuario Nombre="SMiranda"  password="wU6kB" tipo="normal" />
+		<UsuarioVersusPropiedad NumFinca="7864479" nombreUsuario="SMiranda"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="4515090"/>
+		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7864479"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="2463803"/>
+		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="3623306"/>
+		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="7965590"/>
+	</OperacionDia>
+
+</Operaciones_por_Dia>
+
+

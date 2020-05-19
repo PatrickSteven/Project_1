@@ -3,7 +3,7 @@ USE [D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF]
 DECLARE @x xml;
 
 Select @x = P
-FROM OPENROWSET (BULK 'C:\Users\alega\Documents\GitHub\BD-Proyecto-1\XML\CC_Prueba.xml', SINGLE_BLOB) AS Products(P);
+FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\CC_Prueba.xml', SINGLE_BLOB) AS Products(P);
 
 DECLARE @hdoc int;
 
