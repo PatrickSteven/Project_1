@@ -106,7 +106,7 @@ namespace Project_1.Models
                             propietarios.Add(new Propietario()
                             {
                                 nombre = reader.GetString(0),
-                                valorDocId = reader.GetInt32(1),
+                                valorDocId = (int) reader.GetInt64(1),
                                 nombreDocId = reader.GetString(2)
 
                             });

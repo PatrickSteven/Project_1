@@ -27,6 +27,7 @@ BEGIN TRY
 	ELSE IF EXISTS( SELECT * FROM dbo.Usuario_de_Propiedad WHERE @idPropiedad = idPropiedad  AND dbo.Usuario_de_Propiedad.activo = 0 )
 		BEGIN
 			UPDATE dbo.Usuario_De_Propiedad SET activo = 1 WHERE @idPropiedad = idPropiedad;
+			SET @retValue = 1;
 		END
 	ELSE
 		BEGIN
@@ -108,9 +109,8 @@ BEGIN
 	
 	SELECT nombre, tipoUsuario from dbo.Usuario_de_Propiedad
 	JOIN dbo.Usuario ON dbo.Usuario_de_Propiedad.idUsuario = dbo.Usuario.id
-	WHERE dbo.Usuario_de_Propiedad.idPropiedad = @idPropiedad
+	WHERE dbo.Usuario_de_Propiedad.idPropiedad = @idPropiedad AND dbo.Usuario.activo = 1;
 END
-
 
 --Select Usuarios de una propiedad
 CREATE PROCEDURE [dbo].[SPS_Usuario_De_Propiedad_Detail_Usuario]
@@ -121,7 +121,7 @@ BEGIN
 	SELECT @idUsuario = id from dbo.Usuario WHERE dbo.Usuario.nombre = @nombre
 	SELECT numeroFinca, valor, direccion FROM dbo.Usuario_de_Propiedad
 	JOIN dbo.Propiedad ON dbo.Usuario_de_Propiedad.idPropiedad = dbo.Propiedad.id
-	WHERE dbo.Usuario_de_Propiedad.idUsuario = @idUsuario
+	WHERE dbo.Usuario_de_Propiedad.idUsuario = @idUsuario AND dbo.Propiedad.activo = 1;
 END
 
 --Prueba

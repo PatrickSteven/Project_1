@@ -145,7 +145,7 @@ namespace Project_1.Models
                             list.Add(new Propietario()
                             {
                                 nombre = reader.GetString(0),
-                                valorDocId = reader.GetInt32(1),
+                                valorDocId = (int) reader.GetInt64(1),
                             });
                         }
                             

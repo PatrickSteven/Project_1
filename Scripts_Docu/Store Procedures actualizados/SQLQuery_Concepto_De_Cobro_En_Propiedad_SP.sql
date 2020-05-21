@@ -185,7 +185,7 @@ BEGIN
 					p.fechaFin,
 					c2.nombre,
 					c2.tasaInteresesMoratorios,
-					c2.DiaCobro,
+					c2.DiaDeCobro,
 					c2.qDiasVencidos,
 					c2.EsFijo,
 					c2.EsRecurrente,
@@ -202,7 +202,7 @@ BEGIN
 					p.fechaFin,
 					c2.nombre,
 					c2.tasaInteresesMoratorios,
-					c2.DiaCobro,
+					c2.DiaDeCobro,
 					c2.qDiasVencidos,
 					c2.EsFijo,
 					c2.EsRecurrente,
@@ -219,7 +219,7 @@ BEGIN
 					p.fechaFin,
 					c2.nombre,
 					c2.tasaInteresesMoratorios,
-					c2.DiaCobro,
+					c2.DiaDeCobro,
 					c2.qDiasVencidos,
 					c2.EsFijo,
 					c2.EsRecurrente
@@ -232,13 +232,14 @@ BEGIN
 	END
 END
 
+
 --Pruebas
 select * from Propiedad
 
 select * from Concepto_Cobro
 select * from CC_Fijo
 select * from Concepto_Cobro_En_Propiedad
-EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '9009','CC_Fijo'
+EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '1176180','CC_Fijo'
 EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad '2019-03-12', '2020-05-15', 'Agua', '1176180'
 EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad '456', 'Electricidad'
 EXECUTE dbo.SPU_Concepto_De_Cobro_En_Propiedad 'Electricidad', '1', '2021-08-15'
