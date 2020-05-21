@@ -18,6 +18,7 @@ BEGIN TRY
 	ELSE IF EXISTS(SELECT * FROM dbo.Propietario WHERE valorDocId = @valorDocId AND dbo.Propietario.activo = 0)
 		BEGIN
 			UPDATE dbo.Propietario SET dbo.Propietario.activo = 1 WHERE valorDocId = @valorDocId;
+			SET @retvalue = 1;
 		END
 	ELSE
 		BEGIN

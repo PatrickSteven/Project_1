@@ -22,6 +22,7 @@ BEGIN TRY
 	ELSE IF EXISTS(SELECT * FROM dbo.Comprobante_Pago WHERE idPropiedad = @idPropiedad AND dbo.Comprobante_Pago.activo = 0)
 		BEGIN
 			UPDATE dbo.Comprobante_Pago SET activo = 1 WHERE idPropiedad = @idPropiedad;
+			SET @retvalue = 1;
 		END
 	ELSE
 		BEGIN

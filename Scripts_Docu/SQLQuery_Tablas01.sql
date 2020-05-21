@@ -22,12 +22,13 @@ EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
 CREATE TABLE Concepto_Cobro (
     id int primary key not null,
 	nombre nvarchar(50) not null,
-	tasaInteresesMoratorios int,
 	DiaDeCobro int,
 	qDiasVencidos int,
 	EsImpuesto varchar(10),
 	EsRecurrente varchar(10),
-	EsFijo varchar(10)
+	EsFijo varchar(10),
+	tasaInteresesMoratorios float,
+	activo int
 );
 
 -- La tabla propiedad tiene tablas que usan una propiedad
@@ -43,7 +44,7 @@ CREATE TABLE Propiedad (
 	numeroFinca int not null,
 	valor int not null,
 	direccion nvarchar(50) not null,
-	activo int not null
+	activo int 
 );
 
 -- Asocia mediante FK las tablas [Propiedad,Concepto_Cobro]
@@ -100,8 +101,10 @@ CREATE TABLE Recibos (
 
 --ACTUALIZADO VERSION FINAL
 CREATE TABLE Tipo_DocId (
-	id int primary key not null,
-	nombre nvarchar(50) not null
+	id int primary key not null identity(1,1),
+	codigoDoc int not null,
+	nombre nvarchar(50) not null,
+	activo int
 );
 
 -- Propietario es una tabla usada por referencia en:
@@ -113,9 +116,9 @@ CREATE TABLE Tipo_DocId (
 CREATE TABLE Propietario (
 	id int primary key not null identity(1,1),
 	nombre nvarchar(50) not null,
-	valorDocId int not null,
+	valorDocId bigInt not null,
 	idDocId int not null,
-	activo int not null,
+	activo int ,
 	CONSTRAINT FK_tipoDocId FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
 );
 
@@ -154,10 +157,10 @@ CREATE TABLE Propiedad_del_Propietario (
 --ACTUALIZADO VERSION FINAL
 CREATE TABLE Usuario (
 	id int primary key not null identity(1,1),
-	nombre nvarchar(50) not null,
-	password nvarchar(50) not null, -- palabra reservada?
-	tipoUsuario nvarchar(50) not null, -- Administrador / Propietario
-	activo int not null
+	nombre nvarchar(50) ,
+	password nvarchar(50) , -- palabra reservada?
+	tipoUsuario nvarchar(50), -- Administrador / Propietario
+	activo int 
 );
 
 
@@ -176,17 +179,22 @@ CREATE TABLE Usuario_de_Propiedad (
 
 CREATE TABLE CC_Fijo(
 	id int not null primary key, --no puede ser identity porque tambien va a ser Foreign Key relacionada con Conepto_Cobro
-	monto money not null,
-	CONSTRAINT FK_id_CC_Fijo FOREIGN KEY (id) REFERENCES Concepto_Cobro (id) 
+	monto int not null,
+	valor float not null,
+	CONSTRAINT FK_id_CC_Fijo FOREIGN KEY (id) REFERENCES Concepto_Cobro (id),
+	activo int
 )
 
 CREATE TABLE CC_Consumo(
 	id int not null primary key, --no puede ser identity porque tambien va a ser Foreign Key relacionada con Conepto_Cobro
-	valor int not null,
-	CONSTRAINT FK_id_CC_Consumo FOREIGN KEY (id) REFERENCES Concepto_Cobro (id) 
+	monto int not null,
+	valorM3 int not null,
+	CONSTRAINT FK_id_CC_Consumo FOREIGN KEY (id) REFERENCES Concepto_Cobro (id),
+	activo int 
 )
 
 CREATE TABLE CC_Intereses_Moratorios(
 	id int not null primary key, --no puede ser identity porque tambien va a ser Foreign Key relacionada con Conepto_Cobro
-	CONSTRAINT FK_id_CC_Intereses_Moratorios FOREIGN KEY (id) REFERENCES Concepto_Cobro (id) 
+	CONSTRAINT FK_id_CC_Intereses_Moratorios FOREIGN KEY (id) REFERENCES Concepto_Cobro (id),
+	activo int 
 )

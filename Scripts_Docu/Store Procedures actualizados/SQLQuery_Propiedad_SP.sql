@@ -20,9 +20,10 @@ BEGIN TRY
 			INSERT INTO Propiedad (numeroFinca, valor, direccion , activo) VALUES (@numeroFinca,@valor,@direccion,@activo);
 			SET @retValue = SCOPE_IDENTITY();
 		END
-	IF EXISTS(SELECT * FROM dbo.Propiedad WHERE numeroFinca = @numeroFinca AND dbo.Propiedad.activo = 0)
+	ELSE IF EXISTS(SELECT * FROM dbo.Propiedad WHERE numeroFinca = @numeroFinca AND dbo.Propiedad.activo = 0)
 		BEGIN
 			UPDATE dbo.Propiedad SET activo = 1 WHERE numeroFinca = @numeroFinca;
+			SET @retvalue = 1;
 		END
 	ELSE
 		BEGIN
@@ -88,7 +89,7 @@ BEGIN
 	RETURN @retValue1
 END
 
---Delete Viejo (Actualizado)
+--Delete Viejo (vIEJO)
 CREATE PROCEDURE SPD_Propiedad
 @numeroFinca BIGINT 
 AS

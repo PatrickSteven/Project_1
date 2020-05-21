@@ -4,11 +4,11 @@
 --Descripcion: Utiliza [NumeroDeFinca,valorDocId] y si ambos inputs existen
 --entonces crea una relacion entre propietario y propiedad
 CREATE PROCEDURE [dbo].[SPI_Propiedad_Del_Propietario]
-@numeroFinca int,
-@valorDocId int
+@numeroFinca bigInt,
+@valorDocId bigInt
 AS 
 BEGIN
-	DECLARE @idPropietario int, @idPropiedad int, @retValue int, @estadoPropiedad int, @estadoPropietario int;
+	DECLARE @idPropietario bigInt, @idPropiedad bigInt, @retValue int, @estadoPropiedad int, @estadoPropietario int;
 	DECLARE @activo int = 1;
 	SELECT @idPropiedad = id from dbo.Propiedad WHERE numeroFinca = @numeroFinca;
 	SELECT @estadoPropiedad = dbo.Propiedad.activo from dbo.Propiedad WHERE numeroFinca = @numeroFinca;
@@ -34,6 +34,7 @@ BEGIN
 					AND Propiedad_Del_Propietario.activo = 0)
 		BEGIN
 			UPDATE dbo.Propiedad_del_Propietario SET activo = 1 WHERE idPropiedad = @idPropiedad AND idPropietario = @idPropietario
+			SET @retvalue = 1;
 		END
 	ELSE
 		BEGIN
@@ -42,7 +43,6 @@ BEGIN
 		END
 	RETURN @retValue
 END
-
 
 --Entrada: Numero de Finca (opcional), Valor doc Id (opcional)
 --Salida Exitosa: Id del dato borrado
@@ -191,6 +191,8 @@ END
 --Descripcion: Devuelve las porpiedades de un propietarios
 --se puede o no especificar una propiedad en especifico
 --Nota: No tiene valores de error ni de retorno
+
+--ESTE STATE PROCEDURE NO SIRVE
 CREATE PROCEDURE [dbo].[SPS_Propiedad_Del_Propietario_Detail]
 @valorDocId int = null,
 @numeroFinca int = null
@@ -222,10 +224,10 @@ END
 select * from propiedad
 select * from dbo.Propietario
 select * from dbo.Propiedad_del_Propietario
-EXECUTE SPI_Propiedad_Del_Propietario 456, 201
+EXECUTE SPI_Propiedad_Del_Propietario 1176180, 304110067
 EXECUTE SPI_Propiedad_Del_Propietario 9009, 5
 DROP PROCEDURE SPD_Propiedad_Del_Propietario
 DROP PROCEDURE SPI_Propiedad_Del_Propietario
 DROP PROCEDURE SPS_Propiedad_Del_Propietario_Detail
 EXECUTE SPD_Propiedad_Del_Propietario null, 201
-EXECUTE SPS_Propiedad_Del_Propietario_Detail 201
+EXECUTE SPS_Propiedad_Del_Propietario_Detail 304110067

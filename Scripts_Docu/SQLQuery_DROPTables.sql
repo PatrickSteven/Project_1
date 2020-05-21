@@ -6,6 +6,9 @@ DROP TABLE Propietario_Juridico;
 DROP TABLE Propietario;
 DROP TABLE Recibos;
 DROP TABLE Comprobante_Pago;
+DROP TABLE CC_Consumo
+DROP TABLE CC_Fijo
+DROP TABLE CC_Intereses_Moratorios
 DROP TABLE Concepto_Cobro;
 DROP TABLE Usuario_de_Propiedad;
 DROP TABLE Usuario;

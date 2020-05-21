@@ -11,10 +11,11 @@ BEGIN TRY
 		INSERT INTO dbo.Usuario(nombre, password, tipoUsuario, activo) VALUES (@nombre, @password, @tipoUsuario, @activo);
 		SET @retvalue = SCOPE_IDENTITY();
 	END
-	IF EXISTS (SELECT * FROM dbo.Usuario WHERE nombre = @nombre AND dbo.Usuario.activo = 0 )
-	BEGIN
-		UPDATE dbo.Usuario SET dbo.Usuario.activo = 1 WHERE nombre = @nombre;
-	END
+	ELSE IF EXISTS (SELECT * FROM dbo.Usuario WHERE nombre = @nombre AND dbo.Usuario.activo = 0 )
+		BEGIN
+			UPDATE dbo.Usuario SET dbo.Usuario.activo = 1 WHERE nombre = @nombre;
+			SET @retvalue = 1;
+		END
 	ELSE 
 		BEGIN
 		RAISERROR('Usuario ya registrado',10,1)

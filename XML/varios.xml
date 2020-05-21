@@ -278,7 +278,7 @@
 
 	<OperacionDia> 
 		<Dia fecha="27/04/2020"/>
-		<Propiedad NumFinca="1579482" Valor="62872320,50" Direccion="Corazón de Jesús, calle Manuel Solano Jiménez, local de oficina 2 niveles color crema con cortina metálica y bodega a mano izquierda, penúltima construcción "/>
+		<Propiedad NumFinca="1579482" Valor="62872320" Direccion="Corazón de Jesús, calle Manuel Solano Jiménez, local de oficina 2 niveles color crema con cortina metálica y bodega a mano izquierda, penúltima construcción "/>
 		<Propiedad NumFinca="1339574" Valor="56515500" Direccion="San Rafael Arriba de Desamparados Barrio La Guaría, del Super la Guaría, 100 Oeste y 135 Norte"/>
 		<Propiedad NumFinca="2360478" Valor="3982670" Direccion="San Juan, del Bar Los Pilones, 1 km al Norte, camino lastre y asfalto, camino secundario a San Juanillo"/>
 		<Propiedad NumFinca="2400057" Valor="19735205 " Direccion="250m Sur y 700 Oeste de entrada a San José de la Tigra"/>
@@ -341,7 +341,7 @@
 		<Propietario Nombre="Intelec" TipoDocIdentidad="4" identificacion="3102640105" />
 		<PropiedadVersusPropietario NumFinca="2512174" identificacion="3102640105"/>
 		<PersonaJuridica docidPersonaJuridica="3102640105" DocidRepresentante="206350949" Nombre="ANTHONY RICHARD CALLOW MONGE" TipDocIdRepresentante="1" />
-		<Propiedad NumFinca="1136447" Valor="72041378,55" Direccion="Dulce Nombre de Jesús, de la Lechería Nevada 300 m Este y 200 m Norte"/>
+		<Propiedad NumFinca="1136447" Valor="72041378" Direccion="Dulce Nombre de Jesús, de la Lechería Nevada 300 m Este y 200 m Norte"/>
 		<PersonaJuridica docidPersonaJuridica="3102854321" DocidRepresentante="105940276" Nombre="MARCO HIDALGO MACRE" TipDocIdRepresentante="1" />
 		<Propietario Nombre="Dos Pinos" TipoDocIdentidad="4" identificacion="3102854321" />
 		<PropiedadVersusPropietario NumFinca="1136447" identificacion="3102854321"/>

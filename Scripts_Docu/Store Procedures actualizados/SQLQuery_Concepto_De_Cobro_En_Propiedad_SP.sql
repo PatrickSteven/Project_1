@@ -35,7 +35,7 @@ BEGIN TRY
 					AND Concepto_Cobro_en_Propiedad.activo = 0)
 		BEGIN
 			UPDATE dbo.Concepto_Cobro_en_Propiedad SET activo = 1 WHERE idPropiedad = @idPropiedad AND idConeceptoCobro = @idConceptoCobro 
-			SET @retValue = SCOPE_IDENTITY();
+			SET @retValue = 1;
 		END
 	ELSE 
 		BEGIN
@@ -234,11 +234,12 @@ END
 
 --Pruebas
 select * from Propiedad
+
 select * from Concepto_Cobro
 select * from CC_Fijo
-select * from Concepto_Cobro_en_Propiedad
+select * from Concepto_Cobro_En_Propiedad
 EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '9009','CC_Fijo'
-EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad '2019-03-12', '2020-05-15', 'Electricidad', '456'
+EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad '2019-03-12', '2020-05-15', 'Agua', '1176180'
 EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad '456', 'Electricidad'
 EXECUTE dbo.SPU_Concepto_De_Cobro_En_Propiedad 'Electricidad', '1', '2021-08-15'
 DROP PROCEDURE SPD_Concepto_De_Cobro_En_Propiedad
