@@ -89,7 +89,7 @@ namespace Project_1.Controllers
 
         //UPDATE
         [Route("Propietario/UpdateRedirect/{valorDocId}")]
-        public ActionResult UpdateRedirect(int valorDocId)
+        public ActionResult UpdateRedirect(double valorDocId)
         {
             var propietarioInsert = new PropietarioInsertViewModel();
             var propietario = Propietario_Conexion.SelectPropietario(valorDocId);
@@ -133,7 +133,7 @@ namespace Project_1.Controllers
         //DELETE
         [Route("Propietario/Delete/{valorDocId}")]
         [HttpPost]
-        public void Delete(int valorDocId)
+        public void Delete(double valorDocId)
         {
             Propietario_Conexion.Delete(new Propietario() {valorDocId = valorDocId});
         }
@@ -141,7 +141,7 @@ namespace Project_1.Controllers
 
         //DETAIL
         [Route("Propietario/Detail/{valorDocId}")]
-        public ActionResult Detail(int valorDocId)
+        public ActionResult Detail(double valorDocId)
         {
             Propietario propietario = Propietario_Conexion.SelectPropietario(valorDocId);
             List<Propiedad> propiedades = Propiedad_del_Propietario_Conexion.SelectPropietarioDetail(valorDocId);

@@ -65,7 +65,7 @@ namespace Project_1.Models.Recibos
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPD_Recibos";
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = recibo.numeroFinca;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = recibo.numeroFinca;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 

@@ -14,7 +14,7 @@ namespace Project_1.Controllers
     {   
         [Route("PropiedadDelPropietario/Despropiar/{numeroFinca}/{valorDocId}")]
         [HttpPost]
-        public bool Despropiar(int numeroFinca, int valorDocId)
+        public bool Despropiar(int numeroFinca, double valorDocId)
         {
             var propiedadDelPropietario = new Propiedad_Del_Propietario()
             {
@@ -29,7 +29,7 @@ namespace Project_1.Controllers
 
         [Route("PropiedadDelPropietario/Apropiar/{numeroFinca}/{valorDocId}")]
         [HttpPost]
-        public string Apropiar(int numeroFinca, int valorDocId)
+        public string Apropiar(int numeroFinca, double valorDocId)
         {
             if (!ModelState.IsValid)
             {

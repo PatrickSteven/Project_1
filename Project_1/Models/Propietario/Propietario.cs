@@ -14,7 +14,7 @@ namespace Project_1.Models
 
         [Display(Name = "Valor de Documento")]
         [Required]
-        public int valorDocId { get; set; }
+        public double valorDocId { get; set; }
 
         [Display(Name = "Tipo de Documento")]
         [Required]

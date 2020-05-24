@@ -25,7 +25,7 @@ namespace Project_1.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPI_Propietario";
                 cmd.Parameters.Add("@idDocId", SqlDbType.Int).Value = porpietario.idDocId;
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = porpietario.valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = porpietario.valorDocId;
                 cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = porpietario.nombre;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
@@ -61,7 +61,7 @@ namespace Project_1.Models
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPD_Propietario";
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = porpietario.valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = porpietario.valorDocId;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 
@@ -96,7 +96,7 @@ namespace Project_1.Models
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPU_Propietario";
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = porpietario.valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = porpietario.valorDocId;
                 cmd.Parameters.Add("@nombre", SqlDbType.VarChar).Value = porpietario.nombre;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
@@ -145,7 +145,7 @@ namespace Project_1.Models
                             list.Add(new Propietario()
                             {
                                 nombre = reader.GetString(0),
-                                valorDocId = (int) reader.GetInt64(1),
+                                valorDocId = reader.GetInt64(1),
                             });
                         }
                             
@@ -165,14 +165,14 @@ namespace Project_1.Models
             }
         }
 
-        public static Propietario SelectPropietario(int valorDocId)
+        public static Propietario SelectPropietario(double valorDocId)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPS_Propietario_Detail";
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = valorDocId;
                 cmd.Connection = connection;
                 var propietario = new Propietario();
                 try
@@ -184,7 +184,7 @@ namespace Project_1.Models
                         reader.Read();
                         propietario.idDocId = reader.GetInt32(0);
                         propietario.nombre = reader.GetString(1);
-                        propietario.valorDocId = reader.GetInt32(2);
+                        propietario.valorDocId = reader.GetInt64(2);
                         propietario.nombreDocId = reader.GetString(3);
 
                     }

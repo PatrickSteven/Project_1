@@ -15,6 +15,6 @@ namespace Project_1.Models
 
         [Display(Name = "Valor Doc Id")]
         [Required]
-        public int valorDocId { get; set; }
+        public double valorDocId { get; set; }
     }
 }

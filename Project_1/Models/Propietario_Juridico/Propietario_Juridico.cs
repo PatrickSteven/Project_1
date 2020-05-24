@@ -11,7 +11,7 @@ namespace Project_1.Models.Propietario_Juridico
         [Display(Name = "Nombre del responsable")]
         public string responsable { get; set; }
         [Display(Name = "Documento")]
-        public int valorDocId { get; set; }
+        public double valorDocId { get; set; }
         public int  jIdDocId { get; set; }
         public int idPropietario { get; set; }
     }

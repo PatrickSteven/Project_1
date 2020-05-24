@@ -19,7 +19,7 @@ namespace Project_1.Models.Propietario_Juridico
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPI_Propietario_Juridico";
                 cmd.Parameters.Add("@idDocId", SqlDbType.Int).Value = propietario.jIdDocId;
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = propietario.valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = propietario.valorDocId;
                 cmd.Parameters.Add("@responsable", SqlDbType.VarChar).Value = propietario.responsable;
                 cmd.Parameters.Add("@idPropietario", SqlDbType.Int).Value = propietario.idPropietario;
                 cmd.Connection = connection;
@@ -47,14 +47,14 @@ namespace Project_1.Models.Propietario_Juridico
             }
         }
 
-        public static Propietario_Juridico SelectPropietario(int valorDocId)
+        public static Propietario_Juridico SelectPropietario(Double valorDocId)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPS_Propietario_Juridico_Detail";
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = valorDocId;
                 cmd.Connection = connection;
                 var propietario = new Propietario_Juridico();
                 try
@@ -65,7 +65,7 @@ namespace Project_1.Models.Propietario_Juridico
 
                         reader.Read();
                         propietario.responsable = reader.GetString(0);
-                        propietario.valorDocId = reader.GetInt32(1);
+                        propietario.valorDocId = reader.GetInt64(1);
                         propietario.jIdDocId = reader.GetInt32(2);
 
                     }

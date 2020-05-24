@@ -24,7 +24,7 @@ namespace Project_1.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPI_Propiedad_Del_Propietario";
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = conexion.numeroFinca;
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = conexion.valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = conexion.valorDocId;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 
@@ -60,7 +60,7 @@ namespace Project_1.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPD_Propiedad_Del_Propietario";
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = conexion.numeroFinca;
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = conexion.valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = conexion.valorDocId;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
 
@@ -106,7 +106,7 @@ namespace Project_1.Models
                             propietarios.Add(new Propietario()
                             {
                                 nombre = reader.GetString(0),
-                                valorDocId = (int) reader.GetInt64(1),
+                                valorDocId = reader.GetInt64(1),
                                 nombreDocId = reader.GetString(2)
 
                             });
@@ -128,14 +128,14 @@ namespace Project_1.Models
             }
         }
 
-        public static List<Propiedad> SelectPropietarioDetail(int valorDocId)
+        public static List<Propiedad> SelectPropietarioDetail(double valorDocId)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPS_Propiedad_Del_Propietario_Detail";
-                cmd.Parameters.Add("@valorDocId", SqlDbType.Int).Value = valorDocId;
+                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = valorDocId;
                 cmd.Connection = connection;
                 List<Propiedad> propiedades = new List<Propiedad>();
                 try

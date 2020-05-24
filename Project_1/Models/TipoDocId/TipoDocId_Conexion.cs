@@ -29,8 +29,8 @@ namespace Project_1.Models.TipoDocId
                         while (reader.Read())
                             list.Add(new TipoDocId()
                             {
-                                id = reader.GetInt32(0),
-                                nombre = reader.GetString(1)
+                                id = reader.GetInt32(1),
+                                nombre = reader.GetString(2)
                             });
                     }
                 }
