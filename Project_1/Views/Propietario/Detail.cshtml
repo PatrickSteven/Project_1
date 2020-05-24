@@ -199,12 +199,8 @@
                                         deleteButton.attr("propiedad-data") +
                                         "/" +
                                         @Model.propietario.valorDocId,
-                                    success: function(retval) {
-                                        console.log(retval);
-                                        if (retval.ToString().ToLower() == true) //Retorna True
-                                            deleteButton.parents("tr").remove();
-                                        else
-                                            console.log("Error al despropiar");
+                                    success: function() {
+                                        deleteButton.parents("tr").remove();
                                     }
                                 });
                             }

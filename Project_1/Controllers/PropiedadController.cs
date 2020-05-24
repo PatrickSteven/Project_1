@@ -95,7 +95,7 @@ namespace Project_1.Controllers
 
         //Delete Propiedad
         [Route("Propiedad/Delete/{numeroFinca}")]
-        [HttpPost]
+        //[HttpPost]
         public void Delete(int numeroFinca)
         {
             var code = Propiedad_Conexion.Delete(numeroFinca);

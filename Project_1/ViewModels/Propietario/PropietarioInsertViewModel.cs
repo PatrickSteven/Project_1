@@ -20,6 +20,6 @@ namespace Project_1.ViewModels
         public IEnumerable<TipoDocId> tipoDocIdList { get; set; }
         public bool isPropietario_Juridico { get; set; }
 
-        public int cedulaJuridica = 2; //Id de cedula juridica en la tabla tipoDocId
+        public int cedulaJuridica = TipoDocId.cedulaJuridica; //Id de cedula juridica en la tabla tipoDocId
     }
 }

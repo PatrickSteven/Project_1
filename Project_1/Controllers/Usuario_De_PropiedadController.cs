@@ -13,21 +13,13 @@ namespace Project_1.Controllers
     public class Usuario_De_PropiedadController : Controller
     {
         [Route("UsuarioDePropiedad/DesuscribirPropiedad/{nombre}/{numeroFinca}")]
-        public bool DesuscribirPropiedad(string nombre, int numeroFinca)
+        public void DesuscribirPropiedad(string nombre, int numeroFinca)
         {
             int retval = Usuario_de_Propiedad_Conexion.Delete(new Usuario_de_Propiedad()
             {
                 nombre = nombre,
                 numeroFinca = numeroFinca
             });
-
-            if (ErrorCodes.errorCodes.ContainsKey(retval))
-            {
-                return false;
-            }
-
-            return true;
-
         }
 
         [Route("UsuarioDePropiedad/SuscribirPropiedad/{nombre}/{numeroFinca}")]

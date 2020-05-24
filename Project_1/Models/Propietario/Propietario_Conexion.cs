@@ -146,6 +146,7 @@ namespace Project_1.Models
                             {
                                 nombre = reader.GetString(0),
                                 valorDocId = reader.GetInt64(1),
+                                nombreDocId = reader.GetString(2)
                             });
                         }
                             

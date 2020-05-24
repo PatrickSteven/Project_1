@@ -128,11 +128,12 @@ CREATE PROCEDURE [dbo].[SPS_Propietario]
 AS 
 BEGIN
 	SELECT 
-	nombre 'Nombre',
-	valorDocId 'Documento_Id'
-
+	dbo.Propietario.nombre,
+	dbo.Propietario.valorDocId,
+	dbo.Tipo_DocId.nombre
 	FROM dbo.Propietario
-	WHERE activo = 1;
+	JOIN dbo.Tipo_DocId ON dbo.Tipo_DocId.codigoDoc = dbo.Propietario.idDocId
+	WHERE dbo.Propietario.activo = 1;
 END
 
 --Select Propietario (Actualizado 1.0)
