@@ -14,7 +14,7 @@ BEGIN TRY
 			RAISERROR('Propietario no registrado en la base de datos', 10, 1)
 			SET @retValue = -16;
 		END
-	IF NOT EXISTS (SELECT * FROM dbo.Propiedad WHERE @numeroFinca = numeroFinca)
+	ELSE IF NOT EXISTS (SELECT * FROM dbo.Propiedad WHERE @numeroFinca = numeroFinca)
 		BEGIN
 			RAISERROR('Propietario no registrado en la base de datos', 10, 1)
 			SET @retValue = -12;
@@ -46,7 +46,52 @@ BEGIN CATCH
 	RAISERROR( @Message, @Severity, @State) 
 END CATCH
 
---Delete 
+
+--Delete (Nuevo)
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[SPD_Usuario_De_Propiedad]
+@nombre NVARCHAR(50),
+@numeroFinca int
+AS
+BEGIN TRY
+	DECLARE @retvalue int;
+	IF NOT EXISTS (SELECT * FROM dbo.Usuario WHERE nombre = @nombre)
+		BEGIN
+			RAISERROR('Usuario no registrado',10,1)
+			SET @retvalue = -16  -- nombre de usuario ya existe en la base de datos
+		END
+	ELSE IF NOT EXISTS (SELECT * FROM dbo.Propiedad WHERE @numeroFinca = numeroFinca)
+		BEGIN
+			RAISERROR('Propietario no registrado en la base de datos', 10, 1)
+			SET @retValue = -12;
+		END
+	ELSE
+		BEGIN
+			DECLARE @idPropiedad int;
+			DECLARE @idUsuario int;
+			SELECT @idPropiedad = id from dbo.Propiedad WHERE numeroFinca = @numeroFinca;
+			SELECT @idUsuario = id from dbo.Usuario WHERE nombre = @nombre;
+			UPDATE dbo.Usuario_De_Propiedad SET activo = 0 WHERE  @idPropiedad = idPropiedad;
+			SET @retvalue = 1;
+		END
+	RETURN @retvalue;
+END TRY
+
+BEGIN CATCH
+	DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+ 
+	RAISERROR( @Message, @Severity, @State) 
+END CATCH
+
+
+
+--Delete (Viejo)
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -127,8 +172,8 @@ END
 --Prueba
 DROP PROCEDURE SPD_Usuario_De_Propiedad
 SELECT * FROM Propiedad
-EXECUTE SPI_Usuario_De_Propiedad "admin", 456
+EXECUTE SPI_Usuario_De_Propiedad Jquiros, 1394522
 SELECT * FROM Usuario
 select * from Usuario_de_Propiedad
-EXECUTE SPD_Usuario_De_Propiedad "usuario", 9009
+EXECUTE [SPD_Usuario_De_Propiedad] Jquiros, 1394522
 EXECUTE SPS_Usuario_De_Propiedad_Detail_Usuario "admin"

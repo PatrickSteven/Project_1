@@ -3,7 +3,7 @@ GO
 --Insert (Actualizado 1.0)
 CREATE PROCEDURE [dbo].[SPI_Propietario]
 @nombre NVARCHAR(50),
-@valorDocId int,
+@valorDocId bigInt,
 @idDocId int
 AS 
 BEGIN TRY
@@ -38,9 +38,10 @@ BEGIN CATCH
    RAISERROR( @Message, @Severity, @State) 
 END CATCH
 
+
 --Delete (Actualizado Nuevo)
 CREATE PROCEDURE [dbo].[SPD_Propietario]
-@valorDocId BIGINT 
+@valorDocId bigInt 
 AS
 BEGIN
 	DECLARE @retValue int;
@@ -90,7 +91,7 @@ END
 --Update (Actualizado 1.0)
 CREATE PROCEDURE [dbo].[SPU_Propietario]
 @nombre NVARCHAR(50),
-@valorDocId int
+@valorDocId bigInt
 AS 
 BEGIN TRY
 	DECLARE @retValue int;
@@ -136,7 +137,7 @@ END
 
 --Select Propietario (Actualizado 1.0)
 CREATE PROCEDURE [dbo].[SPS_Propietario_Detail]
-@valorDocId int
+@valorDocId bigInt
 AS
 BEGIN
 	SELECT Propietario.idDocId, Propietario.nombre, Propietario.ValorDocId, Tipo_DocId.nombre
@@ -146,7 +147,7 @@ BEGIN
 END
 
 --Pruebas-- (Actualizado 1.0)
-EXECUTE SPI_Propietario "Carlos", 201, 1
+EXECUTE SPI_Propietario "Carlos", 20000000001, 1
 Select * from dbo.Propietario
 EXECUTE SPU_Propietario "Ramón", 2020
 EXECUTE SPS_Propietario

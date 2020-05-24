@@ -57,7 +57,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[SPD_Propiedad_Del_Propietario]
 @numeroFinca int = null,
-@valorDocId int = null
+@valorDocId bigInt = null
 AS
 BEGIN
 	DECLARE @idPropietario int, @idPropiedad int, @retValue int
@@ -129,7 +129,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[SPD_Propiedad_Del_Propietario]
 @numeroFinca int = null,
-@valorDocId int = null
+@valorDocId bigInt = null
 AS
 BEGIN
 	DECLARE @idPropietario int, @idPropiedad int, @retValue int
@@ -194,7 +194,7 @@ END
 
 --ESTE STATE PROCEDURE NO SIRVE
 CREATE PROCEDURE [dbo].[SPS_Propiedad_Del_Propietario_Detail]
-@valorDocId int = null,
+@valorDocId bigInt = null,
 @numeroFinca int = null
 
 AS
@@ -224,7 +224,7 @@ END
 select * from propiedad
 select * from dbo.Propietario
 select * from dbo.Propiedad_del_Propietario
-EXECUTE SPI_Propiedad_Del_Propietario 1176180, 304110067
+EXECUTE SPD_Propiedad_Del_Propietario 1176180, 304110067
 EXECUTE SPI_Propiedad_Del_Propietario 9009, 5
 DROP PROCEDURE SPD_Propiedad_Del_Propietario
 DROP PROCEDURE SPI_Propiedad_Del_Propietario

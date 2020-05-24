@@ -6,7 +6,7 @@
 CREATE PROCEDURE [dbo].[SPI_Propietario_Juridico]
 @idPropietario int,
 @responsable NVARCHAR(50),
-@valorDocId int,
+@valorDocId bigInt,
 @idDocId int
 AS 
 BEGIN TRY
@@ -48,7 +48,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE PROCEDURE [dbo].[SPD_Propietario_Juridico]
-@valorDocId int = null,
+@valorDocId bigInt = null,
 @idPropietario int = null
 AS
 BEGIN
@@ -106,7 +106,7 @@ GO
 CREATE PROCEDURE [dbo].[SPS_Propietario_Juridico]
 AS 
 BEGIN
-	DECLARE @ValorDocIdPropietario int
+	DECLARE @ValorDocIdPropietario bigInt
 	SELECT 
 	responsable 'Responsable',
 	dbo.Propietario_Juridico.valorDocId 'Documento_Id',
@@ -121,7 +121,7 @@ END
 --Descripcion: Solamente selecciona el propietario juridico que se 
 --indica en el input ValorDocId
 CREATE PROCEDURE [dbo].[SPS_Propietario_Juridico_Detail]
-@valorDocId int
+@valorDocId bigInt
 AS 
 BEGIN
 	DECLARE @idPropietario int
@@ -142,4 +142,8 @@ SELECT * from Propietario
 EXECUTE SPD_Propietario_Juridico null, 1
 EXECUTE SPU_Propietario_Juridico "Manuel", 1919
 EXECUTE SPS_Propietario_Juridico_Detail 124135
+
 DROP PROCEDURE SPD_Propietario_Juridico
+DROP PROCEDURE SPU_Propietario_Juridico
+DROP PROCEDURE SPI_Propietario_Juridico
+DROP PROCEDURE [SPS_Propietario_Juridico]

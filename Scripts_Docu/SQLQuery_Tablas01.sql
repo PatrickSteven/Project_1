@@ -130,7 +130,7 @@ CREATE TABLE Propietario (
 CREATE TABLE Propietario_Juridico (
 	id int primary key not null identity(1,1),
 	responsable nvarchar(50) not null,
-	valorDocId int not null,
+	valorDocId bigInt not null,
 	idDocId int not null,
 	CONSTRAINT FK_tipoDocId_02 FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
 	--Este id propietario es el id de Propietario juridico
