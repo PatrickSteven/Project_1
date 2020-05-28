@@ -14,7 +14,7 @@ namespace Project_1.Controllers
     {   
         [Route("PropiedadDelPropietario/Despropiar/{numeroFinca}/{valorDocId}")]
         [HttpPost]
-        public bool Despropiar(int numeroFinca, double valorDocId)
+        public void Despropiar(int numeroFinca, double valorDocId)
         {
             var propiedadDelPropietario = new Propiedad_Del_Propietario()
             {
@@ -22,9 +22,9 @@ namespace Project_1.Controllers
                 valorDocId = valorDocId
             };
 
-            int retval = Propiedad_del_Propietario_Conexion.Delete(propiedadDelPropietario);
-            if (ErrorCodes.errorCodes.ContainsKey(retval)) return false;
-            else return true;
+            Propiedad_del_Propietario_Conexion.Delete(propiedadDelPropietario);
+            //if (ErrorCodes.errorCodes.ContainsKey(retval)) return false;
+            //else return true;
         }
 
         [Route("PropiedadDelPropietario/Apropiar/{numeroFinca}/{valorDocId}")]

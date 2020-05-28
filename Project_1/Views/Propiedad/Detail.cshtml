@@ -14,15 +14,6 @@
     <p class="lead">
         <button class="btn btn-sm btn-dark" role="button">
             @Html.ActionLink(
-                "Asignar Propietario",
-                "UpdateRedirect",
-                "Propiedad",
-                new { @Model.propiedad.numeroFinca },
-                new { @class = "text-white" })
-            <ion-icon name="person-add"></ion-icon>
-        </button>
-        <button class="btn btn-sm btn-dark" role="button">
-            @Html.ActionLink(
                 "Actualizar",
                 "UpdateRedirect",
                 "Propiedad",
@@ -265,12 +256,8 @@ else
                                 $.ajax({
                                     method: "POST",
                                     url: '@Url.Content("~/PropiedadDelPropietario/Despropiar/")'+ @Model.propiedad.numeroFinca +"/"+ deleteButton.attr("propietario-data"),
-                                    success: function (retval) {
-                                        console.log(retval);
-                                        if (retval.ToString().ToLower() == true) //Retorna True
-                                            deleteButton.parents("tr").remove();
-                                        else
-                                            console.log("Error al despropiar");
+                                    success: function () {
+                                        deleteButton.parents("tr").remove();
                                     }
                                 });
                             }
@@ -303,12 +290,8 @@ else
                                 $.ajax({
                                     method: "POST",
                                     url: '@Url.Content("~/UsuarioDePropiedad/DesuscribirPropiedad/")' + usuarioNombre  + "/" + "@Model.propiedad.numeroFinca",
-                                    success: function(retval) {
-                                        console.log(retval);
-                                        if (retval == "True") //Retorna True
-                                            deleteButton.parents("tr").remove();
-                                        else
-                                            console.log("Error al desuscribir");
+                                    success: function() {
+                                        deleteButton.parents("tr").remove();
                                     }
                                 });
                             }
