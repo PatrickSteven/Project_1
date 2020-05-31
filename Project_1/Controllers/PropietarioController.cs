@@ -123,7 +123,7 @@ namespace Project_1.Controllers
             if (ErrorCodes.errorCodes.ContainsKey(retval))
             {
                 TempData["WarningMessage"] = ErrorCodes.errorCodes[retval];
-                return View("UpdateForm", propietario);
+                return View("UpdateForm", PreparePropietarioInsertViewModel(propietario));
             }
 
             TempData["SuccessfulMessage"] = "correctamente";

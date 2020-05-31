@@ -135,7 +135,7 @@ GO
 CREATE PROCEDURE [dbo].[SPS_Propietario]
 AS 
 BEGIN
-	SELECT P.[nombre], P.[valorDocId], P.[nombre] FROM dbo.[Propietario] AS P
+	SELECT P.[nombre], P.[valorDocId], dbo.[Tipo_DocId].nombre FROM dbo.[Propietario] AS P
 	JOIN dbo.[Tipo_DocId] ON dbo.Tipo_DocId.[codigoDoc] = P.[idDocId]
 	WHERE P.activo = 1;
 END

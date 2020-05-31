@@ -13,18 +13,13 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 
         // Concepto de Cobro
 
-
         [Display(Name = "Numero de Finca")]
         [Required]
         public int numeroFinca { get; set; }
 
-        [Display(Name = "Fecha Inicio")]
+        [Display(Name = "Fecha Leido")]
         [Required]
-        public DateTime fechaInicio { get; set; }
-
-        [Display(Name = "Fecha Fin")]
-        [Required]
-        public DateTime fechaFin { get; set; }
+        public DateTime fechaLeido { get; set; }
 
         [Display(Name = "Nombre Comprobamte de Pago")]
         [Required]
@@ -32,7 +27,7 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 
         [Display(Name = "Tasa de Intereses Moratorios")]
         [Required]
-        public int interesesMoratorios { get; set; }
+        public float interesesMoratorios { get; set; }
 
         [Display(Name = "Dia de Cobro")]
         [Required]
@@ -40,7 +35,7 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 
         [Display(Name = "Cantidad de dias Vencidos")]
         [Required]
-        public int diaVencido { get; set; }
+        public int diasVencidos { get; set; }
 
         [Display(Name = "Es Fijo")]
         [Required]
@@ -48,25 +43,15 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 
         [Display(Name = "Es Recurrente")]
         [Required]
-        public string esRecurrete { get; set; }
-
+        public string esRecurrente { get; set; }
 
         // CC_Fijo
         [Display(Name = "Monto")]
-        public float monto { get; set; }
+        public int monto { get; set; }
 
         //CC_Consumo
         [Display(Name = "Valor")]
         public float valor { get; set; }
 
-        
-        
-
-        
-        
-
-        
-
-        
     }
 }
