@@ -5,43 +5,30 @@
 --valorDocId de los elementos ingresados
 
 --Insert actualizado
-CREATE PROCEDURE [dbo].[SPI_Propietario_Juridico]
-@responsable NVARCHAR(50),
-@valorDocId bigInt,
+CREATE PROCEDURE [dbo].[SPI_Propietario_Juridico]			
+@idPropietario int,													
+@responsable NVARCHAR(50),														
+@valorDocIdResponsable bigInt,
 @idDocId int
 AS 
 BEGIN TRY
-	DECLARE @retValue int = 1, @idPropietario int, @estado int = 1;
-	IF NOT EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId) OR NOT EXISTS (SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[valorDocId] = @valorDocId)
-		BEGIN
-			IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId)
-				BEGIN
-					SELECT @idPropietario = [id] FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId;
-					INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
-					VALUES (@idPropietario, @responsable, @valorDocId, @idDocId, @estado, GETDATE())
-					SET @retValue = 1;
-				END
-			ELSE
-				BEGIN
-					RAISERROR('Propietario no registrado en la base de datos', 10, 1)
-					SET @retValue = -12;
-				END
+	DECLARE @retValue int = 1, @estado int = 1;
+	IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[id] = @idPropietario AND P.[activo] = 1)
+		BEGIN		
+			INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
+			VALUES (@idPropietario, @responsable, @valorDocIdResponsable, @idDocId, @estado, GETDATE())
+			SET @retValue = 1;
 		END
+
 	-- Si el propietario juridico existe pero no esta activado --
-	ELSE IF EXISTS(SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[valorDocId] = @valorDocId AND PJ.[activo] = 0)
+	ELSE IF EXISTS(SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario AND PJ.[activo] = 0)
 		BEGIN 
 			-- Si el propietario esta activado entonces el propietario juridico tambien se puede activar --
-			IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId AND P.[activo] = 1)
-				BEGIN
-					UPDATE dbo.[Propietario_Juridico] SET dbo.Propietario_Juridico.[activo] = 1 WHERE valorDocId = @valorDocId; 
-					EXECUTE [SPU_Propietario_Juridico] @responsable, @valorDocId;
-					SET @retvalue = 1;
-				END
-			ELSE
-				BEGIN
-					RAISERROR('Propietario no registrado en la base de datos', 10, 1)
-					SET @retValue = -12;
-				END
+				
+			UPDATE dbo.[Propietario_Juridico] SET dbo.Propietario_Juridico.[activo] = 1 WHERE valorDocId = @valorDocId; 
+			EXECUTE [SPU_Propietario_Juridico] @responsable, @valorDocId;
+			SET @retvalue = 1;
+				
 		END
 	ELSE 
 		BEGIN

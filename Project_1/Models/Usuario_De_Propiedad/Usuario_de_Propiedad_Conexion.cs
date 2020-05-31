@@ -113,7 +113,7 @@ namespace Project_1.Models
                             propiedades.Add(new Propiedad()
                             {
                                 numeroFinca = reader.GetInt32(0),
-                                valor = reader.GetInt32(1),
+                                valor = (decimal) reader.GetSqlMoney(1),
                                 direccion = reader.GetString(2)
 
                             });
