@@ -22,56 +22,64 @@ Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Co
 
 DECLARE @hdoc int;
 EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
-
+DELETE FROM dbo.[Concepto_Cobro]
 --Inserta la informacion que pertenece a Concepto_Cobro (sin la herencia, todavia)
-INSERT INTO dbo.Concepto_Cobro(id, nombre, DiaDeCobro, qDiasVencidos, EsImpuesto, EsRecurrente, EsFijo, tasaInteresesMoratorios)
-SELECT * FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
+INSERT INTO dbo.[Concepto_Cobro] ([id], [nombre], [DiaDeCobro], [qDiasVencidos], [EsImpuesto], [EsRecurrente], [EsFijo], [tasaInteresesMoratorios],[fechaInicio], [activo] )
+--Insertar con activo == 1
+SELECT [id], [Nombre], [DiaCobro], [QDiasVencimiento], [EsImpuesto], [EsRecurrente], [EsFijo], [TasaInteresMoratoria], GETDATE(), 1
+FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
 WITH(
-		id int, 
-		Nombre varchar(100), 
-		DiaCobro int,
-		QDiasVencimiento int,
-		EsImpuesto varchar(10),
-		EsRecurrente varchar(10),
-		EsFijo varchar(10),
-		TasaInteresMoratoria float
+		[id] int, 
+		[Nombre] varchar(100), 
+		[DiaCobro] int,
+		[QDiasVencimiento] int,
+		[EsImpuesto] varchar(10),
+		[EsRecurrente] varchar(10),
+		[EsFijo] varchar(10),
+		[TasaInteresMoratoria] float
 )
-UPDATE dbo.Concepto_Cobro SET activo = 1;
 
+
+DELETE FROM dbo.[CC_Fijo]
 --Inserta la informacion que pertenece a CC_Fijo (con la herencia a Concepto_Cobro)
-INSERT INTO dbo.CC_Fijo ( id,Monto,valor)
-SELECT id,monto,valorporcentaje  FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
+INSERT INTO dbo.[CC_Fijo] ( [id] ,[Monto] ,[valor],[fechaInicio], [activo])
+SELECT [id] , [Monto] , [ValorPorcentaje], GETDATE(), 1 
+FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
 WITH(	
-		id int,
-		Monto int,
-		ValorPorcentaje float,
-		TipoCC varchar(50)
+		[id] int,
+		[Monto] int,
+		[ValorPorcentaje] float,
+		[TipoCC] varchar(50)
 )
+--Pregunta por el tipo de dato para saber la tabla a la que inserta
 WHERE TipoCC = 'CC Fijo';
-UPDATE dbo.CC_Fijo SET activo = 1;
 
 
+DELETE FROM dbo.[CC_Consumo]
 --Inserta la informacion que pertenece a CC_Consumo (con la herencia a Concepto_Cobro)
-INSERT INTO dbo.CC_Consumo ( id,monto, valorM3)
-SELECT id,monto,valorM3 FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
+INSERT INTO dbo.[CC_Consumo] ( [id] ,[monto] , [valorM3],[fechaInicio], [activo])
+SELECT [id], [Monto] ,[ValorM3], GETDATE(), 1
+FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
 WITH(	
-		id int,
-		Monto int,
-		ValorM3 int,
-		TipoCC varchar(50)
+		[id] int,
+		[Monto] int,
+		[ValorM3] int,
+		[TipoCC] varchar(50)
 )
+--Pregunta por el tipo de dato para saber la tabla a la que inserta
 WHERE TipoCC = 'CC Consumo';
-UPDATE dbo.CC_Consumo SET activo = 1;
 
+DELETE FROM dbo.[CC_Intereses_Moratorios]
 --Inserta la informacion que pertenece a CC_Intereses_Moratorios (con la herencia a Concepto_Cobro)
-INSERT INTO dbo.CC_Intereses_Moratorios (id)
-SELECT id FROM OPENXML (@hdoc, 'Conceptos_de_Cobro/conceptocobro', 0)
+INSERT INTO dbo.[CC_Intereses_Moratorios] ([id],[fechaInicio], [activo])
+SELECT [id], GETDATE(), 1 
+FROM OPENXML (@hdoc, 'Conceptos_de_Cobro/conceptocobro', 0)
 WITH(	
 		id int,
 		TipoCC varchar(50)
 )
+--Pregunta por el tipo de dato para saber la tabla a la que inserta
 WHERE TipoCC = 'CC Intereses Moratorios';
-UPDATE dbo.CC_Intereses_Moratorios SET activo = 1;
 
 
 

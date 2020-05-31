@@ -23,16 +23,16 @@ Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Ti
 
 DECLARE @hdoc int;
 EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
-
+DELETE FROM dbo.[Tipo_DocId]
 --Inserta la informacion que pertenece a Tipo_DocId 
-INSERT INTO dbo.Tipo_DocId(codigoDoc,nombre)
-SELECT * FROM OPENXML (@hdoc, '/TipoDocIdentidad/TipoDocId', 0)
+INSERT INTO dbo.Tipo_DocId(codigoDoc,nombre, fechaInicio, activo)
+SELECT [codigoDoc], [descripcion], GETDATE(), 1
+FROM OPENXML (@hdoc, '/TipoDocIdentidad/TipoDocId', 0)
 WITH(
 		codigoDoc int,
 		descripcion varchar(100)
 	
 )
-UPDATE dbo.Tipo_DocId SET activo = 1;
 
 SELECT * FROM dbo.Tipo_DocId;
 

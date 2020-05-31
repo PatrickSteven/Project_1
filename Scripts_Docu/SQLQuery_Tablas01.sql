@@ -28,6 +28,7 @@ CREATE TABLE Concepto_Cobro (
 	EsRecurrente varchar(10),
 	EsFijo varchar(10),
 	tasaInteresesMoratorios float,
+	fechaInicio date not null,
 	activo int
 );
 
@@ -40,9 +41,10 @@ CREATE TABLE Concepto_Cobro (
 
 --ACTUALIZADO VERSION FINAL
 CREATE TABLE Propiedad (
-	id int primary key not null identity(1,1),
+	id int primary key not null identity(1,1),int
+	fechaLeido date not null,
 	numeroFinca int not null,
-	valor int not null,
+	valor money not null,
 	direccion nvarchar(50) not null,
 	activo int 
 );
@@ -53,8 +55,7 @@ CREATE TABLE Propiedad (
 --ACTUALIZADO VERSION FINAL
 CREATE TABLE Concepto_Cobro_en_Propiedad (
 	id int primary key not null identity(1,1),
-	fechaInicio date not null,
-	fechaFin date not null,
+	fechaLeido date not null,
 	idConeceptoCobro int not null,
 	CONSTRAINT FK_idConeceptoCobro FOREIGN KEY (idConeceptoCobro) REFERENCES Concepto_Cobro(id),
 	idPropiedad int not null,
@@ -104,6 +105,7 @@ CREATE TABLE Tipo_DocId (
 	id int primary key not null identity(1,1),
 	codigoDoc int not null,
 	nombre nvarchar(50) not null,
+	fechaInicio date not null,
 	activo int
 );
 
@@ -118,9 +120,14 @@ CREATE TABLE Propietario (
 	nombre nvarchar(50) not null,
 	valorDocId bigInt not null,
 	idDocId int not null,
+	fechaLeido date not null,
 	activo int ,
 	CONSTRAINT FK_tipoDocId FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
 );
+
+
+
+
 
 -- Propietario_Juridico tiene una referencia a:
 -- #1: Tiene una referencia unica a un DocId UNICO
@@ -128,16 +135,19 @@ CREATE TABLE Propietario (
 
 
 CREATE TABLE Propietario_Juridico (
-	id int primary key not null identity(1,1),
-	responsable nvarchar(50) not null,
+	id int primary key not null,
+	--Este id propietario es el id de Propietario juridico
+	CONSTRAINT FK_idPropietario_02  FOREIGN KEY (id) REFERENCES Propietario (id),
+	responsable nvarchar(50) not null, -- nombre del responsable --
 	valorDocId bigInt not null,
 	idDocId int not null,
 	CONSTRAINT FK_tipoDocId_02 FOREIGN KEY (idDocId) REFERENCES Tipo_DocId(id),
-	--Este id propietario es el id de Propietario juridico
-	idPropietario int not null,
-	CONSTRAINT FK_idPropietario_02  FOREIGN KEY (idPropietario) REFERENCES Propietario (id),
+	fechaLeido date not null,
 	activo int not null
 );
+DROP TABLE Propietario_Juridico
+
+
 
 -- Asocia mediante FK las tablas [Propiedad,Propietario]
 -- Las FK se asocian SOLAMENTE A LLAVES PRIMARIAS(id)
@@ -151,6 +161,7 @@ CREATE TABLE Propiedad_del_Propietario (
 	CONSTRAINT FK_idPropiedad_04 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	idPropietario int not null,
 	CONSTRAINT FK_idPropietario  FOREIGN KEY (idPropietario) REFERENCES Propietario (id),
+	fechaLeido date not null,
 	activo int not null
 );
 
@@ -160,9 +171,9 @@ CREATE TABLE Usuario (
 	nombre nvarchar(50) ,
 	password nvarchar(50) , -- palabra reservada?
 	tipoUsuario nvarchar(50), -- Administrador / Propietario
+	fechaInicio date not null,
 	activo int 
 );
-
 
 CREATE TABLE Usuario_de_Propiedad (
 	id int primary key not null identity(1,1),
@@ -170,6 +181,7 @@ CREATE TABLE Usuario_de_Propiedad (
 	CONSTRAINT FK_idPropiedad_05 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	idUsuario int not null,
 	CONSTRAINT FK_idUsuario  FOREIGN KEY (idUsuario) REFERENCES Usuario (id),
+	fechaInicio date not null,
 	activo int not null
 );
 
@@ -182,6 +194,7 @@ CREATE TABLE CC_Fijo(
 	monto int not null,
 	valor float not null,
 	CONSTRAINT FK_id_CC_Fijo FOREIGN KEY (id) REFERENCES Concepto_Cobro (id),
+	fechaInicio date not null,
 	activo int
 )
 
@@ -190,11 +203,13 @@ CREATE TABLE CC_Consumo(
 	monto int not null,
 	valorM3 int not null,
 	CONSTRAINT FK_id_CC_Consumo FOREIGN KEY (id) REFERENCES Concepto_Cobro (id),
+	fechaInicio date not null,
 	activo int 
 )
 
 CREATE TABLE CC_Intereses_Moratorios(
 	id int not null primary key, --no puede ser identity porque tambien va a ser Foreign Key relacionada con Conepto_Cobro
 	CONSTRAINT FK_id_CC_Intereses_Moratorios FOREIGN KEY (id) REFERENCES Concepto_Cobro (id),
+	fechaInicio date not null,
 	activo int 
 )

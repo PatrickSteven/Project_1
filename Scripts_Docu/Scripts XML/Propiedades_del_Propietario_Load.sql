@@ -34,8 +34,7 @@ DECLARE @id INT = 1;
 
 WHILE @id IS NOT NULL
 BEGIN
-    SELECT @numeroFinca = numeroFinca,
-           @identificacion = valorDocId 
+    SELECT @numeroFinca = numeroFinca, @identificacion = valorDocId 
         FROM #tempTableRelacion WHERE id = @id;
 
     EXEC SPI_Propiedad_Del_Propietario @numeroFinca, @identificacion;

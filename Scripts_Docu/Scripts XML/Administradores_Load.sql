@@ -12,16 +12,15 @@ Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Ad
 
 DECLARE @hdoc int;
 EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
-
+DELETE FROM dbo.[Usuario]
 --Inserta la informacion que pertenece a Tipo_DocId 
-INSERT INTO dbo.Usuario(nombre,password)
-SELECT * FROM OPENXML (@hdoc, '/Administrador/UsuarioAdmi', 0)
+INSERT INTO dbo.Usuario([nombre],[password], [activo], [tipoUsuario], [fechaInicio])
+SELECT [users], [password], 1, 'Administrador', GETDATE()
+FROM OPENXML (@hdoc, '/Administrador/UsuarioAdmi', 0)
 WITH(
-		users varchar(50),
-		password varchar(50)
+		[users] varchar(50),
+		[password] varchar(50)
 	
-)
-UPDATE dbo.Usuario SET tipoUsuario = 'Administrador';
-UPDATE dbo.Usuario SET activo = 1;
+);
 
 SELECT * FROM dbo.Usuario;
