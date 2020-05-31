@@ -26,7 +26,7 @@ TOTAL DE HORAS :
 + Se hizo un script con las tablas y un user db_owner -> 2h (Alejandro)
 + Se hacen las FK del modelo visto en clases -> (Patrick/Alejandro)
 + Se sube los scripts y documentacion al repositorio de GitHub -> 30min (Patrick/Alejandro)
-
+ic
 ----------------------------------------------	
 >Github
 >BD-Proyecto-1
