@@ -15,6 +15,7 @@ BEGIN TRY
 	ELSE IF EXISTS (SELECT * FROM dbo.[Usuario] AS U WHERE U.[nombre] = @nombre AND U.[activo] = 0 )
 		BEGIN
 			UPDATE dbo.[Usuario] SET dbo.Usuario.[activo] = 1 WHERE [nombre] = @nombre;
+			EXECUTE [dbo].[SPU_Usuario] @nombre, @password
 			SET @retvalue = 1;
 		END
 	ELSE 
@@ -35,7 +36,6 @@ BEGIN CATCH
  
    RAISERROR( @Message, @Severity, @State) 
 END CATCH
-
 
 --Delete (Nuevo)	
 SET ANSI_NULLS ON
@@ -79,7 +79,7 @@ CREATE PROCEDURE [dbo].[SPU_Usuario]
 @password NVARCHAR(50)
 AS
 BEGIN
-UPDATE dbo.Usuario SET password = @password WHERE nombre = @nombre
+UPDATE dbo.Usuario SET [password] = @password WHERE nombre = @nombre
 END
 
 --Select
@@ -125,8 +125,8 @@ BEGIN
 END
 
 --Prueba
-EXECUTE SPI_Usuario "admin", "password", "Administrador"
-EXECUTE [SPD_Usuario] "admin"
+EXECUTE SPI_Usuario "Pee", "2438", "Administrador"
+EXECUTE [SPD_Usuario] "Pepe"
 EXECUTE SPI_Usuario "Pepe", "hola", "Administrador"
 EXECUTE SPD_Usuario "Pepe"
 SELECT * FROM dbo.Usuario
@@ -134,3 +134,4 @@ EXECUTE SPS_Usuario
 DROP PROCEDURE SPD_Usuario
 DECLARE @ret int
 EXECUTE SPS_Usuario_Validate "Pepe", "12"
+

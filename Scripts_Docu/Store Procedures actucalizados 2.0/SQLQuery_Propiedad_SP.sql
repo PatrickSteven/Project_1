@@ -24,6 +24,7 @@ BEGIN TRY
 	ELSE IF EXISTS(SELECT * FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca AND P.[activo] = 0)
 		BEGIN
 			UPDATE dbo.Propiedad SET activo = 1 WHERE numeroFinca = @numeroFinca;
+			EXECUTE SPU_Propiedad @numeroFinca, @valor, @direccion;
 			SET @retvalue = 1;
 		END
 	ELSE
@@ -42,7 +43,7 @@ BEGIN CATCH
 	RAISERROR( @Message, @Severity, @State) 
 END CATCH
 
-
+DROP PROCEDURE [SPI_Propiedad]
 --Entrada: Numero de Finca
 --Salida Exitosa: Valor de retorno del id del elemento eliminado
 --Salida Fallida: Codigo de error [-14]
@@ -72,12 +73,15 @@ BEGIN
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Comprobante_Pago @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
-				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Usuario_De_Propiedad @idPropiedad, @numeroFinca
+				PRINT('HOLA')
+				INSERT INTO @tmpNewValue  EXEC dbo.[SPD_Usuario_De_Propiedad] null, @numeroFinca
+				PRINT('HOLA2')
+				UPDATE dbo.[Propiedad] SET activo = 0 WHERE numeroFinca = @numeroFinca;
 				-- INSERT valores de retorno en una tabla que al final no se va a utilizar --
 				PRINT @retValue1
 				SET @retValue1 =  (SELECT [id] FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca);
 				--Delete
-				UPDATE dbo.[Propiedad] SET activo = 0 WHERE numeroFinca = @numeroFinca;
+				
 				SET @retValue1 = 1; -- success --
 			END
 		ELSE
@@ -114,7 +118,9 @@ BEGIN
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Comprobante_Pago @idPropiedad
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
+			PRINT('HOLA')
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Usuario_De_Propiedad @idPropiedad
+			PRINT('HOLA2')
 			PRINT @retValue1
 			SET @retValue1 =  (SELECT id FROM dbo.Propiedad WHERE numeroFinca = @numeroFinca);
 			DELETE FROM Propiedad WHERE numeroFinca = @numeroFinca
@@ -126,6 +132,8 @@ BEGIN
 		END
 	RETURN @retValue1
 END
+
+DROP PROCEDURE SPD_Propiedad
 
 -- UPDATE Actualizado
 CREATE PROCEDURE SPU_Propiedad
@@ -159,10 +167,10 @@ END
 
 --- PRUEBAS DE LOS STATE PROCEDURES
 SELECT * FROM Propiedad
-EXEC SPI_Propiedad '456','100.00','Upala'
+EXEC SPI_Propiedad '455','120.00','Upala'
 
 SELECT * FROM Propiedad
-EXEC SPD_Propiedad '456'
+EXEC SPD_Propiedad '455'
 
 SELECT * FROM Propiedad
 

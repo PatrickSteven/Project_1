@@ -34,6 +34,7 @@ BEGIN TRY
 			IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId AND P.[activo] = 1)
 				BEGIN
 					UPDATE dbo.[Propietario_Juridico] SET dbo.Propietario_Juridico.[activo] = 1 WHERE valorDocId = @valorDocId; 
+					EXECUTE [SPU_Propietario_Juridico] @responsable, @valorDocId;
 					SET @retvalue = 1;
 				END
 			ELSE
@@ -59,6 +60,8 @@ BEGIN CATCH
  
    RAISERROR( @Message, @Severity, @State) 
 END CATCH
+
+DROP PROCEDURE dbo.[SPI_Propietario_Juridico]
 
 --Delete nuevo
 SET ANSI_NULLS ON
@@ -193,7 +196,7 @@ END
 DROP PROCEDURE [SPS_Propietario_Juridico_Detail]
 
 --Prueba
-EXECUTE SPI_Propietario_Juridico "Diego", 110060884, 1
+EXECUTE SPI_Propietario_Juridico "Di", 110060884, 1
 SELECT * from Propietario_Juridico
 SELECT * from Propietario
 SELECT * from Tipo_DocId

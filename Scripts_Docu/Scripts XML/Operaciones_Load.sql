@@ -19,6 +19,7 @@ DELETE FROM dbo.[Propiedad]
 DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propietario]
 DELETE FROM dbo.[Usuario_De_Propiedad]
+DELETE FROM dbo.[Usuario]
 
 
 DECLARE @fechaMin date, @fechaMax date, @fechaActual date

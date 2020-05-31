@@ -53,6 +53,7 @@ BEGIN CATCH
 	RAISERROR( @Message, @Severity, @State) 
 END CATCH
 
+DROP PROCEDURE SPI_Concepto_Cobro_En_Propiedad
 
 -- INSERT DATOS PARA XML SP --
 CREATE PROCEDURE SPI_Concepto_Cobro_En_Propiedad_XML
@@ -195,7 +196,7 @@ END
 -- NO SE USA --
 CREATE PROCEDURE [dbo].[SPU_Concepto_De_Cobro_En_Propiedad]
 @nombreCC NVARCHAR(50),
-@numeroFinca int,
+@numeroFinca int
 AS
 BEGIN
 	DECLARE @idConceptoCobro int, @idPropiedad int;

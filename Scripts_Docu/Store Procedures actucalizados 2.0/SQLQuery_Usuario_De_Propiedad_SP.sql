@@ -106,11 +106,20 @@ BEGIN TRY
 	DECLARE @idPropiedad int, @idUsuario int, @retvalue int = 1;
 	SELECT @idUsuario = id from dbo.Usuario AS U WHERE U.nombre = @nombre;
 	SELECT @idPropiedad = id from dbo.Propiedad WHERE numeroFinca = @numeroFinca;
-
+	
+	
 	IF NOT EXISTS (SELECT * FROM dbo.Usuario AS U WHERE U.nombre = @nombre)
 		BEGIN
-			RAISERROR('Usuario no registrado',10,1)
-			SET @retvalue = -16  -- nombre de usuario ya existe en la base de datos
+			IF @numeroFinca = null
+				BEGIN
+					RAISERROR('Usuario no registrado',10,1)
+					SET @retvalue = -16  -- nombre de usuario ya existe en la base de datos
+				END
+			ELSE
+				BEGIN
+					UPDATE dbo.Usuario_De_Propiedad SET activo = 0 WHERE  @idPropiedad = idPropiedad;
+					SET @retvalue = 1;
+				END
 		END
 	ELSE IF EXISTS(SELECT * FROM dbo.Usuario WHERE nombre = @nombre AND @numeroFinca = null)
 		BEGIN
@@ -171,5 +180,5 @@ SELECT * FROM Propiedad
 EXECUTE SPI_Usuario_De_Propiedad LDiaz, 3206723
 SELECT * FROM Usuario
 select * from Usuario_de_Propiedad
-EXECUTE [SPD_Usuario_De_Propiedad] LDiaz, 3206723
+EXECUTE [SPD_Usuario_De_Propiedad] null, 3206723
 EXECUTE SPS_Usuario_De_Propiedad_Detail_Usuario LDiaz

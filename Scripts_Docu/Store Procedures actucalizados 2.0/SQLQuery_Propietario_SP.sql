@@ -21,6 +21,7 @@ BEGIN
 		ELSE IF EXISTS(SELECT * FROM dbo.[Propietario] AS P WHERE P.valorDocId = @valorDocId AND P.activo = 0)
 			BEGIN
 				UPDATE dbo.Propietario SET dbo.Propietario.activo = 1 WHERE valorDocId = @valorDocId;
+				EXECUTE [dbo].[SPU_Propietario] @nombre, @valorDocId 
 				SET @retvalue = 1;
 			END
 		ELSE
@@ -154,7 +155,7 @@ END
 DROP PROCEDURE [SPS_Propietario_Detail]
 
 --Pruebas-- (Actualizado 1.0)
-EXECUTE SPI_Propietario "Carlos", 20000000001, 1
+EXECUTE SPI_Propietario "C", 20000000001, 1
 Select * from dbo.Propietario
 EXECUTE SPU_Propietario "Ramón", 20000000001
 EXECUTE SPS_Propietario
