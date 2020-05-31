@@ -19,7 +19,7 @@ namespace Project_1.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPI_Propiedad";
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = propiedad.numeroFinca;
-                cmd.Parameters.Add("@valor", SqlDbType.Int).Value = propiedad.valor;
+                cmd.Parameters.Add("@valor", SqlDbType.Money).Value = propiedad.valor;
                 cmd.Parameters.Add("@direccion", SqlDbType.VarChar).Value = propiedad.direccion;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
@@ -92,7 +92,7 @@ namespace Project_1.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPU_Propiedad";
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = propiedad.numeroFinca;
-                cmd.Parameters.Add("@valor", SqlDbType.Int).Value = propiedad.valor;
+                cmd.Parameters.Add("@valor", SqlDbType.Money).Value = propiedad.valor;
                 cmd.Parameters.Add("@direccion", SqlDbType.VarChar).Value = propiedad.direccion;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
@@ -138,7 +138,7 @@ namespace Project_1.Models
                             list.Add(new Propiedad()
                             {
                                 numeroFinca = reader.GetInt32(0),
-                                valor = reader.GetInt32(1),
+                                valor = (decimal) reader.GetSqlMoney(1),
                                 direccion = reader.GetString(2)
                             });
                     }
@@ -174,9 +174,8 @@ namespace Project_1.Models
                     {
                         reader.Read();
                         propiedad.numeroFinca = reader.GetInt32(0);
-                        propiedad.valor = reader.GetInt32(1);
+                        propiedad.valor = (decimal) reader.GetSqlMoney(1);
                         propiedad.direccion = reader.GetString(2);
-
                     }
                 }
                 catch (Exception ex)

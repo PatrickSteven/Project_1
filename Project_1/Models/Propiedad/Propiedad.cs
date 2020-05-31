@@ -16,7 +16,7 @@ namespace Project_1.Models
         
         [Display(Name = "Valor")]
         [Required]
-        public int valor { get; set; }
+        public decimal valor { get; set; }
 
         [Display(Name = "Direccion")]
         [Required]
