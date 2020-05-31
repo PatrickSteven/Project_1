@@ -1,7 +1,7 @@
 USE [D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF]
 GO
 
---Entrada: Fecha de Inicio, Fecha de Fin, Nombre de Concepto de Cobro, Numero de Finca
+--Entrada: Nombre de Concepto de Cobro, Numero de Finca
 --Salida exitosa: Id del ultimo elemento insertado 
 --Salida fallida: Codigo -20 || Codigo -21
 --Descripcion: Selecciona el Id de [Propiedad,Concepto_de_Cobro] y si existen los relaciona
@@ -271,7 +271,7 @@ select * from Propiedad
 select * from Concepto_Cobro
 select * from CC_Fijo
 select * from Concepto_Cobro_En_Propiedad
-EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '456','CC_Fijo'
+EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '4162559','CC_Consumo'
 EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad 'Agua', '456'
 EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad '456', 'Agua'
 EXECUTE dbo.SPU_Concepto_De_Cobro_En_Propiedad 'Electricidad', '1', '2021-08-15'

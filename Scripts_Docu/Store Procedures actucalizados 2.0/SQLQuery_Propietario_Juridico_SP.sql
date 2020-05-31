@@ -7,7 +7,7 @@
 --Insert actualizado
 CREATE PROCEDURE [dbo].[SPI_Propietario_Juridico]
 @responsable NVARCHAR(50),
-@valorDocId bigInt,
+@valorDocId bigInt, -- id Propietario
 @idDocId int
 AS 
 BEGIN TRY
@@ -16,7 +16,7 @@ BEGIN TRY
 		BEGIN
 			IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId)
 				BEGIN
-					SELECT @idPropietario = [id] FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId;
+					SELECT @idPropietario = [id] FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocIdPropietario;
 					INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
 					VALUES (@idPropietario, @responsable, @valorDocId, @idDocId, @estado, GETDATE())
 					SET @retValue = 1;
@@ -196,6 +196,7 @@ END
 DROP PROCEDURE [SPS_Propietario_Juridico_Detail]
 
 --Prueba
+EXECUTE SPI_Propietario_Juridico "Diego", 110060884, 1
 EXECUTE SPI_Propietario_Juridico "Di", 110060884, 1
 SELECT * from Propietario_Juridico
 SELECT * from Propietario
