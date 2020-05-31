@@ -16,13 +16,14 @@ GO
 -- #1: Monto (int)
 -- #1: ValorM3 (int)
 -- #1: ValorPorcentaje (int) -> no se a que clase pertenece
+DELETE FROM dbo.[Concepto_Cobro]
 
 DECLARE @x xml;
 Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Concepto_de_Cobro.xml', SINGLE_BLOB) AS Products(XMLData);
 
 DECLARE @hdoc int;
 EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
-DELETE FROM dbo.[Concepto_Cobro]
+
 --Inserta la informacion que pertenece a Concepto_Cobro (sin la herencia, todavia)
 INSERT INTO dbo.[Concepto_Cobro] ([id], [nombre], [DiaDeCobro], [qDiasVencidos], [EsImpuesto], [EsRecurrente], [EsFijo], [tasaInteresesMoratorios],[fechaInicio], [activo] )
 --Insertar con activo == 1
