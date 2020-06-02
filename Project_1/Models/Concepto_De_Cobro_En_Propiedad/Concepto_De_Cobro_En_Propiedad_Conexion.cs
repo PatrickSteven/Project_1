@@ -109,31 +109,46 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 
                                 listaConceptoDeCobro.Add(new Concepto_De_Cobro_En_Propiedad()
                                 {
-                                   // fechaLeido = reader.GetDateTime(0),
-                                    nombreCC = reader.GetString(1),
-                                    interesesMoratorios = (float) reader.GetFloat(2),
-                                    diaCobro = reader.GetInt32(3),
-                                    diasVencidos = reader.GetInt32(4),
-                                    esFijo = reader.GetString(5),
-                                    esRecurrente = reader.GetString(6),
-                                    monto = reader.GetInt32(7),
+                                    nombreCC = reader.GetString(0),
+                                    interesesMoratorios = reader.GetDouble(1),
+                                    diaCobro = reader.GetInt32(2),
+                                    diasVencidos = reader.GetInt32(3),
+                                    esFijo = reader.GetString(4),
+                                    esRecurrente = reader.GetString(5),
+                                    monto = reader.GetInt32(6),
                                 });
                             }
                         }
-                        else if (tipoCC == Tipo_CC.Consumo)
+                        if (tipoCC == Tipo_CC.Consumo)
                         {
                             while (reader.Read())
                             {
                                 listaConceptoDeCobro.Add(new Concepto_De_Cobro_En_Propiedad()
                                 {
-                                    //fechaLeido = reader.GetDateTime(0),
-                                    nombreCC = reader.GetString(1),
-                                    //interesesMoratorios = reader.GetFloat(2),
-                                    diaCobro = reader.GetInt32(3),
-                                    diasVencidos = reader.GetInt32(4),
-                                    esFijo = reader.GetString(5),
-                                    esRecurrente = reader.GetString(6),
-                                    monto = reader.GetInt32(7),
+                                    nombreCC = reader.GetString(0),
+                                    interesesMoratorios = reader.GetDouble(1),
+                                    diaCobro = reader.GetInt32(2),
+                                    diasVencidos = reader.GetInt32(3), 
+                                    esFijo = reader.GetString(4),
+                                    esRecurrente = reader.GetString(5),
+                                    monto = reader.GetInt32(6),
+                                });
+                            }
+                        }
+
+                        if (tipoCC == Tipo_CC.Porcentaje)
+                        {
+                            while (reader.Read())
+                            {
+                                listaConceptoDeCobro.Add(new Concepto_De_Cobro_En_Propiedad()
+                                {
+                                    nombreCC = reader.GetString(0),
+                                    interesesMoratorios = reader.GetDouble(1),
+                                    diaCobro = reader.GetInt32(2),
+                                    diasVencidos = reader.GetInt32(3),
+                                    esFijo = reader.GetString(4),
+                                    esRecurrente = reader.GetString(5),
+                                    porcentaje = reader.GetDouble(6),
                                 });
                             }
                         }
@@ -143,13 +158,12 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
                             {
                                 listaConceptoDeCobro.Add(new Concepto_De_Cobro_En_Propiedad()
                                 {
-                                    //fechaLeido = reader.GetDateTime(0),
-                                    nombreCC = reader.GetString(1),
-                                    //interesesMoratorios = reader.GetFloat(2),
-                                    diaCobro = reader.GetInt32(3),
-                                    diasVencidos = reader.GetInt32(4),
-                                    esFijo = reader.GetString(5),
-                                    esRecurrente = reader.GetString(6)
+                                    nombreCC = reader.GetString(0),
+                                    interesesMoratorios = reader.GetFloat(1),
+                                    diaCobro = reader.GetInt32(2),
+                                    diasVencidos = reader.GetInt32(3),
+                                    esFijo = reader.GetString(4),
+                                    esRecurrente = reader.GetString(5)
                                 });
                             }
                         }

@@ -27,7 +27,7 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
 
         [Display(Name = "Tasa de Intereses Moratorios")]
         [Required]
-        public float interesesMoratorios { get; set; }
+        public double interesesMoratorios { get; set; }
 
         [Display(Name = "Dia de Cobro")]
         [Required]
@@ -48,6 +48,10 @@ namespace Project_1.Models.Concepto_De_Cobro_En_Propiedad
         // CC_Fijo
         [Display(Name = "Monto")]
         public int monto { get; set; }
+
+        //CC_Porcentaje
+        [Display(Name = "Porcentaje")]
+        public double porcentaje { get; set; }
 
         //CC_Consumo
         [Display(Name = "Valor")]

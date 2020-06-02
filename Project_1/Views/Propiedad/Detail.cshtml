@@ -79,7 +79,6 @@ else
         <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
             <thead class="thead-dark">
                 <tr>
-                    <!--<th scope="col">Fecha Incio</th>-->
                     <th scope="col">Nombre</th>
                     <th scope="col">Intereses</th>
                     <th scope="col">Día cobro</th>
@@ -94,19 +93,18 @@ else
             </thead>
             @foreach (var concepto in Model.CC_Fijo)
             {
-        <tr>
-                <!--<th scope="col">Fecha Incio</th>-->
-                <td>@concepto.nombreCC</td>
-                <td>@concepto.interesesMoratorios</td>
-                <td>@concepto.diaCobro</td>
-                <td>@concepto.diasVencidos</td>
-                <td>@concepto.esFijo</td>
-                <td>@concepto.esRecurrente</td>
-                <td>@concepto.monto</td>
-                <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-                <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-                <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-        </tr>
+                <tr>
+                    <td>@concepto.nombreCC</td>
+                    <td>@concepto.interesesMoratorios</td>
+                    <td>@concepto.diaCobro</td>
+                    <td>@concepto.diasVencidos</td>
+                    <td>@concepto.esFijo</td>
+                    <td>@concepto.esRecurrente</td>
+                    <td>@concepto.monto</td>
+                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
+                </tr>
             }
         </table>
     </div>
@@ -121,7 +119,6 @@ else
         <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
             <thead class="thead-dark">
                 <tr>
-                    <!--<th scope="col">Fecha Incio</th>-->
                     <th scope="col">Nombre</th>
                     <th scope="col">Intereses</th>
                     <th scope="col">Día cobro</th>
@@ -134,21 +131,20 @@ else
                     <th>Cancelar</th>
                 </tr>
             </thead>
-            @foreach (var concepto in Model.CC_Fijo)
+            @foreach (var concepto in Model.CC_Consumo)
             {
-        <tr>
-            <!--<td>@concepto.fechaLeido</td>-->
-            <td>@concepto.nombreCC</td>
-            <td>@concepto.interesesMoratorios</td>
-            <td>@concepto.diaCobro</td>
-            <td>@concepto.diasVencidos</td>
-            <td>@concepto.esFijo</td>
-            <td>@concepto.esRecurrente</td>
-            <td>@concepto.monto</td>
-            <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-            <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-            <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-        </tr>
+                <tr>
+                    <td>@concepto.nombreCC</td>
+                    <td>@concepto.interesesMoratorios</td>
+                    <td>@concepto.diaCobro</td>
+                    <td>@concepto.diasVencidos</td>
+                    <td>@concepto.esFijo</td>
+                    <td>@concepto.esRecurrente</td>
+                    <td>@concepto.monto</td>
+                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
+                </tr>
             }
         </table>
     </div>
@@ -176,24 +172,63 @@ else
                     <th>Cancelar</th>
                 </tr>
             </thead>
-            @foreach (var concepto in Model.CC_Fijo)
+            @foreach (var concepto in Model.CC_Intereses_Moratiorios)
             {
-        <tr>
-            <!--<td>@concepto.fechaLeido</td>-->
-            <td>@concepto.nombreCC</td>
-            <td>@concepto.interesesMoratorios</td>
-            <td>@concepto.diaCobro</td>
-            <td>@concepto.diasVencidos</td>
-            <td>@concepto.esFijo</td>
-            <td>@concepto.esRecurrente</td>
-            <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-            <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-            <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-        </tr>
+                <tr>
+                    <td>@concepto.nombreCC</td>
+                    <td>@concepto.interesesMoratorios</td>
+                    <td>@concepto.diaCobro</td>
+                    <td>@concepto.diasVencidos</td>
+                    <td>@concepto.esFijo</td>
+                    <td>@concepto.esRecurrente</td>
+                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
+                </tr>
             }
         </table>
     </div>
 }
+
+<!--CC_Porcentual-->
+@if (Model.CC_Porcentaje.Any())
+{
+    <div>
+        <h3 class="my-4">Conceptos de Cobro Porcentual</h3>
+        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Intereses</th>
+                <th scope="col">Día cobro</th>
+                <th scope="col">Día vencimiento</th>
+                <th scope="col">Es fijo</th>
+                <th scope="col">Es recurrente</th>
+                <th scope="col">Porcentaje</th>
+                <th>Ver</th>
+                <th>Modificar</th>
+                <th>Cancelar</th>
+            </tr>
+            </thead>
+            @foreach (var concepto in Model.CC_Porcentaje)
+            {
+                <tr>
+                    <td>@concepto.nombreCC</td>
+                    <td>@concepto.interesesMoratorios</td>
+                    <td>@concepto.diaCobro</td>
+                    <td>@concepto.diasVencidos</td>
+                    <td>@concepto.esFijo</td>
+                    <td>@concepto.esRecurrente</td>
+                    <td>@concepto.porcentaje</td>
+                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
 
 <!--Usuarios Suscritos-->
 

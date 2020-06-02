@@ -237,7 +237,7 @@ BEGIN
 		BEGIN
 			IF(@TipoCC = 'CC_Fijo')
 				BEGIN
-					SELECT P.[fechaLeido], CC.nombre, CC.tasaInteresesMoratorios, CC.DiaDeCobro, CC.qDiasVencidos,CC.EsFijo, CC.EsRecurrente, CF.monto
+					SELECT CC.nombre, CC.tasaInteresesMoratorios, CC.DiaDeCobro, CC.qDiasVencidos,CC.EsFijo, CC.EsRecurrente, CF.monto
 					from dbo.[Concepto_Cobro_en_Propiedad] P
 					inner join dbo.[Concepto_Cobro] CC on P.idConeceptoCobro = CC.id
 					inner join dbo.CC_Fijo CF on P.idConeceptoCobro = CF.id
@@ -245,15 +245,23 @@ BEGIN
 				END
 			ELSE IF (@TipoCC = 'CC_Consumo')
 				BEGIN
-					SELECT P.[fechaLeido], CC.nombre, CC.tasaInteresesMoratorios, CC.DiaDeCobro, CC.qDiasVencidos,CC.EsFijo, CC.EsRecurrente, CCO.monto
+					SELECT CC.nombre, CC.tasaInteresesMoratorios, CC.DiaDeCobro, CC.qDiasVencidos,CC.EsFijo, CC.EsRecurrente, CCO.monto
 					from dbo.[Concepto_Cobro_en_Propiedad] P
 					inner join dbo.[Concepto_Cobro] CC on P.[idConeceptoCobro] = CC.[id]
 					inner join dbo.CC_Consumo CCO on P.[idConeceptoCobro] = CCO.[id]				
 					WHERE P.[idPropiedad] = @idPropiedad;
 				END
+			ELSE IF (@TipoCC = 'CC_Porcentual')
+				BEGIN
+					SELECT CC.nombre, CC.tasaInteresesMoratorios, CC.DiaDeCobro, CC.qDiasVencidos,CC.EsFijo, CC.EsRecurrente, CCP.ValorPorcentaje
+					from dbo.[Concepto_Cobro_en_Propiedad] P
+					inner join dbo.[Concepto_Cobro] CC on P.[idConeceptoCobro] = CC.[id]
+					inner join dbo.CC_Porcentual CCP on P.[idConeceptoCobro] = CCP.[id]				
+					WHERE P.[idPropiedad] = @idPropiedad;
+				END
 			ELSE -- Intereses Moratorios
 				BEGIN 
-					SELECT P.[fechaLeido], CC.nombre, CC.tasaInteresesMoratorios, CC.DiaDeCobro, CC.qDiasVencidos,CC.EsFijo, CC.EsRecurrente
+					SELECT CC.nombre, CC.tasaInteresesMoratorios, CC.DiaDeCobro, CC.qDiasVencidos,CC.EsFijo, CC.EsRecurrente
 					from dbo.[Concepto_Cobro_en_Propiedad] P
 					inner join dbo.[Concepto_Cobro] CC on P.idConeceptoCobro = CC.id
 					inner join dbo.CC_Intereses_Moratorios CCI on P.idConeceptoCobro = CCI.id					
@@ -271,7 +279,7 @@ select * from Propiedad
 select * from Concepto_Cobro
 select * from CC_Fijo
 select * from Concepto_Cobro_En_Propiedad
-EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '4162559','CC_Consumo'
+EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '2291223','CC_Porcentual'
 EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad 'Agua', '456'
 EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad '456', 'Agua'
 EXECUTE dbo.SPU_Concepto_De_Cobro_En_Propiedad 'Electricidad', '1', '2021-08-15'

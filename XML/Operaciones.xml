@@ -12,7 +12,7 @@
 		<Propiedad NumFinca="2132441" Valor="145396777.00" Direccion="De la esquina Noroeste de la Escuela Simón Bolivar 110 m Oeste"/>	
 		<Propiedad NumFinca="2346431" Valor="29540605.00" Direccion="San Pedro, Condominio Residencial Vista del Valle"/>
 		<Propiedad NumFinca="1565045" Valor="42286295.55" Direccion="Arenal, 500 m Este de la iglesia católica, carretera a Parrita"/>
-		<Propiedad NumFinca="3107084" Valor="61452600.00" Direccion="De la Iglesia de Dulce Nombre de Cartago, 200 m Sur y 150 m al Este Condominio Horizontal Residencial Villas Dulce Nombre Filial N°11"/>
+<!--<Propiedad NumFinca="3107084" Valor="61452600.00" Direccion="De la Iglesia de Dulce Nombre de Cartago, 200 m Sur y 150 m al Este Condominio Horizontal Residencial Villas Dulce Nombre Filial N°11"/>
 		<PersonaJuridica docidPersonaJuridica="301659662" TipDocIdPJ="4"  DocidRepresentante="282173820" Nombre="Daniela Parra Ferrer" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301790528" TipDocIdPJ="4"  DocidRepresentante="647781624" Nombre="Nora Juan Guerra" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301777068" TipDocIdPJ="4"  DocidRepresentante="688983521" Nombre="Laia Estevez Esteban" TipDocIdRepresentante="1" />
@@ -21,7 +21,7 @@
 		<PersonaJuridica docidPersonaJuridica="301410305" TipDocIdPJ="4"  DocidRepresentante="144344001" Nombre="María Garcia Vargas" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301044918" TipDocIdPJ="4"  DocidRepresentante="417552185" Nombre="Iván Vidal Robles" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301240966" TipDocIdPJ="4"  DocidRepresentante="468543939" Nombre="Juan Prieto Perez" TipDocIdRepresentante="1" />
-		<PersonaJuridica docidPersonaJuridica="301116564" TipDocIdPJ="4"  DocidRepresentante="450541446" Nombre="Gabriel Soriano Prado" TipDocIdRepresentante="1" />
+		<PersonaJuridica docidPersonaJuridica="301116564" TipDocIdPJ="4"  DocidRepresentante="450541446" Nombre="Gabriel Soriano Prado" TipDocIdRepresentante="1" /> -->	
 		<Propietario Nombre="DIEGO ARMANDO RAMIREZ MATA" TipoDocIdentidad="1" identificacion="110670556" />
 		<PropiedadVersusPropietario NumFinca="3107084" identificacion="301659662"/>
 		<PropiedadVersusPropietario NumFinca="1565045" identificacion="301790528"/>

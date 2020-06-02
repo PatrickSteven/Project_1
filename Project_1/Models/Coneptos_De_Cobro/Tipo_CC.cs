@@ -10,5 +10,6 @@ namespace Project_1.Models.Coneptos_De_Cobro
         public const string Fijo = "CC_Fijo";
         public const string Consumo = "CC_Consumo";
         public const string Intereses_Moratorios = "Intereses Moratiorios";
+        public const string Porcentaje = "CC_Porcentual";
     }
 }

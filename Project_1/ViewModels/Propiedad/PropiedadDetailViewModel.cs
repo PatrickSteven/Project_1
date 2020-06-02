@@ -15,6 +15,7 @@ namespace Project_1.ViewModels.Propiedad
         public List<Concepto_De_Cobro_En_Propiedad> CC_Fijo { get; set; }
         public List<Concepto_De_Cobro_En_Propiedad> CC_Consumo { get; set; }
         public List<Concepto_De_Cobro_En_Propiedad> CC_Intereses_Moratiorios { get; set; }
+        public List<Concepto_De_Cobro_En_Propiedad> CC_Porcentaje { get; set; }
         public List<Models.Usuario> usuarios { get; set; }
     }
 }

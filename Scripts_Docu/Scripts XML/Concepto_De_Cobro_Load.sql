@@ -82,8 +82,22 @@ WITH(
 --Pregunta por el tipo de dato para saber la tabla a la que inserta
 WHERE TipoCC = 'CC Intereses Moratorios';
 
+DELETE FROM dbo.[CC_Porcentual]
+--Inserta la informacion que pertenece a CC_Intereses_Moratorios (con la herencia a Concepto_Cobro)
+INSERT INTO dbo.[CC_Porcentual] ([id],[ValorPorcentaje] ,[fechaInicio], [activo])
+SELECT [id], [ValorPorcentaje] ,GETDATE(), 1 
+FROM OPENXML (@hdoc, 'Conceptos_de_Cobro/conceptocobro', 0)
+WITH(	
+		[id] int,
+		[ValorPorcentaje] float,
+		[TipoCC] varchar(50)
+)
+--Pregunta por el tipo de dato para saber la tabla a la que inserta
+WHERE TipoCC = 'CC Porcentual';
+
 
 
 SELECT * FROM dbo.Concepto_Cobro
 SELECT * FROM dbo.CC_Fijo
 SELECT * FROM dbo.CC_Consumo
+SELECT * FROM dbo.CC_Porcentual

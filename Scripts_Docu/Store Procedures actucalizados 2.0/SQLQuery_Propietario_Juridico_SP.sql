@@ -12,32 +12,44 @@ CREATE PROCEDURE [dbo].[SPI_Propietario_Juridico]
 @idDocId int
 AS 
 BEGIN TRY
-	DECLARE @retValue int = 1, @estado int = 1;
+	PRINT('HOLA')
+	DECLARE @retValue int = 1, @estado int = 1, @docId int;
+	SELECT @docId = [id] FROM dbo.[Tipo_DocId] AS T WHERE @idDocId = T.[codigoDoc]
 	IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[id] = @idPropietario AND P.[activo] = 1)
-		BEGIN		
-			INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
-			VALUES (@idPropietario, @responsable, @valorDocIdResponsable, @idDocId, @estado, GETDATE())
-			SET @retValue = 1;
-		END
-
-	-- Si el propietario juridico existe pero no esta activado --
-	ELSE IF EXISTS(SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario AND PJ.[activo] = 0)
-		BEGIN 
-			-- Si el propietario esta activado entonces el propietario juridico tambien se puede activar --
-				
-			UPDATE dbo.[Propietario_Juridico] SET dbo.Propietario_Juridico.[activo] = 1 WHERE valorDocId = @valorDocId; 
-			EXECUTE [SPU_Propietario_Juridico] @responsable, @valorDocId;
-			SET @retvalue = 1;
-				
-		END
-	ELSE 
 		BEGIN
-			RAISERROR('Responsable Juridico ya registrado en la base de datos', 10, 1)
-			SET @retValue = -14;
+			IF NOT EXISTS (SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario) 
+				BEGIN	
+					PRINT('HOLA2')
+					INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
+					VALUES (@idPropietario, @responsable, @valorDocIdResponsable, @docId, @estado, GETDATE())
+					SET @retValue = 1;
+				END
+			-- Si el propietario juridico existe pero no esta activado --
+			ELSE IF EXISTS(SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario AND PJ.[activo] = 0)
+				BEGIN 
+					-- Si el propietario esta activado entonces el propietario juridico tambien se puede activar --
+				
+					UPDATE dbo.[Propietario_Juridico] SET dbo.Propietario_Juridico.[activo] = 1 WHERE [Propietario_Juridico].id = @idPropietario; 
+					EXECUTE [SPU_Propietario_Juridico] @responsable, @valorDocIdResponsable;
+					SET @retvalue = 1;
+				
+				END
+			--Si el propietario juridico existe y esta activo
+			ELSE 
+				BEGIN
+					RAISERROR('Responsable Juridico ya registrado en la base de datos', 10, 1)
+					SET @retValue = -14;
+				END
+		END
+	ELSE
+		BEGIN
+			BEGIN
+				RAISERROR('Propietario no registrado en la base de datos', 10, 1)
+				SET @retValue = -12;
+			END
 		END
 	
 	RETURN @retValue
-
 END TRY
 BEGIN CATCH
 	DECLARE 
@@ -49,6 +61,64 @@ BEGIN CATCH
 END CATCH
 
 DROP PROCEDURE dbo.[SPI_Propietario_Juridico]
+
+--Insert actualizado
+CREATE PROCEDURE [dbo].[SPI_Propietario_Juridico_XML]			
+@valorDocIdPropietario bigInt,													
+@responsable NVARCHAR(50),														
+@valorDocIdResponsable bigInt,
+@idDocId int,
+@fechaLeido date
+AS 
+BEGIN TRY
+	DECLARE @retValue int = 1, @estado int = 1, @idPropietario int, @docId int;
+	SELECT @docId = [id] FROM dbo.[Tipo_DocId] AS T WHERE @idDocId = T.[codigoDoc]
+	SELECT @idPropietario = [id] FROM dbo.[Propietario] AS P WHERE @valorDocIdPropietario = P.[valorDocId]
+	IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[id] = @idPropietario AND P.[activo] = 1)
+		BEGIN
+			IF NOT EXISTS (SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario) 
+				BEGIN		
+					INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
+					VALUES (@idPropietario, @responsable, @valorDocIdResponsable, @docId, @estado, @fechaLeido)
+					SET @retValue = 1;
+				END
+			-- Si el propietario juridico existe pero no esta activado --
+			ELSE IF EXISTS(SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario AND PJ.[activo] = 0)
+				BEGIN 
+					-- Si el propietario esta activado entonces el propietario juridico tambien se puede activar --
+				
+					UPDATE dbo.[Propietario_Juridico] SET dbo.Propietario_Juridico.[activo] = 1 WHERE [Propietario_Juridico].id = @idPropietario; 
+					EXECUTE [SPU_Propietario_Juridico] @responsable, @valorDocIdResponsable;
+					SET @retvalue = 1;
+				
+				END
+			--Si el propietario juridico existe y esta activo
+			ELSE 
+				BEGIN
+					RAISERROR('Responsable Juridico ya registrado en la base de datos', 10, 1)
+					SET @retValue = -14;
+				END
+		END
+	ELSE
+		BEGIN
+			BEGIN
+				RAISERROR('Propietario no registrado en la base de datos', 10, 1)
+				SET @retValue = -12;
+			END
+		END
+	
+	RETURN @retValue
+END TRY
+BEGIN CATCH
+	DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+        @Severity int = ERROR_SEVERITY(),
+        @State smallint = ERROR_STATE()
+ 
+   RAISERROR( @Message, @Severity, @State) 
+END CATCH
+
+DROP PROCEDURE dbo.[SPI_Propietario_Juridico_XML]
 
 --Delete nuevo
 SET ANSI_NULLS ON
@@ -171,29 +241,34 @@ CREATE PROCEDURE [dbo].[SPS_Propietario_Juridico_Detail]
 @valorDocId bigInt
 AS 
 BEGIN
-	DECLARE @idPropietario int;
-	SELECT @idPropietario = [id] from dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+	DECLARE @idPropietario int, @valorId int;
+	SELECT @idPropietario = [id] from dbo.Propietario_Juridico AS P WHERE P.[valorDocId] = @valorDocId
 	IF @idPropietario is not null
 		BEGIN
-			SELECT responsable, PJ.[valorDocId], PJ.[idDocId]
-			FROM dbo.Propietario_Juridico AS PJ WHERE PJ.[id] = @idPropietario
+			PRINT('Chayote')
+			SELECT responsable, PJ.[valorDocId], dbo.Tipo_DocId.codigoDoc
+			FROM dbo.Propietario_Juridico AS PJ 
+			INNER JOIN dbo.Tipo_DocId ON PJ.idDocId = dbo.Tipo_DocId.id
+			WHERE PJ.[id] = @idPropietario
 		END
 END
 
 DROP PROCEDURE [SPS_Propietario_Juridico_Detail]
 
 --Prueba
-EXECUTE SPI_Propietario_Juridico "Diego", 110060884, 1
+EXECUTE SPI_Propietario_Juridico 3,"Diego", 3, 1
+
 EXECUTE SPI_Propietario_Juridico "Di", 110060884, 1
 SELECT * from Propietario_Juridico
 SELECT * from Propietario
 SELECT * from Tipo_DocId
 EXECUTE SPD_Propietario_Juridico 110060884, 110060884
 EXECUTE SPU_Propietario_Juridico "Manuel", 110060884
-EXECUTE SPS_Propietario_Juridico_Detail 110060884
-EXECUTE [SPS_Propietario_Juridico] 
+EXECUTE SPS_Propietario_Juridico_Detail 110201818
+EXECUTE [SPS_Propietario_Juridico]
+EXECUTE [SPI_Propietario_Juridico_XML] 3101250683, 'FABIO JOSUE CALDERON TORRES', 417552185, 4, '2020-01-30'
 
 DROP PROCEDURE SPD_Propietario_Juridico
 DROP PROCEDURE SPU_Propietario_Juridico
 DROP PROCEDURE SPI_Propietario_Juridico
-DROP PROCEDURE [SPS_Propietario_Juridico]
+DROP PROCEDURE [SPS_Propietario_Juridico] 

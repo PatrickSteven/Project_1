@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -19,7 +20,7 @@ namespace Project_1.Models.Propietario_Juridico
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPI_Propietario_Juridico";
                 cmd.Parameters.Add("@idDocId", SqlDbType.Int).Value = propietario.jIdDocId;
-                cmd.Parameters.Add("@valorDocId", SqlDbType.BigInt).Value = propietario.valorDocId;
+                cmd.Parameters.Add("@valorDocIdResponsable", SqlDbType.BigInt).Value = propietario.valorDocId;
                 cmd.Parameters.Add("@responsable", SqlDbType.VarChar).Value = propietario.responsable;
                 cmd.Parameters.Add("@idPropietario", SqlDbType.Int).Value = propietario.idPropietario;
                 cmd.Connection = connection;
@@ -67,7 +68,6 @@ namespace Project_1.Models.Propietario_Juridico
                         propietario.responsable = reader.GetString(0);
                         propietario.valorDocId = reader.GetInt64(1);
                         propietario.jIdDocId = reader.GetInt32(2);
-
                     }
                 }
                 catch (Exception ex)

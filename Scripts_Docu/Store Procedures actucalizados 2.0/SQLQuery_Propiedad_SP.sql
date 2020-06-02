@@ -73,9 +73,7 @@ BEGIN
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Comprobante_Pago @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
-				PRINT('HOLA')
 				INSERT INTO @tmpNewValue  EXEC dbo.[SPD_Usuario_De_Propiedad] null, @numeroFinca
-				PRINT('HOLA2')
 				UPDATE dbo.[Propiedad] SET activo = 0 WHERE numeroFinca = @numeroFinca;
 				-- INSERT valores de retorno en una tabla que al final no se va a utilizar --
 				PRINT @retValue1
@@ -118,9 +116,7 @@ BEGIN
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Comprobante_Pago @idPropiedad
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
-			PRINT('HOLA')
 			INSERT INTO @tmpNewValue  EXEC dbo.SPD_Usuario_De_Propiedad @idPropiedad
-			PRINT('HOLA2')
 			PRINT @retValue1
 			SET @retValue1 =  (SELECT id FROM dbo.Propiedad WHERE numeroFinca = @numeroFinca);
 			DELETE FROM Propiedad WHERE numeroFinca = @numeroFinca

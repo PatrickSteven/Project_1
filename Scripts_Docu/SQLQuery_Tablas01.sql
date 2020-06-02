@@ -213,3 +213,11 @@ CREATE TABLE CC_Intereses_Moratorios(
 	fechaInicio date not null,
 	activo int 
 )
+
+CREATE TABLE CC_Porcentual(
+	id int not null primary key, --no puede ser identity porque tambien va a ser Foreign Key relacionada con Conepto_Cobro
+	CONSTRAINT FK_id_CC_Porcentual FOREIGN KEY (id) REFERENCES Concepto_Cobro (id),
+	ValorPorcentaje float not null,
+	fechaInicio date not null,
+	activo int 
+)

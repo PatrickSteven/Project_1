@@ -13,6 +13,7 @@ GO
 --#1: codigoDoc (id)
 --#2: descipcion (nombre)
 
+DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propiedad_del_Propietario]
 DELETE FROM dbo.[Concepto_Cobro_en_Propiedad]
 DELETE FROM dbo.[Propiedad]
@@ -34,6 +35,14 @@ DECLARE @tempCobroPropiedad table (
 	fechaLeido date not null
 )
 
+DECLARE @tempPropietario table (
+	id int primary key not null identity(1,1),
+	Nombre NVARCHAR(50) not null,
+	valorDocId bigInt not null,
+	idDocId int not null,
+	fechaLeido date not null
+)
+
 DECLARE @tempPropiedadPropietario table (
 	id int primary key not null identity(1,1),
 	numeroFinca int not null,
@@ -47,6 +56,15 @@ DECLARE @tempPropiedadUsuario table (
 	numeroFinca int not null,
 	nombreUsuario NVARCHAR(50) not null,
 	fechaLeido date not null
+)
+
+DECLARE @tempPropietarioJuridico table(
+	id int primary key not null identity(1,1),
+	valorDocIdPropietario bigInt not null,
+	responsable NVARCHAR(50),
+	valorDocIdResponsable bigInt,
+	idDocId int,
+	fechaLeido date
 )
 
 -- INICIO de lectura del XML
@@ -119,8 +137,8 @@ WHILE(@fechaActual < @fechaMax)
 		
 		-- INSERT informacion sobre la tabla propietarios --
 
-		INSERT INTO dbo.[Propietario] ([nombre], [idDocId], [valorDocId], [fechaLeido], [activo])
-		SELECT [Nombre] , [TipoDocIdentidad], [identificacion], [fechaLeido], 1
+		INSERT INTO @tempPropietario ([nombre], [idDocId], [valorDocId], [fechaLeido])
+		SELECT [Nombre] , [TipoDocIdentidad], [identificacion], [fechaLeido]
 		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/Propietario', 0)
 		WITH(
 				[Nombre] nvarchar(50),
@@ -131,8 +149,22 @@ WHILE(@fechaActual < @fechaMax)
 		)
 		WHERE [fechaLeido] = @fechaActual ;
 
+		declare @nombrePR nvarchar(50), @idDocIdPR int ,@identificacionPR bigInt,@fechaLeidoPR date, @idPR INT = 1;
 
-		-- INSERT informacion sobre la tabla PropiedadVersusPropietario --
+		WHILE @idPR IS NOT NULL
+			BEGIN
+				SELECT @nombrePR = PR.[Nombre], @idDocIdPR = PR.idDocId , @identificacionPR = PR.[valorDocId], @fechaLeidoPR = PR.[fechaLeido]
+					FROM @tempPropietario AS PR WHERE PR.[id] = @idPR;
+
+				EXEC [SPI_Propietario_XML] @nombrePR, @identificacionPR,@idDocIdPR, @fechaLeidoPR;
+
+				SELECT @idPR = MIN(id) FROM @tempPropietario WHERE id > @idPR;
+			END
+		-- al terminar el dia hay que borrar los datos --
+		 DELETE FROM @tempPropietario
+
+
+		 --INSERT informacion sobre la tabla PropiedadVersusPropietario --
 
 		INSERT INTO @tempCobroPropiedad ([idcobro], [numeroFinca], [activo], [fechaLeido])
 		SELECT [idcobro], [NumFinca], 1, @fechaActual
@@ -167,6 +199,8 @@ WHILE(@fechaActual < @fechaMax)
 
 				SELECT @idPP = MIN(id) FROM @tempPropiedadPropietario WHERE id > @idPP;
 			END
+		-- al terminar el dia hay que borrar los datos --
+		 DELETE FROM @tempPropiedadPropietario
 
 		-- INSERT informacion sobre la tabla de usuario --
 
@@ -202,32 +236,54 @@ WHILE(@fechaActual < @fechaMax)
 
 				EXEC dbo.SPI_Usuario_De_Propiedad_XML @nombreUsuarioUP, @numeroFincaUP, @fechaLeidoPP;
 
-				SELECT @idUP = MIN(id) FROM @tempPropiedadPropietario WHERE id > @idUP;
+				SELECT @idUP = MIN(id) FROM @tempPropiedadUsuario WHERE id > @idUP;
 			END
+		-- al terminar el dia hay que borrar los datos --
+		 DELETE FROM @tempPropiedadUsuario
 
 
 		-- INSERT informacion sobre la tabla propietarios juridico --
 
-		--INSERT INTO dbo.[Propietario_Juridico] ([id] ,[responsable], [valorDocId], [idDocId], [fechaLeido], [activo]) 
-		--SELECT @idPropietario , [Nombre], [docidPersonaJuridica], [TipDocIdPJ], [fechaLeido], 1
-		--FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/PersonaJuridica', 0)
-		--WITH (
-		--	[Nombre] nvarchar(50)
-		--	[docidPersonaJuridica] int 
-		--)
+		INSERT INTO @tempPropietarioJuridico  ([valorDocIdPropietario], [responsable], [valorDocIdResponsable], [idDocId], [fechaLeido])
+		SELECT [docidPersonaJuridica], [Nombre], [DocidRepresentante], 4, [fechaLeido]
+		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/PersonaJuridica', 0)
+		WITH(
+			[docidPersonaJuridica] bigInt,
+			[Nombre] NVARCHAR(50),
+			[DocidRepresentante] bigInt,
+			[fechaLeido] date '../Dia/@fecha'
+		)
+		WHERE [fechaLeido] = @fechaActual ;
+		SELECT * FROM @tempPropietarioJuridico;
+		declare @docidPersonaJuridica bigInt, @NombreJ NVARCHAR(50), @idJ INT = 1;
+		declare @docidRepresentante bigInt, @TipDocIdPJ int, @fechaLeidoJ date; 
 
-		
+		WHILE @idJ IS NOT NULL
+			BEGIN
+				PRINT('TACO')
+				SELECT @docidPersonaJuridica = PJ.[valorDocIdPropietario] , @NombreJ = PJ.[responsable], @fechaLeidoJ = PJ.[fechaLeido],
+				@docidRepresentante = PJ.[valorDocIdResponsable], @TipDocIdPJ = PJ.[idDocId]
+				FROM @tempPropietarioJuridico AS PJ WHERE PJ.[id] = @idJ;
+
+				EXEC dbo.[SPI_Propietario_Juridico_XML] @docidPersonaJuridica, @NombreJ, @docidRepresentante, @TipDocIdPJ, @fechaLeidoJ;
+
+				SELECT @idJ = MIN(id) FROM @tempPropietarioJuridico WHERE id > @idJ;
+			END
+		-- al terminar el dia hay que borrar los datos --
+		 DELETE FROM @tempPropietarioJuridico
 
 
 	    SELECT @fechaActual = DATEADD(DAY,1,@fechaActual);
 	END
 
 
-
 SELECT * FROM dbo.Propiedad;
-SELECT * FROM dbo.Propietario
+SELECT * FROM dbo.Propietario;
 SELECT * FROM dbo.Concepto_Cobro
 SELECT * FROM dbo.[Concepto_Cobro_en_Propiedad]
 SELECT * FROM dbo.[Propiedad_del_Propietario]
 SELECT * FROM dbo.[Usuario]
 SELECT * FROM dbo.Usuario_de_Propiedad
+SELECT * FROM dbo.Tipo_DocId
+SELECT * FROM dbo.Propietario_Juridico
+SELECT * FROM dbo.Usuario

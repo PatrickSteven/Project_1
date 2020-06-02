@@ -110,6 +110,7 @@ namespace Project_1.Controllers
             List<Concepto_De_Cobro_En_Propiedad> CC_Fijo = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Fijo);
             List<Concepto_De_Cobro_En_Propiedad> CC_Consumo = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Consumo);
             List<Concepto_De_Cobro_En_Propiedad> CC_Intereses_Moratiorios = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Intereses_Moratorios);
+            List<Concepto_De_Cobro_En_Propiedad> CC_Porcentaje = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Porcentaje);
             List<Usuario> usuarios = Usuario_de_Propiedad_Conexion.SelectPropiedadDetail(numeroFinca);
 
             PropiedadDetailViewModel propiedadDetail = new PropiedadDetailViewModel()
@@ -119,6 +120,7 @@ namespace Project_1.Controllers
                 CC_Fijo = CC_Fijo,
                 CC_Consumo =  CC_Consumo,
                 CC_Intereses_Moratiorios = CC_Intereses_Moratiorios,
+                CC_Porcentaje = CC_Porcentaje,
                 usuarios = usuarios
             };
 
