@@ -16,6 +16,10 @@ GO
 -- #1: Monto (int)
 -- #1: ValorM3 (int)
 -- #1: ValorPorcentaje (int) -> no se a que clase pertenece
+
+DELETE FROM  dbo.CC_Fijo
+DELETE FROM  dbo.CC_Consumo
+DELETE FROM  dbo.CC_Porcentual
 DELETE FROM dbo.[Concepto_Cobro]
 
 DECLARE @x xml;
