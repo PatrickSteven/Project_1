@@ -15,6 +15,7 @@ GO
 -- Orden de lectura del XML
 --#1: codigoDoc (id)
 --#2: descipcion (nombre)
+DELETE FROM dbo.[Tipo_DocId]
 
 DECLARE @x xml;
 DECLARE @xx xml;
