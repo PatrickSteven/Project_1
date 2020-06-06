@@ -21,5 +21,6 @@ namespace Project_1.ViewModels
         public bool isPropietario_Juridico { get; set; }
 
         public int cedulaJuridica = TipoDocId.cedulaJuridica; //Id de cedula juridica en la tabla tipoDocId
+        public int codigoCedulaJuridica = TipoDocId.codigoCedulaJuridica;
     }
 }

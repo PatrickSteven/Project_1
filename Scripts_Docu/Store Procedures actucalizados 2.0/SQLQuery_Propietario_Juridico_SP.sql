@@ -242,10 +242,9 @@ CREATE PROCEDURE [dbo].[SPS_Propietario_Juridico_Detail]
 AS 
 BEGIN
 	DECLARE @idPropietario int, @valorId int;
-	SELECT @idPropietario = [id] from dbo.Propietario_Juridico AS P WHERE P.[valorDocId] = @valorDocId
+	SELECT @idPropietario = [id] from dbo.Propietario AS P WHERE P.[valorDocId] = @valorDocId
 	IF @idPropietario is not null
 		BEGIN
-			PRINT('Chayote')
 			SELECT responsable, PJ.[valorDocId], dbo.Tipo_DocId.codigoDoc
 			FROM dbo.Propietario_Juridico AS PJ 
 			INNER JOIN dbo.Tipo_DocId ON PJ.idDocId = dbo.Tipo_DocId.id

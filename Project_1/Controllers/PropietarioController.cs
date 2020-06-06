@@ -70,7 +70,7 @@ namespace Project_1.Controllers
                 return View("InsertForm", PreparePropietarioInsertViewModel(propietarioInsert.propietario));
             }
 
-            if (propietarioInsert.propietario.idDocId == propietarioInsert.cedulaJuridica)
+            if (propietarioInsert.propietario.idDocId == propietarioInsert.codigoCedulaJuridica)
             {
                 propietarioInsert.propietario_Juridico.idPropietario = retval;
                 var retval_propietarioJuridco = Propietario_Juridico_Conexion.Insert(propietarioInsert.propietario_Juridico);

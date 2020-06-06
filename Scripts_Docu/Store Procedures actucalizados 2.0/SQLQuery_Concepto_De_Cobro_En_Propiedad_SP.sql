@@ -241,7 +241,7 @@ BEGIN
 					from dbo.[Concepto_Cobro_en_Propiedad] P
 					inner join dbo.[Concepto_Cobro] CC on P.idConeceptoCobro = CC.id
 					inner join dbo.CC_Fijo CF on P.idConeceptoCobro = CF.id
-					WHERE P.idPropiedad = @idPropiedad;
+					WHERE P.idPropiedad = @idPropiedad AND P.activo = 1;
 				END
 			ELSE IF (@TipoCC = 'CC_Consumo')
 				BEGIN
@@ -249,7 +249,7 @@ BEGIN
 					from dbo.[Concepto_Cobro_en_Propiedad] P
 					inner join dbo.[Concepto_Cobro] CC on P.[idConeceptoCobro] = CC.[id]
 					inner join dbo.CC_Consumo CCO on P.[idConeceptoCobro] = CCO.[id]				
-					WHERE P.[idPropiedad] = @idPropiedad;
+					WHERE P.[idPropiedad] = @idPropiedad AND P.activo = 1;
 				END
 			ELSE IF (@TipoCC = 'CC_Porcentual')
 				BEGIN
@@ -257,7 +257,7 @@ BEGIN
 					from dbo.[Concepto_Cobro_en_Propiedad] P
 					inner join dbo.[Concepto_Cobro] CC on P.[idConeceptoCobro] = CC.[id]
 					inner join dbo.CC_Porcentual CCP on P.[idConeceptoCobro] = CCP.[id]				
-					WHERE P.[idPropiedad] = @idPropiedad;
+					WHERE P.[idPropiedad] = @idPropiedad AND P.activo = 1;
 				END
 			ELSE -- Intereses Moratorios
 				BEGIN 
@@ -265,7 +265,7 @@ BEGIN
 					from dbo.[Concepto_Cobro_en_Propiedad] P
 					inner join dbo.[Concepto_Cobro] CC on P.idConeceptoCobro = CC.id
 					inner join dbo.CC_Intereses_Moratorios CCI on P.idConeceptoCobro = CCI.id					
-					WHERE P.idPropiedad = @idPropiedad;
+					WHERE P.idPropiedad = @idPropiedad AND P.activo = 1;
 				END
 		END
 	END

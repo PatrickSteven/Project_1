@@ -13,7 +13,7 @@
         if (Model.propietario.idDocId == TipoDocId.cedulaJuridica)
         {
             <hr class="my-4">
-            <h4>Responsable Juridico: Hola</h4>
+            <h4>Responsable Juridico:<span class="badge badge-info">@Model.propietarioJuridico.responsable</span></h4>
             <h4>Documento<span class="badge badge-info">#@Model.propietarioJuridico.valorDocId</span></h4>
         }
     }
@@ -33,16 +33,6 @@
                 "Propietario",
                 new { @Model.propietario.valorDocId },
                 new { @class = "text-white" })
-            <ion-icon name="arrow-up-outline"></ion-icon>
-        </button>
-
-        <button class="btn btn-sm btn-dark" role="button">
-            @Html.ActionLink(
-                "Borrar Propietario",
-                "Delete",
-                "Propietario",
-                new { @Model.propietario.valorDocId },
-                new { @class = "text-danger" })
             <ion-icon name="arrow-up-outline"></ion-icon>
         </button>
     </p>

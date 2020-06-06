@@ -10,6 +10,7 @@ namespace Project_1.Models.TipoDocId
         public int id { get; set; }
         public string nombre{ get; set; }
 
-        public static readonly int cedulaJuridica = 4;
+        public static readonly int cedulaJuridica = 16;
+        public static readonly int codigoCedulaJuridica = 4;
     }
 }
