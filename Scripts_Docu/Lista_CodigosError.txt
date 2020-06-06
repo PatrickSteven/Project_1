@@ -1,3 +1,4 @@
+Codigos de error
 codigo -1  : 'Error de conexion con la base de datos'
 codigo -10 : 'Propiedad no encontrada'
 codigo -11 : 'Propietario ya registrado en la base de datos'
