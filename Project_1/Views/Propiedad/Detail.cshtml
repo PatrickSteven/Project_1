@@ -1,37 +1,78 @@
 ﻿@using Project_1.Models
 @using Project_1.Models.TipoDocId
+@using Project_1.Models.Coneptos_De_Cobro
 @model Project_1.ViewModels.Propiedad.PropiedadDetailViewModel
 @{
     ViewBag.Title = "Detail";
 }
 
 <!--INFO-->
-<div class="jumbotron">
+<div class="jumbotron propiedad-info">
     <h3 class="display-4">Numero de Finca: @Model.propiedad.numeroFinca</h3>
     <h4>Valor: <span class="badge badge-info">$@Model.propiedad.valor</span></h4>
     <hr class="my-4">
     <h4>Dirección: <span class="badge badge-info">@Model.propiedad.direccion</span></h4>
-    <p class="lead">
-        <button class="btn btn-sm btn-dark" role="button">
-            @Html.ActionLink(
-                "Actualizar",
-                "UpdateRedirect",
-                "Propiedad",
-                new { @Model.propiedad.numeroFinca },
-                new { @class = "text-white" })
-            <ion-icon name="arrow-up-outline"></ion-icon>
-        </button>
+	<p class="lead">
+		<button class="btn btn-sm btn-dark" role="button">
+			@Html.ActionLink(
+				"Actualizar",
+				"UpdateRedirect",
+				"Propiedad",
+				new { @Model.propiedad.numeroFinca },
+				new { @class = "text-white" })
+			<ion-icon name="arrow-up-outline"></ion-icon>
+		</button>
 
-        <button class="btn btn-sm btn-dark" role="button">
-            @Html.ActionLink(
-                "Borrar Propiedad",
-                "Delete",
-                "Propiedad",
-                new { @Model.propiedad.numeroFinca },
-                new { @class = "text-danger" })
-            <ion-icon name="arrow-up-outline"></ion-icon>
-        </button>
-    </p>
+		<!-- Agregar concepto de cobro en propiedad -->
+		<button class="agregar-CC btn btn-sm btn-dark" role="button">
+			<a href="#agregar-CC-form" class="text-white">
+				Agregar Concepto de Cobro
+				<ion-icon name="arrow-up-outline"></ion-icon>
+			</a>
+		</button>
+
+		<!-- Agregar Concepto de Cobro-->
+		<div class="agregar-CC-form my-5" style="display: none">
+
+			<h3 class="my-4">Agregar Concepto de Cobro</h3>
+
+			<div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+				<strong>Cuidado!</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+			<div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
+				<strong>Realizado,</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+
+
+			<div class="input-group mb-3" readonly>
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1">@Html.LabelFor(m => m.propiedad.numeroFinca)</span>
+				</div>
+				@Html.TextBoxFor(m => m.propiedad.numeroFinca, new { @Value = @Model.propiedad.numeroFinca, @class = "form-control", aria_describedby = "basic-addon1" })
+				@Html.ValidationMessageFor(m => m.propiedad.numeroFinca)
+			</div>
+
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1"> @Html.LabelFor(m => m.CC_En_Propiedad.nombreCC)</span>
+				</div>
+				@Html.TextBoxFor(m => m.CC_En_Propiedad.nombreCC, new { @class = "form-control", placeholder = "Nombre Concepto Cobro", aria_describedby = "basic-addon1" })
+				@Html.ValidationMessageFor(m => m.CC_En_Propiedad.nombreCC)
+			</div>
+			<button type="submit" class="btn-agregar-CC btn btn-primary" id="button-addon2">Agregar</button>
+		</div>
+
+
+	</p>
 </div>
 
 <!--PROPIETARIOS-->
@@ -69,165 +110,152 @@ else
     <h3 class="my-4">No hay propietarios</h3>
 }
 
+<div id="conceptos_cobro">
+	<!--CC_FIjo-->
 
-<!--CC_FIjo-->
+	@if (Model.CC_Fijo.Any())
+	{
+		<div>
+			<h3 class="my-4">Conceptos de Cobro Fijo</h3>
+			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Intereses</th>
+						<th scope="col">Día cobro</th>
+						<th scope="col">Día vencimiento</th>
+						<th scope="col">Es fijo</th>
+						<th scope="col">Es recurrente</th>
+						<th scope="col">Monto</th>
+						<th>Cancelar</th>
+					</tr>
+				</thead>
+				@foreach (var concepto in Model.CC_Fijo)
+				{
+					<tr>
+						<td>@concepto.nombreCC</td>
+						<td>@concepto.interesesMoratorios</td>
+						<td>@concepto.diaCobro</td>
+						<td>@concepto.diasVencidos</td>
+						<td>@concepto.esFijo</td>
+						<td>@concepto.esRecurrente</td>
+						<td>@concepto.monto</td>
+						<td><ion-icon name="thumbs-down-outline" CC-data=@concepto.nombreCC class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+					</tr>
+				}
+			</table>
+		</div>
+	}
 
-@if (Model.CC_Fijo.Any())
-{
-    <div>
-        <h3 class="my-4">Conceptos de Cobro Fijo</h3>
-        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Intereses</th>
-                    <th scope="col">Día cobro</th>
-                    <th scope="col">Día vencimiento</th>
-                    <th scope="col">Es fijo</th>
-                    <th scope="col">Es recurrente</th>
-                    <th scope="col">Monto</th>
-                    <th>Ver</th>
-                    <th>Modificar</th>
-                    <th>Cancelar</th>
-                </tr>
-            </thead>
-            @foreach (var concepto in Model.CC_Fijo)
-            {
-                <tr>
-                    <td>@concepto.nombreCC</td>
-                    <td>@concepto.interesesMoratorios</td>
-                    <td>@concepto.diaCobro</td>
-                    <td>@concepto.diasVencidos</td>
-                    <td>@concepto.esFijo</td>
-                    <td>@concepto.esRecurrente</td>
-                    <td>@concepto.monto</td>
-                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-                </tr>
-            }
-        </table>
-    </div>
-}
+	<!--CC_Consumo-->
 
-<!--CC_Consumo-->
-
-@if (Model.CC_Consumo.Any())
-{
-    <div>
-        <h3 class="my-4">Conceptos de Cobro Consumo</h3>
-        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Intereses</th>
-                    <th scope="col">Día cobro</th>
-                    <th scope="col">Día vencimiento</th>
-                    <th scope="col">Es fijo</th>
-                    <th scope="col">Es recurrente</th>
-                    <th scope="col">Monto</th>
-                    <th>Ver</th>
-                    <th>Modificar</th>
-                    <th>Cancelar</th>
-                </tr>
-            </thead>
-            @foreach (var concepto in Model.CC_Consumo)
-            {
-                <tr>
-                    <td>@concepto.nombreCC</td>
-                    <td>@concepto.interesesMoratorios</td>
-                    <td>@concepto.diaCobro</td>
-                    <td>@concepto.diasVencidos</td>
-                    <td>@concepto.esFijo</td>
-                    <td>@concepto.esRecurrente</td>
-                    <td>@concepto.monto</td>
-                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-                </tr>
-            }
-        </table>
-    </div>
-}
+	@if (Model.CC_Consumo.Any())
+	{
+		<div>
+			<h3 class="my-4">Conceptos de Cobro Consumo</h3>
+			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Intereses</th>
+						<th scope="col">Día cobro</th>
+						<th scope="col">Día vencimiento</th>
+						<th scope="col">Es fijo</th>
+						<th scope="col">Es recurrente</th>
+						<th scope="col">Monto</th>
+						<th>Cancelar</th>
+					</tr>
+				</thead>
+				@foreach (var concepto in Model.CC_Consumo)
+				{
+					<tr>
+						<td>@concepto.nombreCC</td>
+						<td>@concepto.interesesMoratorios</td>
+						<td>@concepto.diaCobro</td>
+						<td>@concepto.diasVencidos</td>
+						<td>@concepto.esFijo</td>
+						<td>@concepto.esRecurrente</td>
+						<td>@concepto.monto</td>
+						<td><ion-icon CC-data=@concepto.nombreCC name="thumbs-down-outline" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+					</tr>
+				}
+			</table>
+		</div>
+	}
 
 
-<!--CC_Intereses_Moratorios-->
+	<!--CC_Intereses_Moratorios-->
 
-@if (Model.CC_Intereses_Moratiorios.Any())
-{
-    <div>
-        <h3 class="my-4">Conceptos de Cobro Intereses_Moratorios</h3>
-        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <!-- <th scope="col">Fecha Incio</th>-->
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Intereses</th>
-                    <th scope="col">Día cobro</th>
-                    <th scope="col">Día vencimiento</th>
-                    <th scope="col">Es fijo</th>
-                    <th scope="col">Es recurrente</th>
-                    <th>Ver</th>
-                    <th>Modificar</th>
-                    <th>Cancelar</th>
-                </tr>
-            </thead>
-            @foreach (var concepto in Model.CC_Intereses_Moratiorios)
-            {
-                <tr>
-                    <td>@concepto.nombreCC</td>
-                    <td>@concepto.interesesMoratorios</td>
-                    <td>@concepto.diaCobro</td>
-                    <td>@concepto.diasVencidos</td>
-                    <td>@concepto.esFijo</td>
-                    <td>@concepto.esRecurrente</td>
-                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-                </tr>
-            }
-        </table>
-    </div>
-}
 
-<!--CC_Porcentual-->
-@if (Model.CC_Porcentaje.Any())
-{
-    <div>
-        <h3 class="my-4">Conceptos de Cobro Porcentual</h3>
-        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Intereses</th>
-                <th scope="col">Día cobro</th>
-                <th scope="col">Día vencimiento</th>
-                <th scope="col">Es fijo</th>
-                <th scope="col">Es recurrente</th>
-                <th scope="col">Porcentaje</th>
-                <th>Ver</th>
-                <th>Modificar</th>
-                <th>Cancelar</th>
-            </tr>
-            </thead>
-            @foreach (var concepto in Model.CC_Porcentaje)
-            {
-                <tr>
-                    <td>@concepto.nombreCC</td>
-                    <td>@concepto.interesesMoratorios</td>
-                    <td>@concepto.diaCobro</td>
-                    <td>@concepto.diasVencidos</td>
-                    <td>@concepto.esFijo</td>
-                    <td>@concepto.esRecurrente</td>
-                    <td>@concepto.porcentaje</td>
-                    <td><a href="#"><ion-icon name="person" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><a href="#"><ion-icon name="arrow-up-circle-outline" class="btn btn-outline-success"></ion-icon></a></td>
-                    <td><ion-icon name="thumbs-down-outline" class="btn btn-outline-danger"></ion-icon></td>
-                </tr>
-            }
-        </table>
-    </div>
-}
+	@if (Model.CC_Intereses_Moratiorios.Any())
+	{
+		<div>
+			<h3 class="my-4">Conceptos de Cobro Intereses_Moratorios</h3>
+			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+				<thead class="thead-dark">
+					<tr>
+						<!-- <th scope="col">Fecha Incio</th>-->
+						<th scope="col">Nombre</th>
+						<th scope="col">Intereses</th>
+						<th scope="col">Día cobro</th>
+						<th scope="col">Día vencimiento</th>
+						<th scope="col">Es fijo</th>
+						<th scope="col">Es recurrente</th>
+						<th>Cancelar</th>
+					</tr>
+				</thead>
+				@foreach (var concepto in Model.CC_Intereses_Moratiorios)
+				{
+					<tr>
+						<td>@concepto.nombreCC</td>
+						<td>@concepto.interesesMoratorios</td>
+						<td>@concepto.diaCobro</td>
+						<td>@concepto.diasVencidos</td>
+						<td>@concepto.esFijo</td>
+						<td>@concepto.esRecurrente</td>
+						<td><ion-icon name="thumbs-down-outline" CC-data=@concepto.nombreCC class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+					</tr>
+				}
+			</table>
+		</div>
+	}
+
+	<!--CC_Porcentual-->
+	@if (Model.CC_Porcentaje.Any())
+	{
+		<div>
+			<h3 class="my-4">Conceptos de Cobro Porcentual</h3>
+			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Intereses</th>
+						<th scope="col">Día cobro</th>
+						<th scope="col">Día vencimiento</th>
+						<th scope="col">Es fijo</th>
+						<th scope="col">Es recurrente</th>
+						<th scope="col">Porcentaje</th>
+						<th>Cancelar</th>
+					</tr>
+				</thead>
+				@foreach (var concepto in Model.CC_Porcentaje)
+				{
+					<tr>
+						<td>@concepto.nombreCC</td>
+						<td>@concepto.interesesMoratorios</td>
+						<td>@concepto.diaCobro</td>
+						<td>@concepto.diasVencidos</td>
+						<td>@concepto.esFijo</td>
+						<td>@concepto.esRecurrente</td>
+						<td>@concepto.porcentaje</td>
+						<td><ion-icon name="thumbs-down-outline" CC-data=@concepto.nombreCC class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+					</tr>
+				}
+			</table>
+		</div>
+	}
+
+</div>
 
 
 <!--Usuarios Suscritos-->
@@ -265,7 +293,7 @@ else
 
 
 @section scripts{
-    <script>
+	<script>
 
         $(document).ready(function () {
 
@@ -298,6 +326,57 @@ else
                             }
                         }
                     });
+
+				});
+
+
+			//Agregar Concepto de Cobro
+			var warningDiv = $("div.warning-message");
+            var successfulDiv = $("div.successful-message");
+
+            $(".propiedad-info").on("click", ".agregar-CC",
+                function() {
+                    $("div.agregar-CC-form").show();
+                    warningDiv.hide();
+                    successfulDiv.hide();
+                });
+
+			$(".agregar-CC-form").on("click", ".btn-agregar-CC",
+				function () {
+
+					console.log($("#CC_En_Propiedad_nombreCC").val() + " " + $("#propiedad_numeroFinca").val());
+					if ($("#CC_En_Propiedad_nombreCC").val() &&
+						$("#propiedad_numeroFinca").val()) {
+						
+                        $.ajax({
+                            method: "POST",
+                            url: '@Url.Content("~/CCEnPropiedad/Insert/")' +
+								$("#propiedad_numeroFinca").val() +
+                                "/" +
+								$("#CC_En_Propiedad_nombreCC").val(),
+                            success: function (retval) {
+								if (retval == "Concepto de cobro agregado!") {
+                                    warningDiv.hide();
+                                    successfulDiv.show();
+                                    successfulDiv.append(retval);
+                                } else {
+                                    successfulDiv.hide();
+                                    warningDiv.show();
+                                    warningDiv.append(retval);
+                                }
+
+                            }
+                        });
+
+
+					}
+					else {
+
+                        successfulDiv.hide();
+                        warningDiv.show();
+                        warningDiv.append("Todos los campos son obligatiorios!");
+
+                    }
 
                 });
 
@@ -335,6 +414,40 @@ else
 
                 });
 
+
+            //Delete Concepto Cobro en propiedad
+			$("#conceptos_cobro").on("click", ".js-delete-CC",
+                function() {
+                    var deleteButton = $(this);
+                    var nombreCC = deleteButton.attr("CC-data");
+
+                    bootbox.confirm({
+                        message: "¿Desea eliminar el concepto de cobro " + nombreCC + " de esta propiedad?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function(result) {
+                            if (result) {
+                                $.ajax({
+                                    method: "POST",
+                                    url: '@Url.Content("~/CCEnPropiedad/Delete/")' + @Model.propiedad.numeroFinca  + "/" + nombreCC,
+                                    success: function() {
+                                        deleteButton.parents("tr").remove();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                });
+
         });
-    </script>
+	</script>
 }

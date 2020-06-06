@@ -150,6 +150,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\Concepto_De_Cobro_En_PropiedadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PropiedadController.cs" />
     <Compile Include="Controllers\Propiedad_Del_PropietarioController.cs" />
@@ -602,6 +603,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\App\" />
+    <Folder Include="Views\Concepto_De_Cobro_En_Propiedad\" />
     <Folder Include="Views\Propiedad_Del_Propietario\" />
     <Folder Include="Views\Usuario_De_Propiedad\" />
   </ItemGroup>
