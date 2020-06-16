@@ -40,12 +40,15 @@ CREATE TABLE Concepto_Cobro (
 -- Propiedad_del_Propietario : Asocia un propietario con VARIAS propiedades
 
 --ACTUALIZADO VERSION FINAL
+--ACTUALIZACION SEGUNDA PARTE PROYECTO
 CREATE TABLE Propiedad (
-	id int primary key not null identity(1,1),int
+	id int primary key not null identity(1,1),
 	fechaLeido date not null,
 	numeroFinca int not null,
 	valor money not null,
 	direccion nvarchar(50) not null,
+	m3Acumulados int not null, --Nuevos atributos. Se inicializan en 0 cuando una propiedada es insertada
+	m3AcumuladosUR int not null,
 	activo int 
 );
 
@@ -63,38 +66,7 @@ CREATE TABLE Concepto_Cobro_en_Propiedad (
 	activo int not null
 );
 
--- Tinene una FK  a solamente una porpiedad
--- Nota: Para la primera entrega no se necesita implementar
 
---ACTUALIZADO VERSION FINAL
-CREATE TABLE Comprobante_Pago (
-	id int primary key not null identity(1,1),
-	fecha date not null,
-	total int,
-	idPropiedad int not null,
-	CONSTRAINT FK_idPropiedad_02 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
-	activo int not null
-);
-
--- Un recibo tiene 3 FK
--- #1: Referencia a un Concepto de Cobro
--- #2: Referencia a una Propiedad
--- #3: Referencia a un Comprobante de Pago no emitido
--- Nota: Para la primera entrega no se necesita implementar
-CREATE TABLE Recibos (
-	id int primary key not null identity(1,1),
-	fecha date not null,
-	fechaVencimiendo date not null,
-	monto int not null,
-	esPendiente bit not null,
-	idConeceptoCobro int not null,
-	CONSTRAINT FK_idConeceptoCobro_02 FOREIGN KEY (idConeceptoCobro) REFERENCES Concepto_Cobro(id),
-	idPropiedad int not null,
-	CONSTRAINT FK_idPropiedad_06 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
-	-- idComprobantePago  puede ser null [REVISAR]
-	idComprobanteDePago int,
-	CONSTRAINT FK_idComprobantePago FOREIGN KEY (id) REFERENCES Comprobante_Pago(id)
-);
 
 -- Tipo_DocId es una tabla catalogo y es usada por referencia en:
 -- Propietario: Asocia a un propietario con un Id UNICO
@@ -145,7 +117,6 @@ CREATE TABLE Propietario_Juridico (
 	fechaLeido date not null,
 	activo int not null
 );
-DROP TABLE Propietario_Juridico
 
 
 
@@ -221,3 +192,108 @@ CREATE TABLE CC_Porcentual(
 	fechaInicio date not null,
 	activo int 
 )
+
+--NUEVAS TABLAS SEGUNDA PARTE PROYECTO
+
+CREATE TABLE TipoMov(
+	id int primary key not null identity(1,1),
+	codigo int not null,
+	nombre varchar(20) not null
+);
+
+CREATE TABLE MovConsumo(
+	id int primary key not null identity(1,1),
+	idPropiedad int not null,
+	idTipoMov int not null,
+	fecha date not null,
+	montoM3 int,
+	lecturaConsumo int,
+	activo int not null,
+
+	CONSTRAINT FK_MovConsumo_idPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	CONSTRAINT FK_MovConsumo_idTipoMov FOREIGN KEY (idTipoMov) REFERENCES TipoMov(id),
+);
+
+
+-- Tinene una FK  a solamente una porpiedad
+CREATE TABLE Comprobante_Pago(
+
+	id int primary key not null identity(1,1),
+	idPropiedad int not null,
+	fecha date not null,
+	total int,
+	activo int not null
+
+	CONSTRAINT FK_CompPago_idPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+
+);
+
+-- Un recibo tiene 3 FK
+-- #1: Referencia a un Concepto de Cobro
+-- #2: Referencia a una Propiedad
+-- #3: Referencia a un Comprobante de Pago no emitido
+
+CREATE TABLE Recibo (
+	id int primary key not null identity(1,1),
+	idPropiedad int not null,
+	idConceptoCobro int not null,
+	idComprobanteDePago int,
+
+	fecha date not null,
+	fechaVencimiendo date not null,
+	monto int not null,
+	esPendiente bit not null,
+	CONSTRAINT FK_idConeceptoCobro_02 FOREIGN KEY (idConceptoCobro) REFERENCES Concepto_Cobro(id),
+	CONSTRAINT FK_idPropiedad_06 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	-- idComprobantePago  puede ser null [REVISAR]
+	CONSTRAINT FK_idComprobantePago FOREIGN KEY (id) REFERENCES Comprobante_Pago(id)
+);
+
+
+CREATE TABLE ReciboReconexion(
+	id int primary key not null,
+	CONSTRAINT FK_rconexionRecibo FOREIGN KEY (id) REFERENCES Recibo(id)	
+);
+
+CREATE TABLE Corte(
+	id int primary key not null,
+	idPropiedad int not null,
+	idReciboReconexion int not null,
+	fecha date,
+
+	CONSTRAINT FK_CortePropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	CONSTRAINT FK_CorteRecibo FOREIGN KEY (idReciboReconexion) REFERENCES ReciboReconexion(id)
+
+
+);
+
+CREATE TABLE Reconexion(
+	id int primary key not null,
+	idPropiedad int not null,
+	idReciboReconexion int not null,
+	fecha date,
+
+	CONSTRAINT FK_ReconexionPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	CONSTRAINT FK_ReconexionRecibo FOREIGN KEY (idReciboReconexion) REFERENCES ReciboReconexion(id)
+);
+
+CREATE TABLE TipoEntidad(
+	id int primary key not null, 
+	codigo int not null,
+	nombre varchar(30)
+);
+
+CREATE TABLE Bitacora(
+
+	id int primary key identity (1,1) not null,
+	idTipoEntidad int not null, -- referencia a table EntityType
+	idEntidad int not null, -- Id de la entidad siendo actualizada
+	jsonAntes varchar(500) not null,
+	jsonDespues varchar(500) not null,
+	insertedAt datetime not null, -- estampa de tiempo de cuando se hizo la actualización
+	insertedby varchar(20) not null, -- usuario persona que hizo la actualización
+	insertedIn varchar(20) not null, -- IP desde donde se hizo la actualización, NO la IP del servidor, sino la del usuario que debe capturarse en capa lógica
+
+	CONSTRAINT FK_BitacoraTipoEntidad FOREIGN KEY (idTipoEntidad) REFERENCES TipoEntidad(id),
+);
+
