@@ -1,6 +1,7 @@
 ﻿@using Project_1.Models
 @using Project_1.Models.TipoDocId
 @using Project_1.Models.Coneptos_De_Cobro
+@using Roles = Project_1.Models.Authentication.Roles
 @model Project_1.ViewModels.Propiedad.PropiedadDetailViewModel
 @{
     ViewBag.Title = "Detail";
@@ -12,67 +13,70 @@
     <h4>Valor: <span class="badge badge-info">$@Model.propiedad.valor</span></h4>
     <hr class="my-4">
     <h4>Dirección: <span class="badge badge-info">@Model.propiedad.direccion</span></h4>
-	<p class="lead">
-		<button class="btn btn-sm btn-dark" role="button">
-			@Html.ActionLink(
-				"Actualizar",
-				"UpdateRedirect",
-				"Propiedad",
-				new { @Model.propiedad.numeroFinca },
-				new { @class = "text-white" })
-			<ion-icon name="arrow-up-outline"></ion-icon>
-		</button>
+    <p class="lead">
 
-		<!-- Agregar concepto de cobro en propiedad -->
-		<button class="agregar-CC btn btn-sm btn-dark" role="button">
-			<a href="#agregar-CC-form" class="text-white">
-				Agregar Concepto de Cobro
-				<ion-icon name="arrow-up-outline"></ion-icon>
-			</a>
-		</button>
+        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+        {
+            <button class="btn btn-sm btn-dark" role="button">
+                @Html.ActionLink(
+                     "Actualizar",
+                     "UpdateRedirect",
+                     "Propiedad",
+                     new { @Model.propiedad.numeroFinca },
+                     new { @class = "text-white" })
+                <ion-icon name="arrow-up-outline"></ion-icon>
+            </button>
 
-		<!-- Agregar Concepto de Cobro-->
-		<div class="agregar-CC-form my-5" style="display: none">
+            <!-- Agregar concepto de cobro en propiedad -->
+            <button class="agregar-CC btn btn-sm btn-dark" role="button">
+                <a href="#agregar-CC-form" class="text-white">
+                    Agregar Concepto de Cobro
+                    <ion-icon name="arrow-up-outline"></ion-icon>
+                </a>
+            </button>
 
-			<h3 class="my-4">Agregar Concepto de Cobro</h3>
+            <!-- Agregar Concepto de Cobro-->
+            <div class="agregar-CC-form my-5" style="display: none">
 
-			<div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
-				<strong>Cuidado!</strong>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <h3 class="my-4">Agregar Concepto de Cobro</h3>
 
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
+                <div class="warning-message alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Cuidado!</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 
-			<div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
-				<strong>Realizado,</strong>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
+                <div class="successful-message alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Realizado,</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 
-
-			<div class="input-group mb-3" readonly>
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="basic-addon1">@Html.LabelFor(m => m.propiedad.numeroFinca)</span>
-				</div>
-				@Html.TextBoxFor(m => m.propiedad.numeroFinca, new { @Value = @Model.propiedad.numeroFinca, @class = "form-control", aria_describedby = "basic-addon1" })
-				@Html.ValidationMessageFor(m => m.propiedad.numeroFinca)
-			</div>
-
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="basic-addon1"> @Html.LabelFor(m => m.CC_En_Propiedad.nombreCC)</span>
-				</div>
-				@Html.TextBoxFor(m => m.CC_En_Propiedad.nombreCC, new { @class = "form-control", placeholder = "Nombre Concepto Cobro", aria_describedby = "basic-addon1" })
-				@Html.ValidationMessageFor(m => m.CC_En_Propiedad.nombreCC)
-			</div>
-			<button type="submit" class="btn-agregar-CC btn btn-primary" id="button-addon2">Agregar</button>
-		</div>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
 
-	</p>
+                <div class="input-group mb-3" readonly>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">@Html.LabelFor(m => m.propiedad.numeroFinca)</span>
+                    </div>
+                    @Html.TextBoxFor(m => m.propiedad.numeroFinca, new { @Value = @Model.propiedad.numeroFinca, @class = "form-control", aria_describedby = "basic-addon1" })
+                    @Html.ValidationMessageFor(m => m.propiedad.numeroFinca)
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"> @Html.LabelFor(m => m.CC_En_Propiedad.nombreCC)</span>
+                    </div>
+                    @Html.TextBoxFor(m => m.CC_En_Propiedad.nombreCC, new { @class = "form-control", placeholder = "Nombre Concepto Cobro", aria_describedby = "basic-addon1" })
+                    @Html.ValidationMessageFor(m => m.CC_En_Propiedad.nombreCC)
+                </div>
+                <button type="submit" class="btn-agregar-CC btn btn-primary" id="button-addon2">Agregar</button>
+            </div>
+        }
+
+    </p>
 </div>
 
 <!--PROPIETARIOS-->
@@ -97,9 +101,13 @@
                     <th>@propietario.nombre</th>
                     <td>@propietario.valorDocId</td>
                     <td>@propietario.nombreDocId</td>
-                    <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
-                    <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
-                    <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete-propietario btn btn-outline-danger"></ion-icon></td>
+
+                    @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                    {
+                        <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+                        <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
+                        <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete-propietario btn btn-outline-danger"></ion-icon></td>
+                    }
                 </tr>
             }
         </table>
@@ -111,190 +119,210 @@ else
 }
 
 <div id="conceptos_cobro">
-	<!--CC_FIjo-->
+    <!--CC_FIjo-->
 
-	@if (Model.CC_Fijo.Any())
-	{
-		<div>
-			<h3 class="my-4">Conceptos de Cobro Fijo</h3>
-			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Nombre</th>
-						<th scope="col">Intereses</th>
-						<th scope="col">Día cobro</th>
-						<th scope="col">Día vencimiento</th>
-						<th scope="col">Es fijo</th>
-						<th scope="col">Es recurrente</th>
-						<th scope="col">Monto</th>
-						<th>Cancelar</th>
-					</tr>
-				</thead>
-				@foreach (var concepto in Model.CC_Fijo)
-				{
-					<tr>
-						<td>@concepto.nombreCC</td>
-						<td>@concepto.interesesMoratorios</td>
-						<td>@concepto.diaCobro</td>
-						<td>@concepto.diasVencidos</td>
-						<td>@concepto.esFijo</td>
-						<td>@concepto.esRecurrente</td>
-						<td>@concepto.monto</td>
-						<td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
-					</tr>
-				}
-			</table>
-		</div>
-	}
+    @if (Model.CC_Fijo.Any())
+    {
+        <div>
+            <h3 class="my-4">Conceptos de Cobro Fijo</h3>
+            <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Intereses</th>
+                        <th scope="col">Día cobro</th>
+                        <th scope="col">Día vencimiento</th>
+                        <th scope="col">Es fijo</th>
+                        <th scope="col">Es recurrente</th>
+                        <th scope="col">Monto</th>
+                        <th>Cancelar</th>
+                    </tr>
+                </thead>
+                @foreach (var concepto in Model.CC_Fijo)
+                {
+                    <tr>
+                        <td>@concepto.nombreCC</td>
+                        <td>@concepto.interesesMoratorios</td>
+                        <td>@concepto.diaCobro</td>
+                        <td>@concepto.diasVencidos</td>
+                        <td>@concepto.esFijo</td>
+                        <td>@concepto.esRecurrente</td>
+                        <td>@concepto.monto</td>
 
-	<!--CC_Consumo-->
+                        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                        {
+                            <td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 
-	@if (Model.CC_Consumo.Any())
-	{
-		<div>
-			<h3 class="my-4">Conceptos de Cobro Consumo</h3>
-			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Nombre</th>
-						<th scope="col">Intereses</th>
-						<th scope="col">Día cobro</th>
-						<th scope="col">Día vencimiento</th>
-						<th scope="col">Es fijo</th>
-						<th scope="col">Es recurrente</th>
-						<th scope="col">Monto</th>
-						<th>Cancelar</th>
-					</tr>
-				</thead>
-				@foreach (var concepto in Model.CC_Consumo)
-				{
-					<tr>
-						<td>@concepto.nombreCC</td>
-						<td>@concepto.interesesMoratorios</td>
-						<td>@concepto.diaCobro</td>
-						<td>@concepto.diasVencidos</td>
-						<td>@concepto.esFijo</td>
-						<td>@concepto.esRecurrente</td>
-						<td>@concepto.monto</td>
-						<td><ion-icon CC-data="@concepto.nombreCC" name="thumbs-down-outline" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
-					</tr>
-				}
-			</table>
-		</div>
-	}
+    <!--CC_Consumo-->
+
+    @if (Model.CC_Consumo.Any())
+    {
+        <div>
+            <h3 class="my-4">Conceptos de Cobro Consumo</h3>
+            <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Intereses</th>
+                        <th scope="col">Día cobro</th>
+                        <th scope="col">Día vencimiento</th>
+                        <th scope="col">Es fijo</th>
+                        <th scope="col">Es recurrente</th>
+                        <th scope="col">Monto</th>
+                        <th>Cancelar</th>
+                    </tr>
+                </thead>
+                @foreach (var concepto in Model.CC_Consumo)
+                {
+                    <tr>
+                        <td>@concepto.nombreCC</td>
+                        <td>@concepto.interesesMoratorios</td>
+                        <td>@concepto.diaCobro</td>
+                        <td>@concepto.diasVencidos</td>
+                        <td>@concepto.esFijo</td>
+                        <td>@concepto.esRecurrente</td>
+                        <td>@concepto.monto</td>
+
+                        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                        {
+                            <td><ion-icon CC-data="@concepto.nombreCC" name="thumbs-down-outline" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 
 
-	<!--CC_Intereses_Moratorios-->
+    <!--CC_Intereses_Moratorios-->
 
 
-	@if (Model.CC_Intereses_Moratiorios.Any())
-	{
-		<div>
-			<h3 class="my-4">Conceptos de Cobro Intereses_Moratorios</h3>
-			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-				<thead class="thead-dark">
-					<tr>
-						<!-- <th scope="col">Fecha Incio</th>-->
-						<th scope="col">Nombre</th>
-						<th scope="col">Intereses</th>
-						<th scope="col">Día cobro</th>
-						<th scope="col">Día vencimiento</th>
-						<th scope="col">Es fijo</th>
-						<th scope="col">Es recurrente</th>
-						<th>Cancelar</th>
-					</tr>
-				</thead>
-				@foreach (var concepto in Model.CC_Intereses_Moratiorios)
-				{
-					<tr>
-						<td>@concepto.nombreCC</td>
-						<td>@concepto.interesesMoratorios</td>
-						<td>@concepto.diaCobro</td>
-						<td>@concepto.diasVencidos</td>
-						<td>@concepto.esFijo</td>
-						<td>@concepto.esRecurrente</td>
-						<td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
-					</tr>
-				}
-			</table>
-		</div>
-	}
+    @if (Model.CC_Intereses_Moratiorios.Any())
+    {
+        <div>
+            <h3 class="my-4">Conceptos de Cobro Intereses_Moratorios</h3>
+            <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <!-- <th scope="col">Fecha Incio</th>-->
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Intereses</th>
+                        <th scope="col">Día cobro</th>
+                        <th scope="col">Día vencimiento</th>
+                        <th scope="col">Es fijo</th>
+                        <th scope="col">Es recurrente</th>
+                        <th>Cancelar</th>
+                    </tr>
+                </thead>
+                @foreach (var concepto in Model.CC_Intereses_Moratiorios)
+                {
+                    <tr>
+                        <td>@concepto.nombreCC</td>
+                        <td>@concepto.interesesMoratorios</td>
+                        <td>@concepto.diaCobro</td>
+                        <td>@concepto.diasVencidos</td>
+                        <td>@concepto.esFijo</td>
+                        <td>@concepto.esRecurrente</td>
 
-	<!--CC_Porcentual-->
-	@if (Model.CC_Porcentaje.Any())
-	{
-		<div>
-			<h3 class="my-4">Conceptos de Cobro Porcentual</h3>
-			<table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-				<thead class="thead-dark">
-					<tr>
-						<th scope="col">Nombre</th>
-						<th scope="col">Intereses</th>
-						<th scope="col">Día cobro</th>
-						<th scope="col">Día vencimiento</th>
-						<th scope="col">Es fijo</th>
-						<th scope="col">Es recurrente</th>
-						<th scope="col">Porcentaje</th>
-						<th>Cancelar</th>
-					</tr>
-				</thead>
-				@foreach (var concepto in Model.CC_Porcentaje)
-				{
-					<tr>
-						<td>@concepto.nombreCC</td>
-						<td>@concepto.interesesMoratorios</td>
-						<td>@concepto.diaCobro</td>
-						<td>@concepto.diasVencidos</td>
-						<td>@concepto.esFijo</td>
-						<td>@concepto.esRecurrente</td>
-						<td>@concepto.porcentaje</td>
-						<td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
-					</tr>
-				}
-			</table>
-		</div>
-	}
+                        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                        {
+                            <ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+    <!--CC_Porcentual-->
+    @if (Model.CC_Porcentaje.Any())
+    {
+        <div>
+            <h3 class="my-4">Conceptos de Cobro Porcentual</h3>
+            <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Intereses</th>
+                        <th scope="col">Día cobro</th>
+                        <th scope="col">Día vencimiento</th>
+                        <th scope="col">Es fijo</th>
+                        <th scope="col">Es recurrente</th>
+                        <th scope="col">Porcentaje</th>
+                        <th>Cancelar</th>
+                    </tr>
+                </thead>
+                @foreach (var concepto in Model.CC_Porcentaje)
+                {
+                    <tr>
+                        <td>@concepto.nombreCC</td>
+                        <td>@concepto.interesesMoratorios</td>
+                        <td>@concepto.diaCobro</td>
+                        <td>@concepto.diasVencidos</td>
+                        <td>@concepto.esFijo</td>
+                        <td>@concepto.esRecurrente</td>
+                        <td>@concepto.porcentaje</td>
+
+                        <!--ADMINISTRADOR-->
+                        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                        {
+                            <td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
 
 </div>
 
 
 <!--Usuarios Suscritos-->
-
-@if (@Model.usuarios.Any())
+<!--ADMINISTRADOR-->
+@if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
 {
-    <div>
-        <h3 class="my-4">Usuarios Suscritos</h3>
-        <table id="usuario-table" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Tipo de usuario</th>
-                    <th>Ver</th>
-                    <th>Desuscribir</th>
-                </tr>
-            </thead>
-            @foreach (var usuario in Model.usuarios)
-            {
-                <tr>
-                    <th>@usuario.nombre</th>
-                    <td>@usuario.tipoUsuario</td>
-                    <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
-                    <td><ion-icon usuario-data=@usuario.nombre name="thumbs-down-outline" class="js-delete-usuario btn btn-outline-danger"></ion-icon></td>
-                </tr>
-            }
-        </table>
-    </div>
+    @if (@Model.usuarios.Any())
+    {
+        <div>
+            <h3 class="my-4">Usuarios Suscritos</h3>
+            <table id="usuario-table" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Tipo de usuario</th>
+                        <th>Ver</th>
+                        <th>Desuscribir</th>
+                    </tr>
+                </thead>
+                @foreach (var usuario in Model.usuarios)
+                {
+                    <tr>
+                        <th>@usuario.nombre</th>
+                        <td>@usuario.tipoUsuario</td>
+                        <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+                        <td><ion-icon usuario-data=@usuario.nombre name="thumbs-down-outline" class="js-delete-usuario btn btn-outline-danger"></ion-icon></td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <h3 class="my-4">No hay usuarios suscritos</h3>
+    }
 }
-else
+
+@if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
 {
-    <h3 class="my-4">No hay usuarios suscritos</h3>
-}
-
-
-
-@section scripts{
-	<script>
-
+    @section scripts{
+        <script>
+        //ADMINISTRADOR
         $(document).ready(function () {
 
             //Delete propietario Button
@@ -347,7 +375,7 @@ else
 					console.log($("#CC_En_Propiedad_nombreCC").val() + " " + $("#propiedad_numeroFinca").val());
 					if ($("#CC_En_Propiedad_nombreCC").val() &&
 						$("#propiedad_numeroFinca").val()) {
-						
+
                         $.ajax({
                             method: "POST",
                             url: '@Url.Content("~/CCEnPropiedad/Insert/")' +
@@ -449,5 +477,6 @@ else
                 });
 
         });
-	</script>
+        </script>
+    }
 }

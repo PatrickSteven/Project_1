@@ -22,5 +22,9 @@ namespace Project_1.Models
         [Required]
         public string direccion { get; set; }
 
+        public int m3Acumulados { get; set; }
+
+        public int m3AcumuladosUR { get; set; }
+
     }
 }

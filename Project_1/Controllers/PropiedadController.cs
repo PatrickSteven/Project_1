@@ -20,17 +20,40 @@ namespace Project_1.Controllers
         // GET: Propiedad
         //Select Propiedad
 
+        [Authorize(Roles = Roles.administrador)]
+        [Authorize(Roles = Roles.usuario)]
         public ActionResult Index()
         {
 
-            List<Propiedad> listPropiedades = Propiedad_Conexion.Select();
-            PropiedadIndexViewModel propiedadIndex = new PropiedadIndexViewModel()
-            {
-                propiedades = listPropiedades
-            };
+            List<Propiedad> listPropiedades;
+            PropiedadIndexViewModel propiedadIndex;
 
-            return View(propiedadIndex);
-        
+            //ADMINISTRADOR
+            if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+            {
+                listPropiedades = Propiedad_Conexion.Select();
+
+                 propiedadIndex = new PropiedadIndexViewModel()
+                {
+                    propiedades = listPropiedades
+                };
+
+                return View(propiedadIndex);
+            }
+
+            //USUARIO
+            else if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.usuario)
+            {
+                listPropiedades = Usuario_de_Propiedad_Conexion.SelectUsuarioDetail(@CurrentUser.Name);
+
+                propiedadIndex = new PropiedadIndexViewModel()
+                {
+                    propiedades = listPropiedades
+                };
+
+                return View(propiedadIndex);
+            }
+
         }
 
         //Insertar Propiedad 

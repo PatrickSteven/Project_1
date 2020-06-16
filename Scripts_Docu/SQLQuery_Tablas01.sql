@@ -243,7 +243,8 @@ CREATE TABLE Recibo (
 	fecha date not null,
 	fechaVencimiendo date not null,
 	monto int not null,
-	esPendiente bit not null,
+	estado int not null, --0: Pendiente de pago (estado default), 1: Pagado, 3: Anulado.
+	activo int not null,
 	CONSTRAINT FK_idConeceptoCobro_02 FOREIGN KEY (idConceptoCobro) REFERENCES Concepto_Cobro(id),
 	CONSTRAINT FK_idPropiedad_06 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	-- idComprobantePago  puede ser null [REVISAR]
@@ -253,6 +254,8 @@ CREATE TABLE Recibo (
 
 CREATE TABLE ReciboReconexion(
 	id int primary key not null,
+	activo int not null,
+
 	CONSTRAINT FK_rconexionRecibo FOREIGN KEY (id) REFERENCES Recibo(id)	
 );
 
@@ -261,6 +264,7 @@ CREATE TABLE Corte(
 	idPropiedad int not null,
 	idReciboReconexion int not null,
 	fecha date,
+	activo int not null,
 
 	CONSTRAINT FK_CortePropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	CONSTRAINT FK_CorteRecibo FOREIGN KEY (idReciboReconexion) REFERENCES ReciboReconexion(id)
@@ -273,6 +277,7 @@ CREATE TABLE Reconexion(
 	idPropiedad int not null,
 	idReciboReconexion int not null,
 	fecha date,
+	activo int not null,
 
 	CONSTRAINT FK_ReconexionPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	CONSTRAINT FK_ReconexionRecibo FOREIGN KEY (idReciboReconexion) REFERENCES ReciboReconexion(id)
@@ -294,6 +299,7 @@ CREATE TABLE Bitacora(
 	insertedAt datetime not null, -- estampa de tiempo de cuando se hizo la actualización
 	insertedby varchar(20) not null, -- usuario persona que hizo la actualización
 	insertedIn varchar(20) not null, -- IP desde donde se hizo la actualización, NO la IP del servidor, sino la del usuario que debe capturarse en capa lógica
+	activo int not null,
 
 	CONSTRAINT FK_BitacoraTipoEntidad FOREIGN KEY (idTipoEntidad) REFERENCES TipoEntidad(id),
 );

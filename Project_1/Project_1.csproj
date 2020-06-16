@@ -155,6 +155,7 @@
     <Compile Include="Controllers\PropiedadController.cs" />
     <Compile Include="Controllers\Propiedad_Del_PropietarioController.cs" />
     <Compile Include="Controllers\PropietarioController.cs" />
+    <Compile Include="Controllers\RecibosController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\Usuario_De_PropiedadController.cs" />
     <Compile Include="Global.asax.cs">
@@ -605,6 +606,7 @@
     <Folder Include="Views\App\" />
     <Folder Include="Views\Concepto_De_Cobro_En_Propiedad\" />
     <Folder Include="Views\Propiedad_Del_Propietario\" />
+    <Folder Include="Views\Recibos\" />
     <Folder Include="Views\Usuario_De_Propiedad\" />
   </ItemGroup>
   <PropertyGroup>

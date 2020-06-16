@@ -33,9 +33,8 @@ namespace Project_1.Models.Recibos
         [Required]
         public int monto { get; set; }
 
-        [Display(Name = "Pendiente")]
-        [Required]
-        public bool esPendiente { get; set; }
+        [Display(Name = "Estado")]
+        public int estado { get; set; }
 
         [Display(Name = "Concepto de Cobro")]
         [Required]
@@ -46,7 +45,6 @@ namespace Project_1.Models.Recibos
         public int numeroFinca { get; set; }
 
         [Display(Name = "Id de Comprobante de Pago")]
-        [Required]
         public int idComprobantePago { get; set; }
     }
 }
