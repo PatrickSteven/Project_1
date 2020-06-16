@@ -17,6 +17,7 @@ EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
 -- CC_Porcentaje (Herencia): Agrega un ValorPorcentual
 -- CC_IntMonetario (Herencia): No agrega nada solo se usa para especificar el tipo
 -- Nota: Los datos de concepto de cobro se cargan desde un XML
+-- Cambio innecesario
 
 --ACTUALIZADO VERSION FINAL
 CREATE TABLE Concepto_Cobro (
