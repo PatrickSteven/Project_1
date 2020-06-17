@@ -283,6 +283,13 @@ CREATE TABLE Reconexion(
 	CONSTRAINT FK_ReconexionRecibo FOREIGN KEY (idReciboReconexion) REFERENCES ReciboReconexion(id)
 );
 
+--  1: Propiedad
+--  2: Propietario
+--  3: User
+--  4: Propiedad vs Propietario
+--  5 Propiedad vs Usuario
+--  6: PropietarioJuridico
+--  7: Concepto de Cobro
 CREATE TABLE TipoEntidad(
 	id int primary key not null, 
 	codigo int not null,
@@ -294,8 +301,8 @@ CREATE TABLE Bitacora(
 	id int primary key identity (1,1) not null,
 	idTipoEntidad int not null, -- referencia a table EntityType
 	idEntidad int not null, -- Id de la entidad siendo actualizada
-	jsonAntes varchar(500) not null,
-	jsonDespues varchar(500) not null,
+	jsonAntes varchar(500),
+	jsonDespues varchar(500),
 	insertedAt datetime not null, -- estampa de tiempo de cuando se hizo la actualización
 	insertedby varchar(20) not null, -- usuario persona que hizo la actualización
 	insertedIn varchar(20) not null, -- IP desde donde se hizo la actualización, NO la IP del servidor, sino la del usuario que debe capturarse en capa lógica

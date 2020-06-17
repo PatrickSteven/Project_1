@@ -17,8 +17,8 @@ BEGIN TRY
 
 	IF NOT EXISTS (SELECT * FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca)
 		BEGIN
-			INSERT INTO Propiedad ([numeroFinca], [valor], [direccion] , [activo], [fechaLeido]) 
-			VALUES (@numeroFinca,@valor,@direccion,@activo, GETDATE());
+			INSERT INTO Propiedad ([numeroFinca], [valor], [direccion] , [activo], [fechaLeido], [m3Acumulados], [m3AcumuladosUR]) 
+			VALUES (@numeroFinca,@valor,@direccion,@activo, GETDATE(), 0 ,0);
 			SET @retValue = SCOPE_IDENTITY();
 		END
 	ELSE IF EXISTS(SELECT * FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca AND P.[activo] = 0)
@@ -70,7 +70,7 @@ BEGIN
 				SELECT @idPropiedad = id FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca
 				-- INSERT valores de retorno en una tabla que al final no se va a utilizar --
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Propiedad_Del_Propietario @numeroFinca
-				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
+				--INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Comprobante_Pago @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
 				INSERT INTO @tmpNewValue  EXEC dbo.[SPD_Usuario_De_Propiedad] null, @numeroFinca
