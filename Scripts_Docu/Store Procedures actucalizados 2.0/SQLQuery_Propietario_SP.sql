@@ -9,6 +9,7 @@ AS
 BEGIN
 	BEGIN TRY
 		DECLARE @retValue int, @estado int = 1, @docId int;
+		DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
 		SELECT @docId = [id] FROM dbo.[Tipo_DocId] AS T WHERE @idDocId = T.[codigoDoc]
 		IF NOT EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId)
 			BEGIN
@@ -16,13 +17,38 @@ BEGIN
 				INSERT INTO Propietario([nombre], [valorDocId], [idDocId],  [activo], [fechaLeido]) 
 				VALUES (@nombre,@valorDocId,@docId, @estado, GETDATE())
 				SET @retValue = SCOPE_IDENTITY();
+				-- Insertar datos en bitacora --
+				-- AQUI --
+				SET @jsonDespues = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+				EXEC dbo.[SPI_Bitacora] 2, @retValue, 1, @jsonDespues, null
+
 			END
 
 		ELSE IF EXISTS(SELECT * FROM dbo.[Propietario] AS P WHERE P.valorDocId = @valorDocId AND P.activo = 0)
 			BEGIN
+				-- Guardar datos antes de update --
+				SET @jsonAntes = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+
 				UPDATE dbo.Propietario SET dbo.Propietario.activo = 1 WHERE valorDocId = @valorDocId;
 				EXECUTE [dbo].[SPU_Propietario] @nombre, @valorDocId 
 				SET @retvalue = 1;
+
+				-- Guardar datos antes luego de  update --
+			   SET @jsonDespues = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+				-- Insertar dato en bitacora --
+				EXEC dbo.[SPI_Bitacora] 2, @retValue, 1, @jsonDespues, @jsonAntes
 			END
 		ELSE
 			BEGIN
@@ -55,6 +81,7 @@ AS
 BEGIN
 	BEGIN TRY
 		DECLARE @retValue int, @estado int = 1, @docId int;
+		DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
 		SELECT @docId = [id] FROM dbo.[Tipo_DocId] AS T WHERE @idDocId = T.[codigoDoc]
 		IF NOT EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId)
 			BEGIN
@@ -62,13 +89,37 @@ BEGIN
 				INSERT INTO Propietario([nombre], [valorDocId], [idDocId],  [activo], [fechaLeido]) 
 				VALUES (@nombre,@valorDocId,@docId, @estado, @fechaLeido)
 				SET @retValue = SCOPE_IDENTITY();
+				-- Insertar datos en bitacora --
+				-- AQUI --
+				SET @jsonDespues = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+				EXEC dbo.[SPI_Bitacora] 2, @retValue, 1, @jsonDespues, null
 			END
 
 		ELSE IF EXISTS(SELECT * FROM dbo.[Propietario] AS P WHERE P.valorDocId = @valorDocId AND P.activo = 0)
 			BEGIN
+				-- Guardar datos antes de update --
+				SET @jsonAntes = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+
 				UPDATE dbo.Propietario SET dbo.Propietario.activo = 1 WHERE valorDocId = @valorDocId;
 				EXECUTE [dbo].[SPU_Propietario] @nombre, @valorDocId 
 				SET @retvalue = 1;
+
+				-- Guardar datos antes luego de  update --
+			   SET @jsonDespues = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+				-- Insertar dato en bitacora --
+				EXEC dbo.[SPI_Bitacora] 2, @retValue, 1, @jsonDespues, @jsonAntes
 			END
 		ELSE
 			BEGIN
@@ -97,14 +148,26 @@ CREATE PROCEDURE [dbo].[SPD_Propietario]
 AS
 BEGIN
 	DECLARE @retValue int, @idPropietario int;
+	DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
+	
 	IF EXISTS (SELECT * FROM dbo.[Propietario] AS P WHERE P.valorDocId = @valorDocId)
 		BEGIN
 			SELECT @idPropietario = id from dbo.[Propietario] AS P WHERE P.[valorDocId] = @valorDocId
 			EXECUTE dbo.[SPD_Propiedad_Del_Propietario] null, @valorDocId
 			EXECUTE dbo.[SPD_Propietario_Juridico] null, @idPropietario
 			SET @retValue =  (SELECT id FROM dbo.Propietario AS P WHERE P.valorDocId = @valorDocId);
-			--DELETE FROM Propietario WHERE valorDocId = @valorDocId 
+			
+			-- Guardar datos antes de update --
+			SET @jsonAntes = (
+				SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+				FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+				FOR JSON AUTO
+			)
+			-- DELETE --
 			UPDATE dbo.Propietario SET activo = 0  WHERE valorDocId = @valorDocId 
+			-- Insertar dato en bitacora --
+			EXEC dbo.[SPI_Bitacora] 2, @retValue, 1, null, @jsonAntes
+			
 		END
 			
 	ELSE 
@@ -114,6 +177,8 @@ BEGIN
 		END
 	RETURN  @retValue;
 END
+
+DROP PROCEDURE [dbo].[SPD_Propietario]
 
 
 --Delete (Viejo)
@@ -146,12 +211,31 @@ CREATE PROCEDURE [dbo].[SPU_Propietario]
 @valorDocId bigInt
 AS 
 BEGIN
+	DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
 	BEGIN TRY
 		DECLARE @retValue int;
 		IF EXISTS (SELECT * FROM dbo.Propietario AS P WHERE P.[valorDocId] = @valorDocId)
 			BEGIN 
+				-- Guardar datos antes de update --
+				SET @jsonAntes = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+
 				UPDATE dbo.[Propietario] SET [nombre] = @nombre WHERE [valorDocId] = @valorDocId
 				SET @retValue =  (SELECT id FROM dbo.Propietario AS P WHERE P.[valorDocId] = @valorDocId);
+				
+				-- Guardar datos antes luego de  update --
+				SET @jsonDespues = (
+					SELECT P.[nombre], P.[valorDocId], P.[idDocId],  P.[activo], P.[fechaLeido]
+					FROM [Propietario] AS P WHERE P.[valorDocId] = @valorDocId
+					FOR JSON AUTO
+				)
+
+				-- Insertar dato en bitacora --
+				EXEC dbo.[SPI_Bitacora] 2, @retValue, 1, @jsonDespues, @jsonAntes
+
 			END
 		ELSE
 			BEGIN
@@ -170,6 +254,8 @@ BEGIN
 	   RAISERROR( @Message, @Severity, @State) 
 	END CATCH
 END
+
+DROP PROCEDURE [dbo].[SPU_Propietario]
 
 
 --Select (Actualizado)
@@ -200,11 +286,11 @@ END
 DROP PROCEDURE [SPS_Propietario_Detail]
 
 --Pruebas-- (Actualizado 1.0)
-EXECUTE SPI_Propietario "C", 20000000001, 1
+EXECUTE SPI_Propietario 'C', 20000000, 1
 Select * from dbo.Propietario
 EXECUTE SPU_Propietario "Ramón", 20000000001
 EXECUTE [SPS_Propietario_Detail] 20000000001
-EXECUTE SPD_Propietario 20000000001
+EXECUTE SPD_Propietario 20000000
 EXECUTE [SPI_Propietario_XML] 'C', 20000000001, 1, '2020-01-29'
 SELECT * FROM dbo.Tipo_DocId
 
