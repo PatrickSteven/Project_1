@@ -163,14 +163,14 @@ END
 
 --- PRUEBAS DE LOS STATE PROCEDURES
 SELECT * FROM Propiedad
-EXEC SPI_Propiedad '455','120.00','Upala'
+EXEC SPI_Propiedad '462','120.00','Upala'
 
 SELECT * FROM Propiedad
-EXEC SPD_Propiedad '455'
+EXEC SPD_Propiedad '462'
 
 SELECT * FROM Propiedad
 
-EXEC SPU_Propiedad '456' ,'500','Upala'
+EXEC SPU_Propiedad '462' ,'500','Upala'
 
 SELECT * FROM Propiedad
 EXEC SPS_Propiedad

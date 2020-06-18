@@ -291,10 +291,13 @@ CREATE TABLE Reconexion(
 --  6: PropietarioJuridico
 --  7: Concepto de Cobro
 CREATE TABLE TipoEntidad(
-	id int primary key not null, 
+	id int primary key identity (1,1) not null,
 	codigo int not null,
 	nombre varchar(30)
 );
+
+DROP TABLE TipoEntidad
+DROP TABLE Bitacora
 
 CREATE TABLE Bitacora(
 
@@ -310,4 +313,7 @@ CREATE TABLE Bitacora(
 
 	CONSTRAINT FK_BitacoraTipoEntidad FOREIGN KEY (idTipoEntidad) REFERENCES TipoEntidad(id),
 );
+
+
+
 

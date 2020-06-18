@@ -7,12 +7,31 @@ ON dbo.[Propiedad]
 FOR INSERT
 AS
 BEGIN
-	DECLARE @Json nvarchar(500) = (
-		SELECT P.[numeroFinca], P.[valor], P.[direccion]
-		FROM Propiedad AS P FOR JSON AUTO
-	);
-	print @Json
-	print 'Hola no se si sirvo'
+	BEGIN TRY
+		DECLARE @tipoEntidad int = 1, @activo int = 1,@id int;
+		DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
+		SET @id = (SELECT id from inserted);
+		-- Generate json --
+		SET @jsonDespues = (
+			SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
+			FROM Propiedad AS P WHERE P.[id] = @id FOR JSON AUTO
+		);
+		-- Insert transaction --
+		BEGIN TRANSACTION
+			INSERT INTO Bitacora ([idTipoEntidad] , [idEntidad] , [jsonAntes], [jsonDespues], 
+								  [insertedAt] , [insertedby], [insertedIn], [activo])
+			VALUES (@tipoEntidad, @id, @jsonAntes, @jsonDespues, GETDATE(), 'Usuario', '192.168.1.152', @activo)
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+			@Message varchar(MAX) = ERROR_MESSAGE(),
+			@Severity int = ERROR_SEVERITY(),
+			@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+		ROLLBACK TRANSACTION;
+	END CATCH
+
 END
 
 CREATE TRIGGER TR_Propiedad_Update
@@ -20,12 +39,55 @@ ON dbo.[Propiedad]
 FOR UPDATE
 AS
 BEGIN
-	DECLARE @Json nvarchar(500) = (
-		SELECT P.[numeroFinca], P.[valor], P.[direccion]
-		FROM Propiedad AS P FOR JSON AUTO
-	);
-	print @Json
-	print 'Hola no se si sirvo'
+		BEGIN TRY
+		-- Declaracion de variables --
+		DECLARE @tipoEntidad int = 1, @activo int, @id int, @idI int;
+		DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
+		-- Get valores de datos --
+		SET @id = (SELECT id from deleted);
+		SET @idI = (SELECT id from inserted);
+		SELECT @activo = [activo] FROM dbo.Propiedad AS P WHERE P.[id] = @id;
+
+		-- Case_01 : if activo = 0 se borro el dato --
+		IF (@activo = 0)
+			BEGIN 
+				SET @jsonAntes = (
+					SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
+					FROM Propiedad AS P WHERE P.[id] = @id FOR JSON AUTO
+				);
+			END
+		-- Case_02 : if activo = 1 se updateo el dato --
+		ELSE
+			BEGIN
+				SET @jsonAntes = (
+					SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
+					FROM Propiedad AS P WHERE P.[id] = @id FOR JSON AUTO
+				);
+				SET @jsonDespues = (
+					SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
+					FROM Propiedad AS P WHERE P.[id] = @idI FOR JSON AUTO
+				);
+			END
+
+		-- Insert transaction --
+		BEGIN TRANSACTION
+			INSERT INTO Bitacora ([idTipoEntidad] , [idEntidad] , [jsonAntes], [jsonDespues], 
+								  [insertedAt] , [insertedby], [insertedIn], [activo])
+			VALUES (@tipoEntidad, @id, @jsonAntes, @jsonDespues, GETDATE(), 'Usuario', '192.168.1.152', @activo)
+		COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+			@Message varchar(MAX) = ERROR_MESSAGE(),
+			@Severity int = ERROR_SEVERITY(),
+			@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+		ROLLBACK TRANSACTION;
+	END CATCH
 END
 
+-- Commandos del script extra --
+DROP TRIGGER TR_Propiedad_Update
 DROP TRIGGER TR_Propiedad_Insert
+
+SELECT * FROM dbo.Bitacora
