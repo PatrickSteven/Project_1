@@ -62,8 +62,8 @@ WHERE TipoCC = 'CC Fijo';
 
 DELETE FROM dbo.[CC_Consumo]
 --Inserta la informacion que pertenece a CC_Consumo (con la herencia a Concepto_Cobro)
-INSERT INTO dbo.[CC_Consumo] ( [id] ,[monto] , [valorM3],[fechaInicio], [activo])
-SELECT [id], [Monto] ,[ValorM3], GETDATE(), 1
+INSERT INTO dbo.[CC_Consumo] ( [id] ,[monto] , [valorM3],[montoMinimoRecibo],[fechaInicio], [activo])
+SELECT [id], [Monto] ,[ValorM3], 25, GETDATE(), 1
 FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
 WITH(	
 		[id] int,
@@ -100,7 +100,7 @@ WITH(
 WHERE TipoCC = 'CC Porcentual';
 
 
-
+SELECT * FROM dbo.Concepto_Cobro_en_Propiedad
 SELECT * FROM dbo.Concepto_Cobro
 SELECT * FROM dbo.CC_Fijo
 SELECT * FROM dbo.CC_Consumo

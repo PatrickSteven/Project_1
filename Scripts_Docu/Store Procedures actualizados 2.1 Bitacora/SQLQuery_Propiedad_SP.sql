@@ -70,7 +70,7 @@ BEGIN
 				SELECT @idPropiedad = id FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca
 				-- INSERT valores de retorno en una tabla que al final no se va a utilizar --
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Propiedad_Del_Propietario @numeroFinca
-				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
+				--INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Comprobante_Pago @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
 				INSERT INTO @tmpNewValue  EXEC dbo.[SPD_Usuario_De_Propiedad] null, @numeroFinca
@@ -163,14 +163,14 @@ END
 
 --- PRUEBAS DE LOS STATE PROCEDURES
 SELECT * FROM Propiedad
-EXEC SPI_Propiedad '455','120.00','Upala'
+EXEC SPI_Propiedad '12344','120.00','Upala'
 
 SELECT * FROM Propiedad
-EXEC SPD_Propiedad '455'
+EXEC SPD_Propiedad '462'
 
 SELECT * FROM Propiedad
 
-EXEC SPU_Propiedad '456' ,'500','Upala'
+EXEC SPU_Propiedad '462' ,'500','Upala'
 
 SELECT * FROM Propiedad
 EXEC SPS_Propiedad

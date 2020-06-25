@@ -1,7 +1,5 @@
 <Operaciones_por_Dia>
-	
-	<OperacionDia> 
-		<Dia fecha="2020-01-30"/>
+	<OperacionDia fecha="2020-01-30">
 		<Propiedad NumFinca="3206723" Valor="128964324.00" Direccion="Calle Vargas - Calle Kizarrá 300 m desde la entrada, casa color verde a la izquierda"/>
 		<Propiedad NumFinca="2201960" Valor="32453342.35" Direccion="Santa Rosa, 300 m Sur de la Terminal de Buses"/>
 		<Propiedad NumFinca="2512174" Valor="47913097.00" Direccion="Barrio Los Ángeles, 625 m Norte y 140 m Oeste del templo Católico"/>
@@ -12,7 +10,16 @@
 		<Propiedad NumFinca="2132441" Valor="145396777.00" Direccion="De la esquina Noroeste de la Escuela Simón Bolivar 110 m Oeste"/>	
 		<Propiedad NumFinca="2346431" Valor="29540605.00" Direccion="San Pedro, Condominio Residencial Vista del Valle"/>
 		<Propiedad NumFinca="1565045" Valor="42286295.55" Direccion="Arenal, 500 m Este de la iglesia católica, carretera a Parrita"/>
-<!--<Propiedad NumFinca="3107084" Valor="61452600.00" Direccion="De la Iglesia de Dulce Nombre de Cartago, 200 m Sur y 150 m al Este Condominio Horizontal Residencial Villas Dulce Nombre Filial N°11"/>
+		<Propiedad NumFinca="3107084" Valor="61452600.00" Direccion="De la Iglesia de Dulce Nombre de Cartago, 200 m Sur y 150 m al Este Condominio Horizontal Residencial Villas Dulce Nombre Filial N°11"/>
+		<Propietario Nombre="Ferrer S.A." TipoDocIdentidad="4" identificacion="301659662" />
+		<Propietario Nombre="Arenal" TipoDocIdentidad="4" identificacion="301790528" />
+		<Propietario Nombre="UCR" TipoDocIdentidad="4" identificacion="301777068" />
+		<Propietario Nombre="Azul Tierra" TipoDocIdentidad="4" identificacion="301315406" />
+		<Propietario Nombre="Alto Miguel" TipoDocIdentidad="4" identificacion="301644539" />
+		<Propietario Nombre="Manzanar" TipoDocIdentidad="4" identificacion="301410305" />
+		<Propietario Nombre="Fe Sur" TipoDocIdentidad="4" identificacion="301044918	" />
+		<Propietario Nombre="Astua" TipoDocIdentidad="4" identificacion="301240966" />
+		<Propietario Nombre="OLALDE" TipoDocIdentidad="4" identificacion="301116564" />
 		<PersonaJuridica docidPersonaJuridica="301659662" TipDocIdPJ="4"  DocidRepresentante="282173820" Nombre="Daniela Parra Ferrer" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301790528" TipDocIdPJ="4"  DocidRepresentante="647781624" Nombre="Nora Juan Guerra" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301777068" TipDocIdPJ="4"  DocidRepresentante="688983521" Nombre="Laia Estevez Esteban" TipDocIdRepresentante="1" />
@@ -21,7 +28,7 @@
 		<PersonaJuridica docidPersonaJuridica="301410305" TipDocIdPJ="4"  DocidRepresentante="144344001" Nombre="María Garcia Vargas" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301044918" TipDocIdPJ="4"  DocidRepresentante="417552185" Nombre="Iván Vidal Robles" TipDocIdRepresentante="1" />
 		<PersonaJuridica docidPersonaJuridica="301240966" TipDocIdPJ="4"  DocidRepresentante="468543939" Nombre="Juan Prieto Perez" TipDocIdRepresentante="1" />
-		<PersonaJuridica docidPersonaJuridica="301116564" TipDocIdPJ="4"  DocidRepresentante="450541446" Nombre="Gabriel Soriano Prado" TipDocIdRepresentante="1" /> -->	
+		<PersonaJuridica docidPersonaJuridica="301116564" TipDocIdPJ="4"  DocidRepresentante="450541446" Nombre="Gabriel Soriano Prado" TipDocIdRepresentante="1" />
 		<Propietario Nombre="DIEGO ARMANDO RAMIREZ MATA" TipoDocIdentidad="1" identificacion="110670556" />
 		<PropiedadVersusPropietario NumFinca="3107084" identificacion="301659662"/>
 		<PropiedadVersusPropietario NumFinca="1565045" identificacion="301790528"/>
@@ -47,8 +54,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="9" NumFinca="2512174"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-01-31"/>
+	<OperacionDia fecha="2020-01-31">
 		<Propiedad NumFinca="4158692" Valor="25315651" Direccion="Manzanar, 532 m Noreste."/>
 		<Propiedad NumFinca="6526774" Valor="17817015" Direccion="Canoas, 800 m Sur."/>
 		<Propiedad NumFinca="9782331" Valor="11499439" Direccion="Cementerio de Santa Rosa, 420 m Este."/>
@@ -87,16 +93,13 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1424417"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-01"/>
+	<OperacionDia fecha="2020-02-01"> 
 	</OperacionDia>
 
-		<OperacionDia> 
-		<Dia fecha="2020-02-02"/>
+	<OperacionDia fecha="2020-02-02"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-03"/>
+	<OperacionDia fecha="2020-02-03"> 
 		<Propiedad NumFinca="3132315" Valor="23504936.95" Direccion="Rio Azul, del templo de Río Azul 130 m Oeste y 30 m Sur Entrada por acera con gradas"/>
 		<Propiedad NumFinca="2185600" Valor="62679098.10" Direccion="De la esquina del Colegio San Fe, 100 m Oeste y 25 m Sureste"/>
 		<Propiedad NumFinca="2481855" Valor="34887400.00" Direccion="San Luis, 200 Sur y 50 Oeste del Salón Comunal de San Luis"/>
@@ -111,8 +114,7 @@
 		<PropiedadVersusPropietario NumFinca="1269724" identificacion="502830839"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-04"/>
+	<OperacionDia fecha="2020-02-04"> 
 		<Propietario Nombre="GABRIEL ANTONIO SALAS ARAYA" TipoDocIdentidad="1" identificacion="112530781" />
 		<Propietario Nombre="ASTRID ANDREA SOLANO MORA" TipoDocIdentidad="1" identificacion="901130799" />
 		<Propietario Nombre="ALEX ANDRE SOLIS BARRANTES" TipoDocIdentidad="1" identificacion="112090121" />
@@ -145,8 +147,7 @@
 		<PropiedadVersusPropietario NumFinca="2588420" identificacion="901130799"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-05"/>
+	<OperacionDia fecha="2020-02-05"> 
 		<Propiedad NumFinca="4400689" Valor="6151077" Direccion="El Jardín, 482 m Este."/>
 		<Propiedad NumFinca="2246405" Valor="14836309" Direccion="Brasil de Mora, 870 m Sur."/>
 		<Propiedad NumFinca="4569644" Valor="14742621" Direccion="La Giralda, 84 m Noreste."/>
@@ -166,8 +167,7 @@
 
 	</OperacionDia>		
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-06"/>
+	<OperacionDia fecha="2020-02-06"> 
 		<Propiedad NumFinca="1160169" Valor="57636500.00" Direccion="Granja, 200 m Sur de la Estación de Servicio el Higuerón"/>
 		<Propiedad NumFinca="2758490" Valor="62360280.00" Direccion="Ciruelas, Condominio Málaga Ciruales I"/>
 		<Propietario Nombre="FABIOLA MURILLO FONSECA" TipoDocIdentidad="1" identificacion="304530463" />
@@ -180,8 +180,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="9" NumFinca="2758490"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-07"/>
+	<OperacionDia fecha="2020-02-07"> 
 		<Usuario Nombre="EMadrigal"  password="bgNH1" />
 		<Propiedad NumFinca="1176180" Valor="12348471.20" Direccion="Condominio Mar del Plata, Filial 186"/>
 		<Propiedad NumFinca="1394522" Valor="14704765.00" Direccion="Mata Plátano, Urbanización La Estefanía (465 m. oeste del Templo y 100 m. sur)"/>
@@ -200,16 +199,13 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="1394522"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-08"/>
+	<OperacionDia fecha="2020-02-08"> 
 	</OperacionDia>
 
-		<OperacionDia> 
-		<Dia fecha="2020-02-09"/>
+	<OperacionDia fecha="2020-02-09"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-10"/>
+	<OperacionDia fecha="2020-02-10"> 
 		<Propiedad NumFinca="1750401" Valor="12971280.00" Direccion="Condominio Terrazas del Este, de la Iglesia de San Rafael 360 m. Este. "/>
 		<Propiedad NumFinca="4121713" Valor="26921725.00" Direccion="Los Angeles, de la glesia de Montecito, 40 m este y 700 m sur."/>
 		<Propiedad NumFinca="1420570" Valor="12834860.00" Direccion="Zapote, 125 m. al Oeste de Casa Presidencial, frente a la Soda El Shrek Tico."/>
@@ -264,8 +260,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="2291223"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-11"/>
+	<OperacionDia fecha="2020-02-11"> 
 		<Propiedad NumFinca="9005997" Valor="9621634" Direccion="Astua Pirie, 939 m Noreste."/>
 		<Propiedad NumFinca="1659333" Valor="23843403" Direccion="El Jardín, 640 m Este."/>
 		<Propiedad NumFinca="9907089" Valor="24785870" Direccion="San Felipe, 346 m Sureste."/>
@@ -300,8 +295,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="4782873"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-12"/>
+	<OperacionDia fecha="2020-02-12"> 
 		<Propiedad NumFinca="8104368" Valor="20801239" Direccion="Iglesia Católica de Cartago Norte, 213 m Sureste."/>
 		<Propiedad NumFinca="7539590" Valor="15644192" Direccion=" La Paz, 503 m Sureste."/>
 		<Propiedad NumFinca="6325448" Valor="25204028" Direccion="Urbanización La Fundación, 873 m Suroeste."/>
@@ -348,8 +342,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="7929322"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-13"/>
+	<OperacionDia fecha="2020-02-13"> 
 		<Propiedad NumFinca="1858970" Valor="71305290.00" Direccion="San Antonio, del costado sur de la Iglesia Católica de San Antonio, 300 m este y 50 m sur"/>
 		<Propiedad NumFinca="4182442" Valor="19735205.00" Direccion="Barrio Cristo Rey, costado sur del salón comunal, casa color verde limón"/>
 		<Propiedad NumFinca="1236736" Valor="23378250.00" Direccion="Urbanización Santa Catalina, 140 m este, 200 sur"/>
@@ -364,9 +357,9 @@
 		<PropiedadVersusPropietario NumFinca="1476188" identificacion="116540323"/>
 		<PropiedadVersusPropietario NumFinca="2101885" identificacion="116540323"/>
 		<PropiedadVersusPropietario NumFinca="4182870" identificacion="116540323"/>
-		<Usuario Nombre="LDiaz"  password="2o8Gd" tipo="normal" />
-		<Usuario Nombre="EHernandez"  password="v65XB" tipo="normal" />
-		<Usuario Nombre="KPerez"  password="j3VS2" tipo="normal" />
+		<Usuario Nombre="LDiaz"  password="2o8Gd" />
+		<Usuario Nombre="EHernandez"  password="v65XB" />
+		<Usuario Nombre="KPerez"  password="j3VS2" />
 		<UsuarioVersusPropiedad NumFinca="1236736" nombreUsuario="LDiaz"/>
 		<UsuarioVersusPropiedad NumFinca="1476188" nombreUsuario="LDiaz"/>
 		<UsuarioVersusPropiedad NumFinca="2101885" nombreUsuario="LDiaz"/>
@@ -379,8 +372,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="4182870"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-14"/>
+	<OperacionDia fecha="2020-02-14"> 
 		<Propiedad NumFinca="2734696" Valor="26655816" Direccion=" Río Camarón, 926 m Norte."/>
 		<Propiedad NumFinca="6722024" Valor="12105823" Direccion=" UNA, 736 m Oeste."/>
 		<Propiedad NumFinca="5310895" Valor="16075620" Direccion="Manzanar, 281 m Suroeste."/>
@@ -463,16 +455,13 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="4867842"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-15"/>
+	<OperacionDia fecha="2020-02-15"> 
 	</OperacionDia>
 
-		<OperacionDia> 
-		<Dia fecha="2020-02-16"/>
+	<OperacionDia fecha="2020-02-16"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-17"/>
+	<OperacionDia fecha="2020-02-17"> 
 		<Propiedad NumFinca="1201330" Valor="11440644.00" Direccion="Urbanización La Pacífica, lote 40-Z"/>
 		<Propiedad NumFinca="1368271" Valor="13499518.00" Direccion="75 m al oeste del puente sobre el Río Camarón, en ruta San Pablo - San Pedro"/>
 		<Propiedad NumFinca="2287722" Valor="16187168.00" Direccion="El Tanque, 500 m al noreste y 175 m al este de la plaza de deportes del Tanque"/>
@@ -503,8 +492,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="4193112"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-18"/>
+	<OperacionDia fecha="2020-02-18"> 
 		<Propiedad NumFinca="3158340" Valor="3679623" Direccion="San Joser, 759 m Sur."/>
 		<Propiedad NumFinca="8513969" Valor="3687107" Direccion=" AM-PM, 527 m Suroeste."/>
 		<Propiedad NumFinca="6527953" Valor="29009197" Direccion="El Alto, 302 m Noreste."/>
@@ -587,8 +575,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="8719164"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-19"/>
+	<OperacionDia fecha="2020-02-19"> 
 		<Propiedad NumFinca="1480840" Valor="14558220.00" Direccion="San Rafael, de la Escuela Abel Umaña 100 m Sur y 30 m Oeste, a mano derecha, acceso por servidumbre"/>
 		<Propiedad NumFinca="2103983" Valor="57762600.00" Direccion="De la esquina Noreste de la plaza de Calle San José, 500 m al Norte y 142 m al Oeste"/>
 		<Propiedad NumFinca="4203725" Valor="77982989.00" Direccion="Horquetas, de la entrada principal de Horquetas 10 m al Noroeste"/>
@@ -601,7 +588,7 @@
 		<PropiedadVersusPropietario NumFinca="4203725" identificacion="303580304"/>
 		<PropiedadVersusPropietario NumFinca="1514282" identificacion="113360365"/>
 		<PropiedadVersusPropietario NumFinca="7605510" identificacion="113360365"/>
-		<Usuario Nombre="DCornero"  password="MLo4Z" tipo="normal" />
+		<Usuario Nombre="DCornero"  password="MLo4Z"/>
 		<UsuarioVersusPropiedad NumFinca="4203725" nombreUsuario="DCornero"/>
 		<UsuarioVersusPropiedad NumFinca="1480840" nombreUsuario="DCornero"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1480840"/>
@@ -611,8 +598,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7605510"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-20"/>
+	<OperacionDia fecha="2020-02-20"> 
 		<Propiedad NumFinca="1514445" Valor="3699328.00" Direccion="María Auxiliadora, 1,10 Km al Este de la iglesia de Aserrí, o 200 m al Oeste del Plantel de COPRESA y 14,32 m al Sur"/>
 		<Propiedad NumFinca="2108129" Valor="1162805.00" Direccion="Orotina, Residencias Pacific Sun, Costado este del Campo Ferial, finca nº 19"/>
 		<Propiedad NumFinca="7632960" Valor="12596298.00" Direccion="Florida, carretera a La Alegría, de la localidad de El Cruce, 1,1 km Este en dirección a La Florida y 600 m Norte sobre calle de lastre"/>
@@ -631,8 +617,8 @@
 		<PropiedadVersusPropietario NumFinca="2465209" identificacion="3102597410"/>
 		<PropiedadVersusPropietario NumFinca="4108772" identificacion="3102597410"/>
 		<PersonaJuridica docidPersonaJuridica="3102597410" DocidRepresentante="113360365" Nombre="TRISTAN ELIDO BODRA JIMENEZ" TipDocIdRepresentante="1" />
-		<Usuario Nombre="RSalas"  password="e9mFa" tipo="normal" />
-		<Usuario Nombre="PVindas"  password="3ktBp" tipo="normal" />
+		<Usuario Nombre="RSalas"  password="e9mFa"/>
+		<Usuario Nombre="PVindas"  password="3ktBp" />
 		<UsuarioVersusPropiedad NumFinca="1527660" nombreUsuario="RSalas"/>
 		<UsuarioVersusPropiedad NumFinca="7738110" nombreUsuario="RSalas"/>
 		<UsuarioVersusPropiedad NumFinca="2465209" nombreUsuario="PVindas"/>
@@ -644,8 +630,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7738110"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-21"/>
+	<OperacionDia fecha="2020-02-21"> 
 		<Propiedad NumFinca="1538868" Valor="86410401.00" Direccion="Barrio Pilar Contiguo a Bar Mi Taberna"/>
 		<Propiedad NumFinca="7762610" Valor="5607200.00" Direccion="Bri-Bri Centro, de la Municipalidad de Bri Bri, 60 m Suroeste y 150 m al Noroeste M/Izquierda (Esquinera)"/>
 		<Propiedad NumFinca="1528789" Valor="19438366.00" Direccion="La Sabana, del Minisuper Las Flores, 50 m Sur, 75 m Este y 75 m Sur, mano derecha"/>
@@ -670,9 +655,9 @@
 		<Propietario Nombre="Fe De Calle" TipoDocIdentidad="4" identificacion="3101375604" />
 		<PropiedadVersusPropietario NumFinca="4204033" identificacion="3101375604"/>
 		<PersonaJuridica docidPersonaJuridica="3101375604" DocidRepresentante="111450435" Nombre="SOFIA MATA SOLANO" TipDocIdRepresentante="1" />
-		<Usuario Nombre="FChaves"  password="5YwM2" tipo="normal" />
-		<Usuario Nombre="AAlfaro"  password="fwZwI" tipo="normal" />
-		<Usuario Nombre="TJimenez"  password="pmGht" tipo="normal" />
+		<Usuario Nombre="FChaves"  password="5YwM2"/>
+		<Usuario Nombre="AAlfaro"  password="fwZwI"/>
+		<Usuario Nombre="TJimenez"  password="pmGht"/>
 		<UsuarioVersusPropiedad NumFinca="2415723" nombreUsuario="FChaves"/>
 		<UsuarioVersusPropiedad NumFinca="1528789" nombreUsuario="FChaves"/>
 		<UsuarioVersusPropiedad NumFinca="2405935" nombreUsuario="TJimenez"/>
@@ -688,16 +673,13 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="7799701"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-22"/>
+	<OperacionDia fecha="2020-02-22"> 
 	</OperacionDia>
 
-		<OperacionDia> 
-		<Dia fecha="2020-02-23"/>
+	<OperacionDia fecha="2020-02-23"> 
 	</OperacionDia>
 	
-	<OperacionDia> 
-		<Dia fecha="2020-02-24"/>
+	<OperacionDia fecha="2020-02-24"> 
 		<Propiedad NumFinca="2789388" Valor="22694926" Direccion="Bar las delicias, 652 m Suroeste."/>
 		<Propiedad NumFinca="9082340" Valor="3794068" Direccion=" La fuente central, 642 m Noroeste."/>
 		<Propiedad NumFinca="9363951" Valor="8811740" Direccion="Urbanización La Pacífica, 195 m Oeste."/>
@@ -781,12 +763,10 @@
 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-25"/>
+	<OperacionDia fecha="2020-02-25"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-26"/>
+	<OperacionDia fecha="2020-02-26"> 
 		<Propiedad NumFinca="7825963" Valor="26637201.00" Direccion="Astua Pirie, del antiguo Bar Montiel, 355 m Este, mano derecha Costado Este del taller de ebanistería"/>
 		<Propiedad NumFinca="1298862" Valor="2880375.00" Direccion="De la Escuela Mont View, 100 m norte, 250 m este, Condominio Vistas del Rio, casa N° 2"/>
 		<Propiedad NumFinca="2407485" Valor="15541677.00" Direccion="Urbanización Prados del San Juan 100 al Sur y 13 m al Este de la entrada"/>
@@ -811,7 +791,7 @@
 		<Propietario Nombre="CTPA" TipoDocIdentidad="4" identificacion="3101359071" />
 		<PropiedadVersusPropietario NumFinca="1340644" identificacion="3101359071"/>		
 		<PersonaJuridica docidPersonaJuridica="3101359071" DocidRepresentante="206130789" Nombre="IGNACIO BOGARIN MARIN" TipDocIdRepresentante="1" />
-		<Usuario Nombre="JFallas"  password="19Nph" tipo="normal" />
+		<Usuario Nombre="JFallas"  password="19Nph"/>
 		<UsuarioVersusPropiedad NumFinca="7825963" nombreUsuario="AAlfaro"/>
 		<UsuarioVersusPropiedad NumFinca="1230183" nombreUsuario="JFallas"/>
 		<UsuarioVersusPropiedad NumFinca="3130126" nombreUsuario="JFallas"/>
@@ -825,8 +805,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="3130126"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-27"/>
+	<OperacionDia fecha="2020-02-27"> 
 		<Propiedad NumFinca="1579482" Valor="62872320.50" Direccion="Corazón de Jesús, calle Manuel Solano Jiménez, local de oficina 2 niveles color crema con cortina metálica y bodega a mano izquierda, penúltima construcción "/>
 		<Propiedad NumFinca="1339574" Valor="56515500.00" Direccion="San Rafael Arriba de Desamparados Barrio La Guaría, del Super la Guaría, 100 Oeste y 135 Norte"/>
 		<Propiedad NumFinca="2360478" Valor="3982670.00" Direccion="San Juan, del Bar Los Pilones, 1 km al Norte, camino lastre y asfalto, camino secundario a San Juanillo"/>
@@ -851,10 +830,10 @@
 		<PropiedadVersusPropietario NumFinca="3169432" identificacion="3101250683"/>
 		<PersonaJuridica docidPersonaJuridica="3101250683" DocidRepresentante="304310762" Nombre="FABIO JOSUE CALDERON TORRES" TipDocIdRepresentante="1" />
 		<Propiedad NumFinca="1597586" Valor="68990760 " Direccion="Guadalupe, del cruce Moravia Guadalupe (estación Gasolina) 120 m sur y 50 m este"/>
-		<Propietario Nombre="Cocacola" TipoDocIdentidad="4" identificacion="3101574107" />
+		<Propietario Nombre="Coca-cola" TipoDocIdentidad="4" identificacion="3101574107" />
 		<PropiedadVersusPropietario NumFinca="1597586" identificacion="3101574107"/>
 		<PersonaJuridica docidPersonaJuridica="3101574107" DocidRepresentante="110590391" Nombre="MARIE PAZ CHAPMAN LACHNER" TipDocIdRepresentante="1" />
-		<Usuario Nombre="MBarquero"  password="qTtZx" tipo="normal" />
+		<Usuario Nombre="MBarquero"  password="qTtZx"/>
 		<UsuarioVersusPropiedad NumFinca="1579482" nombreUsuario="MBarquero"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="5109920"/>
 		<ConceptoCobroVersusPropiedad idcobro="7" NumFinca="1579482"/>
@@ -868,8 +847,7 @@
 	</OperacionDia>
 
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-28"/>
+	<OperacionDia fecha="2020-02-28"> 
 		<Propiedad NumFinca="1118180" Valor="30565427.00" Direccion="Hacienda Vieja, Condominio la Estancia, Finca Filial No 3-12, edificio No 3, primer nivel"/>
 		<Propiedad NumFinca="7148454" Valor="21306425.00" Direccion="San Gerardo, 192 metros oeste de la escuela de Ticabán"/>
 		<Propiedad NumFinca="1596904" Valor="21609482.00" Direccion="Repunta, del Cen, 500 m al Este, 35 m Norte y 59 m Oeste"/>
@@ -890,10 +868,10 @@
 		<PropiedadVersusPropietario NumFinca="2512274" identificacion="3102640105"/>
 		<PersonaJuridica docidPersonaJuridica="3102640105" DocidRepresentante="206350949" Nombre="ANTHONY RICHARD CALLOW MONGE" TipDocIdRepresentante="1" />
 		<Propiedad NumFinca="1136447" Valor="72041378.55" Direccion="Dulce Nombre de Jesús, de la Lechería Nevada 300 m Este y 200 m Norte"/>
+		<Propietario Nombre="Dos Pinos" TipoDocIdentidad="4" identificacion="3102854321" />		
 		<PersonaJuridica docidPersonaJuridica="3102854321" DocidRepresentante="105940276" Nombre="MARCO HIDALGO MACRE" TipDocIdRepresentante="1" />
-		<Propietario Nombre="Dos Pinos" TipoDocIdentidad="4" identificacion="3102854321" />
 		<PropiedadVersusPropietario NumFinca="1136447" identificacion="3102854321"/>
-		<Usuario Nombre="IBogarin"  password="FL8bA5" tipo="normal" />
+		<Usuario Nombre="IBogarin"  password="FL8bA5"/>
 		<UsuarioVersusPropiedad NumFinca="7804860" nombreUsuario="IBogarin"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1118180"/>
 		<ConceptoCobroVersusPropiedad idcobro="8" NumFinca="7148454"/>	
@@ -903,16 +881,13 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="1596904"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-02-29"/>
+	<OperacionDia fecha="2020-02-29"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-01"/>
+	<OperacionDia  fecha="2020-03-01"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-02"/>
+	<OperacionDia fecha="2020-03-02"> 
 		<Propiedad NumFinca="4515090" Valor="52548750.00" Direccion="450m Oeste y 45 m Sur del Cementerio de Aguas Zarcas, o 45 m Sur de cabinas Adonay, lote al fondo de servidumbre de paso"/>
 		<Propiedad NumFinca="7864479" Valor="41059924.00" Direccion="Urbanización Walter Céspedes, de la esquina Noroeste de parque infantil, 30 m Este, casa sobre pilotes"/>
 		<Propiedad NumFinca="2463803" Valor="9500917.00" Direccion="María Auxiliadora, Condominio Vertical Residencial Comercial Campo Alto, Edificio # 3, Finca Filial # 20 Ubicado en quinto piso"/>
@@ -925,7 +900,7 @@
 		<PropiedadVersusPropietario NumFinca="2463803" identificacion="114990434"/>
 		<PropiedadVersusPropietario NumFinca="3623306" identificacion="114990434"/>
 		<PropiedadVersusPropietario NumFinca="7965590" identificacion="114990434"/>
-		<Usuario Nombre="SMiranda"  password="wU6kB" tipo="normal" />
+		<Usuario Nombre="SMiranda"  password="wU6kB"/>
 		<UsuarioVersusPropiedad NumFinca="7864479" nombreUsuario="SMiranda"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="4515090"/>
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7864479"/>
@@ -934,8 +909,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="7965590"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-03"/>
+	<OperacionDia fecha="2020-03-03"> 
 		<Propiedad NumFinca="3093591" Valor="11309035" Direccion=" Río Camarón, 181 m Norte."/>
 		<Propiedad NumFinca="8573120" Valor="14713320" Direccion=" UNA, 336 m Noreste."/>
 		<Propiedad NumFinca="5998719" Valor="19511407" Direccion="San Gerardo, 349 m Sureste."/>
@@ -958,8 +932,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="8154453"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-04"/>
+	<OperacionDia fecha="2020-03-04"> 
 		<Propiedad NumFinca="4663528" Valor="8718453" Direccion="Iglesia Católica de Cartago Norte, 584 m Suroeste."/>
 		<Propiedad NumFinca="4514551" Valor="5212631" Direccion="Santa Rosa, 63 m Este."/>
 		<Propiedad NumFinca="7631082" Valor="13394075" Direccion=" La fuente central, 809 m Sureste."/>
@@ -1022,8 +995,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="5649015"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-05"/>
+	<OperacionDia fecha="2020-03-05"> 
 		<Propiedad NumFinca="2450807" Valor="23343685" Direccion=" La fuente central, 950 m Noroeste."/>
 		<Propiedad NumFinca="2660360" Valor="25013580" Direccion="Las Cascadas, 242 m Suroeste."/>
 		<Propiedad NumFinca="5368476" Valor="29130853" Direccion="Soda el Higueron, 483 m Norte."/>
@@ -1038,8 +1010,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="5368476"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-06"/>
+	<OperacionDia fecha="2020-03-06"> 
 		<Propiedad NumFinca="4805505" Valor="26660693" Direccion="Urbanización La Fundación, 332 m Sureste."/>
 		<Propiedad NumFinca="4081887" Valor="19300029" Direccion="Soda la Paz, 66 m Este."/>
 		<Propiedad NumFinca="1041312" Valor="17567803" Direccion="Orotina, 864 m Norte."/>
@@ -1074,16 +1045,13 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="3336538"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-07"/>
+	<OperacionDia fecha="2020-03-07"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-08"/>
+	<OperacionDia fecha="2020-03-08"> 
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-09"/>
+	<OperacionDia fecha="2020-03-09"> 
 		<Propiedad NumFinca="4786459" Valor="16075458" Direccion=" Hospital Central, 173 m Noreste."/>
 		<Propiedad NumFinca="7833848" Valor="15164474" Direccion=" Fresh Markert, 347 m Noreste."/>
 		<Propiedad NumFinca="9406874" Valor="22059278" Direccion=" La fuente central, 608 m Este."/>
@@ -1110,8 +1078,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="9760688"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-10"/>
+	<OperacionDia fecha="2020-03-10"> 
 		<Propiedad NumFinca="6792148" Valor="8861386" Direccion="San Joser, 350 m Norte."/>
 		<Propiedad NumFinca="9358386" Valor="22868551" Direccion="Las Cascadas, 329 m Sur."/>
 		<Propiedad NumFinca="7416445" Valor="4467045" Direccion="Astua Pirie, 560 m Sureste."/>
@@ -1166,8 +1133,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="8583838"/>
 	</OperacionDia>
 
-	<OperacionDia> 
-		<Dia fecha="2020-03-11"/>
+	<OperacionDia fecha="2020-03-11"> 
 		<Propiedad NumFinca="3159179" Valor="4094749" Direccion="El Alto, 679 m Este."/>
 		<Propiedad NumFinca="7321231" Valor="11636733" Direccion="San Felipe, 228 m Noreste."/>
 		<Propiedad NumFinca="3312213" Valor="22071385" Direccion="ITEC, 773 m Oeste."/>
@@ -1181,8 +1147,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="7321231"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="3312213"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-12"/>
+	<OperacionDia fecha="2020-03-12"> 
 		<Propiedad NumFinca="3610606" Valor="3479049" Direccion=" Maxi Pali, 576 m Suroeste."/>
 		<Propiedad NumFinca="3598213" Valor="20994381" Direccion="Bri-Bri Centro, 837 m Sureste."/>
 		<Propiedad NumFinca="9597064" Valor="9161641" Direccion="Soda el Higueron, 761 m Suroeste."/>
@@ -1208,8 +1173,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="3407892"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="8558350"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-13"/>
+	<OperacionDia fecha="2020-03-13"> 
 		<Propiedad NumFinca="6727257" Valor="29138991" Direccion="Bar las delicias, 528 m Noroeste."/>
 		<Propiedad NumFinca="4308732" Valor="19553984" Direccion=" La fuente central, 160 m Noroeste."/>
 		<Propietario Nombre="Enzo Cuesta Cabrera" TipoDocIdentidad="1" identificacion="452350467" />
@@ -1219,14 +1183,11 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="6727257"/>
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="4308732"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-14"/>
+	<OperacionDia fecha="2020-03-14"> 
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-15"/>
+	<OperacionDia fecha="2020-03-15"> 
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-16"/>
+	<OperacionDia fecha="2020-03-16"> 
 		<Propiedad NumFinca="1523587" Valor="8437328" Direccion="Banco Nacional, 427 m Noreste."/>
 		<Propiedad NumFinca="7029032" Valor="24815983" Direccion=" Iglecia Los capuchinos, 25 m Oeste."/>
 		<Propiedad NumFinca="8088162" Valor="24934997" Direccion=" La Paz, 919 m Suroeste."/>
@@ -1260,8 +1221,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="9320206"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="7651166"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-17"/>
+	<OperacionDia fecha="2020-03-17"> 
 		<Propiedad NumFinca="4686808" Valor="20558220" Direccion="Urbanización La Fundación, 91 m Noroeste."/>
 		<Propiedad NumFinca="8583828" Valor="8146705" Direccion="Brasil de Mora, 199 m Sur."/>
 		<Propietario Nombre="Mía Santamaria Aguilar" TipoDocIdentidad="1" identificacion="201784740" />
@@ -1271,8 +1231,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="4686808"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="8583828"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-18"/>
+	<OperacionDia fecha="2020-03-18"> 
 		<Propiedad NumFinca="1257232" Valor="22808376" Direccion=" UNA, 827 m Noreste."/>
 		<Propiedad NumFinca="6298656" Valor="20375407" Direccion="San Felipe, 228 m Sur."/>
 		<Propiedad NumFinca="1377010" Valor="6097611" Direccion="El Jardín, 72 m Sureste."/>
@@ -1322,14 +1281,11 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7878334"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="3146361"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-21"/>
+	<OperacionDia fecha="2020-03-21"> 
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-22"/>
+	<OperacionDia fecha="2020-03-22"> 
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-23"/>
+	<OperacionDia fecha="2020-03-23"> 
 		<Propiedad NumFinca="6120307" Valor="5162860" Direccion="Soda la Paz, 85 m Suroeste."/>
 		<Propiedad NumFinca="5706265" Valor="25133999" Direccion="Santa Rosa, 390 m Sureste."/>
 		<Propiedad NumFinca="8978244" Valor="28984933" Direccion=" UNA, 111 m Norte."/>
@@ -1347,8 +1303,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="8978244"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="9483099"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-24"/>
+	<OperacionDia fecha="2020-03-24"> 
 		<Propiedad NumFinca="4012617" Valor="26446376" Direccion=" Autolavado Nuestra Señora, 883 m Sureste."/>
 		<Propiedad NumFinca="4188723" Valor="17658863" Direccion="El Jardín, 496 m Noreste."/>
 		<Propiedad NumFinca="5603734" Valor="13519062" Direccion="Canoas, 590 m Este."/>
@@ -1366,8 +1321,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="5603734"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2675651"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-25"/>
+	<OperacionDia fecha="2020-03-25"> 
 		<Propiedad NumFinca="8970701" Valor="6526147" Direccion="San Gerardo, 56 m Sureste."/>
 		<Propiedad NumFinca="2318994" Valor="11743446" Direccion="San Joser, 632 m Noreste."/>
 		<Propiedad NumFinca="1339166" Valor="22311814" Direccion="Astua Pirie, 653 m Sur."/>
@@ -1389,8 +1343,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="2749656"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="9383952"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-26"/>
+	<OperacionDia fecha="2020-03-26"> 
 		<Propiedad NumFinca="3106811" Valor="16736527" Direccion="San Joser, 566 m Suroeste."/>
 		<Propiedad NumFinca="1265498" Valor="8851464" Direccion="Ciruelas, 948 m Sur."/>
 		<Propiedad NumFinca="8647522" Valor="9632210" Direccion="Ciruelas, 810 m Oeste."/>
@@ -1428,8 +1381,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="8669107"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1849959"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-27"/>
+	<OperacionDia fecha="2020-03-27"> 
 		<Propiedad NumFinca="9420897" Valor="10464676" Direccion="Soda el Higueron, 447 m Noreste."/>
 		<Propiedad NumFinca="8209332" Valor="4307518" Direccion=" Iglecia Los capuchinos, 471 m Norte."/>
 		<Propietario Nombre="Valentina Zamora Rivas" TipoDocIdentidad="1" identificacion="158195908" />
@@ -1439,14 +1391,11 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="9420897"/>
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="8209332"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-28"/>
+	<OperacionDia fecha="2020-03-28"> 
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-29"/>
+	<OperacionDia fecha="2020-03-29"> 
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-30"/>
+	<OperacionDia fecha="2020-03-30"> 
 		<Propiedad NumFinca="3999926" Valor="28861830" Direccion="San Joser, 99 m Este."/>
 		<Propiedad NumFinca="5227673" Valor="23817061" Direccion="El Jardín, 395 m Oeste."/>
 		<Propiedad NumFinca="3626844" Valor="29152223" Direccion=" Contrasuli, 900 m Norte."/>
@@ -1464,8 +1413,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="3626844"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="2692524"/>
 	</OperacionDia>
-	<OperacionDia> 
-		<Dia fecha="2020-03-31"/>
+	<OperacionDia fecha="2020-03-31"> 
 		<Propiedad NumFinca="1995705" Valor="19970882" Direccion="Plantel de COPRESA, 223 m Este."/>
 		<Propiedad NumFinca="8394022" Valor="26941211" Direccion="Astua Pirie, 270 m Oeste."/>
 		<Propiedad NumFinca="4790430" Valor="5991405" Direccion="Brasil de Mora, 296 m Noreste."/>
@@ -1495,11 +1443,9 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="2810152"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="6896983"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-01"/>
+	<OperacionDia fecha="2020-04-01">
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-02"/>
+	<OperacionDia fecha="2020-04-02">
 		<Propiedad NumFinca="5067735" Valor="7821358" Direccion="La Francia, 34 m Sur."/>
 		<Propiedad NumFinca="2913367" Valor="22127745" Direccion=" La fuente central, 837 m Este."/>
 		<Propiedad NumFinca="3051540" Valor="21998266" Direccion="La Francia, 940 m Noreste."/>
@@ -1541,8 +1487,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="5605527"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="7736703"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-03"/>
+	<OperacionDia fecha="2020-04-03">
 		<Propiedad NumFinca="6536368" Valor="5651629" Direccion="Cementerio de Santa Rosa, 420 m Oeste."/>
 		<Propiedad NumFinca="9060769" Valor="8791057" Direccion="De Nava Café, 273 m Noreste."/>
 		<Propiedad NumFinca="1382523" Valor="23054734" Direccion="Orotina, 710 m Noroeste."/>
@@ -1584,8 +1529,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="8200826"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6247645"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-04"/>
+	<OperacionDia fecha="2020-04-04">
 		<Propiedad NumFinca="2995814" Valor="16524266" Direccion="Residencias Pacific Sun, 121 m Noroeste."/>
 		<Propiedad NumFinca="5466890" Valor="19471467" Direccion="Orotina, 700 m Noreste."/>
 		<Propiedad NumFinca="2725968" Valor="7337278" Direccion="Corazón de Jesús, 441 m Sur."/>
@@ -1627,8 +1571,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="9998670"/>
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="5828584"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-05"/>
+	<OperacionDia fecha="2020-04-05">
 		<Propiedad NumFinca="8434186" Valor="15014331" Direccion=" iglesia de Oreamuno, 891 m Noroeste."/>
 		<Propiedad NumFinca="1306106" Valor="25381756" Direccion="Bar las delicias, 136 m Noroeste."/>
 		<Propiedad NumFinca="9677981" Valor="10097139" Direccion=" Central Electrica, 857 m Norte."/>
@@ -1670,8 +1613,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="9771500"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="5273794"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-06"/>
+	<OperacionDia fecha="2020-04-06">
 		<Propiedad NumFinca="8989267" Valor="11206046" Direccion="De Nava Café, 226 m Este."/>
 		<Propiedad NumFinca="7143966" Valor="21341817" Direccion="Residencias Pacific Sun, 531 m Este."/>
 		<Propiedad NumFinca="2462335" Valor="17820624" Direccion="Manzanar, 598 m Noroeste."/>
@@ -1713,8 +1655,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="4326248"/>
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="5342168"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-07"/>
+	<OperacionDia fecha="2020-04-07">
 		<Propiedad NumFinca="6706978" Valor="12360130" Direccion=" Río Camarón, 57 m Oeste."/>
 		<Propiedad NumFinca="2960631" Valor="7605207" Direccion="Cuestillas, 741 m Este."/>
 		<Propiedad NumFinca="6217470" Valor="15801532" Direccion="El Jardín, 143 m Sureste."/>
@@ -1756,8 +1697,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="9048469"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="3709169"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-08"/>
+	<OperacionDia fecha="2020-04-08">
 		<Propiedad NumFinca="3645908" Valor="21091910" Direccion=" AM-PM, 90 m Noroeste."/>
 		<Propiedad NumFinca="6777418" Valor="17568700" Direccion="San Gerardo, 932 m Sur."/>
 		<Propiedad NumFinca="7820463" Valor="4351925" Direccion="Urbanización La Pacífica, 293 m Sur."/>
@@ -1799,8 +1739,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6720212"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="9459793"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-09"/>
+	<OperacionDia fecha="2020-04-09">
 		<Propiedad NumFinca="5426691" Valor="23531784" Direccion="Hacienda Vieja, 527 m Este."/>
 		<Propiedad NumFinca="3005279" Valor="26373239" Direccion="Urbanización La Pacífica, 126 m Norte."/>
 		<Propiedad NumFinca="5908139" Valor="25850879" Direccion="ITEC, 204 m Sur."/>
@@ -1842,8 +1781,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6970256"/>
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="4180337"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-10"/>
+	<OperacionDia fecha="2020-04-10">
 		<Propiedad NumFinca="8195591" Valor="23560454" Direccion="Soda el Higueron, 139 m Norte."/>
 		<Propiedad NumFinca="3099309" Valor="18536698" Direccion="La Giralda, 391 m Norte."/>
 		<Propiedad NumFinca="7543642" Valor="10309877" Direccion="Rio Azul, 567 m Noreste."/>
@@ -1885,8 +1823,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="5831967"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="6906071"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-11"/>
+	<OperacionDia fecha="2020-04-11">
 		<Propiedad NumFinca="5680609" Valor="21430457" Direccion=" Hospital Central, 480 m Sur."/>
 		<Propiedad NumFinca="8450452" Valor="18064274" Direccion="Residencias Pacific Sun, 546 m Noroeste."/>
 		<Propiedad NumFinca="2895405" Valor="19986145" Direccion="Canoas, 571 m Sur."/>
@@ -1928,8 +1865,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="9766737"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="5883420"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-12"/>
+	<OperacionDia fecha="2020-04-12">
 		<Propiedad NumFinca="8656352" Valor="15731719" Direccion=" MasxMenos, 204 m Norte."/>
 		<Propiedad NumFinca="3804031" Valor="22239501" Direccion="San Joser, 80 m Noreste."/>
 		<Propiedad NumFinca="8424739" Valor="7570659" Direccion=" La fuente central, 566 m Norte."/>
@@ -1971,8 +1907,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="8383136"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="4065289"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-13"/>
+	<OperacionDia fecha="2020-04-13">
 		<Propiedad NumFinca="3649021" Valor="7842066" Direccion="De Nava Café, 528 m Norte."/>
 		<Propiedad NumFinca="3062469" Valor="22702530" Direccion=" Contrasuli, 59 m Norte."/>
 		<Propiedad NumFinca="3251421" Valor="10419261" Direccion=" Hospital Central, 274 m Este."/>
@@ -2014,11 +1949,9 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="9601548"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="2121748"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-14"/>
+	<OperacionDia fecha="2020-04-14">
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-15"/>
+	<OperacionDia fecha="2020-04-15">
 		<Propiedad NumFinca="6601202" Valor="19155302" Direccion="San Rafael, 287 m Sur."/>
 		<Propiedad NumFinca="6377628" Valor="29055314" Direccion=" Maxi Pali, 531 m Suroeste."/>
 		<Propiedad NumFinca="1103822" Valor="23819367" Direccion="Soda el Higueron, 525 m Este."/>
@@ -2060,8 +1993,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="8077121"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="3426163"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-16"/>
+	<OperacionDia fecha="2020-04-16">
 		<Propiedad NumFinca="7636857" Valor="13318475" Direccion="Manzanar, 427 m Noroeste."/>
 		<Propiedad NumFinca="2380059" Valor="20726017" Direccion="Urbanización La Fundación, 929 m Suroeste."/>
 		<Propiedad NumFinca="8996858" Valor="28789808" Direccion="Orotina, 491 m Sur."/>
@@ -2103,8 +2035,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="7369246"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="4473302"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-17"/>
+	<OperacionDia fecha="2020-04-17">
 		<Propiedad NumFinca="7129945" Valor="18248175" Direccion="Cuestillas, 283 m Sur."/>
 		<Propiedad NumFinca="7325176" Valor="3353146" Direccion="Banco Nacional, 378 m Suroeste."/>
 		<Propiedad NumFinca="9575957" Valor="14201308" Direccion=" La fuente central, 580 m Sur."/>
@@ -2146,8 +2077,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="2866079"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="7308269"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-18"/>
+	<OperacionDia fecha="2020-04-18">
 		<Propiedad NumFinca="8931737" Valor="27620895" Direccion="Ciruelas, 591 m Norte."/>
 		<Propiedad NumFinca="2380189" Valor="20457918" Direccion="Canoas, 157 m Noreste."/>
 		<Propiedad NumFinca="1693614" Valor="20208194" Direccion="Bri-Bri Centro, 29 m Sureste."/>
@@ -2189,8 +2119,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="8722808"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="2607709"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-19"/>
+	<OperacionDia fecha="2020-04-19">
 		<Propiedad NumFinca="1798133" Valor="19936185" Direccion=" Río Camarón, 655 m Sureste."/>
 		<Propiedad NumFinca="5594145" Valor="8594032" Direccion=" Iglecia Los capuchinos, 602 m Sur."/>
 		<Propiedad NumFinca="3645360" Valor="18420956" Direccion=" iglesia de Oreamuno, 828 m Norte."/>
@@ -2232,8 +2161,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="4932823"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="3975668"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-20"/>
+	<OperacionDia fecha="2020-04-20">
 		<Propiedad NumFinca="9837074" Valor="21637051" Direccion="Soda la Paz, 596 m Este."/>
 		<Propiedad NumFinca="8076511" Valor="16878324" Direccion="El Alto, 277 m Sureste."/>
 		<Propiedad NumFinca="4458781" Valor="23507305" Direccion="El Alto, 66 m Suroeste."/>
@@ -2275,14 +2203,11 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="9508633"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="6342713"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-21"/>
+	<OperacionDia fecha="2020-04-21">
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-22"/>
+	<OperacionDia fecha="2020-04-22">
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-23"/>
+	<OperacionDia fecha="2020-04-23">
 		<Propiedad NumFinca="3341074" Valor="12639348" Direccion="Banco Nacional, 569 m Noroeste."/>
 		<Propiedad NumFinca="6125262" Valor="11545721" Direccion=" iglesia de Oreamuno, 42 m Norte."/>
 		<Propiedad NumFinca="9591965" Valor="11965240" Direccion="La Giralda, 881 m Suroeste."/>
@@ -2324,8 +2249,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="6947210"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="4060041"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-24"/>
+	<OperacionDia fecha="2020-04-24">
 		<Propiedad NumFinca="2099652" Valor="28160387" Direccion="Bar las delicias, 114 m Oeste."/>
 		<Propiedad NumFinca="9774575" Valor="5884184" Direccion="Urbanización La Fundación, 603 m Este."/>
 		<Propiedad NumFinca="4797949" Valor="5786963" Direccion="La Giralda, 304 m Norte."/>
@@ -2367,8 +2291,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="7806630"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6813035"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-25"/>
+	<OperacionDia fecha="2020-04-25">
 		<Propiedad NumFinca="2060905" Valor="26694095" Direccion="Cementerio de Santa Rosa, 653 m Este."/>
 		<Propiedad NumFinca="4983683" Valor="21446705" Direccion="Ciruelas, 117 m Este."/>
 		<Propiedad NumFinca="3131064" Valor="3517950" Direccion="Urbanización La Fundación, 560 m Sur."/>
@@ -2410,8 +2333,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="9034114"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="8562573"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-26"/>
+	<OperacionDia fecha="2020-04-26">
 		<Propiedad NumFinca="9718422" Valor="27348471" Direccion=" iglesia de Oreamuno, 465 m Oeste."/>
 		<Propiedad NumFinca="5528247" Valor="24648406" Direccion="Manzanar, 304 m Noreste."/>
 		<Propiedad NumFinca="2809988" Valor="25151456" Direccion="San Rafael, 192 m Suroeste."/>
@@ -2453,8 +2375,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="2541702"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="2992885"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-27"/>
+	<OperacionDia fecha="2020-04-27">
 		<Propiedad NumFinca="7404314" Valor="6129730" Direccion="Bri-Bri Centro, 592 m Oeste."/>
 		<Propiedad NumFinca="6844297" Valor="5229320" Direccion="Cuestillas, 689 m Norte."/>
 		<Propiedad NumFinca="2666223" Valor="16884363" Direccion=" Autolavado Nuestra Señora, 929 m Noreste."/>
@@ -2496,14 +2417,11 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="5531722"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="7722500"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-28"/>
+	<OperacionDia fecha="2020-04-28">
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-29"/>
+	<OperacionDia fecha="2020-04-29">
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-04-30"/>
+	<OperacionDia fecha="2020-04-30">
 		<Propiedad NumFinca="6056857" Valor="19201229" Direccion="Hacienda Vieja, 71 m Oeste."/>
 		<Propiedad NumFinca="4844521" Valor="19830786" Direccion=" Central Electrica, 648 m Noroeste."/>
 		<Propiedad NumFinca="7624387" Valor="11420164" Direccion="Astua Pirie, 685 m Sureste."/>
@@ -2546,8 +2464,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="2295242"/>
 	</OperacionDia>
 	
-	<OperacionDia>
-		<Dia fecha="2020-05-01"/>
+	<OperacionDia fecha="2020-05-01">
 		<Propiedad NumFinca="2145176" Valor="4524964" Direccion=" Fresh Markert, 917 m Sur."/>
 		<Propiedad NumFinca="3037336" Valor="26436854" Direccion="El Alto, 571 m Sureste."/>
 		<Propiedad NumFinca="4720230" Valor="29728173" Direccion=" Lumaca, 290 m Suroeste."/>
@@ -2589,8 +2506,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="2592385"/>
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="4878765"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-02"/>
+	<OperacionDia fecha="2020-05-02">
 		<Propiedad NumFinca="2574448" Valor="3507472" Direccion="Soda el Higueron, 660 m Oeste."/>
 		<Propiedad NumFinca="5996674" Valor="17153346" Direccion=" UNA, 109 m Suroeste."/>
 		<Propiedad NumFinca="9827023" Valor="29210384" Direccion="Bri-Bri Centro, 750 m Este."/>
@@ -2632,8 +2548,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="8720363"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="3429696"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-03"/>
+	<OperacionDia fecha="2020-05-03">
 		<Propiedad NumFinca="2471432" Valor="11073729" Direccion="Las Cascadas, 930 m Oeste."/>
 		<Propiedad NumFinca="3230023" Valor="28805050" Direccion="La Francia, 56 m Norte."/>
 		<Propiedad NumFinca="3133715" Valor="13144293" Direccion="UCR, 31 m Noroeste."/>
@@ -2675,8 +2590,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2497661"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="4351134"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-04"/>
+	<OperacionDia fecha="2020-05-04">
 		<Propiedad NumFinca="2138568" Valor="8976327" Direccion="Rio Azul, 449 m Noroeste."/>
 		<Propiedad NumFinca="9971615" Valor="11674678" Direccion="Iglesia Católica de Cartago Norte, 757 m Noreste."/>
 		<Propiedad NumFinca="2338177" Valor="8992099" Direccion="Manzanar, 573 m Este."/>
@@ -2718,8 +2632,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="6712929"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="5308786"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-05"/>
+	<OperacionDia fecha="2020-05-05">
 		<Propiedad NumFinca="6781716" Valor="6374138" Direccion="El Alto, 704 m Noreste."/>
 		<Propiedad NumFinca="3723132" Valor="12917734" Direccion="Orotina, 808 m Oeste."/>
 		<Propiedad NumFinca="3450279" Valor="5669489" Direccion=" iglesia de Oreamuno, 651 m Noreste."/>
@@ -2761,8 +2674,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="6434085"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6772528"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-06"/>
+	<OperacionDia fecha="2020-05-06">
 		<Propiedad NumFinca="7706037" Valor="6056189" Direccion="El Alto, 173 m Noreste."/>
 		<Propiedad NumFinca="6769371" Valor="24985503" Direccion="Plantel de COPRESA, 409 m Sureste."/>
 		<Propiedad NumFinca="9631828" Valor="11443714" Direccion="Brasil de Mora, 324 m Noroeste."/>
@@ -2804,8 +2716,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="9927244"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="7361613"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-07"/>
+	<OperacionDia fecha="2020-05-07">
 		<Propiedad NumFinca="4535058" Valor="15137469" Direccion=" Maxi Pali, 579 m Este."/>
 		<Propiedad NumFinca="7760354" Valor="15145502" Direccion="Las Cascadas, 414 m Noroeste."/>
 		<Propiedad NumFinca="9525283" Valor="15118262" Direccion=" Autolavado Nuestra Señora, 176 m Este."/>
@@ -2847,8 +2758,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="3147915"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="9509622"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-08"/>
+	<OperacionDia fecha="2020-05-08">
 		<Propiedad NumFinca="4829319" Valor="5147395" Direccion="Bar las delicias, 128 m Oeste."/>
 		<Propiedad NumFinca="2619664" Valor="23362110" Direccion="Residencias Pacific Sun, 928 m Sur."/>
 		<Propiedad NumFinca="9880299" Valor="14609476" Direccion=" Iglecia Los capuchinos, 378 m Este."/>
@@ -2890,8 +2800,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="1668865"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="6438151"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-09"/>
+	<OperacionDia fecha="2020-05-09">
 		<Propiedad NumFinca="2929299" Valor="20650914" Direccion=" UNA, 332 m Este."/>
 		<Propiedad NumFinca="4770710" Valor="12618666" Direccion=" Maxi Pali, 764 m Noroeste."/>
 		<Propiedad NumFinca="1688226" Valor="17030896" Direccion="La Giralda, 345 m Noreste."/>
@@ -2933,8 +2842,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="5538941"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="7142670"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-10"/>
+	<OperacionDia fecha="2020-05-10">
 		<Propiedad NumFinca="3416425" Valor="16163857" Direccion="Las Cascadas, 300 m Sur."/>
 		<Propiedad NumFinca="1232288" Valor="7477257" Direccion="De Nava Café, 899 m Noreste."/>
 		<Propiedad NumFinca="4047895" Valor="17099283" Direccion=" Río Camarón, 210 m Sureste."/>
@@ -2976,8 +2884,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6540501"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6296537"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-11"/>
+	<OperacionDia fecha="2020-05-11">
 		<Propiedad NumFinca="5692223" Valor="9223547" Direccion="San Felipe, 349 m Suroeste."/>
 		<Propiedad NumFinca="7495320" Valor="7122676" Direccion="Manzanar, 601 m Norte."/>
 		<Propiedad NumFinca="7376083" Valor="23520234" Direccion="Santa Rosa, 494 m Noreste."/>
@@ -3019,8 +2926,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="4716673"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="8079672"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-12"/>
+	<OperacionDia fecha="2020-05-12">
 		<Propiedad NumFinca="4791720" Valor="21549334" Direccion=" La fuente central, 392 m Este."/>
 		<Propiedad NumFinca="8236896" Valor="13593391" Direccion="El Jardín, 161 m Noroeste."/>
 		<Propiedad NumFinca="4357229" Valor="3386133" Direccion="La Francia, 232 m Norte."/>
@@ -3062,8 +2968,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="9755461"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="1157661"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-13"/>
+	<OperacionDia fecha="2020-05-13">
 		<Propiedad NumFinca="8369257" Valor="26291672" Direccion="De Nava Café, 858 m Norte."/>
 		<Propiedad NumFinca="4988590" Valor="29022541" Direccion=" MasxMenos, 384 m Noreste."/>
 		<Propiedad NumFinca="2115098" Valor="13501276" Direccion=" Fresh Markert, 309 m Sureste."/>
@@ -3105,8 +3010,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="9248409"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="5656927"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-14"/>
+	<OperacionDia fecha="2020-05-14">
 		<Propiedad NumFinca="1368778" Valor="10656896" Direccion="Bar las delicias, 411 m Noreste."/>
 		<Propiedad NumFinca="3071957" Valor="26743464" Direccion="Las Cascadas, 259 m Oeste."/>
 		<Propiedad NumFinca="8229732" Valor="5071687" Direccion="ITEC, 194 m Sur."/>
@@ -3148,8 +3052,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="5225304"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="1252365"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-15"/>
+	<OperacionDia fecha="2020-05-15">
 		<Propiedad NumFinca="9848141" Valor="27920922" Direccion="De Nava Café, 391 m Noroeste."/>
 		<Propiedad NumFinca="7528580" Valor="11970101" Direccion=" AM-PM, 547 m Noroeste."/>
 		<Propiedad NumFinca="2556693" Valor="21169773" Direccion="Iglesia Católica de Cartago Norte, 254 m Noroeste."/>
@@ -3191,8 +3094,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2119681"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="3344511"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-16"/>
+	<OperacionDia fecha="2020-05-16">
 		<Propiedad NumFinca="8846823" Valor="14489635" Direccion="San Rafael, 454 m Este."/>
 		<Propiedad NumFinca="8585446" Valor="12206999" Direccion=" La Paz, 173 m Sur."/>
 		<Propiedad NumFinca="2826950" Valor="29961061" Direccion=" Río Camarón, 253 m Sur."/>
@@ -3234,8 +3136,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="4708081"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="9400306"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-17"/>
+	<OperacionDia fecha="2020-05-17">
 		<Propiedad NumFinca="4208023" Valor="22744514" Direccion=" Iglecia Los capuchinos, 360 m Sur."/>
 		<Propiedad NumFinca="3470353" Valor="3217528" Direccion="Urbanización La Pacífica, 641 m Sureste."/>
 		<Propiedad NumFinca="1325315" Valor="3851670" Direccion="Bri-Bri Centro, 783 m Noreste."/>
@@ -3277,8 +3178,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="8434486"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="8164463"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-18"/>
+	<OperacionDia fecha="2020-05-18">
 		<Propiedad NumFinca="5475783" Valor="14975476" Direccion="Rio Azul, 726 m Noreste."/>
 		<Propiedad NumFinca="3890511" Valor="14364328" Direccion="Bri-Bri Centro, 570 m Oeste."/>
 		<Propiedad NumFinca="6282308" Valor="6060507" Direccion=" AM-PM, 50 m Suroeste."/>
@@ -3320,8 +3220,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="4643900"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="5649097"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-19"/>
+	<OperacionDia fecha="2020-05-19">
 		<Propiedad NumFinca="4919240" Valor="26923718" Direccion="Soda la Paz, 604 m Este."/>
 		<Propiedad NumFinca="6853846" Valor="9059300" Direccion="La Francia, 881 m Sur."/>
 		<Propiedad NumFinca="4167306" Valor="23102462" Direccion="Bar las delicias, 768 m Noreste."/>
@@ -3363,8 +3262,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="6326581"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="7785531"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-20"/>
+	<OperacionDia fecha="2020-05-20">
 		<Propiedad NumFinca="1613299" Valor="18644710" Direccion="El Alto, 31 m Este."/>
 		<Propiedad NumFinca="9325302" Valor="24489668" Direccion="Bar las delicias, 274 m Sureste."/>
 		<Propiedad NumFinca="3188242" Valor="28933384" Direccion="Las Cascadas, 950 m Noroeste."/>
@@ -3406,8 +3304,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="7914525"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1893981"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-21"/>
+	<OperacionDia fecha="2020-05-21">
 		<Propiedad NumFinca="3825764" Valor="12234952" Direccion=" Central Electrica, 30 m Norte."/>
 		<Propiedad NumFinca="9237272" Valor="20214581" Direccion="San Felipe, 185 m Sur."/>
 		<Propiedad NumFinca="8949388" Valor="15169882" Direccion=" Hospital Central, 239 m Oeste."/>
@@ -3449,8 +3346,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="7636125"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="9838726"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-22"/>
+	<OperacionDia fecha="2020-05-22">
 		<Propiedad NumFinca="2328793" Valor="20613169" Direccion="San Felipe, 99 m Oeste."/>
 		<Propiedad NumFinca="6744002" Valor="15368426" Direccion="El Jardín, 48 m Sur."/>
 		<Propiedad NumFinca="8414582" Valor="4861606" Direccion="UCR, 513 m Noreste."/>
@@ -3492,8 +3388,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="2385736"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="7659430"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-23"/>
+	<OperacionDia fecha="2020-05-23">
 		<Propiedad NumFinca="1038867" Valor="10220706" Direccion="San Gerardo, 906 m Noroeste."/>
 		<Propiedad NumFinca="5942005" Valor="15329807" Direccion="Las Cascadas, 937 m Noroeste."/>
 		<Propiedad NumFinca="2017711" Valor="5866313" Direccion="Hacienda Vieja, 123 m Norte."/>
@@ -3535,8 +3430,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="3558141"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="2152231"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-24"/>
+	<OperacionDia fecha="2020-05-24">
 		<Propiedad NumFinca="3955410" Valor="12480375" Direccion="San Felipe, 710 m Sureste."/>
 		<Propiedad NumFinca="5751209" Valor="18257856" Direccion="Plantel de COPRESA, 293 m Oeste."/>
 		<Propiedad NumFinca="8707091" Valor="29512596" Direccion="Las Cascadas, 664 m Este."/>
@@ -3578,8 +3472,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="4071017"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="4058539"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-25"/>
+	<OperacionDia fecha="2020-05-25">
 		<Propiedad NumFinca="3483977" Valor="9661623" Direccion="Ciruelas, 880 m Norte."/>
 		<Propiedad NumFinca="1490750" Valor="26161131" Direccion="San Gerardo, 26 m Este."/>
 		<Propiedad NumFinca="7563560" Valor="17188450" Direccion=" Contrasuli, 682 m Suroeste."/>
@@ -3621,8 +3514,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="9185218"/>
 		<ConceptoCobroVersusPropiedad idcobro="5" NumFinca="7105680"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-26"/>
+	<OperacionDia fecha="2020-05-26">
 		<Propiedad NumFinca="9043285" Valor="23482812" Direccion="Canoas, 823 m Noreste."/>
 		<Propiedad NumFinca="2540717" Valor="28025856" Direccion="Astua Pirie, 751 m Oeste."/>
 		<Propiedad NumFinca="9897039" Valor="20426608" Direccion=" Autolavado Nuestra Señora, 802 m Este."/>
@@ -3664,8 +3556,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1511992"/>
 		<ConceptoCobroVersusPropiedad idcobro="2" NumFinca="2307454"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-27"/>
+	<OperacionDia fecha="2020-05-27">
 		<Propiedad NumFinca="3545953" Valor="28867817" Direccion=" Fresh Markert, 62 m Norte."/>
 		<Propiedad NumFinca="6631629" Valor="11205817" Direccion=" Fresh Markert, 505 m Este."/>
 		<Propiedad NumFinca="7062166" Valor="18935819" Direccion=" iglesia de Oreamuno, 339 m Noreste."/>
@@ -3707,8 +3598,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="9044296"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="9909406"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-28"/>
+	<OperacionDia fecha="2020-05-28">
 		<Propiedad NumFinca="9407324" Valor="3018442" Direccion="Hacienda Vieja, 828 m Sur."/>
 		<Propiedad NumFinca="1117288" Valor="12086283" Direccion=" Lumaca, 725 m Oeste."/>
 		<Propiedad NumFinca="6990993" Valor="15922302" Direccion=" Contrasuli, 565 m Noreste."/>
@@ -3750,8 +3640,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="4" NumFinca="5759955"/>
 		<ConceptoCobroVersusPropiedad idcobro="3" NumFinca="3158806"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-29"/>
+	<OperacionDia fecha="2020-05-29">
 		<Propiedad NumFinca="4525718" Valor="4416143" Direccion="Iglesia Católica de Cartago Norte, 533 m Sureste."/>
 		<Propiedad NumFinca="2985353" Valor="18805208" Direccion=" Iglecia Los capuchinos, 106 m Norte."/>
 		<Propiedad NumFinca="8155441" Valor="13321142" Direccion="Urbanización La Fundación, 332 m Noroeste."/>
@@ -3793,8 +3682,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="3176219"/>
 		<ConceptoCobroVersusPropiedad idcobro="1" NumFinca="2420114"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-30"/>
+	<OperacionDia fecha="2020-05-30">
 		<Propiedad NumFinca="7722201" Valor="15384872" Direccion="Manzanar, 758 m Oeste."/>
 		<Propiedad NumFinca="5414325" Valor="10349370" Direccion="Urbanización La Pacífica, 746 m Noreste."/>
 		<Propiedad NumFinca="8368931" Valor="19634249" Direccion="Orotina, 693 m Oeste."/>
@@ -3836,8 +3724,7 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1957741"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="1033562"/>
 	</OperacionDia>
-	<OperacionDia>
-		<Dia fecha="2020-05-31"/>
+	<OperacionDia fecha="2020-05-31">
 		<Propiedad NumFinca="6433951" Valor="22030334" Direccion="Rio Azul, 154 m Sur."/>
 		<Propiedad NumFinca="8312886" Valor="11709287" Direccion="Cuestillas, 755 m Norte."/>
 		<Propiedad NumFinca="6652489" Valor="13704027" Direccion=" Fresh Markert, 299 m Sureste."/>
@@ -3879,8 +3766,4 @@
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="6852677"/>
 		<ConceptoCobroVersusPropiedad idcobro="6" NumFinca="8920893"/>
 	</OperacionDia>
-
-
 </Operaciones_por_Dia>
-
-

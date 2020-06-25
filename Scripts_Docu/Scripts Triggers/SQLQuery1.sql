@@ -10,11 +10,11 @@ BEGIN
 	BEGIN TRY
 		DECLARE @tipoEntidad int = 1, @activo int = 1,@id int;
 		DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
-		SET @id = (SELECT id from inserted);
+		SELECT @id = (SELECT id from inserted);
 		-- Generate json --
 		SET @jsonDespues = (
 			SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
-			FROM Propiedad AS P WHERE P.[id] = @id FOR JSON AUTO
+			FROM Propiedad AS P WHERE P.[id] IN (SELECT id FROM inserted) FOR JSON AUTO
 		);
 		-- Insert transaction --
 		BEGIN TRANSACTION
@@ -33,6 +33,8 @@ BEGIN
 	END CATCH
 
 END
+
+DROP TRIGGER TR_Propiedad_Insert
 
 CREATE TRIGGER TR_Propiedad_Update
 ON dbo.[Propiedad]

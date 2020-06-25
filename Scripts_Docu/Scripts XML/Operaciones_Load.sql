@@ -102,7 +102,7 @@ WHILE(@fechaActual < @fechaMax)
 			[NumFinca] int,
 			[Valor] money,
 			[Direccion] nvarchar(50),
-			[fechaLeido] date '../Dia/@fecha'
+			[fechaLeido] date '../@fecha'
 	
 		)
 		WHERE [fechaLeido] = @fechaActual ;
@@ -115,7 +115,7 @@ WHILE(@fechaActual < @fechaMax)
 		WITH(
 			[idcobro] int,
 			[NumFinca] int,
-			[fechaLeido] date '../Dia/@fecha'
+			[fechaLeido] date '../@fecha'
 	
 		)
 		WHERE [fechaLeido] = @fechaActual ;
@@ -144,7 +144,7 @@ WHILE(@fechaActual < @fechaMax)
 				[Nombre] nvarchar(50),
 				[TipoDocIdentidad] int,
 				[identificacion] bigInt,
-				[fechaLeido] date '../Dia/@fecha'
+				[fechaLeido] date '../@fecha'
 	
 		)
 		WHERE [fechaLeido] = @fechaActual ;
@@ -172,7 +172,7 @@ WHILE(@fechaActual < @fechaMax)
 		WITH(
 			[idcobro] int,
 			[NumFinca] int,
-			[fechaLeido] date '../Dia/@fecha'
+			[fechaLeido] date '../@fecha'
 	
 		)
 		WHERE [fechaLeido] = @fechaActual ;
@@ -184,7 +184,7 @@ WHILE(@fechaActual < @fechaMax)
 		WITH(
 			[NumFinca] int,
 			[identificacion] bigInt,
-			[fechaLeido] date '../Dia/@fecha'
+			[fechaLeido] date '../@fecha'
 		)
 		WHERE [fechaLeido] = @fechaActual ;
 
@@ -210,7 +210,7 @@ WHILE(@fechaActual < @fechaMax)
 		WITH(
 				[Nombre] nvarchar(50),
 				[password] nvarchar(50),
-				[fechaLeido] date '../Dia/@fecha'
+				[fechaLeido] date '../@fecha'
 	
 		)
 		WHERE [fechaLeido] = @fechaActual ;
@@ -223,7 +223,7 @@ WHILE(@fechaActual < @fechaMax)
 		WITH(
 			[NumFinca] int,
 			[nombreUsuario] NVARCHAR(50),
-			[fechaLeido] date '../Dia/@fecha'
+			[fechaLeido] date '../@fecha'
 		)
 		WHERE [fechaLeido] = @fechaActual ;
 
@@ -251,7 +251,7 @@ WHILE(@fechaActual < @fechaMax)
 			[docidPersonaJuridica] bigInt,
 			[Nombre] NVARCHAR(50),
 			[DocidRepresentante] bigInt,
-			[fechaLeido] date '../Dia/@fecha'
+			[fechaLeido] date '../@fecha'
 		)
 		WHERE [fechaLeido] = @fechaActual ;
 		SELECT * FROM @tempPropietarioJuridico;

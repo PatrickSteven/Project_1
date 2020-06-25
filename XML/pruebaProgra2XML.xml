@@ -1,0 +1,9 @@
+<Operaciones_por_Dia>
+	<OperacionDia fecha="2020-01-30">
+		<consumo NumeroFinca="12345" LecturaMedidorM3="1075"/>
+				<AjusteConsumo NumeroFinca="12345" M3="5" Razón="lectura erronea"/>
+				<AjusteConsumo NumeroFinca="12345" M3="-8" Razón="Ajuste por reclamo"/>
+				<Pago NumFinca="1234" TipoRecibo="3"/>
+				<PropiedadCambio Numfinca="1234" NuevoValor=" 100000"/>
+	</OperacionDia>
+</Operaciones_por_Dia>
