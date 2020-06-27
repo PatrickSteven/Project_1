@@ -44,6 +44,49 @@ BEGIN CATCH
 END CATCH
 
 DROP PROCEDURE [SPI_Propiedad]
+
+
+CREATE PROCEDURE dbo.[SPI_Propiedad_XML]
+@numeroFinca int,
+@valor money,
+@direccion VARCHAR(50),
+@fecha date
+AS 
+BEGIN TRY
+	DECLARE @retValue int = 1, @activo int = 1;
+
+	IF NOT EXISTS (SELECT * FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca)
+		BEGIN
+			INSERT INTO Propiedad ([numeroFinca], [valor], [direccion] , [activo], [fechaLeido], [m3Acumulados], [m3AcumuladosUR]) 
+			VALUES (@numeroFinca,@valor,@direccion,@activo, @fecha, 0 ,0);
+			SET @retValue = SCOPE_IDENTITY();
+		END
+	ELSE IF EXISTS(SELECT * FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca AND P.[activo] = 0)
+		BEGIN
+			UPDATE dbo.Propiedad SET activo = 1 WHERE numeroFinca = @numeroFinca;
+			EXECUTE SPU_Propiedad @numeroFinca, @valor, @direccion;
+			SET @retvalue = 1;
+		END
+	ELSE
+		BEGIN
+			RAISERROR('Numero de finca ya registrado', 10, 1)
+			SET @retValue = -13;
+		END
+	RETURN  @retValue;
+END TRY 
+BEGIN CATCH
+	DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+ 
+	RAISERROR( @Message, @Severity, @State) 
+END CATCH
+
+
+
+
+
 --Entrada: Numero de Finca
 --Salida Exitosa: Valor de retorno del id del elemento eliminado
 --Salida Fallida: Codigo de error [-14]
@@ -163,7 +206,7 @@ END
 
 --- PRUEBAS DE LOS STATE PROCEDURES
 SELECT * FROM Propiedad
-EXEC SPI_Propiedad '12344','120.00','Upala'
+EXEC SPI_Propiedad '126344','120.00','Upala'
 
 SELECT * FROM Propiedad
 EXEC SPD_Propiedad '462'

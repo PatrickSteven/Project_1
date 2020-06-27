@@ -8,9 +8,8 @@ FOR INSERT
 AS
 BEGIN
 	BEGIN TRY
-		DECLARE @tipoEntidad int = 1, @activo int = 1,@id int;
+		DECLARE @tipoEntidad int = 1, @activo int = 1;
 		DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
-		SELECT @id = (SELECT id from inserted);
 		-- Generate json --
 		SET @jsonDespues = (
 			SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
@@ -20,7 +19,7 @@ BEGIN
 		BEGIN TRANSACTION
 			INSERT INTO Bitacora ([idTipoEntidad] , [idEntidad] , [jsonAntes], [jsonDespues], 
 								  [insertedAt] , [insertedby], [insertedIn], [activo])
-			VALUES (@tipoEntidad, @id, @jsonAntes, @jsonDespues, GETDATE(), 'Usuario', '192.168.1.152', @activo)
+			VALUES (@tipoEntidad,@@IDENTITY, @jsonAntes, @jsonDespues, GETDATE(), 'Usuario', '192.168.1.152', @activo)
 		COMMIT TRANSACTION
 	END TRY
 	BEGIN CATCH
@@ -55,7 +54,7 @@ BEGIN
 			BEGIN 
 				SET @jsonAntes = (
 					SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
-					FROM Propiedad AS P WHERE P.[id] = @id FOR JSON AUTO
+					FROM Propiedad AS P WHERE P.[id]  IN (SELECT id FROM inserted) FOR JSON AUTO
 				);
 			END
 		-- Case_02 : if activo = 1 se updateo el dato --
@@ -63,11 +62,11 @@ BEGIN
 			BEGIN
 				SET @jsonAntes = (
 					SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
-					FROM Propiedad AS P WHERE P.[id] = @id FOR JSON AUTO
+					FROM Propiedad AS P WHERE P.[id]  IN (SELECT id FROM inserted) FOR JSON AUTO
 				);
 				SET @jsonDespues = (
 					SELECT P.[numeroFinca], P.[valor], P.[direccion], P.[m3Acumulados], P.[m3AcumuladosUR], P.[activo]
-					FROM Propiedad AS P WHERE P.[id] = @idI FOR JSON AUTO
+					FROM Propiedad AS P WHERE P.[id]  IN (SELECT id FROM inserted) FOR JSON AUTO
 				);
 			END
 
@@ -92,4 +91,5 @@ END
 DROP TRIGGER TR_Propiedad_Update
 DROP TRIGGER TR_Propiedad_Insert
 
-SELECT * FROM dbo.Bitacora
+DELETE FROM dbo.Bitacora
+SELECT * FROM dbo.Bitacora WHERE dbo.Bitacora.[idTipoEntidad] = 6

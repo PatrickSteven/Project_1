@@ -21,7 +21,6 @@ BEGIN TRY
 		BEGIN
 			IF NOT EXISTS (SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario) 
 				BEGIN	
-					SET @id = (SELECT [id] FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario);
 					-- INSERT --
 					INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
 					VALUES (@idPropietario, @responsable, @valorDocIdResponsable, @docId, @estado, GETDATE())
@@ -32,8 +31,9 @@ BEGIN TRY
 						FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario
 						FOR JSON AUTO
 					)
+					SET @id = (SELECT [id] FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario);
 					-- Insertar dato en bitacora --
-					EXEC dbo.[SPI_Bitacora] 6, @retValue, 1, @jsonDespues, null
+					EXEC dbo.[SPI_Bitacora] 6,  @id , 1, @jsonDespues, null
 				END
 			-- Si el propietario juridico existe pero no esta activado --
 			ELSE IF EXISTS(SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario AND PJ.[activo] = 0)
@@ -108,7 +108,7 @@ BEGIN TRY
 		BEGIN
 			IF NOT EXISTS (SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario) 
 				BEGIN	
-					SET @id = (SELECT [id] FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario);
+					
 					-- INSERT --		
 					INSERT INTO dbo.[Propietario_Juridico] ([id], [responsable], [valorDocId], [idDocId], [activo], [fechaLeido]) 
 					VALUES (@idPropietario, @responsable, @valorDocIdResponsable, @docId, @estado, @fechaLeido)
@@ -119,8 +119,9 @@ BEGIN TRY
 						FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario
 						FOR JSON AUTO
 					)
+					SET @id = (SELECT [id] FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario);
 					-- Insertar dato en bitacora --
-					EXEC dbo.[SPI_Bitacora] 6, @retValue, 1, @jsonDespues, null
+					EXEC dbo.[SPI_Bitacora] 6, @id, 1, @jsonDespues, null
 				END
 			-- Si el propietario juridico existe pero no esta activado --
 			ELSE IF EXISTS(SELECT * FROM dbo.[Propietario_Juridico] AS PJ WHERE PJ.[id] = @idPropietario AND PJ.[activo] = 0)

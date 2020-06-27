@@ -12,10 +12,13 @@ GO
 -- Orden de lectura del XML
 --#1: codigoDoc (id)
 --#2: descipcion (nombre)
+DELETE FROM dbo.[Bitacora]
 
 DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propiedad_del_Propietario]
 DELETE FROM dbo.[Concepto_Cobro_en_Propiedad]
+DELETE FROM dbo.[Recibo]
+DELETE FROM dbo.[MovConsumo]
 DELETE FROM dbo.[Propiedad]
 DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propietario]
@@ -67,6 +70,14 @@ DECLARE @tempPropietarioJuridico table(
 	fechaLeido date
 )
 
+DECLARE @tempPropiedades table (
+	id int primary key not null identity(1,1),
+	numFinca int,
+	valor money,
+	direccion nvarchar(50),
+	fechaLeido date
+)
+
 -- INICIO de lectura del XML
 
 Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Operaciones.xml', SINGLE_BLOB) AS Products(XMLData);
@@ -76,7 +87,7 @@ EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
 -- Lee todos los datos del XML especificamente los nodos de fecha --
 INSERT INTO @tempDates ([date])
 SELECT CONVERT(date, fecha, 121) fecha
-FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/Dia', 0)
+FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia', 0)
 WITH(
 	fecha VARCHAR(100)
 )
@@ -95,8 +106,8 @@ WHILE(@fechaActual < @fechaMax)
 	BEGIN
 		-- INSERT informacion sobre la tabla propiedad --
 
-		INSERT INTO dbo.[Propiedad] ([numeroFinca], [valor], [direccion], [activo], [fechaLeido])
-		SELECT [NumFinca], [Valor], [Direccion], 1, @fechaActual
+		INSERT INTO @tempPropiedades ([numFinca], [valor], [direccion], [fechaLeido])
+		SELECT [NumFinca], [Valor], [Direccion], @fechaActual
 		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/Propiedad', 1)
 		WITH(
 			[NumFinca] int,
@@ -106,6 +117,23 @@ WHILE(@fechaActual < @fechaMax)
 	
 		)
 		WHERE [fechaLeido] = @fechaActual ;
+
+		declare @numeroFincaPropiedad int, @valorPropiedad money,@fechaLeidoPropiedad date, @idDePropiedad int = 1;
+		declare @direcconPropiedad varchar(50);
+		
+		WHILE @idDePropiedad IS NOT NULL
+			BEGIN
+				SELECT @numeroFincaPropiedad = T.[numFinca], @valorPropiedad = T.[valor], @fechaLeidoPropiedad = T.[fechaLeido],
+						@direcconPropiedad = T.direccion
+				FROM @tempPropiedades AS T WHERE T.[id] = @idDePropiedad;
+
+				EXEC dbo.[SPI_Propiedad_XML] @numeroFincaPropiedad, @valorPropiedad,@direcconPropiedad, @fechaActual;
+
+				SELECT @idDePropiedad = MIN(id) FROM @tempPropiedades WHERE id > @idDePropiedad;
+			END
+		-- al terminar el dia hay que borrar los datos --
+		 DELETE FROM @tempPropiedades
+
 
 		--  INSERT informacion de la tabla ConceptoCobroVersusPropiedad
 
