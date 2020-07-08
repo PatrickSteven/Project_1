@@ -99,11 +99,14 @@ BEGIN TRY
 				FOR JSON AUTO
 			)
 			-- delete --
+			PRINT('SUSHI 5')
 			EXECUTE [dbo.SPD_Usuario_De_Propiedad] @nombre 
 			UPDATE dbo.[Usuario] SET dbo.Usuario.[activo] = 0 WHERE [nombre] = @nombre;
 			SET @retvalue = 1
+			PRINT('SUSHI 1')
 			-- Insertar datos en bitacora --
 			EXEC dbo.[SPI_Bitacora] 3, @id, 0, null, @jsonAntes
+			PRINT('SUSHI 2')
 		END
 	
 	RETURN @retvalue

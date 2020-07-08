@@ -15,4 +15,6 @@ codigo -21 : 'Concepto de Cobro en Propiedad ya registrado'
 codigo -22 : 'Propiedad no registrada' 
 codigo -23 : 'Concepto de Cobro en Propiedad no registrado'
 codigo -24 : 'ValorDocId no encontrado en Propietario Juridico'
-
+codigo -25 : 'Recibo nulo'
+codigo -26 : 'Recibo ya registrado'
+codigo -27 : 'Ya contiene recibo de intereses moratorios'

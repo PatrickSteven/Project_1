@@ -229,14 +229,15 @@ DROP TABLE MovConsumo
 CREATE TABLE Comprobante_Pago(
 
 	id int primary key not null identity(1,1),
-	idPropiedad int not null,
 	fecha date not null,
 	total int,
 	activo int not null
 
-	CONSTRAINT FK_CompPago_idPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
-
 );
+
+DROP TABLE Comprobante_Pago
+
+
 
 -- Un recibo tiene 3 FK
 -- #1: Referencia a un Concepto de Cobro
@@ -255,18 +256,32 @@ CREATE TABLE Recibo (
 	estado int not null, --0: Pendiente de pago (estado default), 1: Pagado, 3: Anulado.
 	activo int not null,
 	CONSTRAINT FK_idConeceptoCobro_02 FOREIGN KEY (idConceptoCobro) REFERENCES Concepto_Cobro(id),
-	CONSTRAINT FK_idPropiedad_06 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	CONSTRAINT FK_idPropiedad_067 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	-- idComprobantePago  puede ser null [REVISAR]
-	--CONSTRAINT FK_idComprobantePago FOREIGN KEY (id) REFERENCES Comprobante_Pago(id)
+	--FK_idComprobantePago int FOREIGN KEY (id) REFERENCES Comprobante_Pago(id)
 );
 
 SELECT * FROM dbo.Concepto_Cobro
 
 DROP TABLE Recibo
 
+-- TABLA RECIBO POR COMPROBANTE DE PAGO --
+CREATE TABLE Recibo_por_ComprobantePago(
+	id int primary key not null identity(1,1),
+	fechaLeido date not null,
+	idRecibo int not null,
+	CONSTRAINT FK_idRecibo FOREIGN KEY (idRecibo) REFERENCES Recibo(id),
+	idComprobante_Pago int not null,
+	CONSTRAINT FK_idComporbante_Pago FOREIGN KEY (idComprobante_Pago) 
+	REFERENCES Comprobante_Pago(id),
+	activo int not null
+);
+
+DROP TABLE Recibo_por_ComprobantePago
 
 CREATE TABLE ReciboReconexion(
 	id int primary key not null,
+	fecha date,
 	activo int not null,
 
 	CONSTRAINT FK_rconexionRecibo FOREIGN KEY (id) REFERENCES Recibo(id)	
@@ -275,7 +290,7 @@ CREATE TABLE ReciboReconexion(
 DROP TABLE ReciboReconexion
 
 CREATE TABLE Corte(
-	id int primary key not null,
+	id int primary key not null identity(1,1),
 	idPropiedad int not null,
 	idReciboReconexion int not null,
 	fecha date,

@@ -175,6 +175,7 @@ CREATE PROCEDURE [dbo].[SPD_Concepto_De_Cobro_En_Propiedad]
 @nombreCC NVARCHAR(50) = null
 AS
 BEGIN
+	PRINT('POLLO1')
 	DECLARE @idConceptoCobro int, @idPropiedad int, @estadoPropiedad int;
 	SELECT @estadoPropiedad = dbo.[Propiedad].activo from dbo.[Propiedad] WHERE [numeroFinca] = @numeroFinca;
 	DECLARE @jsonDespues nvarchar(500), @jsonAntes nvarchar(500);
@@ -197,9 +198,11 @@ BEGIN
 				FOR JSON AUTO
 			)
 			-- DELETE -- 
+			PRINT('POLLO')
 			UPDATE dbo.[Concepto_Cobro_en_Propiedad] SET activo = 0 WHERE idPropiedad = @idPropiedad
+			PRINT('POLLO2')
 			-- Guardar en bitacora json --
-			EXEC dbo.[SPI_Bitacora] 7, @id, 1, null, @jsonAntes
+			EXEC dbo.[SPI_Bitacora] 7, @idPropiedad, 1, null, @jsonAntes
 		END
 	ELSE
 		BEGIN

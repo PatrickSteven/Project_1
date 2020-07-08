@@ -214,6 +214,30 @@ END
 
 DROP PROCEDURE [dbo].[SPI_AjusteConsumo_XML]
 
+CREATE PROCEDURE [dbo].[SPI_MovimientoAgua_XML]
+@idNumber int,
+@lecturM3 int,
+@descripcion nvarchar(50),
+@numFinca int,
+@fecha date
+AS
+BEGIN
+	BEGIN TRY
+		IF (@idNumber = 1) EXECUTE [dbo].[SPI_Consumo_XML] @numFinca, @lecturM3, @fecha
+		ELSE IF( @idNumber = 2) EXECUTE [dbo].[SPI_AjusteConsumo_XML] @numFinca, @lecturM3, @fecha;
+		ELSE EXECUTE [dbo].[SPI_AjusteConsumo_XML] @numFinca, @lecturM3, @fecha; -- @idNumber = 3 --
+	END TRY
+	BEGIN CATCH
+			DECLARE 
+				@Message varchar(MAX) = ERROR_MESSAGE(),
+				@Severity int = ERROR_SEVERITY(),
+				@State smallint = ERROR_STATE()
+ 
+		   RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+
 
 
 SELECT * FROM Propiedad

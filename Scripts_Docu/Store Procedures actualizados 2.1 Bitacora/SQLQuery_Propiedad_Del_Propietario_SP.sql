@@ -366,4 +366,5 @@ select * from dbo.Propiedad_del_Propietario
 EXECUTE SPD_Propiedad_Del_Propietario 1176180, 304110067
 EXECUTE SPI_Propiedad_Del_Propietario 1176180, 304110067
 EXECUTE SPD_Propiedad_Del_Propietario null, 201
+EXECUTE SPD_Propiedad_Del_Propietario 15590
 EXECUTE SPS_Propiedad_Del_Propietario_Detail 304110067

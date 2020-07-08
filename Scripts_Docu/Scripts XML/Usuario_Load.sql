@@ -2,7 +2,7 @@ USE [D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF];
 GO
 
 DECLARE @x xml;
-Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Varios.xml', SINGLE_BLOB) AS Products(XMLData);
+Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Usuarios.xml', SINGLE_BLOB) AS Products(XMLData);
 	
 
 DECLARE @hdoc int;

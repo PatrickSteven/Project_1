@@ -35,4 +35,4 @@ BEGIN
 	END CATCH
 END
 
-SELECT * FROM dbo.Bitacora
+SELECT * FROM dbo.Bitacora WHERE dbo.Bitacora.[idTipoEntidad] = 1

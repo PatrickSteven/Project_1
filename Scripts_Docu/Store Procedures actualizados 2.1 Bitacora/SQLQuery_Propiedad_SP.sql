@@ -107,17 +107,24 @@ BEGIN
 		DECLARE @retValue1 int, @idPropiedad int
 		-- tabla temporal para manejar valores de retorno no deseados --
 		DECLARE @tmpNewValue TABLE (newvalue int);
-
+		PRINT('PRUEB4')
 		IF EXISTS (SELECT  * FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca )
 			BEGIN
+				PRINT('PRUEB7')
 				SELECT @idPropiedad = id FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca
+				PRINT('PRUEB77')
 				-- INSERT valores de retorno en una tabla que al final no se va a utilizar --
-				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Propiedad_Del_Propietario @numeroFinca
+				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Propiedad_Del_Propietario @idPropiedad
+				PRINT('PRUEB777')
 				--INSERT INTO @tmpNewValue  EXEC dbo.SPD_Recibos @idPropiedad
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Comprobante_Pago @idPropiedad
+				PRINT('PRUEB7')
 				INSERT INTO @tmpNewValue  EXEC dbo.SPD_Concepto_De_Cobro_En_Propiedad @numeroFinca
+				PRINT('PRUEB6')
 				INSERT INTO @tmpNewValue  EXEC dbo.[SPD_Usuario_De_Propiedad] null, @numeroFinca
+				PRINT('PRUEB')
 				UPDATE dbo.[Propiedad] SET activo = 0 WHERE numeroFinca = @numeroFinca;
+				PRINT('PRUEB2')
 				-- INSERT valores de retorno en una tabla que al final no se va a utilizar --
 				PRINT @retValue1
 				SET @retValue1 =  (SELECT [id] FROM dbo.[Propiedad] AS P WHERE P.[numeroFinca] = @numeroFinca);
@@ -209,11 +216,12 @@ SELECT * FROM Propiedad
 EXEC SPI_Propiedad '126344','120.00','Upala'
 
 SELECT * FROM Propiedad
-EXEC SPD_Propiedad '462'
+EXEC SPD_Propiedad '126344'
 
 SELECT * FROM Propiedad
 
-EXEC SPU_Propiedad '462' ,'500','Upala'
+EXEC SPU_Propiedad '126344' ,'500','Upala'
+EXEC [dbo].[SPU_ValorPropiedad] '126344' ,'500'
 
 SELECT * FROM Propiedad
 EXEC SPS_Propiedad

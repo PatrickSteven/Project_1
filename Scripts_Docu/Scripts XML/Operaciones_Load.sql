@@ -13,17 +13,20 @@ GO
 --#1: codigoDoc (id)
 --#2: descipcion (nombre)
 DELETE FROM dbo.[Bitacora]
-
+DELETE FROM dbo.[Corte]
+DELETE FROM dbo.[ReciboReconexion]
+DELETE FROM dbo.[Recibo_por_ComprobantePago]
 DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propiedad_del_Propietario]
 DELETE FROM dbo.[Concepto_Cobro_en_Propiedad]
-DELETE FROM dbo.[Recibo]
+DELETE FROM dbo.[Recibo] WHERE dbo.[Recibo].[idConceptoCobro] = 11
 DELETE FROM dbo.[MovConsumo]
 DELETE FROM dbo.[Propiedad]
 DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propietario]
 DELETE FROM dbo.[Usuario_De_Propiedad]
 DELETE FROM dbo.[Usuario]
+
 
 
 DECLARE @fechaMin date, @fechaMax date, @fechaActual date
@@ -76,6 +79,21 @@ DECLARE @tempPropiedades table (
 	valor money,
 	direccion nvarchar(50),
 	fechaLeido date
+)
+
+DECLARE @PropiedadCambio table (
+	id int primary key not null identity(1,1),
+	numFinca int not null,
+	nuevoValor money not null
+)
+
+DECLARE @tempConsumo table (
+	id int primary key not null identity(1,1),
+	idNumber int,
+	lecturaM3 int,
+	descripcion nvarchar(50),
+	numFinca int,
+	fecha date
 )
 
 -- INICIO de lectura del XML
@@ -134,6 +152,59 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropiedades
 
+		 -- UPDATE informacion de la tabla de Propiedades
+
+		INSERT INTO @PropiedadCambio ([numFinca], [nuevoValor])
+		SELECT [NumFinca], [NuevoValor]
+		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/CambioPropiedad', 0)
+		WITH(
+			[NumFinca] int,
+			[NuevoValor] money,
+			[fechaLeido] date '../@fecha'
+		)
+		WHERE [fechaLeido] = @fechaActual ;
+
+		declare @numeroFincaPropiedadU int, @valorPropiedadU money, @idDePropiedadUpdate int = 1;
+
+		WHILE @idDePropiedadUpdate IS NOT NULL
+			BEGIN
+				SELECT @numeroFincaPropiedadU = PU.[numFinca], @valorPropiedadU = PU.[nuevoValor]
+				FROM @PropiedadCambio AS PU WHERE PU.[id] = @idDePropiedadUpdate;
+				PRINT('PIZZA')
+				SELECT * FROM @PropiedadCambio
+				EXEC [dbo].[SPU_ValorPropiedad] @numeroFincaPropiedadU, @valorPropiedadU;
+				PRINT('PIZZA 2')
+				SELECT @idDePropiedadUpdate = MIN(id) FROM @PropiedadCambio WHERE id > @idDePropiedadUpdate;
+			END
+		DELETE FROM @PropiedadCambio
+
+		-- INSERT Movimiento Consumo a Propiedad --
+
+		INSERT INTO @tempConsumo  ([idNumber], [lecturaM3], [descripcion], [numFinca], [fecha])
+		SELECT [id], [LecturaM3],[descripcion], [NumFinca], [fechaLeido] 
+		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/TransConsumo', 0)
+		WITH(
+			[id] int,
+			[LecturaM3] int,
+			[descripcion] nvarchar(50),
+			[NumFinca] int,
+			[fechaLeido] date '../@fecha'
+		)
+		WHERE [fechaLeido] = @fechaActual ;
+
+		declare @idNumber int, @lecturaM3 int, @descripcion nvarchar(50), @numFincaConsumo int, @fechaConsumo date;
+		DECLARE @idConsumo int = 1;
+
+		WHILE @idConsumo IS NOT NULL
+			BEGIN 
+				SELECT @idNumber = CNP.[idNumber], @lecturaM3 = CNP.[LecturaM3], @descripcion = CNP.[descripcion],
+				@numFincaConsumo = CNP.[NumFinca], @fechaConsumo = CNP.[fecha]
+				FROM @tempConsumo AS CNP WHERE CNP.[id] = @idConsumo
+				SELECT * FROM @tempConsumo
+				EXEC [dbo].[SPI_MovimientoAgua_XML] @idNumber, @lecturaM3, @descripcion, @numFincaConsumo, @fechaConsumo
+				SELECT @idConsumo = MIN(id) FROM @tempConsumo WHERE id > @idConsumo
+			END
+		DELETE FROM @tempConsumo
 
 		--  INSERT informacion de la tabla ConceptoCobroVersusPropiedad
 
@@ -300,14 +371,15 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropietarioJuridico
 
-
+		EXECUTE SPI_GenerarRecibos  @fechaActual
 	    SELECT @fechaActual = DATEADD(DAY,1,@fechaActual);
 	END
 
 
-SELECT * FROM dbo.Propiedad;
+SELECT * FROM dbo.Propiedad where numeroFinca = 1420570;
 SELECT * FROM dbo.Propietario;
 SELECT * FROM dbo.Concepto_Cobro
+SELECT * FROM dbo.[CC_Intereses_Moratorios]
 SELECT * FROM dbo.[Concepto_Cobro_en_Propiedad]
 SELECT * FROM dbo.[Propiedad_del_Propietario]
 SELECT * FROM dbo.[Usuario]
@@ -315,3 +387,6 @@ SELECT * FROM dbo.Usuario_de_Propiedad
 SELECT * FROM dbo.Tipo_DocId
 SELECT * FROM dbo.Propietario_Juridico
 SELECT * FROM dbo.Usuario
+
+SELECT * FROM dbo.Bitacora
+SELECT * FROM dbo.Recibo where id = 49

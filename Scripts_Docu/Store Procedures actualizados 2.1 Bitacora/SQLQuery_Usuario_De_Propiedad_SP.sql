@@ -35,8 +35,10 @@ BEGIN TRY
 				FOR JSON AUTO
 			)
 			-- Update fila --
+
 			UPDATE dbo.[Usuario_De_Propiedad] SET [activo] = 1 WHERE @idPropiedad = [idPropiedad];
 			SET @retValue = 1;
+
 			-- Cargar json despues --
 			SET @jsonDespues = (
 				SELECT UP.[idPropiedad], UP.[idUsuario], UP.[activo], UP.[fechaInicio]
@@ -175,7 +177,7 @@ BEGIN TRY
 				END
 			ELSE
 				BEGIN
-					SET @id = (SELECT [id] FROM dbo.[Usuario_de_Propiedad] AS UP WHERE @idPropiedad = UP.[idPropiedad]);
+					SELECT @id = [id] FROM dbo.[Usuario_de_Propiedad] AS UP WHERE @idPropiedad = UP.[idPropiedad];
 					-- Guardar datos antes del delete --
 					SET @jsonAntes = (
 						SELECT UP.[idPropiedad], UP.[idUsuario], UP.[activo], UP.[fechaInicio]
@@ -183,10 +185,13 @@ BEGIN TRY
 						FOR JSON AUTO
 					)
 					-- DELETE --
+					PRINT('VALE')
 					UPDATE dbo.Usuario_De_Propiedad SET activo = 0 WHERE  @idPropiedad = idPropiedad;
 					SET @retvalue = 1;					
+					PRINT('VALE52')
 					-- Guardar los datos en la bitacora --
-					EXEC dbo.[SPI_Bitacora] 5, @id, 0, null, @jsonAntes
+					EXEC dbo.[SPI_Bitacora] 5, @idPropiedad, 0, null, @jsonAntes
+					PRINT('VALE3')
 				END
 		END
 	ELSE IF EXISTS(SELECT * FROM dbo.Usuario WHERE nombre = @nombre AND @numeroFinca = null)

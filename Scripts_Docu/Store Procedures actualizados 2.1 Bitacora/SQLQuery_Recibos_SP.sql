@@ -8,7 +8,7 @@ BEGIN
 	
 	-- GET DIA DE FECHA --
 	DECLARE @dia int;
-	SET @dia = DAY(@fecha);
+	SET @dia = DAY('2020-05-5');
 
 	-- INSERTAR FILAS DE @ConceptoCobro_DeDia --
 	INSERT INTO @ConceptoCobro_DeDia([idPropiedad], [idConcptoCobro])
@@ -43,21 +43,6 @@ END
 DROP PROCEDURE SPI_GenerarRecibos
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --Insert
 CREATE PROCEDURE SPI_Recibos
 @idConceptoCobro int,
@@ -67,59 +52,224 @@ AS
 BEGIN
 	-- DATOS CONCEPTO DE COBRO ( y herencias )--
 	DECLARE @qDiaVencimiento int, @monto int, @esFijo varchar(10), @retValue int;
+	DECLARE @nombreCC nvarchar(50);
 	-- DATOS CALCULADOS PARA RECIBO --
 	DECLARE @fechaVencimineto date; 
 
 	SELECT @qDiaVencimiento = [qDiasVencidos] FROM dbo.[Concepto_Cobro] WHERE @idConceptoCobro = [id];
 	SELECT @esFijo = [EsFijo] FROM dbo.[Concepto_Cobro] WHERE @idConceptoCobro = [id];
+	SELECT @nombreCC = [nombre] FROM dbo.[Concepto_Cobro] WHERE @idConceptoCobro = [id]
 	
 	-- GET ID DE HERENCIA --
 	IF ( @esFijo = 'Si')
 		BEGIN
 			SELECT @monto = [monto] FROM dbo.[CC_Fijo] WHERE @idConceptoCobro = [id];
 		END
-	-- ES CONSUMO --
+	-- ES CONSUMO AGUA--
+	ELSE IF (@nombreCC = 'Agua')
+		BEGIN
+			-- Variables de tabla Propiedad --
+			DECLARE @AcumuladoActualM3 int, @AcumuladoUltimoRecibo int, @ValorM3 int, @MontoMinimo int;
+
+			SELECT @AcumuladoActualM3 = [m3Acumulados] FROM dbo.[Propiedad] WHERE @idPropiedad = [id]
+			SELECT @AcumuladoUltimoRecibo = [m3AcumuladosUR] FROM dbo.[Propiedad] WHERE @idPropiedad = [id]
+			SELECT @ValorM3 = [valorM3] FROM dbo.[CC_Consumo] WHERE @idConceptoCobro = [id]
+			SELECT @MontoMinimo = [montoMinimoRecibo] FROM dbo.[CC_Consumo] WHERE @idConceptoCobro = [id]
+			
+			-- Calculo del recibo -- 
+			IF((@AcumuladoActualM3 - @AcumuladoUltimoRecibo) * @ValorM3 > @MontoMinimo)
+				SET @monto = (@AcumuladoActualM3 - @AcumuladoUltimoRecibo) * @ValorM3
+			ELSE
+				SET @monto = @MontoMinimo
+
+		END
+	-- ES PORCENTUAL (EsImpuesto)--
 	ELSE
 		BEGIN
-			SELECT @monto = [monto] FROM dbo.[CC_Consumo] WHERE @idConceptoCobro = [id];
+			print('dirvo de algo')
+			-- Calculate porcentaje sobre la poblacion --
+			DECLARE @impuesto int, @valorPropiedad int;
+			-- Aqui esta el error --
+			SELECT @impuesto = [ValorPorcentaje] FROM dbo.[CC_Porcentual]  WHERE @idConceptoCobro = [id];
+			SELECT @valorPropiedad = [valor] FROM dbo.[Propiedad] WHERE @idPropiedad = [id];
+
+			SET @monto = @valorPropiedad * @impuesto;
+			print('dirvo de algo 2')
 		END
+		
 	
 	-- CALULAR LA FECHA DE VENCIMIENTO --
 	SELECT @fechaVencimineto = DATEADD(day, @qDiaVencimiento, @fechaGenerado);
 
-	INSERT INTO dbo.Recibo ([idPropiedad], [idConceptoCobro], [monto], [fecha], [fechaVencimiendo], 
+	INSERT INTO dbo.Recibo ([idComprobanteDePago],[idPropiedad], [idConceptoCobro], [monto], [fecha], [fechaVencimiendo], 
 							[estado], [activo])
-	VALUES(@idPropiedad, @idConceptoCobro, @monto, @fechaGenerado, @fechaVencimineto, 0, 1);
+	VALUES(null,@idPropiedad, @idConceptoCobro, @monto, @fechaGenerado, @fechaVencimineto, 0, 1);
 	SET @retValue = SCOPE_IDENTITY();
-
-
-
-
 END
 
 DROP PROCEDURE SPI_Recibos
 
-
---Pagar
-CREATE PROCEDURE SP_Pagar_Recibos
-@id int,
-@fecha date,
-@total int
-AS
+-- INSERT DE RECIBO INTERESES MORATORIOS --
+CREATE PROCEDURE SPI_ReciboIntereses
+@fechaActual date,
+@idRecibo int
+AS 
 BEGIN
-	DECLARE @idPropiedad int, @idComprobantePago int
-	SELECT @idPropiedad = idPropiedad from dbo.Recibos WHERE id = @id
-	IF @id is null
-		BEGIN
-		RAISERROR('Recibo no encontrado',10,1)
-		END
-	ELSE 
-		BEGIN
-		EXECUTE @idComprobantePago = dbo.SPI_Comprobante_Pago @fecha, @total, @idPropiedad
-		UPDATE dbo.Recibos SET esPendiente = 0, idComprobanteDePago = @idComprobantePago
-		WHERE id = @id 
-		END
+	print('ale')
+	-- DECLARACION DE VARIABLES --
+	DECLARE @fechaMax date, @montoRecibo int, @monto int, @intereses float, @tipoRecibo int, @fechaVencimineto date;
+	SELECT @montoRecibo = [monto] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
+	SELECT @tipoRecibo = [idConceptoCobro] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
+	SELECT @intereses = [tasaInteresesMoratorios] FROM dbo.Concepto_Cobro AS C WHERE C.[id] = @tipoRecibo
+	SELECT @fechaMax = [fechaVencimiendo] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo 
+
+	DECLARE @idPropiedad int, @retValue int;
+	SELECT @idPropiedad = [idPropiedad] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
+	print('ale')
+
+	--CALCULO DE MONTO DE RECIBO --
+	DECLARE @fechaDif int;
+	print('ale')
+	SET @fechaDif = ABS(DATEDIFF(day, @fechaMax, @fechaActual))
+	print('ale1')
+	print(@fechaDif)
+	print(@montoRecibo)
+	print(@intereses)
+	SET @monto = (@montoRecibo*@intereses/365)*@fechaDif -- dividido entre 365
+
+	-- CALCULAR FECHA DE VENICIMIENTO --
+	DECLARE @qDiaVencimiento int;
+	SELECT @qDiaVencimiento = [qDiasVencidos] FROM dbo.[Concepto_Cobro] AS CC WHERE  CC.nombre = 'Interes Moratorio';
+	SELECT @fechaVencimineto = DATEADD(day, @qDiaVencimiento, @fechaActual);
+
+	--INSERTAR RECIBO INTERES --
+	INSERT INTO dbo.Recibo ([idComprobanteDePago],[idPropiedad], [idConceptoCobro], [monto], [fecha], [fechaVencimiendo], 
+							[estado], [activo])
+	VALUES(null,@idPropiedad, 11, @monto, @fechaActual, @fechaVencimineto, 0, 1);
+	SET @retValue = SCOPE_IDENTITY();
+
+
 END
+
+DROP PROCEDURE SPI_ReciboIntereses
+
+
+-- GENERAR INTERESES MORATORIOS
+CREATE PROCEDURE SP_GenerarRecibosIntereses
+@idRecibo int,
+@fecha date
+AS
+BEGIN TRY
+	-- DECLARACION DE VARIABLES --
+	DECLARE @fechaVencimiento date, @retValue int = 1, @idPropiedad int;
+	SELECT @fechaVencimiento = [fechaVencimiendo] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
+	SELECT @idPropiedad = [idPropiedad] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
+
+	-- Si ya existe un interes moratorio --
+	--IF EXISTS (SELECT [id] FROM dbo.Recibo AS R WHERE (1 = R.activo and R.[idConceptoCobro] = 11))
+	--	BEGIN
+	--		RAISERROR('Ya contiene recibo de intereses moratorios',10,1)
+	--		SET @retValue = -27;
+	--	END
+	-- si la fecha de vencimiento del recibo ya vencio, haga uno nuevo --
+	IF (@fecha >= @fechaVencimiento)
+		BEGIN
+			-- INSERTAR INTERES MORATORIO --
+			EXECUTE SPI_ReciboIntereses @fecha, @idRecibo
+			SET @retvalue = 1;
+		END
+	-- else no ha vencido entonces no haga nada --
+
+	RETURN  @retValue;
+
+END TRY
+BEGIN CATCH
+	DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+ 
+	RAISERROR( @Message, @Severity, @State) 
+END CATCH
+
+DROP PROCEDURE SP_GenerarRecibosIntereses
+
+
+--Pagado multiple de recibos --
+CREATE PROCEDURE SP_Pagado_Multiple
+@numFinca int,
+@tipoRecibo int, -- idConceptoCobro --
+@fecha date
+AS 
+BEGIN
+	-- DECLARACION DE VARIABLES --
+	-- Tabla con los recibos a pagar que son de tipoRecibo y NumFinca --
+	DECLARE @RecibosDelDia table (id INT IDENTITY(1,1),idRecibo int) 
+	DECLARE @RecibosAPagar table (id INT IDENTITY(1,1),idRecibo int, monto int) 
+	DECLARE @montoAcumulado int;
+
+	-- INSERT MASIVO DE PROPIEDADES EN TABLA --
+	INSERT INTO @RecibosDelDia([idRecibo])
+	SELECT Recibo.[id] FROM dbo.Recibo
+	INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
+	WHERE(dbo.Propiedad.[numeroFinca] = @numFinca AND dbo.Recibo.[idConceptoCobro] = @tipoRecibo AND dbo.Recibo.[activo] = 1)
+
+	SELECT * FROM @RecibosDelDia
+
+	-- GENERAR RECIBOS DE INTERESES MORATORIOS -- (MASIVO ITERATIVO)
+	IF EXISTS (SELECT [id] FROM @RecibosDelDia)
+		BEGIN
+			DECLARE @idRecibo int, @id int = 1;
+			WHILE @id IS NOT NULL
+				BEGIN
+					SELECT @idRecibo = T.[idRecibo]
+					FROM @RecibosDelDia AS T WHERE T.[id] = @id;
+
+					EXECUTE SP_GenerarRecibosIntereses @idRecibo, @fecha
+					SELECT @id = MIN(id) FROM @RecibosDelDia WHERE id > @id;
+				END
+				DELETE FROM @RecibosDelDia
+		END
+
+	-- INSERT MASIVO DE PROPIEDADES EN TABLA Y RECIBOS POR INTERESES MORATORIOS --
+	INSERT INTO @RecibosAPagar([idRecibo], [monto])
+	SELECT Recibo.[id], Recibo.[monto] FROM dbo.Recibo
+	INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
+	WHERE(dbo.Propiedad.[numeroFinca] = @numFinca AND 
+			(dbo.Recibo.[idConceptoCobro] = @tipoRecibo OR dbo.Recibo.[idConceptoCobro] = 11) AND dbo.Recibo.[activo] = 1)
+
+	-- CALCULAR EL MONTO ACUMULADO PARA TODOS LOS RECIBOS -- (MASIVO)
+	SELECT @montoAcumulado = SUM(monto) FROM @RecibosAPagar;
+
+	print(@montoAcumulado)
+
+	-- GENERAR LOS COMPROMBANTES DE LOS RECIBOS -- (MASIVO ITERATIVO)
+	IF EXISTS (SELECT [id] FROM @RecibosAPagar)
+		BEGIN
+			DECLARE @idReciboPagar int, @idPagar int = 1;
+			WHILE @idPagar IS NOT NULL
+				BEGIN
+					SELECT @idRecibo = T.[idRecibo]
+					FROM @RecibosAPagar AS T WHERE T.[id] = @idPagar;
+
+					EXECUTE Generar_Comprobante @idRecibo, @fecha, @montoAcumulado
+
+					SELECT @idPagar = MIN(id) FROM @RecibosAPagar WHERE id > @idPagar;
+				END
+				DELETE FROM @RecibosAPagar
+		END
+
+
+
+END
+
+DROP PROCEDURE SP_Pagado_Multiple
+
+
+
+
+
+
 
 --Delete
 CREATE PROCEDURE SPD_Recibos
@@ -134,9 +284,37 @@ END
 
 --PRueba
 
-EXECUTE SPI_Recibos 4,4,'2020-05-19'
-EXECUTE SPI_GenerarRecibos '2020-06-1'
+EXECUTE SPI_Recibos 10,45,'2020-05-20'
+EXECUTE SPI_GenerarRecibos '2020-01-5'
 select * from dbo.[Recibo]
 select * from Comprobante_Pago
 EXECUTE SP_Pagar_Recibos 1, '2020-05-16', 10005
 DROP PROCEDURE dbo.SP_Pagar_Recibos
+
+
+SELECT * FROM dbo.Concepto_Cobro_en_Propiedad where idPropiedad = 49
+SELECT * FROM dbo.CC_Fijo
+SELECT * FROM dbo.CC_Consumo
+SELECT * FROM dbo.Concepto_Cobro
+
+SELECT * FROM dbo.Recibo where idConceptoCobro = 11
+SELECT * FROM dbo.Recibo where idPropiedad = 6050
+SELECT * FROM dbo.Propiedad where numeroFinca = 3120927
+SELECT * FROM dbo.Propiedad where id = 6050
+
+UPDATE dbo.Recibo SET estado = 1 where dbo.Recibo.id = 1350
+
+EXEC SP_GenerarRecibosIntereses 9938, '2020-04-03'
+SELECT [idPropiedad] FROM dbo.[Recibo] AS R WHERE R.[id] = 8594
+SELECT * FROM dbo.Propiedad where [id] = 5160
+
+EXEC SPI_ReciboIntereses '2020-02-20', 9936
+EXEC SP_Pagado_Multiple 2407485, 3, '2020-04-21'
+
+EXEC SP_Pagado_Multiple 3120927, 9, '2020-04-22'
+
+SELECT * FROM dbo.Comprobante_Pago
+SELECT * FROM dbo.Recibo_por_ComprobantePago
+
+2020-02-10
+9936
