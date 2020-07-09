@@ -14,14 +14,13 @@ using Project_1.ViewModels.Propiedad;
 
 namespace Project_1.Controllers
 {
-    [Authorize(Roles = Roles.administrador)]
+    //[Authorize(Roles = Roles.administrador)]
     public class PropiedadController : AppController
     {
         // GET: Propiedad
         //Select Propiedad
 
-        [Authorize(Roles = Roles.administrador)]
-        [Authorize(Roles = Roles.usuario)]
+        [Authorize(Roles = Roles.administrador_y_usuario)]
         public ActionResult Index()
         {
 
@@ -33,7 +32,7 @@ namespace Project_1.Controllers
             {
                 listPropiedades = Propiedad_Conexion.Select();
 
-                 propiedadIndex = new PropiedadIndexViewModel()
+                propiedadIndex = new PropiedadIndexViewModel()
                 {
                     propiedades = listPropiedades
                 };
@@ -53,6 +52,8 @@ namespace Project_1.Controllers
 
                 return View(propiedadIndex);
             }
+
+            else return HttpNotFound();
 
         }
 

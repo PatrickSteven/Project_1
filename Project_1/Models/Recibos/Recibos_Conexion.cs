@@ -29,7 +29,7 @@ namespace Project_1.Models.Recibos
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = recibo.numeroFinca;
                 cmd.Parameters.Add("@idComprobantePago", SqlDbType.Int).Value = recibo.idComprobantePago;
                 cmd.Parameters.Add("@monto", SqlDbType.Int).Value = recibo.monto;
-                cmd.Parameters.Add("@esPendiente", SqlDbType.Bit).Value = recibo.esPendiente;
+                //cmd.Parameters.Add("@esPendiente", SqlDbType.Bit).Value = recibo.esPendiente;
                 cmd.Parameters.Add("@nombreCC", SqlDbType.VarChar).Value = recibo.nombreCC;
                 cmd.Connection = connection;
                 cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;

@@ -59,15 +59,10 @@
                     <!--Usuario Regular-->
                     @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.usuario)
                     {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index", "Propiedad")">
                                 Mis Propiedades
                             </a>
-                            <div class="dropdown-menu navbar-dark " aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Seleccionar</a>
-                                <a class="dropdown-item" href="#">Pagar</a>
-                                <a class="dropdown-item" href="#">Recibos</a>
-                            </div>
                         </li>
                     }
 

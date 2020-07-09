@@ -232,7 +232,7 @@ else
 
                         @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
                         {
-                            <ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+                            <td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
                         }
                     </tr>
                 }
@@ -287,7 +287,7 @@ else
 <!--ADMINISTRADOR-->
 @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
 {
-    @if (@Model.usuarios.Any())
+    if (@Model.usuarios.Any())
     {
         <div>
             <h3 class="my-4">Usuarios Suscritos</h3>

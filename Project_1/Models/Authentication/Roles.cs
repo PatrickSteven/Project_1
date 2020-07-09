@@ -9,5 +9,6 @@ namespace Project_1.Models.Authentication
     {
         public const string administrador = "Administrador";
         public const string usuario = "Usuario";
+        public const string administrador_y_usuario = "Administrador, Usuario";
     }
 }
