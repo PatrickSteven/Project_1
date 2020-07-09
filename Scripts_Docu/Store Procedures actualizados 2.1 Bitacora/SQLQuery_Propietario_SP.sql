@@ -298,5 +298,7 @@ EXECUTE SPD_Propietario 20000000
 EXECUTE [SPI_Propietario_XML] 'C', 20000000001, 1, '2020-01-29'
 SELECT * FROM dbo.Tipo_DocId
 
+SELECT * FROM dbo.Bitacora
+
 
 

@@ -1,11 +1,12 @@
 USE [D:\DOCUMENTOS\PROJECT_1\PROJECT_1\APP_DATA\DATABASE1.MDF];
 GO
--- GENERAR RECIBOS DE CORTA --
+
 SELECT Propiedad.[id] FROM dbo.[Propiedad] 
 INNER JOIN dbo.[Concepto_Cobro_en_Propiedad] ON Propiedad.[id] = dbo.[Concepto_Cobro_en_Propiedad].[idPropiedad]
 INNER JOIN dbo.Concepto_Cobro ON dbo.[Concepto_Cobro_en_Propiedad].idConeceptoCobro = dbo.Concepto_Cobro.[id]
 WHERE (dbo.Concepto_Cobro.[nombre] = 'Agua')
 
+-- GENERAR RECIBOS DE CORTA --
 CREATE PROCEDURE SPI_GenerarRecibosCorte
 @fecha date
 AS
@@ -50,6 +51,7 @@ END
 
 DROP PROCEDURE SPI_GenerarRecibosCorte
 
+-- INSERTAR UN RECIBO RECONEXION DE CORTE --
 CREATE PROCEDURE SPI_ReciboReconexion
 @fecha date,
 @idPropiedad int
@@ -74,11 +76,31 @@ END
 
 DROP PROCEDURE SPI_ReciboReconexion
 
+-- INSERTAR UNA ORDEN DE RECONEXION --
+CREATE PROCEDURE SPI_OrdenesReconexion
+@fecha date,
+@idPropiedad int
+AS 
+BEGIN
+	-- DECLARACION DE VARIABLES --
+	DECLARE @idConceptoReconexion int, @identity int;
+	SELECT @idConceptoReconexion = [id] FROM dbo.[Concepto_Cobro] AS CC WHERE CC.nombre = 'Reconexion de agua' 
+
+	-- SPI_RECIBO --
+
+
+
+
+
+
+-- PRUEBAS --
+
 EXEC SPI_GenerarRecibosCorte '2020-05-19'
 
-SELECT * FROM dbo.Propiedad where dbo.Propiedad.id = 45
-SELECT * FROM dbo.Recibo where dbo.Recibo.idPropiedad = 45
+SELECT * FROM dbo.Propiedad where dbo.Propiedad.id = 6051
+SELECT * FROM dbo.Recibo where dbo.Recibo.idPropiedad = 6406
 SELECT * FROM dbo.Recibo where dbo.Recibo.id = 45
+SELECT * FROM dbo.Recibo where dbo.Recibo.[idConceptoCobro] = 10
 
 DELETE FROM dbo.[Recibo] where dbo.Recibo.[id] = 1348
 

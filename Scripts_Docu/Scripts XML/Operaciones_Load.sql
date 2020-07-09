@@ -14,8 +14,11 @@ GO
 --#2: descipcion (nombre)
 DELETE FROM dbo.[Bitacora]
 DELETE FROM dbo.[Corte]
+DELETE FROM dbo.[Reconexion]
 DELETE FROM dbo.[ReciboReconexion]
 DELETE FROM dbo.[Recibo_por_ComprobantePago]
+DELETE FROM dbo.[Recibo]
+DELETE FROM dbo.[Comprobante_Pago]
 DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propiedad_del_Propietario]
 DELETE FROM dbo.[Concepto_Cobro_en_Propiedad]
@@ -26,6 +29,8 @@ DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propietario]
 DELETE FROM dbo.[Usuario_De_Propiedad]
 DELETE FROM dbo.[Usuario]
+
+
 
 
 
@@ -94,6 +99,13 @@ DECLARE @tempConsumo table (
 	descripcion nvarchar(50),
 	numFinca int,
 	fecha date
+)
+
+DECLARE @tempPagar table (
+	id int primary key not null identity(1,1),
+	tipoRecibo int,
+	numFinca int,
+	fechaLeido date
 )
 
 -- INICIO de lectura del XML
@@ -353,7 +365,7 @@ WHILE(@fechaActual < @fechaMax)
 			[fechaLeido] date '../@fecha'
 		)
 		WHERE [fechaLeido] = @fechaActual ;
-		SELECT * FROM @tempPropietarioJuridico;
+		-- SELECT * FROM @tempPropietarioJuridico;
 		declare @docidPersonaJuridica bigInt, @NombreJ NVARCHAR(50), @idJ INT = 1;
 		declare @docidRepresentante bigInt, @TipDocIdPJ int, @fechaLeidoJ date; 
 
@@ -371,7 +383,38 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropietarioJuridico
 
+		-- GENERAR LOS RECIBOS DEL DIA --
 		EXECUTE SPI_GenerarRecibos  @fechaActual
+
+		-- GENERAR LOS RECIBOS DE CORTE DEL DIA --
+		EXECUTE SPI_GenerarRecibosCorte @fechaActual
+
+		-- PAGO DE LOS RECIBOS DEL DIA --
+		INSERT INTO @tempPagar ([tipoRecibo], [numFinca], [fechaLeido])
+		SELECT [TipoRecibo], [NumFinca], [fechaLeido]
+		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/Pago', 0)
+		WITH(
+			[TipoRecibo] int,
+			[NumFinca] int,
+			[fechaLeido] date '../@fecha'
+		)
+		WHERE [fechaLeido] = @fechaActual ;
+
+		declare @idPago int = 1, @pagoNumFinca int, @idTipoRecibo int, @fechaPago date;
+
+		WHILE @idPago IS NOT NULL
+			BEGIN
+				SELECT @pagoNumFinca = RC.[numFinca], @idTipoRecibo = RC.[tipoRecibo], @fechaPago = RC.[fechaLeido]
+				FROM @tempPagar AS RC WHERE RC.[id] = @idPago;
+				print('ENTREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
+				EXEC SP_Pagado_Multiple @pagoNumFinca, @idTipoRecibo, @fechaPago
+
+				SELECT @idPago = MIN(id) FROM @tempPagar WHERE id > @idPago
+			END
+		DELETE FROM @tempPagar
+
+
+		-- DIA SIGUIENTE --
 	    SELECT @fechaActual = DATEADD(DAY,1,@fechaActual);
 	END
 
@@ -388,5 +431,11 @@ SELECT * FROM dbo.Tipo_DocId
 SELECT * FROM dbo.Propietario_Juridico
 SELECT * FROM dbo.Usuario
 
+SELECT * FROM dbo.Recibo_por_ComprobantePago 
+
+SELECT * FROM dbo.Recibo where [idConceptoCobro] = 11
+SELECT * FROM dbo.Comprobante_Pago
+SELECT * FROM dbo.Corte
+
 SELECT * FROM dbo.Bitacora
-SELECT * FROM dbo.Recibo where id = 49
+SELECT * FROM dbo.Recibo where [estado] = 1

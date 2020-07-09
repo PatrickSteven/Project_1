@@ -199,20 +199,36 @@ DROP PROCEDURE SP_GenerarRecibosIntereses
 CREATE PROCEDURE SP_Pagado_Multiple
 @numFinca int,
 @tipoRecibo int, -- idConceptoCobro --
-@fecha date
+@fecha date = null -- GET DATE PARA WEB --
 AS 
 BEGIN
 	-- DECLARACION DE VARIABLES --
 	-- Tabla con los recibos a pagar que son de tipoRecibo y NumFinca --
 	DECLARE @RecibosDelDia table (id INT IDENTITY(1,1),idRecibo int) 
-	DECLARE @RecibosAPagar table (id INT IDENTITY(1,1),idRecibo int, monto int) 
+	DECLARE @RecibosAPagar table (id INT IDENTITY(1,1),idRecibo int, tipoRecibo int,monto int) 
 	DECLARE @montoAcumulado int;
+	IF(@fecha is Null)
+		BEGIN 
+			SET @fecha = GETDATE();
+		END
 
 	-- INSERT MASIVO DE PROPIEDADES EN TABLA --
-	INSERT INTO @RecibosDelDia([idRecibo])
-	SELECT Recibo.[id] FROM dbo.Recibo
-	INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
-	WHERE(dbo.Propiedad.[numeroFinca] = @numFinca AND dbo.Recibo.[idConceptoCobro] = @tipoRecibo AND dbo.Recibo.[activo] = 1)
+	IF (@tipoRecibo = 10) -- Pago a reconexion de agua --
+		BEGIN
+			INSERT INTO @RecibosDelDia([idRecibo])
+			SELECT Recibo.[id] FROM dbo.Recibo
+			INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
+			WHERE(dbo.Propiedad.[numeroFinca] = @numFinca 
+				 AND (dbo.Recibo.[idConceptoCobro] = 10 OR dbo.Recibo.[idConceptoCobro] = 1)
+				 AND dbo.Recibo.[estado] = 0)
+		END
+	ELSE -- Sino es un pago a reconexion --
+		BEGIN
+			INSERT INTO @RecibosDelDia([idRecibo])
+			SELECT Recibo.[id] FROM dbo.Recibo
+			INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
+			WHERE(dbo.Propiedad.[numeroFinca] = @numFinca AND dbo.Recibo.[idConceptoCobro] = @tipoRecibo AND dbo.Recibo.[estado] = 0)
+		END
 
 	SELECT * FROM @RecibosDelDia
 
@@ -225,23 +241,57 @@ BEGIN
 					SELECT @idRecibo = T.[idRecibo]
 					FROM @RecibosDelDia AS T WHERE T.[id] = @id;
 
-					EXECUTE SP_GenerarRecibosIntereses @idRecibo, @fecha
+					EXECUTE SP_GenerarRecibosIntereses @idRecibo, @fecha -- tipo idCC = 11 --
 					SELECT @id = MIN(id) FROM @RecibosDelDia WHERE id > @id;
 				END
 				DELETE FROM @RecibosDelDia
 		END
 
 	-- INSERT MASIVO DE PROPIEDADES EN TABLA Y RECIBOS POR INTERESES MORATORIOS --
-	INSERT INTO @RecibosAPagar([idRecibo], [monto])
-	SELECT Recibo.[id], Recibo.[monto] FROM dbo.Recibo
-	INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
-	WHERE(dbo.Propiedad.[numeroFinca] = @numFinca AND 
-			(dbo.Recibo.[idConceptoCobro] = @tipoRecibo OR dbo.Recibo.[idConceptoCobro] = 11) AND dbo.Recibo.[activo] = 1)
+	IF (@tipoRecibo = 10) -- Pago a reconexion de agua --
+		BEGIN
+			INSERT INTO @RecibosAPagar([idRecibo], [monto], [tipoRecibo])
+			SELECT Recibo.[id], Recibo.[monto], Recibo.[idConceptoCobro] FROM dbo.Recibo
+			INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
+			WHERE(dbo.Propiedad.[numeroFinca] = @numFinca 
+			AND (dbo.Recibo.[idConceptoCobro] = 10 OR dbo.Recibo.[idConceptoCobro] = 11 OR dbo.Recibo.[idConceptoCobro] = 1) 
+			AND dbo.Recibo.[estado] = 0)
+		END
+	ELSE -- Sino es un pago a reconexion --
+		BEGIN
+			INSERT INTO @RecibosAPagar([idRecibo], [monto], [tipoRecibo])
+			SELECT Recibo.[id], Recibo.[monto], Recibo.[idConceptoCobro] FROM dbo.Recibo
+			INNER JOIN dbo.Propiedad ON Propiedad.[id] = dbo.Recibo.[idPropiedad]
+			WHERE(dbo.Propiedad.[numeroFinca] = @numFinca AND 
+			(dbo.Recibo.[idConceptoCobro] = @tipoRecibo OR dbo.Recibo.[idConceptoCobro] = 11) AND dbo.Recibo.[estado] = 0)
+		END
 
 	-- CALCULAR EL MONTO ACUMULADO PARA TODOS LOS RECIBOS -- (MASIVO)
 	SELECT @montoAcumulado = SUM(monto) FROM @RecibosAPagar;
 
 	print(@montoAcumulado)
+
+	-- GENERAR ORDENES DE RECONEXION --
+	DECLARE @idReconexion int;
+
+	IF (@tipoRecibo = 10)
+		BEGIN
+			-- select de recibo de reconexion --
+			SELECT @idReconexion = [idRecibo] FROM @RecibosAPagar AS R WHERE R.tipoRecibo = 10
+			print('Ya casito')
+			print(@idReconexion)
+			-- si hay un atributo de reconexion que se va a pagar --
+			IF(@idReconexion IS NOT NULL)
+				BEGIN
+					print('Ya casittito')
+					INSERT INTO dbo.Reconexion([idPropiedad], [idReciboReconexion], [activo],[fecha])
+					SELECT Recibo.[idPropiedad], Recibo.[id], 1, @fecha FROM dbo.Recibo
+					WHERE Recibo.[id] = @idReconexion
+					print('Ya paso')
+
+				END
+				print('Ya termino')
+		END
 
 	-- GENERAR LOS COMPROMBANTES DE LOS RECIBOS -- (MASIVO ITERATIVO)
 	IF EXISTS (SELECT [id] FROM @RecibosAPagar)
@@ -268,21 +318,7 @@ DROP PROCEDURE SP_Pagado_Multiple
 
 
 
-
-
-
---Delete
-CREATE PROCEDURE SPD_Recibos
-@idPropiedad int
-AS
-BEGIN
-	DELETE FROM dbo.Recibos WHERE idPropiedad = @idPropiedad
-END
-
---Select
-
-
---PRueba
+-- PRUEBAS --
 
 EXECUTE SPI_Recibos 10,45,'2020-05-20'
 EXECUTE SPI_GenerarRecibos '2020-01-5'
@@ -297,10 +333,10 @@ SELECT * FROM dbo.CC_Fijo
 SELECT * FROM dbo.CC_Consumo
 SELECT * FROM dbo.Concepto_Cobro
 
-SELECT * FROM dbo.Recibo where idConceptoCobro = 11
-SELECT * FROM dbo.Recibo where idPropiedad = 6050
-SELECT * FROM dbo.Propiedad where numeroFinca = 3120927
-SELECT * FROM dbo.Propiedad where id = 6050
+SELECT * FROM dbo.Recibo where id = 11335
+SELECT * FROM dbo.Recibo where idPropiedad = 6406
+SELECT * FROM dbo.Propiedad where numeroFinca = 3151260
+SELECT * FROM dbo.Propiedad where id = 6406
 
 UPDATE dbo.Recibo SET estado = 1 where dbo.Recibo.id = 1350
 
@@ -311,10 +347,11 @@ SELECT * FROM dbo.Propiedad where [id] = 5160
 EXEC SPI_ReciboIntereses '2020-02-20', 9936
 EXEC SP_Pagado_Multiple 2407485, 3, '2020-04-21'
 
-EXEC SP_Pagado_Multiple 3120927, 9, '2020-04-22'
+EXEC SP_Pagado_Multiple 3099309, 10, '2020-04-22'
 
 SELECT * FROM dbo.Comprobante_Pago
 SELECT * FROM dbo.Recibo_por_ComprobantePago
+SELECT * FROM dbo.Reconexion
 
 2020-02-10
 9936

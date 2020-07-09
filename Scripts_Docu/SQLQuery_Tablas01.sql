@@ -248,7 +248,7 @@ CREATE TABLE Recibo (
 	id int primary key not null identity(1,1),
 	idPropiedad int not null,
 	idConceptoCobro int not null,
-	idComprobanteDePago int,
+	idComprobanteDePago int, -- se elimina --
 
 	fecha date not null,
 	fechaVencimiendo date not null,
@@ -305,7 +305,7 @@ CREATE TABLE Corte(
 DROP TABLE Corte
 
 CREATE TABLE Reconexion(
-	id int primary key not null,
+	id int primary key not null identity(1,1),
 	idPropiedad int not null,
 	idReciboReconexion int not null,
 	fecha date,

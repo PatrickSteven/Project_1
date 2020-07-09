@@ -39,9 +39,9 @@ BEGIN TRY
 			VALUES(@fecha, @idRecibo, @idComprobante, 1)
 			SET @retValue = SCOPE_IDENTITY();
 			-- Activo = 0 porque se paga el recibo --
-			UPDATE dbo.Recibo SET activo = 0 WHERE [id] = @idRecibo;
+			UPDATE dbo.Recibo SET estado = 1 WHERE [id] = @idRecibo;
 		END
-	-- #4 Recibo existe y Comprobante no existe--
+	-- #4 Recibo no existe y Comprobante no existe--
 	ELSE
 		BEGIN
 			EXEC dbo.SPI_Comprobante_Pago_XML @fecha, @monto
@@ -50,7 +50,7 @@ BEGIN TRY
 			VALUES(@fecha, @idRecibo, @@IDENTITY, 1)
 			SET @retValue = SCOPE_IDENTITY();
 			-- Activo = 0 porque se paga el recibo --
-			UPDATE dbo.Recibo SET activo = 0 WHERE [id] = @idRecibo;
+			UPDATE dbo.Recibo SET estado = 1 WHERE [id] = @idRecibo;
 		END
 	
 END TRY
