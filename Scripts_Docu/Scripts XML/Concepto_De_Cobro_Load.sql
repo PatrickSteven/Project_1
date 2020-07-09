@@ -62,13 +62,14 @@ WHERE TipoCC = 'CC Fijo';
 
 DELETE FROM dbo.[CC_Consumo]
 --Inserta la informacion que pertenece a CC_Consumo (con la herencia a Concepto_Cobro)
-INSERT INTO dbo.[CC_Consumo] ( [id] ,[monto] , [valorM3],[fechaInicio], [activo])
-SELECT [id], [Monto] ,[ValorM3], GETDATE(), 1
+INSERT INTO dbo.[CC_Consumo] ( [id] ,[monto] , [valorM3],[montoMinimoRecibo],[fechaInicio], [activo])
+SELECT [id], [Monto] ,[ValorM3], [MontoMinRecibo], GETDATE(), 1
 FROM OPENXML (@hdoc, '/Conceptos_de_Cobro/conceptocobro', 0)
 WITH(	
 		[id] int,
 		[Monto] int,
 		[ValorM3] int,
+		[MontoMinRecibo] int,
 		[TipoCC] varchar(50)
 )
 --Pregunta por el tipo de dato para saber la tabla a la que inserta
@@ -84,7 +85,7 @@ WITH(
 		TipoCC varchar(50)
 )
 --Pregunta por el tipo de dato para saber la tabla a la que inserta
-WHERE TipoCC = 'CC Intereses Moratorios';
+WHERE TipoCC = 'CC Interes Moratorio';
 
 DELETE FROM dbo.[CC_Porcentual]
 --Inserta la informacion que pertenece a CC_Intereses_Moratorios (con la herencia a Concepto_Cobro)
@@ -97,10 +98,10 @@ WITH(
 		[TipoCC] varchar(50)
 )
 --Pregunta por el tipo de dato para saber la tabla a la que inserta
-WHERE TipoCC = 'CC Porcentual';
+WHERE TipoCC = 'CC Porcentaje';
 
-
-
+DELETE dbo.Concepto_Cobro_en_Propiedad
+SELECT * FROM dbo.Concepto_Cobro_en_Propiedad
 SELECT * FROM dbo.Concepto_Cobro
 SELECT * FROM dbo.CC_Fijo
 SELECT * FROM dbo.CC_Consumo
