@@ -99,7 +99,45 @@ BEGIN
 END
 
 
+CREATE PROCEDURE SPS_RecibosPorComprobante
+@idComprobante int,
+@fechaPago date,
+@numeroFinca int
+AS
+BEGIN
+	BEGIN TRY
+		DECLARE @idPropiedad int
+		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca
 
+		SELECT CC.nombre, CC.DiaDeCobro, R.fecha, CC.tasaInteresesMoratorios, R.monto
+		FROM dbo.[Recibo_por_ComprobantePago] RxC
+		JOIN dbo.[Recibo] R ON RxC.idRecibo = R.id
+		JOIN dbo.[Comprobante_Pago] CP ON RxC.idComprobante_Pago = CP.id 
+		JOIN dbo.[Concepto_Cobro] CC ON R.idConceptoCobro = CC.id
+		WHERE R.estado = 1 and R.activo = 1
+			and	RXC.fechaLeido = @fechaPago
+			and RxC.idComprobante_Pago = @idComprobante
+			and R.idPropiedad = @idPropiedad
+		ORDER BY R.monto DESC
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+
+END
+
+
+DROP PROCEDURE SPS_RecibosPorComprobante
+
+2743
+2020-07-11
+2758490
+
+EXECUTE SPS_RecibosPorComprobante 2743, '2020-07-11', 2758490
 
 select * from Recibo_por_ComprobantePago
 select * from Recibo where id = 22265
