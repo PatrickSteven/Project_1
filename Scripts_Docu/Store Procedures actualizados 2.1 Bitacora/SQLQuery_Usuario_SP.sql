@@ -22,7 +22,7 @@ BEGIN TRY
 			FOR JSON AUTO
 		)
 		-- Insertar dato en bitacora --
-		EXEC dbo.[SPI_Bitacora] 2, @retValue, 1, @jsonDespues, null
+		EXEC dbo.[SPI_Bitacora] 3, @retValue, 1, @jsonDespues, null
 
 	END
 	-- UPDATE ESTADO USUARIO --
@@ -100,7 +100,7 @@ BEGIN TRY
 			)
 			-- delete --
 			PRINT('SUSHI 5')
-			EXECUTE [dbo.SPD_Usuario_De_Propiedad] @nombre 
+			EXECUTE [SPD_Usuario_De_Propiedad] @nombre 
 			UPDATE dbo.[Usuario] SET dbo.Usuario.[activo] = 0 WHERE [nombre] = @nombre;
 			SET @retvalue = 1
 			PRINT('SUSHI 1')
@@ -205,11 +205,13 @@ END
 EXECUTE SPI_Usuario "Pee", "2438", "Administrador"
 EXECUTE [SPD_Usuario] "Pepe"
 EXECUTE SPI_Usuario "Pepe", "hola", "Administrador"
-EXECUTE SPD_Usuario "Pepe"
+EXECUTE SPD_Usuario "Pee"
 EXECUTE SPU_Usuario "Pee", "HOLAMUNDO" 
 SELECT * FROM dbo.Usuario
 EXECUTE SPS_Usuario 
 DROP PROCEDURE SPD_Usuario
 DECLARE @ret int
 EXECUTE SPS_Usuario_Validate "Pepe", "12"
+
+SELECT * FROM dbo.Bitacora
 
