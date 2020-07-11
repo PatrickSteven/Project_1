@@ -9,80 +9,122 @@
         <h4>NumeroFinca: <span class="badge badge-info">@Model.numeroFinca</span></h4>
         <p class="lead">
     </div>
+    <div class="my-3">
+        @if (Model.recibosPendientes.Any())
+        {
+            <div class="d-flex">
+                <h3 class="my-4 p-4">
+                    Recibos Pendientes
+                    <button class="btn btn-group-lg btn-success text-white" role="button">
+                        @Html.ActionLink(
+                                "Pagar",
+                                "Pagar",
+                                "Recibo",
+                                new 
+                                {
+                                    numeroFinca = Model.numeroFinca,
+                                    idConceptoCobro = Model.idConceptoCobro,
+                                    nombreCC = Model.nombreConceptoCobro
+                                },
+                                null
+                        )
+                        <ion-icon name="cash-outline"></ion-icon>
+                    </button>
+                </h3>
+            </div>
+            <table id="" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Fecha vencimiento</th>
 
-    @foreach (var reciboPendiente in Model.recibosPendientes)
-    {
-        <div class="d-flex">
-            <h3 class="my-4 p-4">
-                Recibos Pendientes
-                <button class="btn btn-group-lg btn-success text-white" role="button">
-                    @Html.ActionLink(
-                            "Pagar",
-                            "Pagar",
-                            "Recibo",
-                            "",
-                            ""
-                    )
-                    <ion-icon name="cash-outline"></ion-icon>
-                </button>
-            </h3>
-        </div>
-        <table id="" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Monto</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Fecha vencimiento</th>
+                    </tr>
+                </thead>
+                @foreach (var reciboPendiente in Model.recibosPendientes)
+                {
+                    <tr>
+                        <th>@reciboPendiente.monto</th>
+                        <td>@reciboPendiente.fecha.ToShortDateString()</td>
+                        <td>@reciboPendiente.fechaVencimiento.ToShortDateString()</td>
+                    </tr>
 
-                </tr>
-            </thead>
+                }
+            </table>
+        }
+        else
+        {
+            <h3 class="my-4" style="text-decoration:line-through;">No hay recibos pendientes</h3>
+        }
 
-            <tr>
-                <th>@reciboPendiente.monto</th>
-                <td>@reciboPendiente.fecha</td>
-                <td>@reciboPendiente.fechaVencimiento</td>
-            </tr>
-        </table>
-    }
+    <hr class="my-4">
+    </div>
 
-    @foreach (var reciboPagado in Model.recibosPagados)
-    {
-        <h3 class="my-4">Recibos Pagados</h3>
-        <table id="" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Monto</th>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Fecha vencimiento</th>
+    <div>
+        @if (Model.recibosPagados.Any())
+        {
+            <h3 class="my-4">Recibos Pagados</h3>
+            <table id="" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Fecha vencimiento</th>
 
-                </tr>
-            </thead>
+                    </tr>
+                </thead>
+                @foreach (var reciboPagado in Model.recibosPagados)
+                {
+                    <tr>
+                        <th>@reciboPagado.monto</th>
+                        <td>@reciboPagado.fecha.ToShortDateString()</td>
+                        <td>@reciboPagado.fechaVencimiento.ToShortDateString()</td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <h3 class="my-4">No hay recibos pagados</h3>
+        }
 
-            <tr>
-                <th>@reciboPagado.monto</th>
-                <td>@reciboPagado.fecha</td>
-                <td>@reciboPagado.fechaVencimiento</td>
-            </tr>
-        </table>
-    }
+    <hr class="my-4">
+    </div>
 
+    <div>
+        @if (Model.comprobantesDePago.Any())
+        {
+            <h3 class="my-4">Comprobantes de Pago</h3>
+            <table id="" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Ver</th>
 
-    @foreach (var comprobantePago in Model.comprobantesDePago)
-    {
-        <h3 class="my-4">Comprobantes de Pago</h3>
-        <table id="" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Fecha</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Ver</th>
+                    </tr>
+                </thead>
+                @foreach (var comprobantePago in Model.comprobantesDePago)
+                {
+                    <tr>
+                        <th>@comprobantePago.fecha.ToShortDateString()</th>
+                        <th>@comprobantePago.total</th>
+                        <td>
+                            <a href="~/Recibo/RecibosPorComprobante/@comprobantePago.idComprobante/@comprobantePago.fecha.ToShortDateString()/@Model.numeroFinca/@comprobantePago.total/">
+                                <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
+                            </a>
+                        </td>
+                    </tr>
 
-                </tr>
-            </thead>
+                }
 
-            <tr>
-                <th>@comprobantePago.fecha</th>
-                <th>@comprobantePago.total</th>
-            </tr>
-        </table>
-    }
+            </table>
+
+        }
+        else
+        {
+            <h3 class="my-4">No hay comprobantes de pago</h3>
+
+        }
+    <hr class="my-4">
+    </div>

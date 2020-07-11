@@ -181,6 +181,7 @@
     <Compile Include="Models\Propietario_Juridico\Propietario_Juridico_Conexion.cs" />
     <Compile Include="Models\Recibo\ComprobanteDePago.cs" />
     <Compile Include="Models\Recibo\EstadoRecibo.cs" />
+    <Compile Include="Models\Recibo\ReciboPorComprobante.cs" />
     <Compile Include="Models\Recibo\Recibo_Conexion.cs" />
     <Compile Include="Models\Recibo\Recibo.cs" />
     <Compile Include="Models\TipoDocId\TipoDocId.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="ViewModels\Propietario\PropietarioDetailViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioIndexViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioInsertViewModel.cs" />
+    <Compile Include="ViewModels\Recibo\RecibosPorComprobanteViewModel.cs" />
     <Compile Include="ViewModels\Recibo\ReciboViewModel.cs" />
     <Compile Include="ViewModels\Usuario\UsuarioDetailViewModel.cs" />
     <Compile Include="ViewModels\Usuario\UsuarioIndexViewModel.cs" />
@@ -601,6 +603,7 @@
     <Content Include="Views\Usuario\Detail.cshtml" />
     <Content Include="Views\Bitacora\Index.cshtml" />
     <Content Include="Views\Recibo\Index.cshtml" />
+    <Content Include="Views\Recibo\RecibosPorComprobante.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

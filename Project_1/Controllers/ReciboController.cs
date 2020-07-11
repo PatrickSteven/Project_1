@@ -24,6 +24,11 @@ namespace Project_1.Controllers
                 comprobantesDePago = Recibo_Conexion.SelectComprobantePago(numeroFinca, nombreConceptoCobro)
             };
 
+            if (reciboViewModel.recibosPendientes.Any())
+            {
+                reciboViewModel.idConceptoCobro = reciboViewModel.recibosPendientes[0].idConceptoCobro;
+            }
+
             //Mostrar Informacion del concepto de cobro
             //SI es agua mostrar si hay algun corte
             //Recibos Pendientes 
@@ -31,5 +36,30 @@ namespace Project_1.Controllers
             //Recibos pagados
             return View(reciboViewModel);
         }
+
+        [Route("Recibo/Pagar/{numeroFinca}/{idConceptoCobro}/{nombreCC}")]
+        public ActionResult Pagar(int numeroFinca, int idConceptoCobro, string nombreCC)
+        {
+            var retvalue = Recibo_Conexion.PagarRecibos(numeroFinca, idConceptoCobro);
+            return RedirectToAction("Index", new {numeroFinca = numeroFinca, nombreConceptoCobro = nombreCC});
+        }
+
+        [Route("Recibo/RecibosPorComprobante/{idComprobante}/{dia}/{mes}/{anno}/{numeroFinca}/{total}")]
+        public ActionResult RecibosPorComprobante(int idComprobante, string dia, string mes, string anno, int numeroFinca, int total)
+        {
+            string val = String.Format("{0}.{1}.{2} 00:00:00", dia,mes,anno);
+
+            DateTime fechaPago = DateTime.ParseExact(val, "dd.M.yyyy hh:mm:ss", null);
+
+            var recibosPorComprobanteViewModel = new RecibosPorComprobanteViewModel()
+            {
+                total = total,
+                fechaPago = fechaPago,
+                recibosPorComprobante = Recibo_Conexion.SelectReciboPorComprobante(idComprobante, fechaPago, numeroFinca)
+            };
+
+            return View(recibosPorComprobanteViewModel);
+        }
+
     }
 }
