@@ -433,9 +433,9 @@ SELECT * FROM dbo.Usuario
 
 SELECT * FROM dbo.Recibo_por_ComprobantePago 
 
-SELECT * FROM dbo.Recibo where [idConceptoCobro] = 11
+SELECT * FROM dbo.Recibo where [idConceptoCobro] = 10
 SELECT * FROM dbo.Comprobante_Pago
 SELECT * FROM dbo.Corte
 
-SELECT * FROM dbo.Bitacora
-SELECT * FROM dbo.Recibo where [estado] = 1
+SELECT * FROM dbo.Bitacora AS B WHERE B.idTipoEntidad = 1
+SELECT * FROM dbo.Recibo as r where r.idConceptoCobro= 11
