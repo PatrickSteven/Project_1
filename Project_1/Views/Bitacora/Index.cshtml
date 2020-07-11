@@ -1,0 +1,95 @@
+﻿@model Project_1.ViewModels.Bitacora.BitacoraViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+    <div class="jumbotron">
+        <h2 class="display-4">Bitacora</h2>
+        <h3 class="display-4">Entidades</h3>
+        <div class="my-3">
+            @foreach (var entidad in Model.bitacoras)
+            {
+                <a href="#@entidad.nombreEntidad" class="btn btn-outline-primary">@entidad.nombreEntidad</a>
+            }
+        </div>
+        <hr class="my-4">
+    </div>
+
+
+@foreach (var entidad in Model.bitacoras)
+{
+    <h3 class="my-5">@entidad.nombreEntidad</h3>
+    foreach (var bitacoraEntidad in entidad.bitacoras)
+    {
+        <div class="my-lg-5 border border-dark">
+            <!--informacion de la entrada de la bitacora-->
+            <div id="@entidad.nombreEntidad" class="d-flex flex-row mb-3">
+                <div class="p-2 bd-highlight">
+                    <h5>
+                        Id entidad
+                        <span class="badge badge-pill badge-primary">
+                            @bitacoraEntidad.idEntidad
+                        </span>
+                    </h5>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <h5>
+                        insertedAt
+                        <span class="badge badge-pill badge-primary">
+                            @bitacoraEntidad.insertedAt
+                        </span>
+                    </h5>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <h5>
+                        insertedBy
+                        <span class="badge badge-pill badge-primary">
+                            @bitacoraEntidad.insertedBy
+                        </span>
+                    </h5>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <h5>
+                        insertedIn
+                        <span class="badge badge-pill badge-primary">
+                            @bitacoraEntidad.insertedIn
+                        </span>
+                    </h5>
+                </div>
+            </div>
+
+            <!--JSON ANTES - JSON DESPUES-->
+            <table id="bitacora-table" class="table table-hover" style=" table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        @foreach (var columna in entidad.columnas)
+                        {
+                            <th scope="col">@columna</th>
+                        }
+
+                    </tr>
+                </thead>
+
+                <tr>
+                    @foreach (var valorAntes in bitacoraEntidad.valoresJsonAntes)
+                    {
+                        <td>
+                            @valorAntes
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    @foreach (var valorDespues in bitacoraEntidad.valoresJsonDespues)
+                    {
+                        <td>
+                            @valorDespues
+                        </td>
+                    }
+                </tr>
+
+            </table>
+        </div>
+    }
+}
+
+

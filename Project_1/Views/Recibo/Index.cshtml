@@ -1,0 +1,88 @@
+﻿@model Project_1.ViewModels.Recibo.ReciboViewModel
+@{
+    ViewBag.Title = "Index";
+}
+    <div class="jumbotron">
+        <h3 class="display-4">Recibos y comprobantes de pago</h3>
+        <h4>Concepto de cobro: <span class="badge badge-info">@Model.nombreConceptoCobro</span></h4>
+        <hr class="my-4">
+        <h4>NumeroFinca: <span class="badge badge-info">@Model.numeroFinca</span></h4>
+        <p class="lead">
+    </div>
+
+    @foreach (var reciboPendiente in Model.recibosPendientes)
+    {
+        <div class="d-flex">
+            <h3 class="my-4 p-4">
+                Recibos Pendientes
+                <button class="btn btn-group-lg btn-success text-white" role="button">
+                    @Html.ActionLink(
+                            "Pagar",
+                            "Pagar",
+                            "Recibo",
+                            "",
+                            ""
+                    )
+                    <ion-icon name="cash-outline"></ion-icon>
+                </button>
+            </h3>
+        </div>
+        <table id="" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Fecha vencimiento</th>
+
+                </tr>
+            </thead>
+
+            <tr>
+                <th>@reciboPendiente.monto</th>
+                <td>@reciboPendiente.fecha</td>
+                <td>@reciboPendiente.fechaVencimiento</td>
+            </tr>
+        </table>
+    }
+
+    @foreach (var reciboPagado in Model.recibosPagados)
+    {
+        <h3 class="my-4">Recibos Pagados</h3>
+        <table id="" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Fecha vencimiento</th>
+
+                </tr>
+            </thead>
+
+            <tr>
+                <th>@reciboPagado.monto</th>
+                <td>@reciboPagado.fecha</td>
+                <td>@reciboPagado.fechaVencimiento</td>
+            </tr>
+        </table>
+    }
+
+
+    @foreach (var comprobantePago in Model.comprobantesDePago)
+    {
+        <h3 class="my-4">Comprobantes de Pago</h3>
+        <table id="" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Ver</th>
+
+                </tr>
+            </thead>
+
+            <tr>
+                <th>@comprobantePago.fecha</th>
+                <th>@comprobantePago.total</th>
+            </tr>
+        </table>
+    }
