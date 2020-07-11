@@ -63,6 +63,45 @@ BEGIN CATCH
 	RAISERROR( @Message, @Severity, @State) 
 END CATCH
 
+
+CREATE PROCEDURE SPS_ComprobanteDePago
+@numeroFinca int,
+@nombreConceptoCobro varchar(30) -- idConceptoCobro --
+AS 
+BEGIN
+	BEGIN TRY
+		DECLARE @idPropiedad int, @idConceptoCobro int
+		-- Obtener id's --
+		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca and activo = 1
+		SELECT @idConceptoCobro = id FROM dbo.[Concepto_Cobro] WHERE nombre = @nombreConceptoCobro and activo = 1
+
+		-- Consulta principal ---
+		SELECT DISTINCT(CP.id), CP.fecha, CP.total
+		FROM dbo.[Recibo] R
+		JOIN dbo.[Recibo_por_ComprobantePago] RCP ON R.id = RCP.idRecibo
+		JOIN dbo.[Comprobante_Pago] CP ON RCP.idComprobante_Pago = CP.id
+		WHERE R.idPropiedad = @idPropiedad and R.idConceptoCobro = @idConceptoCobro and R.estado = 1 and R.activo = 1
+
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+
+
+
+select * from Recibo_por_ComprobantePago
+select * from Recibo where id = 22265
+select * from Propiedad where id = 11942
+EXECUTE SPS_ComprobanteDePago 4158692, "Mantenimiento de Parques"
+select * from Concepto_Cobro where id = 5
+
+
 DROP PROCEDURE Generar_Comprobante
 
 EXECUTE Generar_Comprobante 5783, '2020-03-21', 5000

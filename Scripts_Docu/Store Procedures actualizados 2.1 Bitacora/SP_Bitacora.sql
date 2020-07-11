@@ -35,4 +35,30 @@ BEGIN
 	END CATCH
 END
 
+
+CREATE PROCEDURE dbo.[SPS_Bitacora]
+@idTipoEntidad int
+AS
+BEGIN 
+	BEGIN TRY
+		SElECT B.idEntidad, B.insertedAt, B.insertedby, B.insertedIn, ISNULL(B.jsonAntes,'') as jsonAntes, ISNULL(B.jsonDespues,'') as jsonDespues
+		FROM Bitacora B
+		WHERE B.activo = 1 and B.idTipoEntidad = @idTipoEntidad
+		ORDER BY B.insertedAt DESC
+	END TRY
+
+	BEGIN CATCH
+			DECLARE 
+			@Message varchar(MAX) = ERROR_MESSAGE(),
+			@Severity int = ERROR_SEVERITY(),
+			@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+EXECUTE SPI_Usuario "admin", "admin", "Administrador"
+SELECT * from Usuario
+EXECUTE dbo.SPS_Bitacora 1
+DROP PROCEDURE dbo.SPS_Bitacora
 SELECT * FROM dbo.Bitacora WHERE dbo.Bitacora.[idTipoEntidad] = 1
+
+9677981
