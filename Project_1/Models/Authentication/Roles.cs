@@ -8,7 +8,7 @@ namespace Project_1.Models.Authentication
     public static class Roles
     {
         public const string administrador = "Administrador";
-        public const string usuario = "Usuario";
-        public const string administrador_y_usuario = "Administrador, Usuario";
+        public const string usuario = "Propietario";
+        public const string administrador_y_usuario = "Administrador, Propietario";
     }
 }
