@@ -43,7 +43,7 @@ BEGIN
 	BEGIN TRY
 		SElECT B.idEntidad, B.insertedAt, B.insertedby, B.insertedIn, ISNULL(B.jsonAntes,'') as jsonAntes, ISNULL(B.jsonDespues,'') as jsonDespues
 		FROM Bitacora B
-		WHERE B.activo = 1 and B.idTipoEntidad = @idTipoEntidad
+		WHERE B.idTipoEntidad = @idTipoEntidad
 		ORDER BY B.insertedAt DESC
 	END TRY
 
@@ -55,10 +55,13 @@ BEGIN
 		RAISERROR( @Message, @Severity, @State) 
 	END CATCH
 END
+
+
+select * from Bitacora where idEntidad
+
 EXECUTE SPI_Usuario "admin", "admin", "Administrador"
 SELECT * from Usuario
-EXECUTE dbo.SPS_Bitacora 1
 DROP PROCEDURE dbo.SPS_Bitacora
 SELECT * FROM dbo.Bitacora WHERE dbo.Bitacora.[idTipoEntidad] = 1
-
+select * from Bitacora
 9677981

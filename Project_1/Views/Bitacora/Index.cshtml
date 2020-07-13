@@ -6,10 +6,10 @@
     <div class="jumbotron">
         <h2 class="display-4">Bitacora</h2>
         <h3 class="display-4">Entidades</h3>
-        <div class="my-3">
+        <div class="my-3 py-3">
             @foreach (var entidad in Model.bitacoras)
             {
-                <a href="#@entidad.nombreEntidad" class="btn btn-outline-primary">@entidad.nombreEntidad</a>
+                <a href="#@entidad.nombreEntidad" class="btn btn-outline-primary my-3">@entidad.nombreEntidad</a>
             }
         </div>
         <hr class="my-4">
@@ -62,6 +62,8 @@
             <table id="bitacora-table" class="table table-hover" style=" table-layout: fixed">
                 <thead class="thead-dark">
                     <tr>
+                        <th scope="col">JSON</th>
+
                         @foreach (var columna in entidad.columnas)
                         {
                             <th scope="col">@columna</th>
@@ -71,6 +73,9 @@
                 </thead>
 
                 <tr>
+                    <td>
+                        Antes
+                    </td>
                     @foreach (var valorAntes in bitacoraEntidad.valoresJsonAntes)
                     {
                         <td>
@@ -79,6 +84,9 @@
                     }
                 </tr>
                 <tr>
+                    <td>
+                        Despues
+                    </td>
                     @foreach (var valorDespues in bitacoraEntidad.valoresJsonDespues)
                     {
                         <td>

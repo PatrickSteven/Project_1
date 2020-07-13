@@ -43,9 +43,17 @@ namespace Project_1.Controllers
                     bitacora.valoresJsonAntes = getValores(jsonAntesString);
                     bitacora.valoresJsonDespues = getValores(jsonDespuesString);
                     bitacoraDeEntidad.bitacoras.Add(bitacora);
+
+
+                    var columnas = getColumnas(jsonDespuesString);
+                    if (!columnas.Any())
+                    {
+                        columnas = getColumnas(jsonAntesString);
+                    }
+
                     if (primeraEntidad)
                     {
-                        bitacoraDeEntidad.columnas = getColumnas(jsonDespuesString);
+                        bitacoraDeEntidad.columnas = columnas;
                         bitacoraDeEntidad.nombreEntidad = TipoEntidad.entidad[idEntidad];
                         primeraEntidad = false;
                     }
