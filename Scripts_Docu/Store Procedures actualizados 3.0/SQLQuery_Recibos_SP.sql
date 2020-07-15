@@ -354,9 +354,46 @@ END CATCH
 DROP PROCEDURE SP_Pagado_Multiple
 
 
+-- SELECT PARA CONSULTAS WEB ---
 
+CREATE PROCEDURE SPS_Recibos
+@numeroFinca int,
+@nombreConceptoCobro varchar(30), -- idConceptoCobro --
+@estado int
+AS 
+BEGIN
+	BEGIN TRY
+		DECLARE @idPropiedad int, @idConceptoCobro int
+		-- Obtener id's --
+		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca and activo = 1
+		SELECT @idConceptoCobro = id FROM dbo.[Concepto_Cobro] WHERE nombre = @nombreConceptoCobro and activo = 1
+
+		-- Consulta principal ---
+		SELECT R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo
+		FROM dbo.[Recibo] R
+		WHERE R.idPropiedad = @idPropiedad and R.idConceptoCobro = @idConceptoCobro and R.estado = @estado and activo = 1
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+
+
+
+
+
+
+select * from Recibo
+1031473
+EXECUTE SPS_Recibos 1031473, "Recolectar Basura", 1
 
 -- PRUEBAS --
+select * from Concepto_Cobro
 
 EXECUTE SPI_Recibos 10,45,'2020-05-20'
 EXECUTE SPI_GenerarRecibos '2020-01-5'

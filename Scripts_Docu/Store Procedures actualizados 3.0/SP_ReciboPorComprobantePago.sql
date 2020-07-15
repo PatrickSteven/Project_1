@@ -69,6 +69,83 @@ BEGIN CATCH
 	ROLLBACK TRANSACTION;
 END CATCH
 
+
+CREATE PROCEDURE SPS_ComprobanteDePago
+@numeroFinca int,
+@nombreConceptoCobro varchar(30) -- idConceptoCobro --
+AS 
+BEGIN
+	BEGIN TRY
+		DECLARE @idPropiedad int, @idConceptoCobro int
+		-- Obtener id's --
+		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca and activo = 1
+		SELECT @idConceptoCobro = id FROM dbo.[Concepto_Cobro] WHERE nombre = @nombreConceptoCobro and activo = 1
+
+		-- Consulta principal ---
+		SELECT DISTINCT(CP.id), CP.fecha, CP.total
+		FROM dbo.[Recibo] R
+		JOIN dbo.[Recibo_por_ComprobantePago] RCP ON R.id = RCP.idRecibo
+		JOIN dbo.[Comprobante_Pago] CP ON RCP.idComprobante_Pago = CP.id
+		WHERE R.idPropiedad = @idPropiedad and R.idConceptoCobro = @idConceptoCobro and R.estado = 1 and R.activo = 1
+
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+
+CREATE PROCEDURE SPS_RecibosPorComprobante
+@idComprobante int,
+@fechaPago date,
+@numeroFinca int
+AS
+BEGIN
+	BEGIN TRY
+		DECLARE @idPropiedad int
+		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca
+
+		SELECT CC.nombre, CC.DiaDeCobro, R.fecha, CC.tasaInteresesMoratorios, R.monto
+		FROM dbo.[Recibo_por_ComprobantePago] RxC
+		JOIN dbo.[Recibo] R ON RxC.idRecibo = R.id
+		JOIN dbo.[Comprobante_Pago] CP ON RxC.idComprobante_Pago = CP.id 
+		JOIN dbo.[Concepto_Cobro] CC ON R.idConceptoCobro = CC.id
+		WHERE R.estado = 1 and R.activo = 1
+			and	RXC.fechaLeido = @fechaPago
+			and RxC.idComprobante_Pago = @idComprobante
+			and R.idPropiedad = @idPropiedad
+		ORDER BY R.monto DESC
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+
+END
+
+
+DROP PROCEDURE SPS_RecibosPorComprobante
+
+2743
+2020-07-11
+2758490
+
+EXECUTE SPS_RecibosPorComprobante 2743, '2020-07-11', 2758490
+
+select * from Recibo_por_ComprobantePago
+select * from Recibo where id = 22265
+select * from Propiedad where id = 11942
+EXECUTE SPS_ComprobanteDePago 4158692, "Mantenimiento de Parques"
+select * from Concepto_Cobro where id = 5
+
+
 DROP PROCEDURE Generar_Comprobante
 
 
