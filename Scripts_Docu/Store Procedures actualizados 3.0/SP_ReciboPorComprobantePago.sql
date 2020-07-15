@@ -131,6 +131,9 @@ BEGIN
 END
 
 
+
+
+
 DROP PROCEDURE SPS_RecibosPorComprobante
 
 2743
