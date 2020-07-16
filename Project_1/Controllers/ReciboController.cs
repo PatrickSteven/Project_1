@@ -46,7 +46,12 @@ namespace Project_1.Controllers
 
         [Route("Recibo/RecibosPorComprobante/{idComprobante}/{dia}/{mes}/{anno}/{numeroFinca}/{total}")]
         public ActionResult RecibosPorComprobante(int idComprobante, string dia, string mes, string anno, int numeroFinca, int total)
-        {
+        {   
+            if(dia.Length < 2)
+            {
+                dia = "0" + dia;
+            }
+
             string val = String.Format("{0}.{1}.{2} 00:00:00", dia,mes,anno);
 
             DateTime fechaPago = DateTime.ParseExact(val, "dd.M.yyyy hh:mm:ss", null);
