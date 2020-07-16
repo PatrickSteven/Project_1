@@ -403,7 +403,7 @@ EXECUTE SP_Pagar_Recibos 1, '2020-05-16', 10005
 DROP PROCEDURE dbo.SP_Pagar_Recibos
 
 
-SELECT * FROM dbo.Concepto_Cobro_en_Propiedad where idPropiedad = 49
+SELECT * FROM dbo.Concepto_Cobro_en_Propiedad where idConeceptoCobro = 10
 SELECT * FROM dbo.CC_Fijo
 SELECT * FROM dbo.CC_Consumo
 SELECT * FROM dbo.Concepto_Cobro

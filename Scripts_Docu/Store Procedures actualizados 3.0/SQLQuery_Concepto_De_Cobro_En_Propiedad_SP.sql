@@ -144,6 +144,15 @@ BEGIN TRY
 			-- en la casilla activo insertelo con valor de 1 como default
 			VALUES(@fecha, @idConceptoCobro, @idPropiedad, 1)
 			SET @retValue = SCOPE_IDENTITY();
+
+			IF(@idConceptoCobro = 1) -- Si es agua --
+				BEGIN
+					-- Agregar un concepto cobro reconexion --
+					INSERT INTO dbo.[Concepto_Cobro_en_Propiedad] ([fechaLeido], [idConeceptoCobro], [idPropiedad], [activo]) 
+					-- en la casilla activo insertelo con valor de 1 como default
+					VALUES(@fecha, 10, @idPropiedad, 1)
+					SET @retValue = SCOPE_IDENTITY();
+				END
 			-- generar json despues --
 			SET @jsonDespues = (
 				SELECT CC.[idPropiedad], CC.[idConeceptoCobro], CC.[fechaLeido], CC.[activo]
@@ -362,7 +371,7 @@ select * from CC_Consumo
 select * from CC_Fijo
 select * from Concepto_Cobro_En_Propiedad
 EXECUTE dbo.SPS_Concepto_De_Cobro_En_Propiedad '2291223','CC_Porcentual'
-EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad 'Patente Licores', '460'
+EXECUTE dbo.SPI_Concepto_Cobro_En_Propiedad_XML 2, '3206723', '2021-08-15'
 EXECUTE dbo.SPD_Concepto_De_Cobro_En_Propiedad '460', 'Agua'
 EXECUTE dbo.SPU_Concepto_De_Cobro_En_Propiedad 'Electricidad', '1', '2021-08-15'
 DROP PROCEDURE SPD_Concepto_De_Cobro_En_Propiedad
