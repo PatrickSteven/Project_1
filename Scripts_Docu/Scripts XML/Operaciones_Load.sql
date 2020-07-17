@@ -406,7 +406,6 @@ WHILE(@fechaActual < @fechaMax)
 			BEGIN
 				SELECT @pagoNumFinca = RC.[numFinca], @idTipoRecibo = RC.[tipoRecibo], @fechaPago = RC.[fechaLeido]
 				FROM @tempPagar AS RC WHERE RC.[id] = @idPago;
-				print('ENTREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
 				EXEC SP_Pagado_Multiple @pagoNumFinca, @idTipoRecibo, @fechaPago
 
 				SELECT @idPago = MIN(id) FROM @tempPagar WHERE id > @idPago

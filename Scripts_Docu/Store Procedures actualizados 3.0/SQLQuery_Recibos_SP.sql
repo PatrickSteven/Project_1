@@ -97,7 +97,6 @@ BEGIN TRY
 	-- ES PORCENTUAL (EsImpuesto)--
 	ELSE
 		BEGIN
-			print('dirvo de algo')
 			-- Calculate porcentaje sobre la poblacion --
 			DECLARE @impuesto int, @valorPropiedad int;
 			-- Aqui esta el error --
@@ -105,7 +104,6 @@ BEGIN TRY
 			SELECT @valorPropiedad = [valor] FROM dbo.[Propiedad] WHERE @idPropiedad = [id];
 
 			SET @monto = @valorPropiedad * @impuesto;
-			print('dirvo de algo 2')
 		END
 		
 	
