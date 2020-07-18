@@ -168,9 +168,9 @@
 
                     if (recibosEnOrden && idsRecibos.length !== 0) {
                         console.log("Correcto");
-                        $.get('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
+                        $.get('/Recibo/MostrarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
 
-                            //Desgloce de recibos a pagar
+                            //Muestra los montos de los recibos más los interessees moratorios
 
                             var dialog = bootbox.dialog({
                                 title: 'Recibos',
@@ -180,15 +180,15 @@
                                     cancel: {
                                         label: "Cancelar!",
                                         className: 'btn-danger',
-                                        callback: function () {
-                                            console.log('Custom cancel clicked');
-                                        }
                                     },
                                     ok: {
                                         label: "Pagar",
                                         className: 'btn-info',
                                         callback: function () {
-                                            console.log('Custom OK clicked');
+
+                                            //Paga los recibos
+                                            $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true ));
+
                                         }
                                     }
                                 }
