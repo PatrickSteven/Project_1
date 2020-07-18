@@ -1,0 +1,30 @@
+==Pago de recibos=============
+-No acepta intermedios
+-Si el usuario decide pagar, se paga, sino se eliminan los recibos moratorios creados.
+SP_GeneraRecibosMoratorios:
+	Recibe un json/tabla de recibos
+	Genera los recibos moratorios
+	Retorna el total
+SP_PagarRecibos: 
+	Recibe un json/tabla de recibos	
+	Los paga
+==Consulta de comprobantes de pago==========
+-Numero,fecha,medio de pago,monto
+-Orden cronologico.
+-Detalle de los recibos(numero,fecha,fechaVence,CC,monto)
+==Creacion de arreglos de pago=============
+-Se ingresa como administrador a la cuenta del usuario a la que se le debe hacer el arreglo.
+-Se seleccionan los recibos que se quieren pagar
+-Se oprime el boton de pago mediante AP
+	-Se establecen los datos
+		-Monto = suma de recibos que fueron pagados con el arreglo
+		-Tasa de interes = tabla de config en la base de datos.
+		-cuota mensual = meses indicados por el usuario.
+			-Se debe calcular la cuota y el usuario decide si esta bien, y sino lo puede cambiar.
+	-Se crea el AP
+	-Se "Pagan" los recibos mediante un "Prestamo"
+	-Se generan recibos por el monto de una cuota para pago de intereses sobre los recibos pagados
+	-Se crea un comprobante de pago
+		-medio de pago = AP#124
+	-Si el AP fue creado x dia, ese dia se generan mensualmente recibos para pagarlo.
+	 
