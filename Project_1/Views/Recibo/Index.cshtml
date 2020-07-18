@@ -2,129 +2,210 @@
 @{
     ViewBag.Title = "Index";
 }
-    <div class="jumbotron">
-        <h3 class="display-4">Recibos y comprobantes de pago</h3>
-        <h4>Concepto de cobro: <span class="badge badge-info">@Model.nombreConceptoCobro</span></h4>
-        <hr class="my-4">
-        <h4>NumeroFinca: <span class="badge badge-info">@Model.numeroFinca</span></h4>
-        <p class="lead">
-    </div>
-    <div class="my-3">
-        @if (Model.recibosPendientes.Any())
-        {
-            <div class="d-flex">
-                <h3 class="my-4 p-4">
-                    Recibos Pendientes
-                    <button class="btn btn-group-lg btn-success text-white" role="button">
-                        @Html.ActionLink(
-                                "Pagar",
-                                "Pagar",
-                                "Recibo",
-                                new 
-                                {
-                                    numeroFinca = Model.numeroFinca,
-                                    idConceptoCobro = Model.idConceptoCobro,
-                                    nombreCC = Model.nombreConceptoCobro
-                                },
-                                null
-                        )
-                        <ion-icon name="cash-outline"></ion-icon>
-                    </button>
-                </h3>
-            </div>
-            <table id="" class="table table-hover" style="table-layout: fixed">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Monto</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Fecha vencimiento</th>
+<div class="jumbotron">
+    <h3 class="display-4">Recibos y comprobantes de pago</h3>
+    <h4>Concepto de cobro: <span class="badge badge-info">@Model.nombreConceptoCobro</span></h4>
+    <hr class="my-4">
+    <h4>NumeroFinca: <span class="badge badge-info">@Model.numeroFinca</span></h4>
+    <p class="lead">
+</div>
+<div id="recibos-pendientes" class="my-3">
+    @if (Model.recibosPendientes.Any())
+    {
+        <div class="d-flex">
+            <h3 class="my-4 p-4">
+                Recibos Pendientes
+                <button class="btn btn-group-lg btn-success text-white" role="button">
+                    @Html.ActionLink(
+         "Pagar todos los recibos pendientes",
+         "Pagar",
+         "Recibo",
+         new
+         {
+             numeroFinca = Model.numeroFinca,
+             idConceptoCobro = Model.idConceptoCobro,
+             nombreCC = Model.nombreConceptoCobro
+         },
+         null
+ )
+                </button>
+            </h3>
+        </div>
+        <table id ="recibos-pendientes-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Fecha vencimiento</th>
+                    <th scope="col">Pagar</th>
 
-                    </tr>
-                </thead>
-                @foreach (var reciboPendiente in Model.recibosPendientes)
+                </tr>
+            </thead>
+            @{
+
+                int prioridad = 1;
+                foreach (var reciboPendiente in Model.recibosPendientes)
                 {
                     <tr>
                         <th>@reciboPendiente.monto</th>
                         <td>@reciboPendiente.fecha.ToShortDateString()</td>
                         <td>@reciboPendiente.fechaVencimiento.ToShortDateString()</td>
+                        <td prioridad="@prioridad" reciboId="@reciboPendiente.id">@Html.CheckBox("Pagar", false)</td>
                     </tr>
+
+                    prioridad++;
 
                 }
-            </table>
-        }
-        else
-        {
-            <h3 class="my-4" style="text-decoration:line-through;">No hay recibos pendientes</h3>
-        }
+            }
+
+        </table>
+
+        <button class="btn btn-danger pagar-recibos my-3 align-self-center">Pagar Recibos</button>
+
+
+    }
+    else
+    {
+        <h3 class="my-4" style="text-decoration:line-through;">No hay recibos pendientes</h3>
+    }
 
     <hr class="my-4">
-    </div>
+</div>
 
-    <div>
-        @if (Model.recibosPagados.Any())
-        {
-            <h3 class="my-4">Recibos Pagados</h3>
-            <table id="" class="table table-hover" style="table-layout: fixed">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Monto</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Fecha vencimiento</th>
+<div>
+    @if (Model.recibosPagados.Any())
+    {
+        <h3 class="my-4">Recibos Pagados</h3>
+        <table id="" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Fecha vencimiento</th>
 
-                    </tr>
-                </thead>
-                @foreach (var reciboPagado in Model.recibosPagados)
-                {
-                    <tr>
-                        <th>@reciboPagado.monto</th>
-                        <td>@reciboPagado.fecha.ToShortDateString()</td>
-                        <td>@reciboPagado.fechaVencimiento.ToShortDateString()</td>
-                    </tr>
-                }
-            </table>
-        }
-        else
-        {
-            <h3 class="my-4">No hay recibos pagados</h3>
-        }
+                </tr>
+            </thead>
+            @foreach (var reciboPagado in Model.recibosPagados)
+            {
+                <tr>
+                    <th>@reciboPagado.monto</th>
+                    <td>@reciboPagado.fecha.ToShortDateString()</td>
+                    <td>@reciboPagado.fechaVencimiento.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h3 class="my-4">No hay recibos pagados</h3>
+    }
 
     <hr class="my-4">
-    </div>
+</div>
 
-    <div>
-        @if (Model.comprobantesDePago.Any())
-        {
-            <h3 class="my-4">Comprobantes de Pago</h3>
-            <table id="" class="table table-hover" style="table-layout: fixed">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Ver</th>
+<div>
+    @if (Model.comprobantesDePago.Any())
+    {
+        <h3 class="my-4">Comprobantes de Pago</h3>
+        <table id="" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Ver</th>
 
-                    </tr>
-                </thead>
-                @foreach (var comprobantePago in Model.comprobantesDePago)
-                {
-                    <tr>
-                        <th>@comprobantePago.fecha.ToShortDateString()</th>
-                        <th>@comprobantePago.total</th>
-                        <td>
-                            <a href="~/Recibo/RecibosPorComprobante/@comprobantePago.idComprobante/@comprobantePago.fecha.ToShortDateString()/@Model.numeroFinca/@comprobantePago.total/">
-                                <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
-                            </a>
-                        </td>
-                    </tr>
+                </tr>
+            </thead>
+            @foreach (var comprobantePago in Model.comprobantesDePago)
+            {
+                <tr>
+                    <th>@comprobantePago.fecha.ToShortDateString()</th>
+                    <th>@comprobantePago.total</th>
+                    <td>
+                        <a href="~/Recibo/RecibosPorComprobante/@comprobantePago.idComprobante/@comprobantePago.fecha.ToShortDateString()/@Model.numeroFinca/@comprobantePago.total/">
+                            <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
+                        </a>
+                    </td>
+                </tr>
 
-                }
+            }
 
-            </table>
+        </table>
 
-        }
-        else
-        {
-            <h3 class="my-4">No hay comprobantes de pago</h3>
+    }
+    else
+    {
+        <h3 class="my-4">No hay comprobantes de pago</h3>
 
-        }
+    }
     <hr class="my-4">
-    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            //Pago recibos
+            $("#recibos-pendientes").on("click", ".pagar-recibos",
+                function () {
+                    var prioridadAnterior = 0;
+                    var idsRecibos = [];
+                    var recibosEnOrden = true
+                    $('#recibos-pendientes-table input:checked').each(function () {
+                        var element = $(this).parent();
+                        var prioridad = element.attr("prioridad");
+                        var id = element.attr("reciboId");
+
+                        if (prioridadAnterior == prioridad - 1) {
+                            prioridadAnterior = prioridad;
+                            idsRecibos.push(id);
+                        }
+                        else {
+                            recibosEnOrden = false;
+                        }
+
+                    });
+
+                    if (recibosEnOrden && idsRecibos.length !== 0) {
+                        console.log("Correcto");
+                        $.get('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
+
+                            //Desgloce de recibos a pagar
+
+                            var dialog = bootbox.dialog({
+                                title: 'Recibos',
+                                message: markup,
+                                size: 'large',
+                                buttons: {
+                                    cancel: {
+                                        label: "Cancelar!",
+                                        className: 'btn-danger',
+                                        callback: function () {
+                                            console.log('Custom cancel clicked');
+                                        }
+                                    },
+                                    ok: {
+                                        label: "Pagar",
+                                        className: 'btn-info',
+                                        callback: function () {
+                                            console.log('Custom OK clicked');
+                                        }
+                                    }
+                                }
+                            });
+
+
+
+
+
+                        });
+                    }
+                    else {
+                        bootbox.alert("No pueden haber recibos intermedios sin pagar!");
+                        J
+                    }
+
+                });
+        });
+    </script>
+}

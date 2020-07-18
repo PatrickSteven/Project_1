@@ -42,7 +42,8 @@ namespace Project_1.Models.Recibo
                                 idConceptoCobro = reader.GetInt32(0),
                                 monto = reader.GetInt32(1),
                                 fecha = reader.GetDateTime(2),
-                                fechaVencimiento = reader.GetDateTime(3)
+                                fechaVencimiento = reader.GetDateTime(3),
+                                id = reader.GetInt32(4)
 
                             });
                     }

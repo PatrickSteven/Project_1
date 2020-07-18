@@ -37,6 +37,19 @@ namespace Project_1.Controllers
             return View(reciboViewModel);
         }
 
+        public ActionResult PagarRecibos(List<int> idsRecibos)
+        {
+            String markup = "<div>"; 
+            foreach(int id in idsRecibos)
+            {
+                markup += String.Format("<p>{0}</p>", id.ToString());
+            }
+            markup += "</div>";
+
+            return Content(markup);
+        }
+
+
         [Route("Recibo/Pagar/{numeroFinca}/{idConceptoCobro}/{nombreCC}")]
         public ActionResult Pagar(int numeroFinca, int idConceptoCobro, string nombreCC)
         {

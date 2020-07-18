@@ -203,6 +203,7 @@
     <Compile Include="ViewModels\Propietario\PropietarioDetailViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioIndexViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioInsertViewModel.cs" />
+    <Compile Include="ViewModels\Recibo\PagarReciboViewModel.cs" />
     <Compile Include="ViewModels\Recibo\RecibosPorComprobanteViewModel.cs" />
     <Compile Include="ViewModels\Recibo\ReciboViewModel.cs" />
     <Compile Include="ViewModels\Usuario\UsuarioDetailViewModel.cs" />
@@ -604,6 +605,7 @@
     <Content Include="Views\Bitacora\Index.cshtml" />
     <Content Include="Views\Recibo\Index.cshtml" />
     <Content Include="Views\Recibo\RecibosPorComprobante.cshtml" />
+    <Content Include="Views\Recibo\PagarRecibos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
