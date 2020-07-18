@@ -12,7 +12,6 @@ Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Ad
 
 DECLARE @hdoc int;
 EXEC sp_xml_preparedocument @hdoc OUTPUT, @x
-DELETE FROM dbo.[Usuario]
 --Inserta la informacion que pertenece a Tipo_DocId 
 INSERT INTO dbo.Usuario([nombre],[password], [activo], [tipoUsuario], [fechaInicio])
 SELECT [users], [password], 1, 'Administrador', GETDATE()
