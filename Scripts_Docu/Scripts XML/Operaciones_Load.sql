@@ -29,6 +29,7 @@ DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propietario]
 DELETE FROM dbo.[Usuario_De_Propiedad]
 DELETE FROM dbo.[Usuario]
+DELETE FROM dbo.[AP]
 
 
 

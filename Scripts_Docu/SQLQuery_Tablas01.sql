@@ -352,6 +352,8 @@ CREATE TABLE Bitacora(
 
 --NUEVAS TABLAS TERCERA PARTE DEL PROYECTO 
 
+-- UPDATE : AGREGAR COMPROBANTE DE PAGO
+-- INSERT : AGREGA DATOS SIN Y OMITE EL FK
 CREATE TABLE AP(
 	
 	id int primary key identity (1,1) not null,
@@ -366,6 +368,30 @@ CREATE TABLE AP(
 	insertAt date not null,
 	-- updateAt date not null
 
-	CONSTRAINT FK_ReconexionPropiedad1 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	CONSTRAINT FK_APPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	CONSTRAINT FK_Comprobante FOREIGN KEY (idComrpobante) REFERENCES Comprobante_Pago(id)
 );
+
+
+CREATE TABLE TipoMovAp	(
+	id int primary key identity (1,1) not null,
+	nombre varchar(30)
+);
+
+CREATE TABLE MovimientosAP (
+	id int primary key identity (1,1) not null,
+	idAP int not null, -- FK 
+	idTipoMov int not null, -- FK
+	monto money not null, -- int (revisar)
+	interesesDelMes decimal(4,2), --int (revisar)
+	plazoRest int not null,
+	nuevoSaldo money not null,
+	fecha date not null,
+	insertedAt date not null
+
+	CONSTRAINT FK_tipoMov FOREIGN KEY (idTipoMov) REFERENCES TipoMovAp(id),
+	CONSTRAINT FK_idAP FOREIGN KEY (idAP) REFERENCES AP(id)
+)
+
+
+
