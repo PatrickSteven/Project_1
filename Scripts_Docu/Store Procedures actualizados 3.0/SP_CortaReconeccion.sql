@@ -20,6 +20,7 @@ BEGIN TRY
 	COMMIT TRANSACTION
 
 	-- GENERAR CORTES DE AGUA -- (ITERACION MASIVA)
+	-- Chanchadosidad: transaction con if adentro
 	BEGIN TRANSACTION
 		IF EXISTS(SELECT [id] FROM @Propiedades_Agua)
 			BEGIN
@@ -73,7 +74,6 @@ BEGIN TRY
 		END
 	ELSE
 		BEGIN
-		BEGIN TRANSACTION
 			-- SPI_RECIBO --
 			EXEC dbo.SPI_Recibos @idConceptoReconexion, @idPropiedad, @fecha
 			-- INSERT HERENCIA RECONEXION -- 
@@ -83,7 +83,6 @@ BEGIN TRY
 			-- INSERT RECONEXION EN CORTE --
 			INSERT INTO Corte([idPropiedad], [idReciboReconexion], [fecha],[activo])
 			VALUES(@idPropiedad, @identity, @fecha, 1)
-		COMMIT TRANSACTION
 		END
 
 
@@ -95,7 +94,6 @@ BEGIN CATCH
 		@State smallint = ERROR_STATE()
  
 	RAISERROR( @Message, @Severity, @State) 
-	ROLLBACK TRANSACTION;
 END CATCH
 
 DROP PROCEDURE SPI_ReciboReconexion

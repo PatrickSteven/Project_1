@@ -350,4 +350,22 @@ CREATE TABLE Bitacora(
 
 
 
+--NUEVAS TABLAS TERCERA PARTE DEL PROYECTO 
 
+CREATE TABLE AP(
+	
+	id int primary key identity (1,1) not null,
+	idPropiedad int not null, -- FK Propiedad
+	idComrpobante int, -- FK Comprobante
+	montoOriginal money not null,
+	saldo money not null,
+	tasaIneteres decimal(4,2) not null,
+	plazoOriginal int not null,
+	plazoResta int not null,
+	cuota money,
+	insertAt date not null,
+	-- updateAt date not null
+
+	CONSTRAINT FK_ReconexionPropiedad1 FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
+	CONSTRAINT FK_Comprobante FOREIGN KEY (idComrpobante) REFERENCES Comprobante_Pago(id)
+);

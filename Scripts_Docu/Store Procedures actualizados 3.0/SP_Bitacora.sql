@@ -18,12 +18,9 @@ BEGIN
 		DECLARE @retValue int = 1;
 		DECLARE @inserteby nvarchar(50) = 'Usuario', @insertedIn nvarchar(50) = '192.168.1.152';
 		-- INSERT --
-		BEGIN TRANSACTION
-			INSERT INTO Bitacora ([idTipoEntidad] , [idEntidad] , [jsonAntes], [jsonDespues], 
-								[insertedAt] , [insertedby], [insertedIn], [activo])
-			VALUES (@idTipoEntidad, @idEntidad, @jsonAntes, @jsonDespues, GETDATE(), 'Usuario', '192.168.1.152', @activo)
-		COMMIT TRANSACTION
-
+		INSERT INTO Bitacora ([idTipoEntidad] , [idEntidad] , [jsonAntes], [jsonDespues], 
+							[insertedAt] , [insertedby], [insertedIn], [activo])
+		VALUES (@idTipoEntidad, @idEntidad, @jsonAntes, @jsonDespues, GETDATE(), 'Usuario', '192.168.1.152', @activo)
 	END TRY
 	BEGIN CATCH
 		DECLARE 
@@ -31,9 +28,10 @@ BEGIN
 			@Severity int = ERROR_SEVERITY(),
 			@State smallint = ERROR_STATE()
 		RAISERROR( @Message, @Severity, @State) 
-		ROLLBACK TRANSACTION;
 	END CATCH
 END
+
+DROP PROCEDURE dbo.[SPI_Bitacora]
 
 
 CREATE PROCEDURE dbo.[SPS_Bitacora]

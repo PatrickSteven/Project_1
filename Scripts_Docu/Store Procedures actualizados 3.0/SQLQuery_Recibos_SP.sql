@@ -110,12 +110,11 @@ BEGIN TRY
 	-- CALULAR LA FECHA DE VENCIMIENTO --
 	SELECT @fechaVencimineto = DATEADD(day, @qDiaVencimiento, @fechaGenerado);
 
-	BEGIN TRANSACTION
-		INSERT INTO dbo.Recibo ([idComprobanteDePago],[idPropiedad], [idConceptoCobro], [monto], [fecha], [fechaVencimiendo], 
-								[estado], [activo])
-		VALUES(null,@idPropiedad, @idConceptoCobro, @monto, @fechaGenerado, @fechaVencimineto, 0, 1);
-		SET @retValue = SCOPE_IDENTITY();
-	COMMIT TRANSACTION
+	INSERT INTO dbo.Recibo ([idComprobanteDePago],[idPropiedad], [idConceptoCobro], [monto], [fecha], [fechaVencimiendo], 
+							[estado], [activo])
+	VALUES(null,@idPropiedad, @idConceptoCobro, @monto, @fechaGenerado, @fechaVencimineto, 0, 1);
+	SET @retValue = SCOPE_IDENTITY();
+
 END TRY
 BEGIN CATCH
 	DECLARE 
@@ -124,7 +123,6 @@ BEGIN CATCH
 		@State smallint = ERROR_STATE()
  
 	RAISERROR( @Message, @Severity, @State) 
-	ROLLBACK TRANSACTION;
 END CATCH
 
 DROP PROCEDURE SPI_Recibos
@@ -157,14 +155,10 @@ BEGIN TRY
 	SELECT @fechaVencimineto = DATEADD(day, @qDiaVencimiento, @fechaActual);
 
 	--INSERTAR RECIBO INTERES --
-	BEGIN TRANSACTION
-		INSERT INTO dbo.Recibo ([idComprobanteDePago],[idPropiedad], [idConceptoCobro], [monto], [fecha], [fechaVencimiendo], 
-								[estado], [activo])
-		VALUES(null,@idPropiedad, 11, @monto, @fechaActual, @fechaVencimineto, 0, 1);
-		SET @retValue = SCOPE_IDENTITY();
-	COMMIT TRANSACTION
-
-
+	INSERT INTO dbo.Recibo ([idComprobanteDePago],[idPropiedad], [idConceptoCobro], [monto], [fecha], [fechaVencimiendo], 
+							[estado], [activo])
+	VALUES(null,@idPropiedad, 11, @monto, @fechaActual, @fechaVencimineto, 0, 1);
+	SET @retValue = SCOPE_IDENTITY();
 END TRY
 BEGIN CATCH
 	DECLARE 
@@ -173,7 +167,6 @@ BEGIN CATCH
 		@State smallint = ERROR_STATE()
  
 	RAISERROR( @Message, @Severity, @State) 
-	ROLLBACK TRANSACTION;
 END CATCH
 
 DROP PROCEDURE SPI_ReciboIntereses
@@ -192,11 +185,9 @@ BEGIN TRY
 
 	IF (@fecha >= @fechaVencimiento)
 		BEGIN
-		BEGIN TRANSACTION
 			-- INSERTAR INTERES MORATORIO --
 			EXECUTE SPI_ReciboIntereses @fecha, @idRecibo
 			SET @retvalue = 1;
-		COMMIT TRANSACTION
 		END
 
 	RETURN  @retValue;
@@ -209,7 +200,6 @@ BEGIN CATCH
 		@State smallint = ERROR_STATE()
  
 	RAISERROR( @Message, @Severity, @State) 
-	ROLLBACK TRANSACTION;
 END CATCH
 
 DROP PROCEDURE SP_GenerarRecibosIntereses
@@ -301,19 +291,14 @@ BEGIN TRY
 		BEGIN TRANSACTION RECONEXIONES;
 			-- select de recibo de reconexion --
 			SELECT @idReconexion = [idRecibo] FROM @RecibosAPagar AS R WHERE R.tipoRecibo = 10
-			print('Ya casito')
 			print(@idReconexion)
 			-- si hay un atributo de reconexion que se va a pagar --
 			IF(@idReconexion IS NOT NULL)
 				BEGIN
-					print('Ya casittito')
 					INSERT INTO dbo.Reconexion([idPropiedad], [idReciboReconexion], [activo],[fecha])
 					SELECT Recibo.[idPropiedad], Recibo.[id], 1, @fecha FROM dbo.Recibo
 					WHERE Recibo.[id] = @idReconexion
-					print('Ya paso')
-
 				END
-				print('Ya termino')
 		COMMIT TRANSACTION RECONEXIONES;
 		END
 
