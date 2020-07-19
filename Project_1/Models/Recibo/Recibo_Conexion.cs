@@ -64,6 +64,72 @@ namespace Project_1.Models.Recibo
             }
         }
 
+        public static int PagarRecibos(List<int> idsRecibos)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                int retval;
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SP_PagarSeleccion";
+                SqlParameter param = new SqlParameter();
+                param.ParameterName = "@ReciboSelect";
+                param.Value = ListToDataTable(idsRecibos, "id", "idRecibo");
+                cmd.Parameters.Add(param);
+                cmd.Connection = connection;
+                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    retval = (int)cmd.Parameters["@retValue"].Value;
+
+                }
+                catch (Exception ex)
+                {
+                    retval = -1;
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return retval; // execute not accomplish
+            }
+        }
+
+        public static void CancelarPagoRecibos()
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {   
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SP_AnularIntereses";
+                cmd.Connection = connection;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+            }
+        
+        }
+
         public static int PagarConceptoCobro(int numeroFinca, int idConceptoCobro)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
@@ -107,8 +173,11 @@ namespace Project_1.Models.Recibo
                 int retval;
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.SP";
-                cmd.Parameters.Add("@TABLE", SqlDbType.T).Value = numeroFinca;
+                cmd.CommandText = "dbo.SPS_RecibosIntereses";
+                SqlParameter param = new SqlParameter();
+                param.ParameterName = "@ReciboSelect";
+                param.Value = ListToDataTable(idsRecibos, "id", "idRecibo");
+                cmd.Parameters.Add(param);
 
                 cmd.Connection = connection;
                 List<ReciboPorComprobante> montosRecibos = new List<ReciboPorComprobante>();
@@ -122,8 +191,9 @@ namespace Project_1.Models.Recibo
                             montosRecibos.Add(new ReciboPorComprobante()
                             {
                                 nombreConceptoCobro = reader.GetString(0),
-                                fecha = reader.GetDateTime(1),
-                                monto = reader.GetInt32(2)
+                                monto = reader.GetInt32(1),
+                                fecha = reader.GetDateTime(2),
+                                fechaVencimiento = reader.GetDateTime(3)                               
 
                             });
                     }
@@ -143,6 +213,7 @@ namespace Project_1.Models.Recibo
                 return montosRecibos; // execute not accomplish
             }
         }
+
         public static List<ComprobanteDePago> SelectComprobantePago(int numeroFinca, string nombreConceptoCobro)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
@@ -237,12 +308,15 @@ namespace Project_1.Models.Recibo
             }
         }
 
-        public DataTable ListToDataTable(List<int> ids, String column)
+        public static DataTable ListToDataTable(List<int> ids, String idColumn, String column)
         {
             DataTable dt = new DataTable();
+            dt.Columns.Add(idColumn);
             dt.Columns.Add(column);
+            var identity = 1;
             foreach(int id in ids) {
-                dt.Rows.Add(id);
+                dt.Rows.Add(identity, id);
+                identity++;
             }
 
             return dt;

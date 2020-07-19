@@ -203,7 +203,6 @@
     <Compile Include="ViewModels\Propietario\PropietarioDetailViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioIndexViewModel.cs" />
     <Compile Include="ViewModels\Propietario\PropietarioInsertViewModel.cs" />
-    <Compile Include="ViewModels\Recibo\PagarReciboViewModel.cs" />
     <Compile Include="ViewModels\Recibo\RecibosPorComprobanteViewModel.cs" />
     <Compile Include="ViewModels\Recibo\ReciboViewModel.cs" />
     <Compile Include="ViewModels\Usuario\UsuarioDetailViewModel.cs" />
@@ -605,7 +604,6 @@
     <Content Include="Views\Bitacora\Index.cshtml" />
     <Content Include="Views\Recibo\Index.cshtml" />
     <Content Include="Views\Recibo\RecibosPorComprobante.cshtml" />
-    <Content Include="Views\Recibo\PagarRecibos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
@@ -618,12 +616,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\App\" />
-    <Folder Include="Views\Concepto_De_Cobro_En_Propiedad\" />
-    <Folder Include="Views\Propiedad_Del_Propietario\" />
-    <Folder Include="Views\Usuario_De_Propiedad\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

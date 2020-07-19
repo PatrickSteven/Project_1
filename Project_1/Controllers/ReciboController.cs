@@ -44,12 +44,27 @@ namespace Project_1.Controllers
             List<ReciboPorComprobante> recibos = Recibo_Conexion.SelectMontosRecibos(idsRecibos);
 
 
-            String markup = "<div>"; 
-            foreach(var recibo in recibos)
+            String markup = "<div>";
+            int total = 0;
+            foreach (var recibo in recibos)
             {
-                markup += String.Format("<p>{0}{1}{2}</p>", recibo.nombreConceptoCobro, recibo.fecha.ToShortDateString(), recibo.monto.ToString());
+
+                markup += String.Format(@"
+                            <p>
+                            <h5>Concepto: <span class='badge badge-info'> {0}</span> </h5>
+                            <h5>Monto: <span class='badge badge-danger'> {1}</span> </h5>
+                            <h5>Fecha: <span class='badge badge-info'> {2}</span> </h5>
+                            <h5>Fecha vencimiento: <span class='badge badge-info'> {3}</span> </h5>
+                            </p>",
+                            recibo.nombreConceptoCobro,
+                            recibo.monto.ToString(),
+                            recibo.fecha.ToShortDateString(),
+                            recibo.fechaVencimiento.ToShortDateString());
+                total += recibo.monto;
             }
+
             markup += "</div>";
+            markup += String.Format("<h4>Total: {0}<h4>", total.ToString());
 
             return Content(markup);
         }
@@ -60,6 +75,13 @@ namespace Project_1.Controllers
         {
             Recibo_Conexion.PagarRecibos(idsRecibos);
         }
+
+        [HttpPost]
+        public void CancelarPagoRecibos()
+        {
+            Recibo_Conexion.CancelarPagoRecibos();
+        }
+
 
 
         [Route("Recibo/Pagar/{numeroFinca}/{idConceptoCobro}/{nombreCC}")]

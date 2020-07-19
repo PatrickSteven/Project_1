@@ -403,40 +403,41 @@ CREATE PROCEDURE SPS_RecibosIntereses
 AS
 BEGIN
 	BEGIN TRY
-	-- DECLARACION DE VARIABLES --
-	DECLARE @fechaActual date = GETDATE();
-	DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
+		-- DECLARACION DE VARIABLES --
+		DECLARE @fechaActual date = GETDATE();
+		DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
 	
 
-	-- GENERAR RECIBOS DE INTERESES MORATORIOS -- (MASIVO ITERATIVO)
-	IF EXISTS (SELECT [id] FROM @ReciboSelect)
-		BEGIN
-		--BEGIN TRANSACTION INTERESES;
-			DECLARE @idRecibo int, @id int = 1;
-			WHILE @id IS NOT NULL
-				BEGIN
-					SELECT @idRecibo = T.[idRecibo]
-					FROM @ReciboSelect AS T WHERE T.[id] = @id;
+		-- GENERAR RECIBOS DE INTERESES MORATORIOS -- (MASIVO ITERATIVO)
+		IF EXISTS (SELECT [id] FROM @ReciboSelect)
+			BEGIN
+			--BEGIN TRANSACTION INTERESES;
+				DECLARE @idRecibo int, @id int = 1;
+				WHILE @id IS NOT NULL
+					BEGIN
+						SELECT @idRecibo = T.[idRecibo]
+						FROM @ReciboSelect AS T WHERE T.[id] = @id;
 
-					EXECUTE SP_GenerarRecibosIntereses @idRecibo, @fechaActual -- tipo idCC = 11 --
-					SELECT @id = MIN(id) FROM @ReciboSelect WHERE id > @id;
-				END
-		--COMMIT TRANSACTION INTERESES;
-		END
+						EXECUTE SP_GenerarRecibosIntereses @idRecibo, @fechaActual -- tipo idCC = 11 --
+						SELECT @id = MIN(id) FROM @ReciboSelect WHERE id > @id;
+					END
+			--COMMIT TRANSACTION INTERESES;
+			END
 
-	--INSERT MASIVO RECIBOS SELECCIONADOS --
-	INSERT INTO @ReciboIntereses (idRecibo) 
-	SELECT  idRecibo AS R FROM @ReciboSelect
+		--INSERT MASIVO RECIBOS SELECCIONADOS --
+		INSERT INTO @ReciboIntereses (idRecibo) 
+		SELECT  idRecibo AS R FROM @ReciboSelect
 
-	-- INSERT MASIVO RECIBOS INTERESES PENDIENTES --
-	INSERT INTO @ReciboIntereses (idRecibo)
-	SELECT R.[id] FROM dbo.Recibo AS R
-	WHERE (R.estado = 0 AND R.idConceptoCobro = 11)
+		-- INSERT MASIVO RECIBOS INTERESES PENDIENTES --
+		INSERT INTO @ReciboIntereses (idRecibo)
+		SELECT R.[id] FROM dbo.Recibo AS R
+		WHERE (R.estado = 0 AND R.idConceptoCobro = 11)
 
-	-- MOSTRAR TABLA GENERADA -- (ESTE ES EL SELECT)
-	SELECT R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo
-	FROM dbo.[Recibo] R
-	INNER JOIN @ReciboIntereses AS T ON T.idRecibo = R.id
+		-- MOSTRAR TABLA GENERADA -- (ESTE ES EL SELECT)
+		SELECT CC.nombre, R.monto, R.fecha, R.fechaVencimiendo
+		FROM dbo.[Recibo] R
+		JOIN dbo.[Concepto_Cobro] CC ON CC.id = R.idConceptoCobro
+		INNER JOIN @ReciboIntereses AS T ON T.idRecibo = R.id
 
 	-- GENERACION DE INTERESES --
 	END TRY
@@ -467,7 +468,7 @@ BEGIN
 	WHERE (dbo.Recibo.idConceptoCobro = 11 AND dbo.Recibo.estado = 0)
 END
 
-exec SP_AnularIntereses
+DROP PROCEDURE SP_AnularIntereses
 
 --------------------------------------
 --------------------------------------

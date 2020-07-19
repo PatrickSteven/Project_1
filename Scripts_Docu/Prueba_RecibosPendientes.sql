@@ -6,7 +6,7 @@ join Recibo R ON R.idPropiedad = P.id
 join Concepto_Cobro CC ON CC.id = R.idConceptoCobro
 where R.estado = 0
 
-
+select * from Recibo where estado = 0 and idConceptoCobro = 11
 
 select P.numeroFinca, CC.nombre 
 from Propiedad P

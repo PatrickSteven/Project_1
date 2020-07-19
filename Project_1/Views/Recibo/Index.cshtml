@@ -173,16 +173,19 @@
                             //Muestra los montos de los recibos más los interessees moratorios
 
                             var dialog = bootbox.dialog({
-                                title: 'Recibos',
                                 message: markup,
                                 size: 'large',
                                 buttons: {
                                     cancel: {
                                         label: "Cancelar!",
                                         className: 'btn-danger',
+                                        callback: function () {
+
+                                            $.post('/Recibo/CancelarPagoRecibos', true);
+                                        }
                                     },
-                                    ok: {
-                                        label: "Pagar",
+                                    ok: {   
+                                        label: "Procesar pago",
                                         className: 'btn-info',
                                         callback: function () {
 
