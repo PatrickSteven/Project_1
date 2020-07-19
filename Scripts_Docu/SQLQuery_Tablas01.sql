@@ -393,5 +393,13 @@ CREATE TABLE MovimientosAP (
 	CONSTRAINT FK_idAP FOREIGN KEY (idAP) REFERENCES AP(id)
 )
 
+CREATE TABLE RecibosAP (
+	id int primary key not null,
+	idMovimientoAP int not null,
+	descirpcion varchar(50)
+
+	CONSTRAINT FK_idReciboAP FOREIGN KEY (id) REFERENCES Recibo(id),
+	CONSTRAINT FK_movimientoAP FOREIGN KEY (idMovimientoAP) REFERENCES MovimientosAP(id)
+)
 
 

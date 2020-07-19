@@ -1,4 +1,10 @@
--- GENERAR RECIBOS --
+-------------------------------
+-------------------------------
+	-- GENERAR RECIBOS --
+-------------------------------
+-------------------------------
+
+
 CREATE PROCEDURE SPI_GenerarRecibos
 @fecha date
 AS
@@ -53,8 +59,13 @@ END CATCH
 
 DROP PROCEDURE SPI_GenerarRecibos
 
+-------------------------------
+-------------------------------
+		--Insert--
+-------------------------------
+-------------------------------
 
---Insert
+
 CREATE PROCEDURE SPI_Recibos
 @idConceptoCobro int,
 @idPropiedad int,
@@ -127,7 +138,13 @@ END CATCH
 
 DROP PROCEDURE SPI_Recibos
 
+-------------------------------------------
+-------------------------------------------
 -- INSERT DE RECIBO INTERESES MORATORIOS --
+--------------------------------------------
+--------------------------------------------
+
+
 CREATE PROCEDURE SPI_ReciboIntereses
 @fechaActual date,
 @idRecibo int
@@ -205,7 +222,13 @@ END CATCH
 DROP PROCEDURE SP_GenerarRecibosIntereses
 
 
+-------------------------------
+-------------------------------
 --Pagado multiple de recibos --
+-------------------------------
+-------------------------------
+
+
 CREATE PROCEDURE SP_Pagado_Multiple
 @numFinca int,
 @tipoRecibo int, -- idConceptoCobro --
@@ -336,8 +359,11 @@ END CATCH
 
 DROP PROCEDURE SP_Pagado_Multiple
 
-
+-------------------------------
+-------------------------------
 -- SELECT PARA CONSULTAS WEB ---
+-------------------------------
+-------------------------------
 
 CREATE PROCEDURE SPS_Recibos
 @numeroFinca int,
@@ -366,16 +392,150 @@ BEGIN
 END
 
 
+------------------------------------
+------------------------------------
+-- SELECT PARA CONSULTAS WEB 2.0 ---
+------------------------------------
+------------------------------------
+
+CREATE PROCEDURE SPS_RecibosIntereses
+@ReciboSelect ReciboSelect READONLY 
+AS
+BEGIN
+	BEGIN TRY
+	-- DECLARACION DE VARIABLES --
+	DECLARE @fechaActual date = GETDATE();
+	DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
+	
+
+	-- GENERAR RECIBOS DE INTERESES MORATORIOS -- (MASIVO ITERATIVO)
+	IF EXISTS (SELECT [id] FROM @ReciboSelect)
+		BEGIN
+		--BEGIN TRANSACTION INTERESES;
+			DECLARE @idRecibo int, @id int = 1;
+			WHILE @id IS NOT NULL
+				BEGIN
+					SELECT @idRecibo = T.[idRecibo]
+					FROM @ReciboSelect AS T WHERE T.[id] = @id;
+
+					EXECUTE SP_GenerarRecibosIntereses @idRecibo, @fechaActual -- tipo idCC = 11 --
+					SELECT @id = MIN(id) FROM @ReciboSelect WHERE id > @id;
+				END
+		--COMMIT TRANSACTION INTERESES;
+		END
+
+	--INSERT MASIVO RECIBOS SELECCIONADOS --
+	INSERT INTO @ReciboIntereses (idRecibo) 
+	SELECT  idRecibo AS R FROM @ReciboSelect
+
+	-- INSERT MASIVO RECIBOS INTERESES PENDIENTES --
+	INSERT INTO @ReciboIntereses (idRecibo)
+	SELECT R.[id] FROM dbo.Recibo AS R
+	WHERE (R.estado = 0 AND R.idConceptoCobro = 11)
+
+	-- MOSTRAR TABLA GENERADA -- (ESTE ES EL SELECT)
+	SELECT R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo
+	FROM dbo.[Recibo] R
+	INNER JOIN @ReciboIntereses AS T ON T.idRecibo = R.id
+
+	-- GENERACION DE INTERESES --
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+DROP PROCEDURE SPS_RecibosIntereses 
+
+--------------------------------------
+--------------------------------------
+-- NO PAGAR PARA CONSULTAS WEB 2.0 ---
+--------------------------------------
+--------------------------------------
+
+CREATE PROCEDURE SP_AnularIntereses
+AS
+BEGIN
+	-- ANULA LOS ARCHIVOS PENDIENTES --
+	UPDATE dbo.[Recibo]
+	SET [estado] = 3
+	FROM dbo.[Recibo]
+	WHERE (dbo.Recibo.idConceptoCobro = 11 AND dbo.Recibo.estado = 0)
+END
+
+exec SP_AnularIntereses
+
+--------------------------------------
+--------------------------------------
+-- SI PAGAR PARA CONSULTAS WEB 2.0 ---
+--------------------------------------
+--------------------------------------
+
+CREATE PROCEDURE SP_PagarSeleccion
+@ReciboSelect ReciboSelect READONLY 
+AS
+BEGIN
+	BEGIN TRY
+		-- DECLARACION DE VARIABLES --
+		DECLARE @fechaActual date = GETDATE();
+		DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
+		DECLARE @montoAcumulado int;
+
+		--
+		--INSERT MASIVO RECIBOS SELECCIONADOS --
+		INSERT INTO @ReciboIntereses (idRecibo) 
+		SELECT  idRecibo AS R FROM @ReciboSelect
+
+		-- INSERT MASIVO RECIBOS INTERESES PENDIENTES --
+		INSERT INTO @ReciboIntereses (idRecibo)
+		SELECT R.[id] FROM dbo.Recibo AS R
+		WHERE (R.estado = 0 AND R.idConceptoCobro = 11)
 
 
+		-- CALCULAR EL MONTO ACUMULADO PARA TODOS LOS RECIBOS -- (MASIVO)
+		SELECT @montoAcumulado = SUM(monto) FROM dbo.Recibo
+		INNER JOIN @ReciboIntereses AS R ON R.[idRecibo] = dbo.Recibo.[id]
+
+		print(@montoAcumulado)
 
 
+		-- GENERAR COMPROBANTES DE PAGO --
 
-select * from Recibo
-1031473
-EXECUTE SPS_Recibos 1031473, "Recolectar Basura", 1
+		IF EXISTS (SELECT [id] FROM @ReciboIntereses)
+			BEGIN
+			--BEGIN TRANSACTION INTERESES;
+				DECLARE @idRecibo int, @id int = 1;
+				WHILE @id IS NOT NULL
+					BEGIN
+						SELECT @idRecibo = T.[idRecibo]
+						FROM @ReciboIntereses AS T WHERE T.[id] = @id;
 
+						EXECUTE Generar_Comprobante @idRecibo, @fechaActual, @montoAcumulado -- tipo idCC = 11 --
+						SELECT @id = MIN(id) FROM @ReciboIntereses WHERE id > @id;
+					END
+			--COMMIT TRANSACTION INTERESES;
+			END
+		
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+DROP PROC SP_PagarSeleccion
+
+-------------
 -- PRUEBAS --
+-------------
+
 select * from Concepto_Cobro
 
 EXECUTE SPI_Recibos 10,45,'2020-05-20'
@@ -399,7 +559,7 @@ SELECT * FROM dbo.Propiedad where id = 6406
 UPDATE dbo.Recibo SET estado = 1 where dbo.Recibo.id = 1350
 
 EXEC SP_GenerarRecibosIntereses 9938, '2020-04-03'
-SELECT [idPropiedad] FROM dbo.[Recibo] AS R WHERE R.[id] = 8594
+SELECT [idPropiedad] FROM dbo.[Recibo] AS R WHERE (R.idConceptoCobro = 11 AND R.estado = 0)
 SELECT * FROM dbo.Propiedad where [id] = 5160
 
 EXEC SPI_ReciboIntereses '2020-02-20', 9936
@@ -410,3 +570,28 @@ EXEC SP_Pagado_Multiple 3099309, 10, '2020-04-22'
 SELECT * FROM dbo.Comprobante_Pago
 SELECT * FROM dbo.Recibo_por_ComprobantePago
 SELECT * FROM dbo.Reconexion
+
+
+-- SP DE PRUEBAS --
+
+CREATE PROCEDURE SP_Pruebilla
+@num int
+AS 
+BEGIN
+	DECLARE @ReciboSelect ReciboSelect;
+
+	INSERT INTO @ReciboSelect (idRecibo) 
+	SELECT R.[id] FROM dbo.Recibo AS R
+	WHERE (R.[id] < @num AND R.estado = 0) 
+	
+	--SELECT * FROM @ReciboSelect
+
+	--EXEC SPS_RecibosIntereses @ReciboSelect
+	EXEC SP_PagarSeleccion @ReciboSelect
+
+END
+
+DROP PROCEDURE SP_Pruebilla
+EXEC SP_Pruebilla 29399
+
+
