@@ -378,7 +378,7 @@ BEGIN
 		SELECT @idConceptoCobro = id FROM dbo.[Concepto_Cobro] WHERE nombre = @nombreConceptoCobro and activo = 1
 
 		-- Consulta principal ---
-		SELECT R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo
+		SELECT R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo, R.id
 		FROM dbo.[Recibo] R
 		WHERE R.idPropiedad = @idPropiedad and R.idConceptoCobro = @idConceptoCobro and R.estado = @estado and activo = 1
 	END TRY

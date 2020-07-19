@@ -2,6 +2,7 @@
 using Project_1.ViewModels.Recibo;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -37,10 +38,34 @@ namespace Project_1.Controllers
             return View(reciboViewModel);
         }
 
+        //Muestra los montos e intereses moratorios de los recibos a pagar
+        public ActionResult MostrarRecibos(List<int> idsRecibos)
+        {
+            List<ReciboPorComprobante> recibos = Recibo_Conexion.SelectMontosRecibos(idsRecibos);
+
+
+            String markup = "<div>"; 
+            foreach(var recibo in recibos)
+            {
+                markup += String.Format("<p>{0}{1}{2}</p>", recibo.nombreConceptoCobro, recibo.fecha.ToShortDateString(), recibo.monto.ToString());
+            }
+            markup += "</div>";
+
+            return Content(markup);
+        }
+
+        //Paga los recibos
+        [HttpPost]
+        public void PagarRecibos(List<int> idsRecibos)
+        {
+            Recibo_Conexion.PagarRecibos(idsRecibos);
+        }
+
+
         [Route("Recibo/Pagar/{numeroFinca}/{idConceptoCobro}/{nombreCC}")]
         public ActionResult Pagar(int numeroFinca, int idConceptoCobro, string nombreCC)
         {
-            var retvalue = Recibo_Conexion.PagarRecibos(numeroFinca, idConceptoCobro);
+            var retvalue = Recibo_Conexion.PagarConceptoCobro(numeroFinca, idConceptoCobro);
             return RedirectToAction("Index", new {numeroFinca = numeroFinca, nombreConceptoCobro = nombreCC});
         }
 
@@ -66,5 +91,6 @@ namespace Project_1.Controllers
             return View(recibosPorComprobanteViewModel);
         }
 
+      
     }
 }

@@ -42,7 +42,8 @@ namespace Project_1.Models.Recibo
                                 idConceptoCobro = reader.GetInt32(0),
                                 monto = reader.GetInt32(1),
                                 fecha = reader.GetDateTime(2),
-                                fechaVencimiento = reader.GetDateTime(3)
+                                fechaVencimiento = reader.GetDateTime(3),
+                                id = reader.GetInt32(4)
 
                             });
                     }
@@ -63,7 +64,7 @@ namespace Project_1.Models.Recibo
             }
         }
 
-        public static int PagarRecibos(int numeroFinca, int idConceptoCobro)
+        public static int PagarConceptoCobro(int numeroFinca, int idConceptoCobro)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -99,8 +100,49 @@ namespace Project_1.Models.Recibo
             }
         }
 
+        public static List<ReciboPorComprobante> SelectMontosRecibos(List<int> idsRecibos)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                int retval;
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SP";
+                cmd.Parameters.Add("@TABLE", SqlDbType.T).Value = numeroFinca;
 
+                cmd.Connection = connection;
+                List<ReciboPorComprobante> montosRecibos = new List<ReciboPorComprobante>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
 
+                        while (reader.Read())
+                            montosRecibos.Add(new ReciboPorComprobante()
+                            {
+                                nombreConceptoCobro = reader.GetString(0),
+                                fecha = reader.GetDateTime(1),
+                                monto = reader.GetInt32(2)
+
+                            });
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    retval = -1;
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return montosRecibos; // execute not accomplish
+            }
+        }
         public static List<ComprobanteDePago> SelectComprobantePago(int numeroFinca, string nombreConceptoCobro)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
@@ -145,7 +187,6 @@ namespace Project_1.Models.Recibo
                 return comprobantesDePago; // execute not accomplish
             }
         }
-
 
         public static List<ReciboPorComprobante> SelectReciboPorComprobante(int idComprobante, DateTime fechaPago, int numeroFinca)
         {
@@ -196,5 +237,15 @@ namespace Project_1.Models.Recibo
             }
         }
 
+        public DataTable ListToDataTable(List<int> ids, String column)
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(column);
+            foreach(int id in ids) {
+                dt.Rows.Add(id);
+            }
+
+            return dt;
+        }
     }
 }
