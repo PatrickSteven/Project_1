@@ -274,7 +274,8 @@ CREATE TABLE Recibo_por_ComprobantePago(
 	idComprobante_Pago int not null,
 	CONSTRAINT FK_idComporbante_Pago FOREIGN KEY (idComprobante_Pago) 
 	REFERENCES Comprobante_Pago(id),
-	activo int not null
+	activo int not null,
+	tipoRecibo int not null -- 0: Recibo pagado por usuario/ 1: Recibo pagado por AP  
 );
 
 DROP TABLE Recibo_por_ComprobantePago
@@ -359,18 +360,21 @@ CREATE TABLE AP(
 	id int primary key identity (1,1) not null,
 	idPropiedad int not null, -- FK Propiedad
 	idComrpobante int, -- FK Comprobante
-	montoOriginal money not null,
-	saldo money not null,
-	tasaIneteres decimal(4,2) not null,
-	plazoOriginal int not null,
-	plazoResta int not null,
-	cuota money,
+	montoOriginal money not null, -- calculado --
+	saldo money not null, -- calculado --
+	tasaIneteres decimal(4,2) not null, -- basado en tbl config --
+	plazoOriginal int not null, -- meses de plazo -- (indicado por el usuario)
+	plazoResta int not null, -- calculado? --
+	cuota money, -- calculada --
 	insertAt date not null,
+	activo int not null 
 	-- updateAt date not null
 
 	CONSTRAINT FK_APPropiedad FOREIGN KEY (idPropiedad) REFERENCES Propiedad(id),
 	CONSTRAINT FK_Comprobante FOREIGN KEY (idComrpobante) REFERENCES Comprobante_Pago(id)
 );
+
+DROP TABLE AP
 
 
 CREATE TABLE TipoMovAp	(
@@ -387,20 +391,26 @@ CREATE TABLE MovimientosAP (
 	plazoRest int not null,
 	nuevoSaldo money not null,
 	fecha date not null,
-	insertedAt date not null
+	insertedAt date not null,
+	activo int not null
 
 	CONSTRAINT FK_tipoMov FOREIGN KEY (idTipoMov) REFERENCES TipoMovAp(id),
 	CONSTRAINT FK_idAP FOREIGN KEY (idAP) REFERENCES AP(id)
 )
 
+DROP TABLE MovimientosAP
+
 CREATE TABLE RecibosAP (
 	id int primary key not null,
 	idMovimientoAP int not null,
-	descirpcion varchar(50) -- descripcion segun el enunciado
+	descirpcion varchar(50), -- descripcion segun el enunciado
+	activo int not null
 
 	CONSTRAINT FK_idReciboAP FOREIGN KEY (id) REFERENCES Recibo(id),
 	CONSTRAINT FK_movimientoAP FOREIGN KEY (idMovimientoAP) REFERENCES MovimientosAP(id)
 )
+
+DROP TABLE RecibosAP
 
 CREATE TABLE TipoValoresConfiguraciones(
 	id int primary key identity(1,1) not null,
@@ -410,11 +420,13 @@ CREATE TABLE TipoValoresConfiguraciones(
 CREATE TABLE ValoresConfiguracion (
 	id int primary key identity(1,1) not null,
 	idTipoValoresConfiguracion int not null,
-	nombre nvarchar not null,
-	valor nvarchar not null,
+	nombre nvarchar(50) not null,
+	valor nvarchar(50) not null, -- Se le hace casting --
 	insertedAt date not null
 
-	CONSTRAINT FK_idTipoValoresConfiguracion FOREIGN KEY (idTipoValoresConfiguracion) REFERENCES TipoValoresConfiguraciones(id);
+	CONSTRAINT FK_idTipoValoresConfiguracion FOREIGN KEY (idTipoValoresConfiguracion) REFERENCES TipoValoresConfiguraciones(id)
 )
+
+DROP TABLE ValoresConfiguracion
 
 

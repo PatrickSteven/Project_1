@@ -4,6 +4,10 @@ GO
 DROP TABLE Bitacora;
 DROP TABLE TipoEntidad;
 
+-------------------------------
+-- INSERT DE TIPO DE ENTIDAD --
+-------------------------------
+
 INSERT INTO TipoEntidad([codigo], [nombre] )
 VALUES (1, 'Propiedad')
 
@@ -26,3 +30,21 @@ INSERT INTO TipoEntidad([codigo], [nombre] )
 VALUES (7, 'Concepto de Cobro')
 
 SELECT * FROM dbo.TipoEntidad
+
+---------------------------------
+-- INSERT DE TIPO VALORES CONF --
+---------------------------------
+
+INSERT INTO TipoValoresConfiguraciones([nombreDeTipo])
+VALUES ('decimal')
+
+SELECT * FROM TipoValoresConfiguraciones
+
+-----------------------------
+-- INSERT DE  VALORES CONF --
+-----------------------------
+
+INSERT INTO ValoresConfiguracion([idTipoValoresConfiguracion], [nombre], [valor], [insertedAt])
+VALUES (1, 'TasaInteres_AP', '12.5', GETDATE())
+
+SELECT * FROM ValoresConfiguracion

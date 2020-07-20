@@ -20,6 +20,7 @@ GO
 DELETE FROM  dbo.CC_Fijo
 DELETE FROM  dbo.CC_Consumo
 DELETE FROM  dbo.CC_Porcentual
+DELETE FROM dbo.CC_Intereses_Moratorios
 DELETE FROM dbo.[Concepto_Cobro]
 
 DECLARE @x xml;
@@ -106,3 +107,4 @@ SELECT * FROM dbo.Concepto_Cobro
 SELECT * FROM dbo.CC_Fijo
 SELECT * FROM dbo.CC_Consumo
 SELECT * FROM dbo.CC_Porcentual
+SELECT * FROM dbo.CC_Intereses_Moratorios

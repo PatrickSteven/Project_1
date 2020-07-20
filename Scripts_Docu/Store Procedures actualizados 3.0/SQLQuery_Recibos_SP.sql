@@ -202,11 +202,12 @@ BEGIN TRY
 
 	IF (@fecha >= @fechaVencimiento)
 		BEGIN
+			print('hola')
 			-- INSERTAR INTERES MORATORIO --
 			EXECUTE SPI_ReciboIntereses @fecha, @idRecibo
 			SET @retvalue = 1;
 		END
-
+		print('hola2')
 	RETURN  @retValue;
 
 END TRY
@@ -552,14 +553,15 @@ SELECT * FROM dbo.CC_Fijo
 SELECT * FROM dbo.CC_Consumo
 SELECT * FROM dbo.Concepto_Cobro
 
-SELECT * FROM dbo.Recibo where id = 11335
+SELECT * FROM dbo.Recibo where id = 31699
 SELECT * FROM dbo.Recibo where idPropiedad = 6406
 SELECT * FROM dbo.Propiedad where numeroFinca = 3151260
 SELECT * FROM dbo.Propiedad where id = 6406
 
 UPDATE dbo.Recibo SET estado = 1 where dbo.Recibo.id = 1350
-
-EXEC SP_GenerarRecibosIntereses 9938, '2020-04-03'
+print(GETDATE())
+DECLARE @fechaActual date = GETDATE();
+EXEC SP_GenerarRecibosIntereses 1,@fechaActual
 SELECT [idPropiedad] FROM dbo.[Recibo] AS R WHERE (R.idConceptoCobro = 11 AND R.estado = 0)
 SELECT * FROM dbo.Propiedad where [id] = 5160
 
@@ -593,6 +595,6 @@ BEGIN
 END
 
 DROP PROCEDURE SP_Pruebilla
-EXEC SP_Pruebilla 29399
+EXEC SP_Pruebilla 31326
 
 

@@ -1,10 +1,14 @@
 CREATE PROCEDURE Generar_Comprobante
 @idRecibo int,
 @fecha date,
-@montoAcumulado int = null
+@montoAcumulado int = null,
+@tipoRecibo int = null
 AS
 BEGIN TRY
 	DECLARE @monto int, @estado int, @retValue int;
+
+	IF(@tipoRecibo IS NULL)
+		SET @tipoRecibo = 0 -- pago de recibo por usuario normal
 
 	IF(@montoAcumulado IS NULL)
 		BEGIN 
@@ -36,8 +40,8 @@ BEGIN TRY
 				DECLARE @idComprobante int;
 				SELECT @idComprobante = [id] FROM dbo.Comprobante_Pago AS CP WHERE (CP.total = @monto AND CP.fecha = @fecha)
 
-				INSERT INTO dbo.Recibo_por_ComprobantePago ([fechaLeido], [idRecibo], [idComprobante_Pago],[activo]) 
-				VALUES(@fecha, @idRecibo, @idComprobante, 1)
+				INSERT INTO dbo.Recibo_por_ComprobantePago ([fechaLeido], [idRecibo], [idComprobante_Pago],[activo],[tipoRecibo]) 
+				VALUES(@fecha, @idRecibo, @idComprobante, 1, @tipoRecibo)
 				SET @retValue = SCOPE_IDENTITY();
 				-- Activo = 0 porque se paga el recibo --
 				UPDATE dbo.Recibo SET estado = 1 WHERE [id] = @idRecibo;
@@ -50,8 +54,8 @@ BEGIN TRY
 				-- Crear un nuevo comprobante de pago
 				EXEC dbo.SPI_Comprobante_Pago_XML @fecha, @monto
 				-- Insertar recibo en comprobante de pago
-				INSERT INTO dbo.Recibo_por_ComprobantePago ([fechaLeido], [idRecibo], [idComprobante_Pago],[activo]) 
-				VALUES(@fecha, @idRecibo, @@IDENTITY, 1)
+				INSERT INTO dbo.Recibo_por_ComprobantePago ([fechaLeido], [idRecibo], [idComprobante_Pago],[activo],[tipoRecibo]) 
+				VALUES(@fecha, @idRecibo, @@IDENTITY, 1, @tipoRecibo)
 				SET @retValue = SCOPE_IDENTITY();
 				-- Activo = 0 porque se paga el recibo --
 				UPDATE dbo.Recibo SET estado = 1 WHERE [id] = @idRecibo;
@@ -68,6 +72,8 @@ BEGIN CATCH
 	RAISERROR( @Message, @Severity, @State) 
 	ROLLBACK TRANSACTION;
 END CATCH
+
+DROP PROCEDURE Generar_Comprobante
 
 
 CREATE PROCEDURE SPS_ComprobanteDePago
@@ -155,7 +161,7 @@ DROP PROCEDURE Generar_Comprobante
 --- PRUEBAS DEL STATE PROCEDURE --
 
 SELECT * FROM Recibo
-EXECUTE Generar_Comprobante 22271, '2020-03-21', 5000
+EXECUTE Generar_Comprobante 29254, '2020-03-21', 5000, 1
 
 SELECT * FROM dbo.Comprobante_Pago 
 SELECT * FROM dbo.Recibo_por_ComprobantePago AS RC WHERE RC.[idRecibo] = 22271
