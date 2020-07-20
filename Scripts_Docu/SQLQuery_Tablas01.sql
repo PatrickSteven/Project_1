@@ -396,10 +396,25 @@ CREATE TABLE MovimientosAP (
 CREATE TABLE RecibosAP (
 	id int primary key not null,
 	idMovimientoAP int not null,
-	descirpcion varchar(50)
+	descirpcion varchar(50) -- descripcion segun el enunciado
 
 	CONSTRAINT FK_idReciboAP FOREIGN KEY (id) REFERENCES Recibo(id),
 	CONSTRAINT FK_movimientoAP FOREIGN KEY (idMovimientoAP) REFERENCES MovimientosAP(id)
+)
+
+CREATE TABLE TipoValoresConfiguraciones(
+	id int primary key identity(1,1) not null,
+	nombreDeTipo varchar(50)
+)
+
+CREATE TABLE ValoresConfiguracion (
+	id int primary key identity(1,1) not null,
+	idTipoValoresConfiguracion int not null,
+	nombre nvarchar not null,
+	valor nvarchar not null,
+	insertedAt date not null
+
+	CONSTRAINT FK_idTipoValoresConfiguracion FOREIGN KEY (idTipoValoresConfiguracion) REFERENCES TipoValoresConfiguraciones(id);
 )
 
 
