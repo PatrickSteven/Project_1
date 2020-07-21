@@ -226,7 +226,7 @@ BEGIN
 END
 
 DROP PROCEDURE SP_Pruebilla01
-EXEC SP_Pruebilla01 33321
+EXEC SP_Pruebilla01 33888
 
 SELECT * FROM dbo.[Propiedad]
 SELECT * FROM dbo.[Recibo] WHERE dbo.[Recibo].[idConceptoCobro] = 11 AND dbo.[Recibo].[estado] = 0)
