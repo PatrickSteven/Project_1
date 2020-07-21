@@ -365,7 +365,7 @@ CREATE TABLE AP(
 	tasaIneteres decimal(4,2) not null, -- basado en tbl config --
 	plazoOriginal int not null, -- meses de plazo -- (indicado por el usuario)
 	plazoResta int not null, -- calculado? --
-	cuota bigInt, -- calculada --
+	cuota money, -- calculada --
 	insertAt date not null,
 	activo int not null 
 	-- updateAt date not null
