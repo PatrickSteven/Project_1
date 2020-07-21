@@ -9,8 +9,10 @@ using Project_1.Models;
 using Project_1.Models.Authentication;
 using Project_1.Models.Concepto_De_Cobro_En_Propiedad;
 using Project_1.Models.Coneptos_De_Cobro;
+using Project_1.Models.Recibo;
 using Project_1.ViewModels;
 using Project_1.ViewModels.Propiedad;
+using Project_1.ViewModels.Recibo;
 
 namespace Project_1.Controllers
 {
@@ -52,6 +54,8 @@ namespace Project_1.Controllers
 
                 return View(propiedadIndex);
             }
+
+
 
             else return HttpNotFound();
 
@@ -131,6 +135,8 @@ namespace Project_1.Controllers
             Propiedad propiedad = Propiedad_Conexion.SelectPropiedad(numeroFinca);
             List<Propietario> propietarios = Propiedad_del_Propietario_Conexion.SelectPropiedadDetail(numeroFinca);
 
+
+            //Conceptos de Cobro
             List<Concepto_De_Cobro_En_Propiedad> CC_Fijo = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Fijo);
             List<Concepto_De_Cobro_En_Propiedad> CC_Consumo = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Consumo);
             List<Concepto_De_Cobro_En_Propiedad> CC_Intereses_Moratiorios = Concepto_De_Cobro_En_Propiedad_Conexion.Select(numeroFinca, Tipo_CC.Intereses_Moratorios);
@@ -147,6 +153,17 @@ namespace Project_1.Controllers
                 CC_Porcentaje = CC_Porcentaje,
                 usuarios = usuarios
             };
+
+
+            //Recibos de todos los comprobantes de pago
+
+            propiedadDetail.recibos = new ReciboViewModel()
+            {
+                numeroFinca = numeroFinca,
+                recibosPendientes = Recibo_Conexion.Select(numeroFinca, EstadoRecibo.PENDIENTE),
+                recibosPagados = Recibo_Conexion.Select(numeroFinca, EstadoRecibo.PAGADO),
+            };
+
 
             return View(propiedadDetail);
         }

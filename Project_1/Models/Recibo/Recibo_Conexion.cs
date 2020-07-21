@@ -16,7 +16,7 @@ namespace Project_1.Models.Recibo
     public class Recibo_Conexion
     {
 
-        public static List<Recibo> Select(int numeroFinca, string nombreConceptoCobro, int estado)
+        public static List<Recibo> Select(int numeroFinca, int estado, string nombreConceptoCobro = null)
         {
             using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
             {
@@ -25,8 +25,14 @@ namespace Project_1.Models.Recibo
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "dbo.SPS_Recibos";
                 cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
-                cmd.Parameters.Add("@nombreConceptoCobro", SqlDbType.VarChar).Value = nombreConceptoCobro;
                 cmd.Parameters.Add("@estado", SqlDbType.Int).Value = estado;
+
+                if (nombreConceptoCobro != null)
+                {
+                    cmd.Parameters.Add("@nombreConceptoCobro", SqlDbType.VarChar).Value = nombreConceptoCobro;
+
+                }
+
 
                 cmd.Connection = connection;
                 List<Recibo> recibos = new List<Recibo>();
@@ -38,12 +44,13 @@ namespace Project_1.Models.Recibo
 
                         while (reader.Read())
                             recibos.Add(new Recibo()
-                            {
-                                idConceptoCobro = reader.GetInt32(0),
-                                monto = reader.GetInt32(1),
-                                fecha = reader.GetDateTime(2),
-                                fechaVencimiento = reader.GetDateTime(3),
-                                id = reader.GetInt32(4)
+                            {   
+                                nombreConceptoCobro = reader.GetString(0),
+                                idConceptoCobro = reader.GetInt32(1),
+                                monto = reader.GetInt32(2),
+                                fecha = reader.GetDateTime(3),
+                                fechaVencimiento = reader.GetDateTime(4),
+                                id = reader.GetInt32(5)
 
                             });
                     }

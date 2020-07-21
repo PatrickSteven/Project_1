@@ -143,24 +143,24 @@ else
                         {
                             <th>Cancelar</th>
                         }
-                        </tr>
+                    </tr>
                 </thead>
                 @foreach (var concepto in Model.CC_Fijo)
                 {
-            <tr>
-                <td>@concepto.nombreCC</td>
-                <td>@concepto.interesesMoratorios</td>
-                <td>@concepto.diaCobro</td>
-                <td>@concepto.diasVencidos</td>
-                <td>@concepto.esFijo</td>
-                <td>@concepto.esRecurrente</td>
-                <td>@concepto.monto</td>
-                <td><a href="~/Recibo/@Model.propiedad.numeroFinca/@concepto.nombreCC/"><ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon></a></td>
-                @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
-                {
-                    <td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
-                }
-            </tr>
+                    <tr>
+                        <td>@concepto.nombreCC</td>
+                        <td>@concepto.interesesMoratorios</td>
+                        <td>@concepto.diaCobro</td>
+                        <td>@concepto.diasVencidos</td>
+                        <td>@concepto.esFijo</td>
+                        <td>@concepto.esRecurrente</td>
+                        <td>@concepto.monto</td>
+                        <td><a href="~/Recibo/@Model.propiedad.numeroFinca/@concepto.nombreCC/"><ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon></a></td>
+                        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                        {
+                            <td><ion-icon name="thumbs-down-outline" CC-data="@concepto.nombreCC" class="js-delete-CC btn btn-outline-danger"></ion-icon></td>
+                        }
+                    </tr>
                 }
             </table>
         </div>
@@ -310,6 +310,64 @@ else
 
 </div>
 
+<!--RECIBOS -->
+<div id="recibos-pendientes" class="my-3">
+    @if (Model.recibos.recibosPendientes.Any())
+    {
+        <div class="d-flex">
+            <h3 class="my-4">
+                Recibos Pendientes
+            </h3>
+        </div>
+        <table id="recibos-pendientes-table" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Concepto</th>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Fecha vencimiento</th>
+                    <th scope="col">Pagar</th>
+
+                </tr>
+            </thead>
+            @{
+
+                int prioridad = 1;
+                foreach (var reciboPendiente in Model.recibos.recibosPendientes)
+                {
+                    <tr>
+                        <th>@reciboPendiente.nombreConceptoCobro</th>
+                        <th>@reciboPendiente.monto</th>
+                        <td>@reciboPendiente.fecha.ToShortDateString()</td>
+                        <td>@reciboPendiente.fechaVencimiento.ToShortDateString()</td>
+                        <td prioridad="@prioridad" reciboId="@reciboPendiente.id">@Html.CheckBox("Pagar", false)</td>
+                    </tr>
+
+                    prioridad++;
+
+                }
+            }
+
+        </table>
+
+        <button class="btn btn-danger pagar-recibos my-3 align-self-center">Pagar Recibos</button>
+
+        <button class="btn btn-danger procesar-AP my-3 align-self-center">Procesar AP</button>
+
+        <input class ="meses-input input-group-lg" numeroFinca="@Model.propiedad.numeroFinca" type="number" id="quantity" name="quantity" min="1" max="100">
+
+
+
+
+    }
+    else
+    {
+        <h3 class="my-4" style="text-decoration:line-through;">No hay recibos pendientes</h3>
+    }
+
+    <hr class="my-4">
+</div>
+
 
 <!--Usuarios Suscritos-->
 <!--ADMINISTRADOR-->
@@ -345,10 +403,10 @@ else
         <h3 class="my-4">No hay usuarios suscritos</h3>
     }
 }
+@section scripts{
 
-@if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
-{
-    @section scripts{
+    @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+    {
         <script>
         //ADMINISTRADOR
         $(document).ready(function () {
@@ -504,7 +562,150 @@ else
 
                 });
 
+            //PROCESAR AP 
+            $("#recibos-pendientes").on("click", ".procesar-AP",
+                function () {
+                    var prioridadAnterior = 0;
+                    var idsRecibos = [];
+                    var recibosEnOrden = true
+                    var meses = $('.meses-input').val();
+                    var numeroFinca = $('.meses-input').attr("numeroFinca");
+
+
+                    $('#recibos-pendientes-table input:checked').each(function () {
+                        var element = $(this).parent();
+                        var prioridad = element.attr("prioridad");
+                        var id = element.attr("reciboId");
+
+                        if (prioridadAnterior == prioridad - 1) {
+                            prioridadAnterior = prioridad;
+                            idsRecibos.push(id);
+                        }
+                        else {
+                            recibosEnOrden = false;
+                        }
+
+                    });
+
+                    if (recibosEnOrden && idsRecibos.length !== 0) {
+                        console.log("Correcto");
+                        $.post('/AP/MostrarAP', $.param({ idsRecibos: idsRecibos, numeroFinca: numeroFinca, meses: meses }, true), function (markup) {
+
+                            //Muestra los montos de los recibos más los interessees moratorios
+
+                            var dialog = bootbox.dialog({
+                                message: markup,
+                                size: 'large',
+                                buttons: {
+                                    cancel: {
+                                        label: "Cancelar!",
+                                        className: 'btn-danger',
+                                        callback: function () {
+
+                                            $.post('/Recibo/CancelarPagoRecibos', true);
+                                        }
+                                    },
+                                    ok: {
+                                        label: "Procesar pago",
+                                        className: 'btn-info',
+                                        callback: function () {
+
+                                            //Paga los recibos
+                                            $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true));
+
+                                        }
+                                    }
+                                }
+                            });
+
+
+
+
+
+                        });
+                    }
+                    else {
+                        bootbox.alert("No pueden haber recibos intermedios sin pagar!");
+                        J
+                    }
+
+                });
+
+
         });
         </script>
     }
+
+    <script>
+        //PAGO DE RECIBOS
+        $(document).ready(function () {
+
+            //Pago recibos
+            $("#recibos-pendientes").on("click", ".pagar-recibos",
+                function () {
+                    var prioridadAnterior = 0;
+                    var idsRecibos = [];
+                    var recibosEnOrden = true
+                    $('#recibos-pendientes-table input:checked').each(function () {
+                        var element = $(this).parent();
+                        var prioridad = element.attr("prioridad");
+                        var id = element.attr("reciboId");
+
+                        if (prioridadAnterior == prioridad - 1) {
+                            prioridadAnterior = prioridad;
+                            idsRecibos.push(id);
+                        }
+                        else {
+                            recibosEnOrden = false;
+                        }
+
+                    });
+
+                    if (recibosEnOrden && idsRecibos.length !== 0) {
+                        console.log("Correcto");
+                        $.get('/Recibo/MostrarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
+
+                            //Muestra los montos de los recibos más los interessees moratorios
+
+                            var dialog = bootbox.dialog({
+                                message: markup,
+                                size: 'large',
+                                buttons: {
+                                    cancel: {
+                                        label: "Cancelar!",
+                                        className: 'btn-danger',
+                                        callback: function () {
+
+                                            $.post('/Recibo/CancelarPagoRecibos', true);
+                                        }
+                                    },
+                                    ok: {
+                                        label: "Procesar pago",
+                                        className: 'btn-info',
+                                        callback: function () {
+
+                                            //Paga los recibos
+                                            $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true));
+
+                                        }
+                                    }
+                                }
+                            });
+
+
+
+
+
+                        });
+                    }
+                    else {
+                        bootbox.alert("No pueden haber recibos intermedios sin pagar!");
+                        J
+                    }
+
+                });
+        });
+
+
+    </script>
 }

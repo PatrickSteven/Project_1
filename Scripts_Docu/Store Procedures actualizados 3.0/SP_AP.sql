@@ -11,7 +11,7 @@ GO
 CREATE PROCEDURE SPS_AP
 @ReciboSelect ReciboSelect READONLY,
 @meses int,
-@idPropiedad int
+@numeroFinca int
 AS
 BEGIN
 	BEGIN TRY
@@ -21,6 +21,9 @@ BEGIN
 		DECLARE @montoAcumulado int, @montoOriginal int, @saldo int = 0;
 		DECLARE @tasaIneteres decimal (4,2), @plazoResta int = 0, @cuota bigint;
 		DECLARE @tempCasting nvarchar(50);
+		DECLARE @idPropiedad int;
+
+		SELECT @idPropiedad = id FROM Propiedad WHERE numeroFinca = @numeroFinca;
 
 		-- CASTING DE "Tasa Interes AP" --
 		print('d')
@@ -218,18 +221,37 @@ BEGIN
 	SELECT R.[id] FROM dbo.Recibo AS R
 	WHERE (R.[id] < @num AND R.estado = 0) 
 	
-	SELECT * FROM @ReciboSelect
 	EXEC SPS_AP @ReciboSelect, 3, 17368
-	EXEC SP_CrearAP @ReciboSelect, 3, 17368
 	
 
 END
-
+select * from Recibo where idPropiedad = 17375;
 DROP PROCEDURE SP_Pruebilla01
 EXEC SP_Pruebilla01 33321
+
+DECLARE @ReciboSel ReciboSelect;
+INSERT INTO @ReciboSel (id, idRecibo)
+VALUES(1, 33777)
+EXEC SPS_AP @ReciboSel, 2, 17375
 
 SELECT * FROM dbo.[Propiedad]
 SELECT * FROM dbo.[Recibo] WHERE dbo.[Recibo].[idConceptoCobro] = 11 AND dbo.[Recibo].[estado] = 0)
 SELECT * FROM dbo.[AP]
 
 
+CREATE PROCEDURE SPS_AP_de_Propieadad
+@numeroFinca
+AS
+BEGIN
+	BEGIN TRY
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+select * from AP

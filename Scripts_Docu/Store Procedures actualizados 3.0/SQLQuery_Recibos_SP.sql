@@ -368,20 +368,36 @@ DROP PROCEDURE SP_Pagado_Multiple
 
 CREATE PROCEDURE SPS_Recibos
 @numeroFinca int,
-@nombreConceptoCobro varchar(30), -- idConceptoCobro --
+@nombreConceptoCobro varchar(30) = null, -- idConceptoCobro --
 @estado int
 AS 
 BEGIN
 	BEGIN TRY
-		DECLARE @idPropiedad int, @idConceptoCobro int
-		-- Obtener id's --
-		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca and activo = 1
-		SELECT @idConceptoCobro = id FROM dbo.[Concepto_Cobro] WHERE nombre = @nombreConceptoCobro and activo = 1
+		IF @nombreConceptoCobro is not null
+		BEGIN 
+			DECLARE @idPropiedad int, @idConceptoCobro int
+			-- Obtener id's --
+			SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca and activo = 1
+			SELECT @idConceptoCobro = id FROM dbo.[Concepto_Cobro] WHERE nombre = @nombreConceptoCobro and activo = 1
 
-		-- Consulta principal ---
-		SELECT R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo, R.id
-		FROM dbo.[Recibo] R
-		WHERE R.idPropiedad = @idPropiedad and R.idConceptoCobro = @idConceptoCobro and R.estado = @estado and activo = 1
+			-- Consulta principal ---
+			SELECT CC.nombre, R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo, R.id
+			FROM dbo.[Recibo] R
+			JOIN dbo.[Concepto_Cobro] CC ON CC.id = R.idConceptoCobro
+			WHERE R.idPropiedad = @idPropiedad and R.idConceptoCobro = @idConceptoCobro and R.estado = @estado and R.activo = 1
+		END
+
+		ELSE
+		BEGIN
+			-- Obtener id's --
+			SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca and activo = 1
+			-- Consulta principal ---
+
+			SELECT CC.nombre, R.idConceptoCobro, R.monto, R.fecha, R.fechaVencimiendo, R.id
+			FROM dbo.[Recibo] R
+			JOIN dbo.[Concepto_Cobro] CC ON CC.id = R.idConceptoCobro
+			WHERE R.idPropiedad = @idPropiedad and R.estado = @estado and R.activo = 1
+		END
 	END TRY
 	BEGIN CATCH
 		DECLARE 
@@ -391,7 +407,6 @@ BEGIN
 		RAISERROR( @Message, @Severity, @State) 
 	END CATCH
 END
-
 
 ------------------------------------
 ------------------------------------

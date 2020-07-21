@@ -20,8 +20,8 @@ namespace Project_1.Controllers
             {
                 nombreConceptoCobro = nombreConceptoCobro,
                 numeroFinca = numeroFinca,
-                recibosPendientes = Recibo_Conexion.Select(numeroFinca, nombreConceptoCobro, EstadoRecibo.PENDIENTE),
-                recibosPagados = Recibo_Conexion.Select(numeroFinca, nombreConceptoCobro, EstadoRecibo.PAGADO),
+                recibosPendientes = Recibo_Conexion.Select(numeroFinca, EstadoRecibo.PENDIENTE, nombreConceptoCobro),
+                recibosPagados = Recibo_Conexion.Select(numeroFinca, EstadoRecibo.PAGADO, nombreConceptoCobro),
                 comprobantesDePago = Recibo_Conexion.SelectComprobantePago(numeroFinca, nombreConceptoCobro)
             };
 

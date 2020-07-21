@@ -148,6 +148,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\APController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BitacoraController.cs" />
@@ -162,6 +163,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AP\AP.cs" />
+    <Compile Include="Models\AP\AP_Conexion.cs" />
     <Compile Include="Models\Authentication\AppUser.cs" />
     <Compile Include="Models\Authentication\Roles.cs" />
     <Compile Include="Models\Bitacora\Bitacora.cs" />
@@ -616,7 +619,9 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\AP\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
