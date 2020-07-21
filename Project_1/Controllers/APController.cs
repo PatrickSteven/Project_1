@@ -11,9 +11,10 @@ namespace Project_1.Controllers
     {
         // GET: AP
 
-        [HttpPost]
+
         public ActionResult MostrarAP(List<int> idsRecibos, int numeroFinca, int meses)
         {
+            
             AP ap = AP_Conexion.MostrarAP(numeroFinca, meses, idsRecibos);
             String markup = "<div>";
 
@@ -32,6 +33,11 @@ namespace Project_1.Controllers
 
             markup += "</div>";
             return Content(markup);
+            }
+    
+        public void CrearAP(List<int> idsRecibos, int numeroFinca, int meses)
+        {
+            AP_Conexion.CrearAP(numeroFinca, meses, idsRecibos);
         }
     }
 }

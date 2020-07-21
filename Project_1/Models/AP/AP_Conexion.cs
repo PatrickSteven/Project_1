@@ -37,12 +37,12 @@ namespace Project_1.Models.AP
                         reader.Read();
                         ap = new AP()
                         { 
-                            montoOriginal = (decimal) reader.GetSqlMoney(0),
-                            saldo = (decimal) reader.GetSqlMoney(1),
-                            tasaInteres = reader.GetDecimal(2),
+                            montoOriginal = reader.GetSqlMoney(0),
+                            saldo =  reader.GetSqlMoney(1),
+                            tasaInteres = reader.GetSqlDecimal(2),
                             plazoOriginal = reader.GetInt32(3),
                             plazoResta = reader.GetInt32(4),
-                            cuota = (decimal) reader.GetSqlMoney(5),
+                            cuota = reader.GetSqlMoney(5),
                             insertedAt = reader.GetDateTime(6)
                             
                         };
@@ -62,6 +62,45 @@ namespace Project_1.Models.AP
                 }
 
                 return ap; // execute not accomplish
+            }
+        }
+    
+        public static int CrearAP(int numeroFinca, int meses, List<int> idsRecibos)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                int retval;
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SP_CrearAP";
+                SqlParameter param = new SqlParameter();
+                param.ParameterName = "@ReciboSelect";
+                param.Value = Recibo_Conexion.ListToDataTable(idsRecibos, "id", "idRecibo");
+                cmd.Parameters.Add(param);
+                cmd.Connection = connection;
+                cmd.Parameters.Add("@retValue", System.Data.SqlDbType.Int).Direction = System.Data.ParameterDirection.ReturnValue;
+                cmd.Parameters.Add("@meses", SqlDbType.Int).Value = meses;
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    retval = (int)cmd.Parameters["@retValue"].Value;
+
+                }
+                catch (Exception ex)
+                {
+                    retval = -1;
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return retval; // execute not accomplish
             }
         }
     }

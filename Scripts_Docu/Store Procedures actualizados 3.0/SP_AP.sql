@@ -26,11 +26,7 @@ BEGIN
 		SELECT @idPropiedad = id FROM Propiedad WHERE numeroFinca = @numeroFinca;
 
 		-- CASTING DE "Tasa Interes AP" --
-		print('d')
 		SELECT @tasaIneteres = convert(decimal(4,2), [valor]) FROM dbo.[ValoresConfiguracion] AS VC WHERE VC.[nombre] = 'TasaInteres_AP'
-		print('d')
-
-		SELECT * FROM @ReciboSelect
 
 		-- GENERAR RECIBOS DE INTERESES MORATORIOS -- (MASIVO ITERATIVO)
 		IF EXISTS (SELECT [id] FROM @ReciboSelect)
@@ -57,23 +53,18 @@ BEGIN
 		SELECT R.[id] FROM dbo.Recibo AS R
 		WHERE (R.estado = 0 AND R.idConceptoCobro = 11)
 
-		SELECT * FROM @ReciboIntereses
-
-		print('a')
 		-- CALCULAR EL MONTO ORIGINAL -- 
 		SELECT @montoOriginal = SUM(monto) FROM dbo.Recibo
 		INNER JOIN @ReciboIntereses AS R ON R.[idRecibo] = dbo.Recibo.[id]
 
 		--CALCULAR LA CUOTA--
-		print('a')
 		SET @cuota = @montoOriginal*((@tasaIneteres*POWER((1+@tasaIneteres),@meses))/(POWER((1+@tasaIneteres),@meses)-1))
-		print('a')
 
 		-- MOSTRAR AP GENERADO -- (Todavia no se genera comprobante hasta que se cree el AP)
 		INSERT INTO dbo.AP ([idPropiedad],[montoOriginal],[saldo],[tasaIneteres],[plazoOriginal],[plazoResta],[cuota],[insertAt],[activo])
 		VALUES(@idPropiedad,@montoOriginal,@montoOriginal,@tasaIneteres,@meses,@plazoResta,@cuota,@fechaActual,0) -- no es activo hasta que se crea --
 
-		SELECT AP.[montoOriginal], AP.[montoOriginal], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt]
+		SELECT AP.[montoOriginal], AP.[saldo], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt]
 		FROM AP WHERE AP.[id] = @@IDENTITY
 
 		
@@ -98,7 +89,7 @@ DROP PROCEDURE SPS_AP
 CREATE PROCEDURE SP_CrearAP
 @ReciboSelect ReciboSelect READONLY, -- Recibos seleccionados --
 @meses int, -- plazo de meses para pagar el AP --
-@idPropiedad int
+@numeroFinca int
 AS
 BEGIN
 	BEGIN TRY
@@ -107,6 +98,9 @@ BEGIN
 		DECLARE @montoAcumulado int;
 		DECLARE @ultimoAP int = @@IDENTITY;
 		DECLARE @comprobanteGenerado int;
+		DECLARE @idPropiedad int;
+
+		SELECT @idPropiedad = id FROM Propiedad WHERE numeroFinca = @numeroFinca;
 
 		-- SET EL MONTO ACUMULADO PARA EL COMPROBANTE DE PAGO --
 		SELECT @montoAcumulado = [montoOriginal] FROM dbo.[AP] WHERE dbo.[AP].[id] = @ultimoAP;
@@ -129,6 +123,7 @@ BEGIN
 
 		-- ACTIVAR AP --
 		UPDATE dbo.AP SET [activo] = 1 WHERE [id] = @ultimoAP;
+		print('Activando');
 
 		--INSERT MASIVO RECIBOS SELECCIONADOS --
 		INSERT INTO @ReciboIntereses (idRecibo) 
@@ -225,15 +220,32 @@ BEGIN
 	
 
 END
-select * from Recibo where idPropiedad = 17375;
+
+
+select id from Propiedad where numeroFinca = 4203725
+select * from Recibo where idPropiedad = 17496
 DROP PROCEDURE SP_Pruebilla01
 EXEC SP_Pruebilla01 32914
 
+
+
 DECLARE @ReciboSel ReciboSelect;
 INSERT INTO @ReciboSel (id, idRecibo)
-VALUES(1, 33777)
-EXEC SPS_AP @ReciboSel, 2, 17375
+VALUES(1, 32913)
+EXEC SPS_AP @ReciboSel, 12, 4203725
 
+DECLARE @ReciboSel ReciboSelect;
+INSERT INTO @ReciboSel (id, idRecibo)
+VALUES(1, 32913)
+EXEC SP_CrearAP @ReciboSel, 12, 4203725
+
+
+select * from AP
+
+
+
+
+select * from Recibo where id = 32913
 SELECT * FROM dbo.[Propiedad]
 SELECT * FROM dbo.[Recibo] WHERE dbo.[Recibo].[idConceptoCobro] = 11 AND dbo.[Recibo].[estado] = 0)
 SELECT * FROM dbo.[AP]
@@ -241,7 +253,7 @@ SELECT * FROM dbo.[AP]
 
 CREATE PROCEDURE SPS_AP_de_Propieadad
 @numeroFinca
-AS
+AS	
 BEGIN
 	BEGIN TRY
 	END TRY
@@ -255,6 +267,6 @@ BEGIN
 END
 
 select * from AP
-
+select id From propiedad where numeroFinca = 4203725
 SELECT * FROM [ValoresConfiguracion]
 UPDATE dbo.[Recibo] SET [estado] = 0 WHERE [id] = 32913;

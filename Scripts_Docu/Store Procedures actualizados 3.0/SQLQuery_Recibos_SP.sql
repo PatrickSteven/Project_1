@@ -408,6 +408,7 @@ BEGIN
 	END CATCH
 END
 
+DROP PROCEDURE SPS_Recibos
 ------------------------------------
 ------------------------------------
 -- SELECT PARA CONSULTAS WEB 2.0 ---

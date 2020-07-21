@@ -354,7 +354,7 @@ else
 
         <button class="btn btn-danger procesar-AP my-3 align-self-center">Procesar AP</button>
 
-        <input class ="meses-input input-group-lg" numeroFinca="@Model.propiedad.numeroFinca" type="number" id="quantity" name="quantity" min="1" max="100">
+        <input class ="meses-input input-group-lg" type="number" id="quantity" name="quantity" min="1" max="100">
 
 
 
@@ -407,7 +407,7 @@ else
 
     @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
     {
-        <script>
+<script>
         //ADMINISTRADOR
         $(document).ready(function () {
 
@@ -562,15 +562,13 @@ else
 
                 });
 
-            //PROCESAR AP 
+            //PROCESAR AP
             $("#recibos-pendientes").on("click", ".procesar-AP",
                 function () {
                     var prioridadAnterior = 0;
                     var idsRecibos = [];
                     var recibosEnOrden = true
                     var meses = $('.meses-input').val();
-                    var numeroFinca = $('.meses-input').attr("numeroFinca");
-
 
                     $('#recibos-pendientes-table input:checked').each(function () {
                         var element = $(this).parent();
@@ -589,7 +587,7 @@ else
 
                     if (recibosEnOrden && idsRecibos.length !== 0) {
                         console.log("Correcto");
-                        $.post('/AP/MostrarAP', $.param({ idsRecibos: idsRecibos, numeroFinca: numeroFinca, meses: meses }, true), function (markup) {
+                        $.post('/AP/MostrarAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true), function (markup) {
 
                             //Muestra los montos de los recibos más los interessees moratorios
 
@@ -600,27 +598,21 @@ else
                                     cancel: {
                                         label: "Cancelar!",
                                         className: 'btn-danger',
-                                        callback: function () {
-
-                                            $.post('/Recibo/CancelarPagoRecibos', true);
-                                        }
                                     },
                                     ok: {
-                                        label: "Procesar pago",
+                                        label: "Crear Arreglo de pago",
                                         className: 'btn-info',
                                         callback: function () {
 
-                                            //Paga los recibos
-                                            $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true));
+                                            //Crea el AP
+                                            console.log("A crear");
+                                            $.post('/AP/CrearAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true));
+                                            console.log("Creado");
 
                                         }
                                     }
                                 }
                             });
-
-
-
-
 
                         });
                     }
@@ -633,7 +625,7 @@ else
 
 
         });
-        </script>
+</script>
     }
 
     <script>
