@@ -72,8 +72,9 @@ CREATE PROCEDURE SPI_Recibos
 @fechaGenerado date
 AS
 BEGIN TRY
+	PRINT('CAMINEXO')
 	-- DATOS CONCEPTO DE COBRO ( y herencias )--
-	DECLARE @qDiaVencimiento int, @monto int, @esFijo varchar(10), @retValue int;
+	DECLARE @qDiaVencimiento int, @monto bigInt, @esFijo varchar(10), @retValue int;
 	DECLARE @nombreCC nvarchar(50);
 	-- DATOS CALCULADOS PARA RECIBO --
 	DECLARE @fechaVencimineto date; 
@@ -114,7 +115,7 @@ BEGIN TRY
 			SELECT @impuesto = [ValorPorcentaje] FROM dbo.[CC_Porcentual]  WHERE @idConceptoCobro = [id];
 			SELECT @valorPropiedad = [valor] FROM dbo.[Propiedad] WHERE @idPropiedad = [id];
 
-			SET @monto = @valorPropiedad * @impuesto;
+			SET @monto = @valorPropiedad * @impuesto / 100;
 		END
 		
 	
@@ -125,7 +126,7 @@ BEGIN TRY
 							[estado], [activo])
 	VALUES(null,@idPropiedad, @idConceptoCobro, @monto, @fechaGenerado, @fechaVencimineto, 0, 1);
 	SET @retValue = SCOPE_IDENTITY();
-
+	PRINT('TERMENO')
 END TRY
 BEGIN CATCH
 	DECLARE 
@@ -150,9 +151,9 @@ CREATE PROCEDURE SPI_ReciboIntereses
 @idRecibo int
 AS 
 BEGIN TRY
-
+	PRINT('CAMINEXO 1')
 	-- DECLARACION DE VARIABLES --
-	DECLARE @fechaMax date, @montoRecibo int, @monto int, @intereses float, @tipoRecibo int, @fechaVencimineto date;
+	DECLARE @fechaMax date, @montoRecibo int, @monto bigInt, @intereses float, @tipoRecibo int, @fechaVencimineto date;
 	SELECT @montoRecibo = [monto] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
 	SELECT @tipoRecibo = [idConceptoCobro] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
 	SELECT @intereses = [tasaInteresesMoratorios] FROM dbo.Concepto_Cobro AS C WHERE C.[id] = @tipoRecibo
@@ -160,12 +161,12 @@ BEGIN TRY
 
 	DECLARE @idPropiedad int, @retValue int;
 	SELECT @idPropiedad = [idPropiedad] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
-
+	PRINT('TERMENO 2')
 	--CALCULO DE MONTO DE RECIBO --
 	DECLARE @fechaDif int;
 	SET @fechaDif = ABS(DATEDIFF(day, @fechaMax, @fechaActual))
 	SET @monto = (@montoRecibo*@intereses/365)*@fechaDif -- dividido entre 365
-
+	PRINT('TERMENO 3')
 	-- CALCULAR FECHA DE VENICIMIENTO --
 	DECLARE @qDiaVencimiento int;
 	SELECT @qDiaVencimiento = [qDiasVencidos] FROM dbo.[Concepto_Cobro] AS CC WHERE  CC.nombre = 'Interes Moratorio';
@@ -176,6 +177,7 @@ BEGIN TRY
 							[estado], [activo])
 	VALUES(null,@idPropiedad, 11, @monto, @fechaActual, @fechaVencimineto, 0, 1);
 	SET @retValue = SCOPE_IDENTITY();
+	PRINT('TERMENO 1')
 END TRY
 BEGIN CATCH
 	DECLARE 

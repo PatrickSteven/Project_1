@@ -18,16 +18,16 @@ BEGIN
 		-- DECLARACION DE VARIABLES --
 		DECLARE @fechaActual date = GETDATE(); -- inserted At --
 		DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
-		DECLARE @montoAcumulado int, @montoOriginal int, @saldo int = 0;
-		DECLARE @tasaIneteres decimal (4,2), @plazoResta int = 0, @cuota money;
+		DECLARE @montoAcumulado bigInt, @montoOriginal bigInt, @saldo bigInt = 0;
+		DECLARE @tasaIneteres decimal (4,2), @plazoResta int = 0, @cuota bigInt;
 		DECLARE @tempCasting nvarchar(50);
-		DECLARE @idPropiedad int;
+		DECLARE @idPropiedad bigInt;
 
 		SELECT @idPropiedad = id FROM Propiedad WHERE numeroFinca = @numeroFinca;
-
+			print('aaa')
 		-- CASTING DE "Tasa Interes AP" --
 		SELECT @tasaIneteres = convert(decimal(4,2), [valor]) FROM dbo.[ValoresConfiguracion] AS VC WHERE VC.[nombre] = 'TasaInteres_AP'
-
+			print('aaa')
 		-- GENERAR RECIBOS DE INTERESES MORATORIOS -- (MASIVO ITERATIVO)
 		IF EXISTS (SELECT [id] FROM @ReciboSelect)
 			BEGIN
@@ -38,32 +38,34 @@ BEGIN
 						SELECT @idRecibo = T.[idRecibo]
 						FROM @ReciboSelect AS T WHERE T.[id] = @id;
 						print(@idRecibo)
+						print('aaa')
 						EXECUTE SP_GenerarRecibosIntereses @idRecibo, @fechaActual -- tipo idCC = 11 --
+						print('termine')
 						SELECT @id = MIN(id) FROM @ReciboSelect WHERE id > @id;
 					END
 			--COMMIT TRANSACTION INTERESES;
 			END
-
+				print('aaa')
 		--INSERT MASIVO RECIBOS SELECCIONADOS --
 		INSERT INTO @ReciboIntereses (idRecibo) 
 		SELECT  idRecibo AS R FROM @ReciboSelect
-
+			print('aaa')
 		-- INSERT MASIVO RECIBOS INTERESES PENDIENTES --
 		INSERT INTO @ReciboIntereses (idRecibo)
 		SELECT R.[id] FROM dbo.Recibo AS R
 		WHERE (R.estado = 0 AND R.idConceptoCobro = 11)
-
+	print('aaa')
 		-- CALCULAR EL MONTO ORIGINAL -- 
 		SELECT @montoOriginal = SUM(monto) FROM dbo.Recibo
 		INNER JOIN @ReciboIntereses AS R ON R.[idRecibo] = dbo.Recibo.[id]
-
+		print('aaa')
 		--CALCULAR LA CUOTA--
 		SET @cuota = @montoOriginal*((@tasaIneteres*POWER((1+@tasaIneteres),@meses))/(POWER((1+@tasaIneteres),@meses)-1))
-
+		print('aaa')
 		-- MOSTRAR AP GENERADO -- (Todavia no se genera comprobante hasta que se cree el AP)
 		INSERT INTO dbo.AP ([idPropiedad],[montoOriginal],[saldo],[tasaIneteres],[plazoOriginal],[plazoResta],[cuota],[insertAt],[activo])
 		VALUES(@idPropiedad,@montoOriginal,@montoOriginal,@tasaIneteres,@meses,@plazoResta,@cuota,@fechaActual,0) -- no es activo hasta que se crea --
-
+		print('aaa')
 		SELECT AP.[montoOriginal], AP.[saldo], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt]
 		FROM AP WHERE AP.[id] = @@IDENTITY
 
@@ -95,9 +97,9 @@ BEGIN
 	BEGIN TRY
 		DECLARE @fechaActual date = GETDATE();
 		DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
-		DECLARE @montoAcumulado int;
-		DECLARE @ultimoAP int;
-		DECLARE @comprobanteGenerado int;
+		DECLARE @montoAcumulado bigInt;
+		DECLARE @ultimoAP bigInt;
+		DECLARE @comprobanteGenerado bigInt;
 		DECLARE @idPropiedad int;
 
 		SELECT @idPropiedad = id FROM Propiedad WHERE numeroFinca = @numeroFinca;
@@ -234,12 +236,12 @@ EXEC SP_Pruebilla01 32914
 
 DECLARE @ReciboSel ReciboSelect;
 INSERT INTO @ReciboSel (id, idRecibo)
-VALUES(1, 32913)
+VALUES(1, 527)
 EXEC SPS_AP @ReciboSel, 12, 4203725
 
 DECLARE @ReciboSel ReciboSelect;
 INSERT INTO @ReciboSel (id, idRecibo)
-VALUES(1, 32913)
+VALUES(1, 34381)
 EXEC SP_CrearAP @ReciboSel, 12, 4203725
 
 

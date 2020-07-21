@@ -252,7 +252,7 @@ CREATE TABLE Recibo (
 
 	fecha date not null,
 	fechaVencimiendo date not null,
-	monto int not null,
+	monto bigInt not null,
 	estado int not null, --0: Pendiente de pago (estado default), 1: Pagado, 3: Anulado.
 	activo int not null,
 	CONSTRAINT FK_idConeceptoCobro_02 FOREIGN KEY (idConceptoCobro) REFERENCES Concepto_Cobro(id),
@@ -360,12 +360,12 @@ CREATE TABLE AP(
 	id int primary key identity (1,1) not null,
 	idPropiedad int not null, -- FK Propiedad
 	idComrpobante int, -- FK Comprobante
-	montoOriginal money not null, -- calculado --
-	saldo money not null, -- calculado --
+	montoOriginal bigInt not null, -- calculado --
+	saldo bigInt not null, -- calculado --
 	tasaIneteres decimal(4,2) not null, -- basado en tbl config --
 	plazoOriginal int not null, -- meses de plazo -- (indicado por el usuario)
 	plazoResta int not null, -- calculado? --
-	cuota money, -- calculada --
+	cuota bigInt, -- calculada --
 	insertAt date not null,
 	activo int not null 
 	-- updateAt date not null
@@ -386,10 +386,10 @@ CREATE TABLE MovimientosAP (
 	id int primary key identity (1,1) not null,
 	idAP int not null, -- FK 
 	idTipoMov int not null, -- FK
-	monto money not null, -- int (revisar)
+	monto bigInt not null, -- int (revisar)
 	interesesDelMes decimal(4,2), --int (revisar)
 	plazoRest int not null,
-	nuevoSaldo money not null,
+	nuevoSaldo bigInt not null,
 	fecha date not null,
 	insertedAt date not null,
 	activo int not null
