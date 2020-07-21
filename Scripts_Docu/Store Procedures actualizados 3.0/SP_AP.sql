@@ -96,11 +96,14 @@ BEGIN
 		DECLARE @fechaActual date = GETDATE();
 		DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
 		DECLARE @montoAcumulado int;
-		DECLARE @ultimoAP int = @@IDENTITY;
+		DECLARE @ultimoAP int;
 		DECLARE @comprobanteGenerado int;
 		DECLARE @idPropiedad int;
 
 		SELECT @idPropiedad = id FROM Propiedad WHERE numeroFinca = @numeroFinca;
+		SELECT @ultimoAP = (SELECT TOP 1 [id] FROM AP ORDER BY ID DESC);
+		print('UltimoAP')
+		print(@ultimoAP)
 
 		-- SET EL MONTO ACUMULADO PARA EL COMPROBANTE DE PAGO --
 		SELECT @montoAcumulado = [montoOriginal] FROM dbo.[AP] WHERE dbo.[AP].[id] = @ultimoAP;
