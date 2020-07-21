@@ -19,7 +19,7 @@ BEGIN
 		DECLARE @fechaActual date = GETDATE(); -- inserted At --
 		DECLARE @ReciboIntereses table (id INT IDENTITY(1,1),idRecibo int) 
 		DECLARE @montoAcumulado int, @montoOriginal int, @saldo int = 0;
-		DECLARE @tasaIneteres decimal (4,2), @plazoResta int = 0, @cuota bigint;
+		DECLARE @tasaIneteres decimal (4,2), @plazoResta int = 0, @cuota money;
 		DECLARE @tempCasting nvarchar(50);
 		DECLARE @idPropiedad int;
 
@@ -71,9 +71,9 @@ BEGIN
 
 		-- MOSTRAR AP GENERADO -- (Todavia no se genera comprobante hasta que se cree el AP)
 		INSERT INTO dbo.AP ([idPropiedad],[montoOriginal],[saldo],[tasaIneteres],[plazoOriginal],[plazoResta],[cuota],[insertAt],[activo])
-		VALUES(@idPropiedad,@montoOriginal,@saldo,@tasaIneteres,@meses,@plazoResta,@cuota,@fechaActual,0) -- no es activo hasta que se crea --
+		VALUES(@idPropiedad,@montoOriginal,@montoOriginal,@tasaIneteres,@meses,@plazoResta,@cuota,@fechaActual,0) -- no es activo hasta que se crea --
 
-		SELECT AP.[montoOriginal], AP.[saldo], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt]
+		SELECT AP.[montoOriginal], AP.[montoOriginal], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt]
 		FROM AP WHERE AP.[id] = @@IDENTITY
 
 		
@@ -227,7 +227,7 @@ BEGIN
 END
 select * from Recibo where idPropiedad = 17375;
 DROP PROCEDURE SP_Pruebilla01
-EXEC SP_Pruebilla01 33321
+EXEC SP_Pruebilla01 32914
 
 DECLARE @ReciboSel ReciboSelect;
 INSERT INTO @ReciboSel (id, idRecibo)
@@ -255,3 +255,6 @@ BEGIN
 END
 
 select * from AP
+
+SELECT * FROM [ValoresConfiguracion]
+UPDATE dbo.[Recibo] SET [estado] = 0 WHERE [id] = 32913;
