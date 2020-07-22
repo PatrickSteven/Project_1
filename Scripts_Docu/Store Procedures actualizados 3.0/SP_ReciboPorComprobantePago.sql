@@ -115,7 +115,7 @@ BEGIN
 		DECLARE @idPropiedad int
 		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca
 
-		SELECT CC.nombre, CC.DiaDeCobro, R.fecha, CC.tasaInteresesMoratorios, R.monto
+		SELECT CC.nombre, CC.DiaDeCobro, R.fecha, CC.tasaInteresesMoratorios, R.monto, RxC.tipoRecibo
 		FROM dbo.[Recibo_por_ComprobantePago] RxC
 		JOIN dbo.[Recibo] R ON RxC.idRecibo = R.id
 		JOIN dbo.[Comprobante_Pago] CP ON RxC.idComprobante_Pago = CP.id 

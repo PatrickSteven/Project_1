@@ -19,6 +19,8 @@
                 <th scope="col">Fecha del recibo</th>
                 <th scope="col">Tasa interes</th>
                 <th scope="col">Monto</th>
+                <th scope="col">Metodo de pago</th>
+
             </tr>
         </thead>
         @foreach (var recibo in Model.recibosPorComprobante)
@@ -30,6 +32,7 @@
                 <th>@recibo.fecha.ToShortDateString()</th>
                 <th>@recibo.tasaInteresMoratorio</th>
                 <th><span class="badge-pill badge-success">@recibo.monto</span></th>
+                <th>@recibo.metodoPago</th>
 
             </tr>
         }

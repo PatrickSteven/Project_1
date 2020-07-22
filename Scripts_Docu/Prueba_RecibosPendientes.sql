@@ -14,3 +14,8 @@ join Recibo R ON R.idPropiedad = P.id
 join Concepto_Cobro CC ON CC.id = R.idConceptoCobro
 where R.estado = 0
 
+select * from AP
+select * from Comprobante_Pago where id = 6186
+
+
+select * from Recibo_por_ComprobantePago

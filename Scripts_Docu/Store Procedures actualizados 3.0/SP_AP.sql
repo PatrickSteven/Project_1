@@ -199,6 +199,39 @@ BEGIN
 	END CATCH
 END
 
+
+-----------------------------------
+-----------------------------------
+--  SELECET AP DE UNA PROPIEDAD  --
+-----------------------------------
+-----------------------------------
+
+
+CREATE PROCEDURE SPS_AP_de_Propieadad
+@numeroFinca int
+AS	
+BEGIN
+	BEGIN TRY
+		DECLARE @idPropiedad int
+		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca;
+
+		SELECT AP.[montoOriginal], AP.[saldo], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt], AP.[idComrpobante], CP.total
+		FROM AP 
+		JOIN Comprobante_Pago CP ON CP.id = AP.idComrpobante
+		WHERE AP.[idPropiedad] = @idPropiedad AND Ap.[activo] = 1
+		
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+DROP PROCEDURE SPS_AP_de_Propieadad
+
 -----------------------------------
 -----------------------------------
 --  NO PAGAR LOS RECIBOS COMO AP --
@@ -246,30 +279,15 @@ EXEC SP_CrearAP @ReciboSel, 12, 4203725
 
 
 select * from AP
+EXECUTE SPS_AP_de_Propieadad 4203725
 
-
-
+select numeroFinca FROM Propiedad where id = 19212
 
 select * from Recibo where id = 32913
 SELECT * FROM dbo.[Propiedad]
 SELECT * FROM dbo.[Recibo] WHERE dbo.[Recibo].[idConceptoCobro] = 11 AND dbo.[Recibo].[estado] = 0)
 SELECT * FROM dbo.[AP]
 
-
-CREATE PROCEDURE SPS_AP_de_Propieadad
-@numeroFinca
-AS	
-BEGIN
-	BEGIN TRY
-	END TRY
-	BEGIN CATCH
-		DECLARE 
-		@Message varchar(MAX) = ERROR_MESSAGE(),
-		@Severity int = ERROR_SEVERITY(),
-		@State smallint = ERROR_STATE()
-		RAISERROR( @Message, @Severity, @State) 
-	END CATCH
-END
 
 select * from AP
 select id From propiedad where numeroFinca = 4203725

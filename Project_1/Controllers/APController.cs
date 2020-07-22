@@ -1,4 +1,5 @@
 ﻿using Project_1.Models.AP;
+using Project_1.ViewModels.AP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,6 @@ namespace Project_1.Controllers
 {
     public class APController : Controller
     {
-        // GET: AP
-
-
         public ActionResult MostrarAP(List<int> idsRecibos, int numeroFinca, int meses)
         {
             
@@ -39,5 +37,6 @@ namespace Project_1.Controllers
         {
             AP_Conexion.CrearAP(numeroFinca, meses, idsRecibos);
         }
+
     }
 }

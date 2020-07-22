@@ -20,5 +20,6 @@ namespace Project_1.ViewModels.Propiedad
         public List<Concepto_De_Cobro_En_Propiedad> CC_Porcentaje { get; set; }
         public List<Models.Usuario> usuarios { get; set; }
         public ReciboViewModel recibos { get; set; }
+        public List<Models.AP.AP> APs { get; set; }
     }
 }

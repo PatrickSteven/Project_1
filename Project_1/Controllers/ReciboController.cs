@@ -45,7 +45,7 @@ namespace Project_1.Controllers
 
 
             String markup = "<div>";
-            int total = 0;
+            long total = 0;
             foreach (var recibo in recibos)
             {
 

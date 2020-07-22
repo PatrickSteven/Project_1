@@ -47,7 +47,7 @@ namespace Project_1.Models.Recibo
                             {   
                                 nombreConceptoCobro = reader.GetString(0),
                                 idConceptoCobro = reader.GetInt32(1),
-                                monto = reader.GetInt32(2),
+                                monto = reader.GetInt64(2),
                                 fecha = reader.GetDateTime(3),
                                 fechaVencimiento = reader.GetDateTime(4),
                                 id = reader.GetInt32(5)
@@ -198,7 +198,7 @@ namespace Project_1.Models.Recibo
                             montosRecibos.Add(new ReciboPorComprobante()
                             {
                                 nombreConceptoCobro = reader.GetString(0),
-                                monto = reader.GetInt32(1),
+                                monto = reader.GetInt64(1),
                                 fecha = reader.GetDateTime(2),
                                 fechaVencimiento = reader.GetDateTime(3)                               
 
@@ -294,7 +294,8 @@ namespace Project_1.Models.Recibo
                                 diaDeCobro = reader.GetInt32(1),
                                 fecha = reader.GetDateTime(2),
                                 tasaInteresMoratorio = reader.GetDouble(3),
-                                monto = reader.GetInt32(4)
+                                monto = reader.GetInt64(4),
+                                metodoPago = ReciboPorComprobante.metodosPago[reader.GetInt32(5)]
 
                             });
                     }

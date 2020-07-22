@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using Project_1.Models;
+using Project_1.Models.AP;
 using Project_1.Models.Authentication;
 using Project_1.Models.Concepto_De_Cobro_En_Propiedad;
 using Project_1.Models.Coneptos_De_Cobro;
@@ -163,6 +164,10 @@ namespace Project_1.Controllers
                 recibosPendientes = Recibo_Conexion.Select(numeroFinca, EstadoRecibo.PENDIENTE),
                 recibosPagados = Recibo_Conexion.Select(numeroFinca, EstadoRecibo.PAGADO),
             };
+
+
+            //APs De la propiedad
+            propiedadDetail.APs = AP_Conexion.Select(numeroFinca);
 
 
             return View(propiedadDetail);

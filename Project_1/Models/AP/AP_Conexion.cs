@@ -37,12 +37,12 @@ namespace Project_1.Models.AP
                         reader.Read();
                         ap = new AP()
                         { 
-                            montoOriginal = reader.GetSqlMoney(0),
-                            saldo =  reader.GetSqlMoney(1),
+                            montoOriginal = reader.GetInt64(0),
+                            saldo =  reader.GetInt64(1),
                             tasaInteres = reader.GetSqlDecimal(2),
                             plazoOriginal = reader.GetInt32(3),
                             plazoResta = reader.GetInt32(4),
-                            cuota = reader.GetSqlMoney(5),
+                            cuota = reader.GetInt64(5),
                             insertedAt = reader.GetDateTime(6)
                             
                         };
@@ -101,6 +101,55 @@ namespace Project_1.Models.AP
                 }
 
                 return retval; // execute not accomplish
+            }
+        }
+
+        public static List<AP> Select(int numeroFinca)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_AP_de_Propieadad";
+                cmd.Parameters.Add("@numeroFinca", SqlDbType.Int).Value = numeroFinca;
+                cmd.Connection = connection;
+                List<AP> APs = new List<AP>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            APs.Add(new AP()
+                            {
+                                montoOriginal = reader.GetInt64(0),
+                                saldo = reader.GetInt64(1),
+                                tasaInteres = reader.GetSqlDecimal(2),
+                                plazoOriginal = reader.GetInt32(3),
+                                plazoResta = reader.GetInt32(4),
+                                cuota = reader.GetInt64(5),
+                                insertedAt = reader.GetDateTime(6),
+                                idComprobante = reader.GetInt32(7),
+                                totalRecibos = reader.GetInt32(8)
+
+                            });
+                        }
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return APs; // execute not accomplish
             }
         }
     }

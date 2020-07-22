@@ -368,46 +368,86 @@ else
     <hr class="my-4">
 </div>
 
-
-<!--Usuarios Suscritos-->
-<!--ADMINISTRADOR-->
-@if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
-{
-    if (@Model.usuarios.Any())
+<!-- AP De propiedad -->
+<div>
+    @if (Model.APs.Any())
     {
         <div>
-            <h3 class="my-4">Usuarios Suscritos</h3>
-            <table id="usuario-table" class="table table-hover" style="table-layout: fixed">
+            <h3 class="my-4">Arreglos de pago</h3>
+            <table class="table table-hover" style="table-layout: fixed">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Tipo de usuario</th>
-                        <th>Ver</th>
-                        <th>Desuscribir</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Saldo</th>
+                        <th scope="col">Tasa interes</th>
+                        <th scope="col">Plazo</th>
+                        <th scope="col">Meses pagados</th>
+                        <th scope="col">Cuota</th>
+                        <th scope="col">Fecha creación</th>
+                        <th>Ver Comprobante</th>
+                        
                     </tr>
                 </thead>
-                @foreach (var usuario in Model.usuarios)
+                @foreach (var ap in Model.APs)
                 {
                     <tr>
-                        <th>@usuario.nombre</th>
-                        <td>@usuario.tipoUsuario</td>
-                        <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
-                        <td><ion-icon usuario-data=@usuario.nombre name="thumbs-down-outline" class="js-delete-usuario btn btn-outline-danger"></ion-icon></td>
+                        <td>@ap.montoOriginal</td>
+                        <td>@ap.saldo</td>
+                        <td>@ap.tasaInteres</td>
+                        <td>@ap.plazoOriginal</td>
+                        <td>@ap.plazoResta</td>
+                        <td>@ap.cuota</td>
+                        <td>@ap.insertedAt.ToShortDateString()</td>
+                        <td>
+                            <a href="~/Recibo/RecibosPorComprobante/@ap.idComprobante/@ap.insertedAt.ToShortDateString()/@Model.propiedad.numeroFinca/@ap.totalRecibos/">
+                                <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
+                            </a>
+                        </td>
                     </tr>
                 }
             </table>
         </div>
     }
-    else
-    {
-        <h3 class="my-4">No hay usuarios suscritos</h3>
-    }
-}
-@section scripts{
 
+    <!--Usuarios Suscritos-->
+    <!--ADMINISTRADOR-->
     @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
     {
-<script>
+        if (@Model.usuarios.Any())
+        {
+            <div>
+                <h3 class="my-4">Usuarios Suscritos</h3>
+                <table id="usuario-table" class="table table-hover" style="table-layout: fixed">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo de usuario</th>
+                            <th>Ver</th>
+                            <th>Desuscribir</th>
+                        </tr>
+                    </thead>
+                    @foreach (var usuario in Model.usuarios)
+                    {
+                        <tr>
+                            <th>@usuario.nombre</th>
+                            <td>@usuario.tipoUsuario</td>
+                            <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+                            <td><ion-icon usuario-data=@usuario.nombre name="thumbs-down-outline" class="js-delete-usuario btn btn-outline-danger"></ion-icon></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+        else
+        {
+            <h3 class="my-4">No hay usuarios suscritos</h3>
+        }
+    }
+    @section scripts{
+
+        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+        {
+            <script>
         //ADMINISTRADOR
         $(document).ready(function () {
 
@@ -625,79 +665,79 @@ else
 
 
         });
-</script>
-    }
+            </script>
+        }
 
-    <script>
-        //PAGO DE RECIBOS
-        $(document).ready(function () {
+        <script>
+            //PAGO DE RECIBOS
+            $(document).ready(function () {
 
-            //Pago recibos
-            $("#recibos-pendientes").on("click", ".pagar-recibos",
-                function () {
-                    var prioridadAnterior = 0;
-                    var idsRecibos = [];
-                    var recibosEnOrden = true
-                    $('#recibos-pendientes-table input:checked').each(function () {
-                        var element = $(this).parent();
-                        var prioridad = element.attr("prioridad");
-                        var id = element.attr("reciboId");
+                //Pago recibos
+                $("#recibos-pendientes").on("click", ".pagar-recibos",
+                    function () {
+                        var prioridadAnterior = 0;
+                        var idsRecibos = [];
+                        var recibosEnOrden = true
+                        $('#recibos-pendientes-table input:checked').each(function () {
+                            var element = $(this).parent();
+                            var prioridad = element.attr("prioridad");
+                            var id = element.attr("reciboId");
 
-                        if (prioridadAnterior == prioridad - 1) {
-                            prioridadAnterior = prioridad;
-                            idsRecibos.push(id);
+                            if (prioridadAnterior == prioridad - 1) {
+                                prioridadAnterior = prioridad;
+                                idsRecibos.push(id);
+                            }
+                            else {
+                                recibosEnOrden = false;
+                            }
+
+                        });
+
+                        if (recibosEnOrden && idsRecibos.length !== 0) {
+                            console.log("Correcto");
+                            $.get('/Recibo/MostrarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
+
+                                //Muestra los montos de los recibos más los interessees moratorios
+
+                                var dialog = bootbox.dialog({
+                                    message: markup,
+                                    size: 'large',
+                                    buttons: {
+                                        cancel: {
+                                            label: "Cancelar!",
+                                            className: 'btn-danger',
+                                            callback: function () {
+
+                                                $.post('/Recibo/CancelarPagoRecibos', true);
+                                            }
+                                        },
+                                        ok: {
+                                            label: "Procesar pago",
+                                            className: 'btn-info',
+                                            callback: function () {
+
+                                                //Paga los recibos
+                                                $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true));
+
+                                            }
+                                        }
+                                    }
+                                });
+
+
+
+
+
+                            });
                         }
                         else {
-                            recibosEnOrden = false;
+                            bootbox.alert("No pueden haber recibos intermedios sin pagar!");
+                            J
                         }
 
                     });
-
-                    if (recibosEnOrden && idsRecibos.length !== 0) {
-                        console.log("Correcto");
-                        $.get('/Recibo/MostrarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
-
-                            //Muestra los montos de los recibos más los interessees moratorios
-
-                            var dialog = bootbox.dialog({
-                                message: markup,
-                                size: 'large',
-                                buttons: {
-                                    cancel: {
-                                        label: "Cancelar!",
-                                        className: 'btn-danger',
-                                        callback: function () {
-
-                                            $.post('/Recibo/CancelarPagoRecibos', true);
-                                        }
-                                    },
-                                    ok: {
-                                        label: "Procesar pago",
-                                        className: 'btn-info',
-                                        callback: function () {
-
-                                            //Paga los recibos
-                                            $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true));
-
-                                        }
-                                    }
-                                }
-                            });
+            });
 
 
-
-
-
-                        });
-                    }
-                    else {
-                        bootbox.alert("No pueden haber recibos intermedios sin pagar!");
-                        J
-                    }
-
-                });
-        });
-
-
-    </script>
-}
+        </script>
+    }
