@@ -23,8 +23,6 @@ BEGIN TRY
 	INNER JOIN Concepto_Cobro ON [idConeceptoCobro] = Concepto_Cobro.[id]
 	WHERE (Concepto_Cobro.[DiaDeCobro] = @dia)
 
-	SELECT * FROM @ConceptoCobro_DeDia;
-
 	-- ITERACION MASIVA PARA GENERAR RECIBOS --
 	IF EXISTS(SELECT [id] FROM @ConceptoCobro_DeDia)
 		BEGIN
@@ -69,7 +67,8 @@ DROP PROCEDURE SPI_GenerarRecibos
 CREATE PROCEDURE SPI_Recibos
 @idConceptoCobro int,
 @idPropiedad int,
-@fechaGenerado date
+@fechaGenerado date,
+@montoCuota int = null -- recibo de tipo AP:12 --
 AS
 BEGIN TRY
 	PRINT('CAMINEXO')
@@ -105,6 +104,11 @@ BEGIN TRY
 			ELSE
 				SET @monto = @MontoMinimo
 
+		END
+	-- ES AP --
+	ELSE IF (@montoCuota is not null)
+		BEGIN
+			SELECT @monto = @montoCuota;
 		END
 	-- ES PORCENTUAL (EsImpuesto)--
 	ELSE
@@ -151,7 +155,7 @@ CREATE PROCEDURE SPI_ReciboIntereses
 @idRecibo int
 AS 
 BEGIN TRY
-	PRINT('CAMINEXO 1')
+
 	-- DECLARACION DE VARIABLES --
 	DECLARE @fechaMax date, @montoRecibo int, @monto bigInt, @intereses float, @tipoRecibo int, @fechaVencimineto date;
 	SELECT @montoRecibo = [monto] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
@@ -161,12 +165,12 @@ BEGIN TRY
 
 	DECLARE @idPropiedad int, @retValue int;
 	SELECT @idPropiedad = [idPropiedad] FROM dbo.[Recibo] AS R WHERE R.[id] = @idRecibo
-	PRINT('TERMENO 2')
+
 	--CALCULO DE MONTO DE RECIBO --
 	DECLARE @fechaDif int;
 	SET @fechaDif = ABS(DATEDIFF(day, @fechaMax, @fechaActual))
 	SET @monto = (@montoRecibo*@intereses/365)*@fechaDif -- dividido entre 365
-	PRINT('TERMENO 3')
+
 	-- CALCULAR FECHA DE VENICIMIENTO --
 	DECLARE @qDiaVencimiento int;
 	SELECT @qDiaVencimiento = [qDiasVencidos] FROM dbo.[Concepto_Cobro] AS CC WHERE  CC.nombre = 'Interes Moratorio';
@@ -177,7 +181,7 @@ BEGIN TRY
 							[estado], [activo])
 	VALUES(null,@idPropiedad, 11, @monto, @fechaActual, @fechaVencimineto, 0, 1);
 	SET @retValue = SCOPE_IDENTITY();
-	PRINT('TERMENO 1')
+
 END TRY
 BEGIN CATCH
 	DECLARE 
@@ -204,12 +208,10 @@ BEGIN TRY
 
 	IF (@fecha >= @fechaVencimiento)
 		BEGIN
-			print('hola')
 			-- INSERTAR INTERES MORATORIO --
 			EXECUTE SPI_ReciboIntereses @fecha, @idRecibo
 			SET @retvalue = 1;
 		END
-		print('hola2')
 	RETURN  @retValue;
 
 END TRY
@@ -266,7 +268,6 @@ BEGIN TRY
 			WHERE(dbo.Propiedad.[numeroFinca] = @numFinca AND dbo.Recibo.[idConceptoCobro] = @tipoRecibo AND dbo.Recibo.[estado] = 0)
 		END
 
-	SELECT * FROM @RecibosDelDia
 
 	-- GENERAR RECIBOS DE INTERESES MORATORIOS -- (MASIVO ITERATIVO)
 	IF EXISTS (SELECT [id] FROM @RecibosDelDia)
@@ -583,7 +584,7 @@ EXEC SP_GenerarRecibosIntereses 1,@fechaActual
 SELECT [idPropiedad] FROM dbo.[Recibo] AS R WHERE (R.idConceptoCobro = 11 AND R.estado = 0)
 SELECT * FROM dbo.Propiedad where [id] = 5160
 
-EXEC SPI_ReciboIntereses '2020-02-20', 9936
+EXEC SPI_ReciboIntereses '2020-02-21', 1660
 EXEC SP_Pagado_Multiple 2407485, 3, '2020-04-21'
 
 EXEC SP_Pagado_Multiple 3099309, 10, '2020-04-22'

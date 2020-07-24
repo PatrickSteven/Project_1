@@ -366,6 +366,8 @@ CREATE TABLE AP(
 	plazoOriginal int not null, -- meses de plazo -- (indicado por el usuario)
 	plazoResta int not null, -- calculado? --
 	cuota bigInt, -- calculada --
+	interesDelMes bigint,
+	amortizacion bigInt,
 	insertAt date not null,
 	activo int not null 
 	-- updateAt date not null
@@ -379,15 +381,18 @@ DROP TABLE AP
 
 CREATE TABLE TipoMovAp	(
 	id int primary key identity (1,1) not null,
+	codigo int not null, -- 0:credito y 1:debito
 	nombre varchar(30)
 );
+
+DROP TABLE TipoMovAp
 
 CREATE TABLE MovimientosAP (
 	id int primary key identity (1,1) not null,
 	idAP int not null, -- FK 
 	idTipoMov int not null, -- FK
 	monto bigInt not null, -- int (revisar)
-	interesesDelMes decimal(4,2), --int (revisar)
+	interesesDelMes bigInt, --int (revisar)
 	plazoRest int not null,
 	nuevoSaldo bigInt not null,
 	fecha date not null,
@@ -401,7 +406,7 @@ CREATE TABLE MovimientosAP (
 DROP TABLE MovimientosAP
 
 CREATE TABLE RecibosAP (
-	id int primary key not null,
+	id int primary key not null, -- herencia de recibo --
 	idMovimientoAP int not null,
 	descirpcion varchar(50), -- descripcion segun el enunciado
 	activo int not null

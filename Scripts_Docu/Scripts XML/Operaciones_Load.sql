@@ -29,7 +29,11 @@ DELETE FROM dbo.[Propietario_Juridico]
 DELETE FROM dbo.[Propietario]
 DELETE FROM dbo.[Usuario_De_Propiedad]
 DELETE FROM dbo.[Usuario]
+DELETE FROM dbo.[RecibosAP]
+DELETE FROM dbo.[MovimientosAP]
 DELETE FROM dbo.[AP]
+
+
 
 
 
@@ -109,6 +113,13 @@ DECLARE @tempPagar table (
 	fechaLeido date
 )
 
+DECLARE @tempMovimientosDia table (
+	id int primary key not null identity(1,1),
+	numFinca int,
+	meses int, -- plazo --
+	fechaLeido date
+)
+
 -- INICIO de lectura del XML
 
 Select @x = XMLData FROM OPENROWSET (BULK 'D:\Documentos\GitHub\Project_1\XML\Operaciones.xml', SINGLE_BLOB) AS Products(XMLData);
@@ -135,7 +146,9 @@ SET @fechaActual = @fechaMin;
 
 WHILE(@fechaActual < @fechaMax)
 	BEGIN
-		-- INSERT informacion sobre la tabla propiedad --
+		----------------------------------------
+		-- INSERT DATOS EN LA TABLA PROPIEDAD --
+		----------------------------------------
 
 		INSERT INTO @tempPropiedades ([numFinca], [valor], [direccion], [fechaLeido])
 		SELECT [NumFinca], [Valor], [Direccion], @fechaActual
@@ -165,7 +178,9 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropiedades
 
-		 -- UPDATE informacion de la tabla de Propiedades
+		 ----------------------------------------
+		 -- UPDATE DATOS EN LA TABLA PROPIEDAD --
+		 ----------------------------------------
 
 		INSERT INTO @PropiedadCambio ([numFinca], [nuevoValor])
 		SELECT [NumFinca], [NuevoValor]
@@ -183,15 +198,16 @@ WHILE(@fechaActual < @fechaMax)
 			BEGIN
 				SELECT @numeroFincaPropiedadU = PU.[numFinca], @valorPropiedadU = PU.[nuevoValor]
 				FROM @PropiedadCambio AS PU WHERE PU.[id] = @idDePropiedadUpdate;
-				PRINT('PIZZA')
-				SELECT * FROM @PropiedadCambio
+
 				EXEC [dbo].[SPU_ValorPropiedad] @numeroFincaPropiedadU, @valorPropiedadU;
-				PRINT('PIZZA 2')
+
 				SELECT @idDePropiedadUpdate = MIN(id) FROM @PropiedadCambio WHERE id > @idDePropiedadUpdate;
 			END
 		DELETE FROM @PropiedadCambio
 
-		-- INSERT Movimiento Consumo a Propiedad --
+		-------------------------------------
+		-- INSERT DATOS MOVIMINETO CONSUMO --
+		-------------------------------------
 
 		INSERT INTO @tempConsumo  ([idNumber], [lecturaM3], [descripcion], [numFinca], [fecha])
 		SELECT [id], [LecturaM3],[descripcion], [NumFinca], [fechaLeido] 
@@ -213,13 +229,15 @@ WHILE(@fechaActual < @fechaMax)
 				SELECT @idNumber = CNP.[idNumber], @lecturaM3 = CNP.[LecturaM3], @descripcion = CNP.[descripcion],
 				@numFincaConsumo = CNP.[NumFinca], @fechaConsumo = CNP.[fecha]
 				FROM @tempConsumo AS CNP WHERE CNP.[id] = @idConsumo
-				SELECT * FROM @tempConsumo
+
 				EXEC [dbo].[SPI_MovimientoAgua_XML] @idNumber, @lecturaM3, @descripcion, @numFincaConsumo, @fechaConsumo
 				SELECT @idConsumo = MIN(id) FROM @tempConsumo WHERE id > @idConsumo
 			END
 		DELETE FROM @tempConsumo
 
-		--  INSERT informacion de la tabla ConceptoCobroVersusPropiedad
+		----------------------------------------------
+		-- INSERT DATOS CONCEPTO COBRO VS PROPIEDAD --
+		----------------------------------------------
 
 		INSERT INTO @tempCobroPropiedad ([idcobro], [numeroFinca], [activo], [fechaLeido])
 		SELECT [idcobro], [NumFinca], 1, @fechaActual
@@ -246,8 +264,9 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempCobroPropiedad
 
-		
-		-- INSERT informacion sobre la tabla propietarios --
+		-------------------------------
+		-- INSERT DATOS PROPIETARIOS --
+		-------------------------------
 
 		INSERT INTO @tempPropietario ([nombre], [idDocId], [valorDocId], [fechaLeido])
 		SELECT [Nombre] , [TipoDocIdentidad], [identificacion], [fechaLeido]
@@ -275,8 +294,9 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropietario
 
-
-		 --INSERT informacion sobre la tabla PropiedadVersusPropietario --
+		 ------------------------------------------
+		 --INSERT DATOS PROPIEDAD VS PROPIETARIO --
+		 ------------------------------------------
 
 		INSERT INTO @tempCobroPropiedad ([idcobro], [numeroFinca], [activo], [fechaLeido])
 		SELECT [idcobro], [NumFinca], 1, @fechaActual
@@ -314,7 +334,9 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropiedadPropietario
 
-		-- INSERT informacion sobre la tabla de usuario --
+		--------------------------
+		-- INSERT DATOS USUARIO --
+		--------------------------
 
 		INSERT INTO dbo.[Usuario] ([nombre], [password], [tipoUsuario],[fechaInicio], [activo])
 		SELECT [Nombre] , [password] , 'Propietario', [fechaLeido], 1
@@ -327,7 +349,9 @@ WHILE(@fechaActual < @fechaMax)
 		)
 		WHERE [fechaLeido] = @fechaActual ;
 
-		-- INSERT informacion sobre la tabla de usuario propiedad
+		---------------------------------------
+		-- INSERT DATOS USUARIO VS PROPIEDAD --
+		---------------------------------------
 
 		INSERT INTO @tempPropiedadUsuario ([numeroFinca] ,[nombreUsuario], [fechaLeido])
 		SELECT [NumFinca], [nombreUsuario], [fechaLeido]
@@ -353,8 +377,9 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropiedadUsuario
 
-
-		-- INSERT informacion sobre la tabla propietarios juridico --
+		-------------------------------------
+		-- INSERT DATOS PERSONAS JURIDICAS --
+		-------------------------------------
 
 		INSERT INTO @tempPropietarioJuridico  ([valorDocIdPropietario], [responsable], [valorDocIdResponsable], [idDocId], [fechaLeido])
 		SELECT [docidPersonaJuridica], [Nombre], [DocidRepresentante], 4, [fechaLeido]
@@ -384,13 +409,63 @@ WHILE(@fechaActual < @fechaMax)
 		-- al terminar el dia hay que borrar los datos --
 		 DELETE FROM @tempPropietarioJuridico
 
+		-------------------------------------
+		-- GENERAR LOS MOVIMIENTOS DEL DIA --
+		-------------------------------------
+
+		INSERT INTO @tempMovimientosDia ([numFinca], [meses], [fechaLeido])
+		SELECT [NumFinca], [Plazo], [fechaLeido]
+		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/AP', 0)
+		WITH(
+			[NumFinca] int,
+			[Plazo] int,
+			[fechaLeido] date '../@fecha'
+		)
+		WHERE [fechaLeido] = @fechaActual ;
+
+		DECLARE @idMovimiento int = 1, @movNumFinca int, @meses int, @fechaMov date;
+
+		WHILE @idMovimiento IS NOT NULL
+			BEGIN
+				SELECT @movNumFinca = M.[numFinca], @meses = M.[meses], @fechaMov = M.[fechaLeido]
+				FROM @tempMovimientosDia AS M WHERE M.[id] = @idMovimiento;
+				print('HOLA HOLA')
+				print(@movNumFinca)
+				print(@meses)
+				print(@fechaMov)
+				--select * from @tempMovimientosDia
+				EXEC SPI_APXML @movNumFinca, @meses, @fechaMov
+
+				SELECT @idMovimiento = MIN(id) FROM @tempMovimientosDia WHERE id > @idMovimiento;
+			END
+		-- al terminar el dia hay que borrar los datos --
+		 DELETE FROM @tempMovimientosDia
+
+		---------------------------------
 		-- GENERAR LOS RECIBOS DEL DIA --
+		---------------------------------
+		-- Nota: no incluyen los recibos tipo AP (12)
+
 		EXECUTE SPI_GenerarRecibos  @fechaActual
 
+		-------------------------------
+		--- GENERAR MOVIMINETOS AP ---
+		-------------------------------
+		-- Nota: incluyen los recibos tipo AP (12)
+
+		EXECUTE Generar_Moviminetos  @fechaActual
+
+		------------------------------------------
 		-- GENERAR LOS RECIBOS DE CORTE DEL DIA --
+		------------------------------------------
+
 		EXECUTE SPI_GenerarRecibosCorte @fechaActual
 
+		---------------------------------
 		-- PAGO DE LOS RECIBOS DEL DIA --
+		---------------------------------
+		-- Nota: incluyen los recibos tipo AP (12)
+
 		INSERT INTO @tempPagar ([tipoRecibo], [numFinca], [fechaLeido])
 		SELECT [TipoRecibo], [NumFinca], [fechaLeido]
 		FROM OPENXML (@hdoc, '/Operaciones_por_Dia/OperacionDia/Pago', 0)
@@ -439,3 +514,6 @@ SELECT * FROM dbo.Corte
 
 SELECT * FROM dbo.Bitacora AS B WHERE B.idTipoEntidad = 1
 SELECT * FROM dbo.Recibo as r where r.idConceptoCobro= 11
+
+SELECT * FROM dbo.AP
+SELECT * FROM dbo.MovimientosAP

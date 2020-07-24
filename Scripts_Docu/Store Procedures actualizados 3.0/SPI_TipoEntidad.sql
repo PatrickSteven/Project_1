@@ -45,6 +45,18 @@ SELECT * FROM TipoValoresConfiguraciones
 -----------------------------
 
 INSERT INTO ValoresConfiguracion([idTipoValoresConfiguracion], [nombre], [valor], [insertedAt])
-VALUES (1, 'TasaInteres_AP', '12.5', GETDATE())
+VALUES (1, 'TasaInteres_AP', '0.04', GETDATE())
 
 SELECT * FROM ValoresConfiguracion
+
+----------------------------------
+-- INSERT DE TIPO MOVIMINETO AP --
+----------------------------------
+
+INSERT INTO TipoMovAp([codigo],[nombre])
+VALUES (0,'Credito')
+
+INSERT INTO TipoMovAp([codigo],[nombre])
+VALUES (1,'Debito')
+
+SELECT * FROM TipoMovAp
