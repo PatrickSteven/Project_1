@@ -80,47 +80,50 @@
 </div>
 
 <!--PROPIETARIOS-->
-@if (Model.propietarios.Any() == true)
-{
-    <div>
-        <h3 class="my-4">Propietarios</h3>
-        <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Documento</th>
-                    <th scope="col">Tipo de Documento</th>
-                    @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
-                    {
-                        <th>Ver</th>
-                        <th>Actualizar</th>
-                        <th>Despropiar</th>
-                    }
-                </tr>
-            </thead>
-            @foreach (var propietario in Model.propietarios)
-            {
-                <tr>
-                    <th>@propietario.nombre</th>
-                    <td>@propietario.valorDocId</td>
-                    <td>@propietario.nombreDocId</td>
+<div>
+    @if (Model.propietarios.Any() == true)
+    {
+        <div>
+            <h3 class="my-4">Propietarios</h3>
+            <table id="propietario-table" class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Documento</th>
+                        <th scope="col">Tipo de Documento</th>
+                        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                        {
+                            <th>Ver</th>
+                            <th>Actualizar</th>
+                            <th>Despropiar</th>
+                        }
+                    </tr>
+                </thead>
+                @foreach (var propietario in Model.propietarios)
+                {
+                    <tr>
+                        <th>@propietario.nombre</th>
+                        <td>@propietario.valorDocId</td>
+                        <td>@propietario.nombreDocId</td>
 
-                    @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
-                    {
-                        <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
-                        <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
-                        <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete-propietario btn btn-outline-danger"></ion-icon></td>
-                    }
-                </tr>
-            }
-        </table>
-    </div>
-}
-else
-{
-    <h3 class="my-4">No hay propietarios</h3>
-}
+                        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+                        {
+                            <td><a href="~/Propietario/Detail/@propietario.valorDocId"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+                            <td><a href="~/Propietario/UpdateRedirect/@propietario.valorDocId"><ion-icon name="arrow-up-circle-outline" class="js-update btn btn-outline-success"></ion-icon></a></td>
+                            <td><ion-icon propietario-data=@propietario.valorDocId name="thumbs-down-outline" class="js-delete-propietario btn btn-outline-danger"></ion-icon></td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <h3 class="my-4">No hay propietarios</h3>
+    }
+</div>
 
+<!--CONCEPTOS DE COBRO-->
 <div id="conceptos_cobro">
     <!--CC_FIjo-->
 
@@ -310,7 +313,54 @@ else
 
 </div>
 
-<!--RECIBOS -->
+<!-- AP De propiedad -->
+<div>
+    @if (Model.APs.Any())
+    {
+        <div>
+            <h3 class="my-4">Arreglos de pago</h3>
+            <table class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Saldo</th>
+                        <th scope="col">Tasa interes</th>
+                        <th scope="col">Plazo</th>
+                        <th scope="col">Meses pagados</th>
+                        <th scope="col">Cuota</th>
+                        <th scope="col">Fecha creación</th>
+                        <th>Ver comprobante</th>
+                        <th>Ver movimientos</th>
+                    </tr>
+                </thead>
+                @foreach (var ap in Model.APs)
+                {
+                    <tr>
+                        <td>@ap.montoOriginal</td>
+                        <td>@ap.saldo</td>
+                        <td>@ap.tasaInteres</td>
+                        <td>@ap.plazoOriginal</td>
+                        <td>@ap.plazoResta</td>
+                        <td>@ap.cuota</td>
+                        <td>@ap.insertedAt.ToShortDateString()</td>
+                        <td>
+                            <a href="~/Recibo/RecibosPorComprobante/@ap.idComprobante/@ap.insertedAt.ToShortDateString()/@Model.propiedad.numeroFinca/@ap.totalRecibos/">
+                                <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="~/AP/@ap.id/@Model.propiedad.numeroFinca">
+                                <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
+
+<!--RECIBOS PENDIENTES -->
 <div id="recibos-pendientes" class="my-3">
     @if (Model.recibos.recibosPendientes.Any())
     {
@@ -354,7 +404,7 @@ else
 
         <button class="btn btn-danger procesar-AP my-3 align-self-center">Procesar AP</button>
 
-        <input class ="meses-input input-group-lg" type="number" id="quantity" name="quantity" min="1" max="100">
+        <input class="meses-input input-group-lg" type="number" id="quantity" name="quantity" min="1" max="100">
 
 
 
@@ -368,248 +418,319 @@ else
     <hr class="my-4">
 </div>
 
-<!-- AP De propiedad -->
+<!--RECIBOS PAGADOS-->
 <div>
-    @if (Model.APs.Any())
+    @if (Model.recibos.recibosPagados.Any())
+    {
+        <h3 class="my-4">Recibos Pagados</h3>
+        <table id="" class="table table-hover" style="table-layout: fixed">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Concepto</th>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Fecha vencimiento</th>
+
+                </tr>
+            </thead>
+            @foreach (var reciboPagado in Model.recibos.recibosPagados)
+            {
+                <tr>
+                    <th>@reciboPagado.nombreConceptoCobro</th>
+                    <th>@reciboPagado.monto</th>
+                    <td>@reciboPagado.fecha.ToShortDateString()</td>
+                    <td>@reciboPagado.fechaVencimiento.ToShortDateString()</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <h3 class="my-4">No hay recibos pagados</h3>
+    }
+
+    <hr class="my-4">
+</div>
+
+
+<!--Usuarios Suscritos-->
+@if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
+{
+    if (@Model.usuarios.Any())
     {
         <div>
-            <h3 class="my-4">Arreglos de pago</h3>
-            <table class="table table-hover" style="table-layout: fixed">
+            <h3 class="my-4">Usuarios Suscritos</h3>
+            <table id="usuario-table" class="table table-hover" style="table-layout: fixed">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">Monto</th>
-                        <th scope="col">Saldo</th>
-                        <th scope="col">Tasa interes</th>
-                        <th scope="col">Plazo</th>
-                        <th scope="col">Meses pagados</th>
-                        <th scope="col">Cuota</th>
-                        <th scope="col">Fecha creación</th>
-                        <th>Ver Comprobante</th>
-                        
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Tipo de usuario</th>
+                        <th>Ver</th>
+                        <th>Desuscribir</th>
                     </tr>
                 </thead>
-                @foreach (var ap in Model.APs)
+                @foreach (var usuario in Model.usuarios)
                 {
                     <tr>
-                        <td>@ap.montoOriginal</td>
-                        <td>@ap.saldo</td>
-                        <td>@ap.tasaInteres</td>
-                        <td>@ap.plazoOriginal</td>
-                        <td>@ap.plazoResta</td>
-                        <td>@ap.cuota</td>
-                        <td>@ap.insertedAt.ToShortDateString()</td>
-                        <td>
-                            <a href="~/Recibo/RecibosPorComprobante/@ap.idComprobante/@ap.insertedAt.ToShortDateString()/@Model.propiedad.numeroFinca/@ap.totalRecibos/">
-                                <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
-                            </a>
-                        </td>
+                        <th>@usuario.nombre</th>
+                        <td>@usuario.tipoUsuario</td>
+                        <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
+                        <td><ion-icon usuario-data=@usuario.nombre name="thumbs-down-outline" class="js-delete-usuario btn btn-outline-danger"></ion-icon></td>
                     </tr>
                 }
             </table>
         </div>
     }
+    else
+    {
+        <h3 class="my-4">No hay usuarios suscritos</h3>
+    }
+}
 
-    <!--Usuarios Suscritos-->
-    <!--ADMINISTRADOR-->
+
+
+
+
+
+@section scripts{
+
+    <!--SCRIPTS ADMINISTRADOR-->
     @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
     {
-        if (@Model.usuarios.Any())
-        {
-            <div>
-                <h3 class="my-4">Usuarios Suscritos</h3>
-                <table id="usuario-table" class="table table-hover" style="table-layout: fixed">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Tipo de usuario</th>
-                            <th>Ver</th>
-                            <th>Desuscribir</th>
-                        </tr>
-                    </thead>
-                    @foreach (var usuario in Model.usuarios)
-                    {
-                        <tr>
-                            <th>@usuario.nombre</th>
-                            <td>@usuario.tipoUsuario</td>
-                            <td><a href="~/Usuario/Detail/@usuario.nombre"><ion-icon name="person" class="js-detail btn btn-outline-success"></ion-icon></a></td>
-                            <td><ion-icon usuario-data=@usuario.nombre name="thumbs-down-outline" class="js-delete-usuario btn btn-outline-danger"></ion-icon></td>
-                        </tr>
-                    }
-                </table>
-            </div>
-        }
-        else
-        {
-            <h3 class="my-4">No hay usuarios suscritos</h3>
-        }
-    }
-    @section scripts{
+        <script>
+    //ADMINISTRADOR
+    $(document).ready(function () {
 
-        @if (User.Identity.IsAuthenticated && @CurrentUser.Role == Roles.administrador)
-        {
-            <script>
-        //ADMINISTRADOR
-        $(document).ready(function () {
+        //Delete propietario Button
+        $("#propietario-table").on("click", ".js-delete-propietario",
+            function() {
+                var deleteButton = $(this);
 
-            //Delete propietario Button
-            $("#propietario-table").on("click", ".js-delete-propietario",
-                function() {
-                    var deleteButton = $(this);
-
-                    bootbox.confirm({
-                        message: "¿Desea despropiar a #" +deleteButton.attr("propietario-data") + " de esta propiedad?",
-                        buttons: {
-                            confirm: {
-                                label: 'Sí',
-                                className: 'btn-success'
-                            },
-                            cancel: {
-                                label: 'No',
-                                className: 'btn-danger'
-                            }
+                bootbox.confirm({
+                    message: "¿Desea despropiar a #" +deleteButton.attr("propietario-data") + " de esta propiedad?",
+                    buttons: {
+                        confirm: {
+                            label: 'Sí',
+                            className: 'btn-success'
                         },
-                        callback: function(result) {
-                            if (result) {
-                                $.ajax({
-                                    method: "POST",
-                                    url: '@Url.Content("~/PropiedadDelPropietario/Despropiar/")'+ @Model.propiedad.numeroFinca +"/"+ deleteButton.attr("propietario-data"),
-                                    success: function () {
-                                        deleteButton.parents("tr").remove();
-                                    }
-                                });
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $.ajax({
+                                method: "POST",
+                                url: '@Url.Content("~/PropiedadDelPropietario/Despropiar/")'+ @Model.propiedad.numeroFinca +"/"+ deleteButton.attr("propietario-data"),
+                                success: function () {
+                                    deleteButton.parents("tr").remove();
+                                }
+                            });
+                        }
+                    }
+                });
+
+			});
+
+
+		//Agregar Concepto de Cobro
+		var warningDiv = $("div.warning-message");
+        var successfulDiv = $("div.successful-message");
+
+        $(".propiedad-info").on("click", ".agregar-CC",
+            function() {
+                $("div.agregar-CC-form").show();
+                warningDiv.hide();
+                successfulDiv.hide();
+            });
+
+		$(".agregar-CC-form").on("click", ".btn-agregar-CC",
+			function () {
+
+				console.log($("#CC_En_Propiedad_nombreCC").val() + " " + $("#propiedad_numeroFinca").val());
+				if ($("#CC_En_Propiedad_nombreCC").val() &&
+					$("#propiedad_numeroFinca").val()) {
+
+                    $.ajax({
+                        method: "POST",
+                        url: '@Url.Content("~/CCEnPropiedad/Insert/")' +
+							$("#propiedad_numeroFinca").val() +
+                            "/" +
+							$("#CC_En_Propiedad_nombreCC").val(),
+                        success: function (retval) {
+							if (retval == "Concepto de cobro agregado!") {
+                                warningDiv.hide();
+                                successfulDiv.show();
+                                successfulDiv.append(retval);
+                            } else {
+                                successfulDiv.hide();
+                                warningDiv.show();
+                                warningDiv.append(retval);
                             }
+
                         }
                     });
 
-				});
 
+				}
+				else {
 
-			//Agregar Concepto de Cobro
-			var warningDiv = $("div.warning-message");
-            var successfulDiv = $("div.successful-message");
-
-            $(".propiedad-info").on("click", ".agregar-CC",
-                function() {
-                    $("div.agregar-CC-form").show();
-                    warningDiv.hide();
                     successfulDiv.hide();
+                    warningDiv.show();
+                    warningDiv.append("Todos los campos son obligatiorios!");
+
+                }
+
+            });
+
+
+        //Delete usuario suscrito
+        $("#usuario-table").on("click", ".js-delete-usuario",
+            function() {
+                var deleteButton = $(this);
+                var usuarioNombre = deleteButton.attr("usuario-data");
+
+                bootbox.confirm({
+                    message: "¿Desea desuscribir a " + usuarioNombre + " de esta propiedad?",
+                    buttons: {
+                        confirm: {
+                            label: 'Sí',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $.ajax({
+                                method: "POST",
+                                url: '@Url.Content("~/UsuarioDePropiedad/DesuscribirPropiedad/")' + usuarioNombre  + "/" + "@Model.propiedad.numeroFinca",
+                                success: function() {
+                                    deleteButton.parents("tr").remove();
+                                }
+                            });
+                        }
+                    }
                 });
 
-			$(".agregar-CC-form").on("click", ".btn-agregar-CC",
-				function () {
+            });
 
-					console.log($("#CC_En_Propiedad_nombreCC").val() + " " + $("#propiedad_numeroFinca").val());
-					if ($("#CC_En_Propiedad_nombreCC").val() &&
-						$("#propiedad_numeroFinca").val()) {
 
-                        $.ajax({
-                            method: "POST",
-                            url: '@Url.Content("~/CCEnPropiedad/Insert/")' +
-								$("#propiedad_numeroFinca").val() +
-                                "/" +
-								$("#CC_En_Propiedad_nombreCC").val(),
-                            success: function (retval) {
-								if (retval == "Concepto de cobro agregado!") {
-                                    warningDiv.hide();
-                                    successfulDiv.show();
-                                    successfulDiv.append(retval);
-                                } else {
-                                    successfulDiv.hide();
-                                    warningDiv.show();
-                                    warningDiv.append(retval);
+        //Delete Concepto Cobro en propiedad
+		$("#conceptos_cobro").on("click", ".js-delete-CC",
+            function() {
+                var deleteButton = $(this);
+                var nombreCC = deleteButton.attr("CC-data");
+
+                bootbox.confirm({
+                    message: "¿Desea eliminar el concepto de cobro " + nombreCC + " de esta propiedad?",
+                    buttons: {
+                        confirm: {
+                            label: 'Sí',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function(result) {
+                        if (result) {
+                            $.ajax({
+                                method: "POST",
+                                url: '@Url.Content("~/CCEnPropiedad/Delete/")' + @Model.propiedad.numeroFinca  + "/" + nombreCC,
+                                success: function() {
+                                    deleteButton.parents("tr").remove();
                                 }
+                            });
+                        }
+                    }
+                });
 
+            });
+
+        //PROCESAR AP
+        $("#recibos-pendientes").on("click", ".procesar-AP",
+            function () {
+                var prioridadAnterior = 0;
+                var idsRecibos = [];
+                var recibosEnOrden = true
+                var meses = $('.meses-input').val();
+
+                $('#recibos-pendientes-table input:checked').each(function () {
+                    var element = $(this).parent();
+                    var prioridad = element.attr("prioridad");
+                    var id = element.attr("reciboId");
+
+                    if (prioridadAnterior == prioridad - 1) {
+                        prioridadAnterior = prioridad;
+                        idsRecibos.push(id);
+                    }
+                    else {
+                        recibosEnOrden = false;
+                    }
+
+                });
+
+                if (recibosEnOrden && idsRecibos.length !== 0) {
+                    console.log("Correcto");
+                    $.post('/AP/MostrarAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true), function (markup) {
+
+                        //Muestra los montos de los recibos más los interessees moratorios
+
+                        var dialog = bootbox.dialog({
+                            message: markup,
+                            size: 'large',
+                            buttons: {
+                                cancel: {
+                                    label: "Cancelar!",
+                                    className: 'btn-danger',
+                                    callback: function () {
+                                        $.post('/Recibo/CancelarPagoRecibos', true);
+                                    }
+                                },
+                                ok: {
+                                    label: "Crear Arreglo de pago",
+                                    className: 'btn-info',
+                                    callback: function () {
+
+                                        //Crea el AP
+                                        console.log("A crear");
+                                        $.post('/AP/CrearAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true));
+                                        console.log("Creado");
+
+                                    }
+                                }
                             }
                         });
 
-
-					}
-					else {
-
-                        successfulDiv.hide();
-                        warningDiv.show();
-                        warningDiv.append("Todos los campos son obligatiorios!");
-
-                    }
-
-                });
-
-
-            //Delete usuario suscrito
-            $("#usuario-table").on("click", ".js-delete-usuario",
-                function() {
-                    var deleteButton = $(this);
-                    var usuarioNombre = deleteButton.attr("usuario-data");
-
-                    bootbox.confirm({
-                        message: "¿Desea desuscribir a " + usuarioNombre + " de esta propiedad?",
-                        buttons: {
-                            confirm: {
-                                label: 'Sí',
-                                className: 'btn-success'
-                            },
-                            cancel: {
-                                label: 'No',
-                                className: 'btn-danger'
-                            }
-                        },
-                        callback: function(result) {
-                            if (result) {
-                                $.ajax({
-                                    method: "POST",
-                                    url: '@Url.Content("~/UsuarioDePropiedad/DesuscribirPropiedad/")' + usuarioNombre  + "/" + "@Model.propiedad.numeroFinca",
-                                    success: function() {
-                                        deleteButton.parents("tr").remove();
-                                    }
-                                });
-                            }
-                        }
                     });
+                }
+                else {
+                    bootbox.alert("No pueden haber recibos intermedios sin pagar!");
+                    J
+                }
 
-                });
+            });
 
 
-            //Delete Concepto Cobro en propiedad
-			$("#conceptos_cobro").on("click", ".js-delete-CC",
-                function() {
-                    var deleteButton = $(this);
-                    var nombreCC = deleteButton.attr("CC-data");
+    });
+        </script>
+    }
 
-                    bootbox.confirm({
-                        message: "¿Desea eliminar el concepto de cobro " + nombreCC + " de esta propiedad?",
-                        buttons: {
-                            confirm: {
-                                label: 'Sí',
-                                className: 'btn-success'
-                            },
-                            cancel: {
-                                label: 'No',
-                                className: 'btn-danger'
-                            }
-                        },
-                        callback: function(result) {
-                            if (result) {
-                                $.ajax({
-                                    method: "POST",
-                                    url: '@Url.Content("~/CCEnPropiedad/Delete/")' + @Model.propiedad.numeroFinca  + "/" + nombreCC,
-                                    success: function() {
-                                        deleteButton.parents("tr").remove();
-                                    }
-                                });
-                            }
-                        }
-                    });
+    <script>
+        //PAGO DE RECIBOS
+        $(document).ready(function () {
 
-                });
-
-            //PROCESAR AP
-            $("#recibos-pendientes").on("click", ".procesar-AP",
+            //Pago recibos
+            $("#recibos-pendientes").on("click", ".pagar-recibos",
                 function () {
                     var prioridadAnterior = 0;
                     var idsRecibos = [];
                     var recibosEnOrden = true
-                    var meses = $('.meses-input').val();
-
                     $('#recibos-pendientes-table input:checked').each(function () {
                         var element = $(this).parent();
                         var prioridad = element.attr("prioridad");
@@ -627,7 +748,7 @@ else
 
                     if (recibosEnOrden && idsRecibos.length !== 0) {
                         console.log("Correcto");
-                        $.post('/AP/MostrarAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true), function (markup) {
+                        $.get('/Recibo/MostrarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
 
                             //Muestra los montos de los recibos más los interessees moratorios
 
@@ -638,21 +759,27 @@ else
                                     cancel: {
                                         label: "Cancelar!",
                                         className: 'btn-danger',
+                                        callback: function () {
+
+                                            $.post('/Recibo/CancelarPagoRecibos', true);
+                                        }
                                     },
                                     ok: {
-                                        label: "Crear Arreglo de pago",
+                                        label: "Procesar pago",
                                         className: 'btn-info',
                                         callback: function () {
 
-                                            //Crea el AP
-                                            console.log("A crear");
-                                            $.post('/AP/CrearAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true));
-                                            console.log("Creado");
+                                            //Paga los recibos
+                                            $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true));
 
                                         }
                                     }
                                 }
                             });
+
+
+
+
 
                         });
                     }
@@ -662,82 +789,8 @@ else
                     }
 
                 });
-
-
         });
-            </script>
-        }
-
-        <script>
-            //PAGO DE RECIBOS
-            $(document).ready(function () {
-
-                //Pago recibos
-                $("#recibos-pendientes").on("click", ".pagar-recibos",
-                    function () {
-                        var prioridadAnterior = 0;
-                        var idsRecibos = [];
-                        var recibosEnOrden = true
-                        $('#recibos-pendientes-table input:checked').each(function () {
-                            var element = $(this).parent();
-                            var prioridad = element.attr("prioridad");
-                            var id = element.attr("reciboId");
-
-                            if (prioridadAnterior == prioridad - 1) {
-                                prioridadAnterior = prioridad;
-                                idsRecibos.push(id);
-                            }
-                            else {
-                                recibosEnOrden = false;
-                            }
-
-                        });
-
-                        if (recibosEnOrden && idsRecibos.length !== 0) {
-                            console.log("Correcto");
-                            $.get('/Recibo/MostrarRecibos', $.param({ idsRecibos: idsRecibos }, true), function (markup) {
-
-                                //Muestra los montos de los recibos más los interessees moratorios
-
-                                var dialog = bootbox.dialog({
-                                    message: markup,
-                                    size: 'large',
-                                    buttons: {
-                                        cancel: {
-                                            label: "Cancelar!",
-                                            className: 'btn-danger',
-                                            callback: function () {
-
-                                                $.post('/Recibo/CancelarPagoRecibos', true);
-                                            }
-                                        },
-                                        ok: {
-                                            label: "Procesar pago",
-                                            className: 'btn-info',
-                                            callback: function () {
-
-                                                //Paga los recibos
-                                                $.post('/Recibo/PagarRecibos', $.param({ idsRecibos: idsRecibos }, true));
-
-                                            }
-                                        }
-                                    }
-                                });
 
 
-
-
-
-                            });
-                        }
-                        else {
-                            bootbox.alert("No pueden haber recibos intermedios sin pagar!");
-                            J
-                        }
-
-                    });
-            });
-
-
-        </script>
-    }
+    </script>
+}

@@ -3,6 +3,7 @@ using Project_1.ViewModels.AP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 
@@ -32,11 +33,23 @@ namespace Project_1.Controllers
             markup += "</div>";
             return Content(markup);
             }
-    
+
+        [Route("AP/{id}/{numeroFinca}")]
+        public ActionResult Index(int id, int numeroFinca)
+        {
+            APViewModel movimientos = new APViewModel()
+            {
+                APs = AP_Conexion.SelectMovimientos(id),
+                numeroFinca = numeroFinca
+            };
+
+            return View(movimientos);
+        }
         public void CrearAP(List<int> idsRecibos, int numeroFinca, int meses)
         {
             AP_Conexion.CrearAP(numeroFinca, meses, idsRecibos);
         }
+
 
     }
 }

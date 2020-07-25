@@ -1,0 +1,56 @@
+﻿@model Project_1.ViewModels.AP.APViewModel
+@{
+    ViewBag.Title = "Arreglos de pago";
+}
+
+<div class="jumbotron">
+    <h3 class="display-4">Arreglo de pago</h3>
+    <h4><span class="badge badge-info">Ahora somos dueños de tu alma</span></h4>
+    <hr class="my-4">
+    <h4><span class="badge badge-info">Plazo restante 450 años, a paguitos</span></h4>
+    <p class="lead">
+</div>
+
+<!-- AP De propiedad -->
+<div>
+    @if (Model.APs.Any())
+    {   <!--MAP.nuevoSaldo, AP.amortizacion, AP.interesDelMes, MAP.monto, MAP.fecha, MAP.plazoRest-->
+        <div>
+            <h3 class="my-4">Movimientos</h3>
+            <table class="table table-hover" style="table-layout: fixed">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nuevo saldo</th>
+                        <th scope="col">Amortización</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col">Interes</th>
+                        <th scope="col">Plazos restantes</th>
+                        <th scope="col">Fecha pago</th>
+                        <th scope="col">Ver comprobante</th>
+                    </tr>
+                </thead>
+                @foreach (var ap in Model.APs)
+                {
+                    <tr>
+                        <td>@ap.saldo</td>
+                        <td>@ap.amortizacion</td>
+                        <td>@ap.montoOriginal</td>
+                        <td>@ap.interes</td>
+                        <td>@ap.plazoResta</td>
+                        <td>@ap.fecha.ToShortDateString()</td>
+                        <td>
+                            <a href="~/Recibo/RecibosPorComprobante/@ap.idComprobante/@ap.insertedAt.ToShortDateString()/@Model.numeroFinca/@ap.totalRecibos/">
+                                <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <p> No hay movimientos </p>
+    }
+</div>
+

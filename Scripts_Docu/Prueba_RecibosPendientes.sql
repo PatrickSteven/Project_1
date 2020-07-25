@@ -5,17 +5,15 @@ join Propiedad P ON P.id = UP.idPropiedad
 join Recibo R ON R.idPropiedad = P.id
 join Concepto_Cobro CC ON CC.id = R.idConceptoCobro
 where R.estado = 0
-
 select * from Recibo where estado = 0 and idConceptoCobro = 11
 
-select P.numeroFinca, CC.nombre 
+select P.numeroFinca, CC.nombre,  R.id
 from Propiedad P
 join Recibo R ON R.idPropiedad = P.id
 join Concepto_Cobro CC ON CC.id = R.idConceptoCobro
-where R.estado = 0
+where R.estado = 1 and CC.id = 12
 
-select * from AP
-select * from Comprobante_Pago where id = 6186
-
-
-select * from Recibo_por_ComprobantePago
+select * from MovimientosAP
+select * from RecibosAP
+select * from Recibo_por_ComprobantePago where idRecibo =18683
+UPDATE Recibo SET estado = 0 where id = 18684

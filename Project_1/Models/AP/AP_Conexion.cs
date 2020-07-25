@@ -131,8 +131,10 @@ namespace Project_1.Models.AP
                                 cuota = reader.GetInt64(5),
                                 insertedAt = reader.GetDateTime(6),
                                 idComprobante = reader.GetInt32(7),
-                                totalRecibos = reader.GetInt32(8)
-
+                                totalRecibos = reader.GetInt32(8),
+                                id = reader.GetInt32(9),
+                                amortizacion = reader.GetInt64(10),
+                                interes = reader.GetInt64(11)
                             });
                         }
 
@@ -150,6 +152,54 @@ namespace Project_1.Models.AP
                 }
 
                 return APs; // execute not accomplish
+            }
+        }
+
+        public static List<AP> SelectMovimientos(int idAp)
+        {
+            using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connection_DB"].ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "dbo.SPS_MovimientosAP";
+                cmd.Parameters.Add("@idAP", SqlDbType.Int).Value = idAp;
+                cmd.Connection = connection;
+                List<AP> movimientos = new List<AP>();
+                try
+                {
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            movimientos.Add(new AP()
+                            {
+                                saldo = reader.GetInt64(0),
+                                amortizacion = reader.GetInt64(1),
+                                interes = reader.GetInt64(2),
+                                montoOriginal =reader.GetInt64(3),
+                                fecha = reader.GetDateTime(4),
+                                plazoResta = reader.GetInt32(5),
+                                idComprobante = reader.GetInt32(6),
+                                totalRecibos = reader.GetInt32(7),
+                                insertedAt = reader.GetDateTime(8)
+                            });
+                        }
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    throw;
+
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return movimientos; // execute not accomplish
             }
         }
     }

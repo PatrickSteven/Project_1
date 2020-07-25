@@ -348,7 +348,7 @@ BEGIN
 		DECLARE @idPropiedad int
 		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca;
 
-		SELECT AP.[montoOriginal], AP.[saldo], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt], AP.[idComrpobante], CP.total
+		SELECT AP.[montoOriginal], AP.[saldo], AP.[tasaIneteres], AP.[plazoOriginal], AP.[plazoResta], AP.[cuota], AP.[insertAt], AP.[idComrpobante], CP.total, AP.id, AP.amortizacion, AP.interesDelMes
 		FROM AP 
 		JOIN Comprobante_Pago CP ON CP.id = AP.idComrpobante
 		WHERE AP.[idPropiedad] = @idPropiedad AND Ap.[activo] = 1
@@ -365,6 +365,33 @@ END
 
 DROP PROCEDURE SPS_AP_de_Propieadad
 
+CREATE PROCEDURE SPS_MovimientosAP
+@idAP int
+AS 
+BEGIN
+	BEGIN TRY
+		
+		SELECT MAP.nuevoSaldo, AP.amortizacion, AP.interesDelMes, MAP.monto, MAP.fecha, MAP.plazoRest, CP.id, Cp.total, MAP.insertedAt
+		FROM AP
+		JOIN MovimientosAP MAP ON MAP.idAP = AP.id
+		JOIN RecibosAP RAP ON RAP.idMovimientoAP = MAP.id
+		JOIN Recibo_por_ComprobantePago RCP ON RCP.idRecibo = RAP.id
+		JOIN Comprobante_Pago CP ON CP.id = RCP.idComprobante_Pago
+		WHERE AP.id = @idAP and MAP.activo = 1
+		ORDER BY MAP.fecha DESC
+
+	END TRY
+	BEGIN CATCH
+		DECLARE 
+		@Message varchar(MAX) = ERROR_MESSAGE(),
+		@Severity int = ERROR_SEVERITY(),
+		@State smallint = ERROR_STATE()
+		RAISERROR( @Message, @Severity, @State) 
+	END CATCH
+END
+
+DROP PROCEDURE SPS_MovimientosAP
+EXECUTE SPS_MovimientosAP 1382
 -----------------------------------
 -----------------------------------
 --  NO PAGAR LOS RECIBOS COMO AP --
