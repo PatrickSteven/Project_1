@@ -371,7 +371,7 @@ AS
 BEGIN
 	BEGIN TRY
 		
-		SELECT MAP.nuevoSaldo, AP.amortizacion, AP.interesDelMes, MAP.monto, MAP.fecha, MAP.plazoRest, CP.id, Cp.total, MAP.insertedAt
+		SELECT MAP.nuevoSaldo, AP.amortizacion, AP.interesDelMes, MAP.monto, MAP.fecha, MAP.plazoRest, CP.id, Cp.total, RCP.fechaLeido
 		FROM AP
 		JOIN MovimientosAP MAP ON MAP.idAP = AP.id
 		JOIN RecibosAP RAP ON RAP.idMovimientoAP = MAP.id
@@ -391,7 +391,27 @@ BEGIN
 END
 
 DROP PROCEDURE SPS_MovimientosAP
-EXECUTE SPS_MovimientosAP 1382
+EXECUTE SPS_MovimientosAP 1383
+EXECUTE SPS_RecibosPorComprobante 11591,'2020-04-10', 1565045
+select * from Recibo_por_ComprobantePago where idComprobante_Pago = 11591
+
+select * from Recibo where id = 18683
+
+
+select R.idPropiedad, AP.idPropiedad FROM RecibosAP RAP
+JOIN MovimientosAP M ON M.id = RAP.idMovimientoAP
+JOIN Recibo R ON R.id = RAP.id
+JOIN AP ON AP.id = M.idAP
+JOIN Propiedad P ON P.id = AP.idPropiedad
+
+idPropiedad; 29016
+Recibo: 18683
+idMov : 132
+idCom : 11591
+fechaleidO :2020-04-10
+idPropiedad ; 28837
+numFinca: 1565045
+
 -----------------------------------
 -----------------------------------
 --  NO PAGAR LOS RECIBOS COMO AP --

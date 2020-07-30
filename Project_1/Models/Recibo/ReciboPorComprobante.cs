@@ -7,6 +7,7 @@ namespace Project_1.Models.Recibo
 {
     public class ReciboPorComprobante
     {
+        public int id { get; set; }
         public string nombreConceptoCobro { get; set; }
         public int diaDeCobro { get; set; }
         public DateTime fecha { get; set; }

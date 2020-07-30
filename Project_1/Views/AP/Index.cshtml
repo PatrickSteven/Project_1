@@ -25,6 +25,7 @@
                         <th scope="col">Monto</th>
                         <th scope="col">Interes</th>
                         <th scope="col">Plazos restantes</th>
+                        <th scope="col">Fecha cobro</th>
                         <th scope="col">Fecha pago</th>
                         <th scope="col">Ver comprobante</th>
                     </tr>
@@ -38,6 +39,7 @@
                         <td>@ap.interes</td>
                         <td>@ap.plazoResta</td>
                         <td>@ap.fecha.ToShortDateString()</td>
+                        <td>@ap.insertedAt.ToShortDateString()</td>
                         <td>
                             <a href="~/Recibo/RecibosPorComprobante/@ap.idComprobante/@ap.insertedAt.ToShortDateString()/@Model.numeroFinca/@ap.totalRecibos/">
                                 <ion-icon name="receipt-outline" class="btn btn-outline-success"></ion-icon>

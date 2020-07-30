@@ -14,11 +14,13 @@
     <table class="table table-hover" style="table-layout: fixed">
         <thead class="thead-dark">
             <tr>
+                <th scope="col">Id</th>
                 <th scope="col">Descripcion</th>
                 <th scope="col">Dia de cobro</th>
-                <th scope="col">Fecha del recibo</th>
                 <th scope="col">Tasa interes</th>
                 <th scope="col">Monto</th>
+                <th scope="col">Fecha del recibo</th>
+                <th scope="col">Fecha de vencimiento</th>
                 <th scope="col">Metodo de pago</th>
 
             </tr>
@@ -27,11 +29,13 @@
         {
 
             <tr>
+                <th>@recibo.id</th>
                 <th>@recibo.nombreConceptoCobro</th>
                 <th>@recibo.diaDeCobro</th>
-                <th>@recibo.fecha.ToShortDateString()</th>
                 <th>@recibo.tasaInteresMoratorio</th>
                 <th><span class="badge-pill badge-success">@recibo.monto</span></th>
+                <th>@recibo.fecha.ToShortDateString()</th>
+                <th>@recibo.fechaVencimiento.ToShortDateString()</th>
                 <th>@recibo.metodoPago</th>
 
             </tr>

@@ -295,8 +295,9 @@ namespace Project_1.Models.Recibo
                                 fecha = reader.GetDateTime(2),
                                 tasaInteresMoratorio = reader.GetDouble(3),
                                 monto = reader.GetInt64(4),
-                                metodoPago = ReciboPorComprobante.metodosPago[reader.GetInt32(5)]
-
+                                metodoPago = ReciboPorComprobante.metodosPago[reader.GetInt32(5)],
+                                fechaVencimiento = reader.GetDateTime(6),
+                                id = reader.GetInt32(7)
                             });
                     }
 
