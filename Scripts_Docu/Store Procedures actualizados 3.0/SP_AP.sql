@@ -236,7 +236,7 @@ BEGIN
 		SET @nuevoSaldo = 0;
 
 	-- UPDATE DEL NUEVO SALDO --
-	UPDATE dbo.AP SET [saldo] = @saldoActual WHERE [id] = @idAp;
+	UPDATE dbo.AP SET [saldo] = @nuevoSaldo WHERE [id] = @idAp;
 
 	-- REDUCIR EL PLAZO RESTANTE --
 	SET @plzRest = @plzRest - 1;
