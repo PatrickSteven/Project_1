@@ -378,7 +378,7 @@ BEGIN
 		FROM AP
 		JOIN MovimientosAP MAP ON MAP.idAP = AP.id
 		JOIN RecibosAP RAP ON RAP.idMovimientoAP = MAP.id
-		JOIN Recibo_por_ComprobantePago RCP ON RCP.idRecibo = RAP.id
+		JOIN Recibo_por_C	omprobantePago RCP ON RCP.idRecibo = RAP.id
 		JOIN Comprobante_Pago CP ON CP.id = RCP.idComprobante_Pago
 		WHERE AP.id = @idAP and MAP.activo = 1
 		ORDER BY MAP.fecha DESC
