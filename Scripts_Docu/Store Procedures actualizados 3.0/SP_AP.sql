@@ -175,6 +175,8 @@ BEGIN
 			END
 
 		-- GENERAR UN MOVIMIENTO DE DEBITO -- (SPI_MovimientoAP)
+		EXEC SPI_Movimiento @ultimoAP,1, @fechaActual
+
 
 	END TRY
 	BEGIN CATCH
@@ -249,12 +251,13 @@ BEGIN
 	-- INSERTAR NUEVO MOVIMIENTO --
 	INSERT INTO dbo.[MovimientosAP]([idAP], [idTipoMov], [monto], [interesesDelMes], [plazoRest], [nuevoSaldo], [fecha], [insertedAt], [activo])
 	VALUES(@idAp, @idTipoMov, @monto, @interesesDelMes, @plzRest, @nuevoSaldo, @fecha, GETDATE(), @activo)
-	SELECT @ultimoReciboAP = (SELECT TOP 1 [id] FROM dbo.Recibo ORDER BY ID DESC); -- Guardar recibo --
+	SELECT @ultimoMovimientoAP = (SELECT TOP 1 [id] FROM dbo.MovimientosAP ORDER BY ID DESC); -- Guardar Movimiento --
 
 	print(@cuota)
 	-- GENERAR RECIBO DE MOVIMIENTO CON MONTO DE CUOTA --
 	EXECUTE SPI_Recibos 12,@idPropiedad,@fecha,@cuota -- codigo 12: AP --
-	SELECT @ultimoMovimientoAP = (SELECT TOP 1 [id] FROM dbo.MovimientosAP ORDER BY ID DESC); -- Guardar Movimiento --
+	SELECT @ultimoReciboAP = (SELECT TOP 1 [id] FROM dbo.Recibo ORDER BY ID DESC); -- Guardar recibo --
+	
 
 	-- HACER DESCRIPCION --
 	SET @descripcion = CONCAT('Interes mensual:',@interesesDelMes,', amonestazion:',@monto,', plazo resta:', @plzRest)
@@ -310,7 +313,7 @@ BEGIN
 					SELECT @idAP = T.idAp FROM @Movimientos_DeDia AS T 
 					WHERE T.[id] = @id;
 
-					EXEC dbo.SPI_Movimiento @idAP,1, @fecha; -- Insertar movimiento de debito
+					EXEC dbo.SPI_Movimiento @idAP,0, @fecha; -- Insertar movimiento de debito
 
 					SELECT @id = MIN(id) FROM @Movimientos_DeDia WHERE id > @id;
 				END
@@ -535,4 +538,13 @@ EXEC Generar_Moviminetos '2020-07-23'
 SELECT * FROM dbo.[Propiedad]
 
 EXEC SPI_APXML 1565045,5, '2020-04-02'
+
+-- SELECT PTOPIEDADES DE RECIBOS --
+
+SELECT R.idPropiedad AS 'Propiedad en Recibo', AP.[idPropiedad] AS 'Propiedad en AP'
+FROM RecibosAP RAP
+JOIN MovimientosAP M on M.id = RAP.idMovimientoAP
+JOIN Recibo R ON R.id = RAP.id
+JOIN AP ON AP.id = M.idAP
+JOIN Propiedad P on P.id = AP.idPropiedad
 

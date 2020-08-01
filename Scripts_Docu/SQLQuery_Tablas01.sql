@@ -390,7 +390,7 @@ DROP TABLE TipoMovAp
 CREATE TABLE MovimientosAP (
 	id int primary key identity (1,1) not null,
 	idAP int not null, -- FK 
-	idTipoMov int not null, -- FK
+	idTipoMov int not null, -- FK -- 0:Crediro, 1:Debito
 	monto bigInt not null, -- int (revisar)
 	interesesDelMes bigInt, --int (revisar)
 	plazoRest int not null,

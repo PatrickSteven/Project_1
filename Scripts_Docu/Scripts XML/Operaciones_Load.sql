@@ -517,3 +517,4 @@ SELECT * FROM dbo.Recibo as r where r.idConceptoCobro= 11
 
 SELECT * FROM dbo.AP
 SELECT * FROM dbo.MovimientosAP
+SELECT * FROM dbo.TipoMov
