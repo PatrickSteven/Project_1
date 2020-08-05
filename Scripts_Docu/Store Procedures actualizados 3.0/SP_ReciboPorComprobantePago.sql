@@ -106,7 +106,6 @@ END
 
 
 
-
 CREATE PROCEDURE SPS_RecibosPorComprobante
 @idComprobante int,
 @fechaPago date,
@@ -117,16 +116,14 @@ BEGIN
 		DECLARE @idPropiedad int
 		SELECT @idPropiedad = id FROM dbo.[Propiedad] WHERE numeroFinca = @numeroFinca
 
-		SELECT CC.nombre, CC.DiaDeCobro, R.fecha, CC.tasaInteresesMoratorios, R.monto, RxC.tipoRecibo, R.fechaVencimiendo, R.id
-		FROM dbo.[Recibo_por_ComprobantePago] RxC
-		JOIN dbo.[Recibo] R ON RxC.idRecibo = R.id
-		JOIN dbo.[Comprobante_Pago] CP ON RxC.idComprobante_Pago = CP.id 
-		JOIN dbo.[Concepto_Cobro] CC ON R.idConceptoCobro = CC.id
-		WHERE R.estado = 1 and R.activo = 1
-			and	RXC.fechaLeido = @fechaPago
-			and RxC.idComprobante_Pago = @idComprobante
-			and R.idPropiedad = @idPropiedad
-		ORDER BY R.monto DESC
+		SELECT nombre, DiaDeCobro, fecha, tasaInteresesMoratorios, monto, tipoRecibo, fechaVencimiendo, id
+		FROM dbo.[ViewReciboPorComprobante] 
+		WHERE estado = 1 and activo = 1
+			and	fechaLeido = @fechaPago
+			and idComprobante_Pago = @idComprobante
+			and idPropiedad = @idPropiedad
+		ORDER BY monto DESC
+
 	END TRY
 	BEGIN CATCH
 		DECLARE 

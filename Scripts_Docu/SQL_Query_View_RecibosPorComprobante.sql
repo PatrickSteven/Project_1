@@ -1,22 +1,22 @@
-CREATE VIEW ReciboPorComprobante
+CREATE VIEW ViewReciboPorComprobante
 AS 
-SELECT 
-CC.nombre 'Nombre',
-CC.DiaDeCobro 'Dia de cobro',
-R.fecha 'Fecha',
-CC.tasaInteresesMoratorios 'Tasa intereses moratorios',
-R.monto 'Monto', 
-RxC.tipoRecibo 'Tipo de recibo', 
-R.fechaVencimiendo 'Fecha vencimiento'
+	SELECT 
+	CC.nombre, 
+	CC.DiaDeCobro, 
+	R.fecha,
+	CC.tasaInteresesMoratorios,
+	R.monto,
+	RxC.tipoRecibo,
+	R.fechaVencimiendo,
+	R.id,
+	R.activo,
+	R.estado,
+	RxC.fechaLeido,
+	RxC.idComprobante_Pago,
+	R.idPropiedad
 
-FROM dbo.[Recibo_por_ComprobantePago] RxC
-JOIN dbo.[Recibo] R ON RxC.idRecibo = R.id
-JOIN dbo.[Comprobante_Pago] CP ON RxC.idComprobante_Pago = CP.id 
-JOIN dbo.[Concepto_Cobro] CC ON R.idConceptoCobro = CC.id
+	FROM dbo.[Recibo_por_ComprobantePago] RxC
+	JOIN dbo.[Recibo] R ON RxC.idRecibo = R.id
+	JOIN dbo.[Comprobante_Pago] CP ON RxC.idComprobante_Pago = CP.id 
+	JOIN dbo.[Concepto_Cobro] CC ON R.idConceptoCobro = CC.id
 
---Solo puede visualizar los recibos pagados
-WHERE R.estado = 1 and R.activo = 1 
-
-
---Prueba
-select * from ReciboPorComprobante
