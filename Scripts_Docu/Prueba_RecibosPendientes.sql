@@ -5,13 +5,23 @@ join Propiedad P ON P.id = UP.idPropiedad
 join Recibo R ON R.idPropiedad = P.id
 join Concepto_Cobro CC ON CC.id = R.idConceptoCobro
 where R.estado = 0
-select * from Recibo where estado = 0 and idConceptoCobro = 11
 
+--Sin usuarios
 select P.numeroFinca, CC.nombre,  R.id
 from Propiedad P
 join Recibo R ON R.idPropiedad = P.id
 join Concepto_Cobro CC ON CC.id = R.idConceptoCobro
-where R.estado = 1 and CC.id = 12
+where R.estado = 0
+
+
+--Con usuarios
+select P.numeroFinca, CC.nombre,  R.id, U.nombre, U.password
+from Propiedad P
+join Recibo R ON R.idPropiedad = P.id
+join Concepto_Cobro CC ON CC.id = R.idConceptoCobro
+join Usuario_de_Propiedad UP ON UP.idPropiedad = P.id
+join Usuario U ON U.id = UP.idUsuario
+where R.estado = 0
 
 select * from MovimientosAP
 select * from RecibosAP

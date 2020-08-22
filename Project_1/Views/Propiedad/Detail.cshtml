@@ -652,71 +652,6 @@
 
             });
 
-        //PROCESAR AP
-        $("#recibos-pendientes").on("click", ".procesar-AP",
-            function () {
-                var prioridadAnterior = 0;
-                var idsRecibos = [];
-                var recibosEnOrden = true
-                var meses = $('.meses-input').val();
-
-                $('#recibos-pendientes-table input:checked').each(function () {
-                    var element = $(this).parent();
-                    var prioridad = element.attr("prioridad");
-                    var id = element.attr("reciboId");
-
-                    if (prioridadAnterior == prioridad - 1) {
-                        prioridadAnterior = prioridad;
-                        idsRecibos.push(id);
-                    }
-                    else {
-                        recibosEnOrden = false;
-                    }
-
-                });
-
-                if (recibosEnOrden && idsRecibos.length !== 0) {
-                    console.log("Correcto");
-                    $.post('/AP/MostrarAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true), function (markup) {
-
-                        //Muestra los montos de los recibos más los interessees moratorios
-
-                        var dialog = bootbox.dialog({
-                            message: markup,
-                            size: 'large',
-                            buttons: {
-                                cancel: {
-                                    label: "Cancelar!",
-                                    className: 'btn-danger',
-                                    callback: function () {
-                                        $.post('/Recibo/CancelarPagoRecibos', true);
-                                    }
-                                },
-                                ok: {
-                                    label: "Crear Arreglo de pago",
-                                    className: 'btn-info',
-                                    callback: function () {
-
-                                        //Crea el AP
-                                        console.log("A crear");
-                                        $.post('/AP/CrearAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true));
-                                        console.log("Creado");
-
-                                    }
-                                }
-                            }
-                        });
-
-                    });
-                }
-                else {
-                    bootbox.alert("No pueden haber recibos intermedios sin pagar!");
-                    J
-                }
-
-            });
-
-
     });
         </script>
     }
@@ -789,6 +724,71 @@
                     }
 
                 });
+
+
+            //PROCESAR AP
+            $("#recibos-pendientes").on("click", ".procesar-AP",
+                function () {
+                    var prioridadAnterior = 0;
+                    var idsRecibos = [];
+                    var recibosEnOrden = true
+                    var meses = $('.meses-input').val();
+
+                    $('#recibos-pendientes-table input:checked').each(function () {
+                        var element = $(this).parent();
+                        var prioridad = element.attr("prioridad");
+                        var id = element.attr("reciboId");
+
+                        if (prioridadAnterior == prioridad - 1) {
+                            prioridadAnterior = prioridad;
+                            idsRecibos.push(id);
+                        }
+                        else {
+                            recibosEnOrden = false;
+                        }
+
+                    });
+
+                    if (recibosEnOrden && idsRecibos.length !== 0) {
+                        console.log("Correcto");
+                        $.post('/AP/MostrarAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true), function (markup) {
+
+                            //Muestra los montos de los recibos más los interessees moratorios
+
+                            var dialog = bootbox.dialog({
+                                message: markup,
+                                size: 'large',
+                                buttons: {
+                                    cancel: {
+                                        label: "Cancelar!",
+                                        className: 'btn-danger',
+                                        callback: function () {
+                                            $.post('/Recibo/CancelarPagoRecibos', true);
+                                        }
+                                    },
+                                    ok: {
+                                        label: "Crear Arreglo de pago",
+                                        className: 'btn-info',
+                                        callback: function () {
+
+                                            //Crea el AP
+                                            console.log("A crear");
+                                            $.post('/AP/CrearAP', $.param({ idsRecibos: idsRecibos, numeroFinca: @Model.propiedad.numeroFinca, meses: meses }, true));
+                                            console.log("Creado");
+
+                                        }
+                                    }
+                                }
+                            });
+
+                        });
+                    }
+                    else {
+                        bootbox.alert("No pueden haber recibos intermedios sin pagar!");
+                    
+                    }
+                });
+
         });
 
 
